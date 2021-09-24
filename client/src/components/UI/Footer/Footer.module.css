@@ -1,0 +1,52 @@
+#Footer {
+    padding: 1vh 0;
+    bottom: 0;
+    background-color: black;
+    color: white;
+}
+
+#Footer a {
+    color: white;
+}
+
+ul {
+    padding-inline-start: 0;
+}
+
+.PaymentTypes{
+    display: flex;
+    justify-content:left;
+    
+}
+.PaymentTypes img{
+    margin: 1vh 1vw;
+    padding: 0 .5vw;
+    background-color: white;
+}
+
+.Social ul{
+    display: flex;
+    justify-content: left;
+}
+
+.Social li {
+    font-size: 24px;
+    margin: 0 1vw;
+}
+
+.Contact span {
+    width: 1em;
+}
+
+
+@media only screen and (min-width: 600px) {
+
+}
+@media only screen and (min-width: 1025px) {
+    .PaymentTypes img{
+        margin: 1vh .5vw;
+    }
+    .Social li{
+        margin: 0vh .5vw;
+    }
+}

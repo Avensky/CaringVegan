@@ -1,0 +1,96 @@
+.Item {
+    padding: 1vh  1vw;
+    margin: 1vh 0;
+    border-bottom: #221a00 4px solid;
+    display: grid;
+    grid-template-columns: 1fr 4fr 12fr 1fr 1fr ;
+    grid-template-areas: 
+    "del img  name quant price"
+    "del img  desc quant price";
+    align-content: space-between;
+    justify-content: space-around;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.479);
+}
+
+.MaterialIcons {
+    cursor: pointer;
+    user-select: none;
+    font-size: 24px;
+}
+
+.CardThumbnail img {
+    max-height: 50px;
+    max-width: 50px;
+    margin: 0; 
+}
+
+.Remove {
+    grid-area: del;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: 0; 
+    padding: 0 1vw;
+    cursor: pointer;
+}
+
+.CardThumbnail {
+    grid-area: img;
+    display: flex;
+    align-items: center;
+    padding: 0 1vw;
+}
+
+.CardDescription {
+    grid-area: desc;
+    margin: 0; 
+    padding: 0vh 1vw;
+}
+.CardName {
+    grid-area: name;
+    margin: 0; 
+    padding: 0vh 1vw;
+}
+
+.CardQuantity {
+    grid-area: quant;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+.CardAmount {
+    grid-area: amt;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.CardPrice {
+    grid-area: price;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: auto 0;
+}
+
+
+
+
+@media only screen and (min-width: 600px) {
+    /* For tablets: */       
+    .CardThumbnail img {
+        max-height: 100px;
+        max-width: 130px;
+    }
+    .MaterialIcons {
+        font-size: 24px;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    /* For desktop: */
+    .CardThumbnail img {
+        max-height: 130px;
+        max-width: 160px;
+    }
+}

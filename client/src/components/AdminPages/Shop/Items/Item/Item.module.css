@@ -1,0 +1,76 @@
+.Item {
+    padding: 1vh 1vw;
+    display: grid;
+    border-bottom: #221a00 4px solid;
+    grid-template-columns: .2fr .5fr .2fr .1fr;
+    grid-template-areas: 
+    "img desc quant price";
+    align-content: space-between;
+    justify-content: space-around;
+}
+
+.MaterialIcons {
+    cursor: pointer;
+    user-select: none;
+}
+
+.CardThumbnail img {
+    max-height: 50px;
+}
+
+.Remove {
+    grid-area: del;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: auto; 
+}
+
+.CardThumbnail {
+    grid-area: img;
+    display: flex;
+    align-items: center;
+}
+
+.CardDescription {
+    grid-area: desc;
+    margin: auto 0; 
+}
+
+.CardQuantity {
+    grid-area: quant;
+    display: flex;
+    align-items: center;
+    margin: auto;
+}
+
+.CardPrice {
+    grid-area: price;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: auto;
+}
+
+
+
+
+@media only screen and (min-width: 600px) {
+    /* For tablets: */
+     
+    .CardThumbnail img {
+        max-height: 100px;
+    }
+    
+    
+
+}
+
+@media only screen and (min-width: 1025px) {
+    /* For desktop: */
+    .CardThumbnail img {
+        max-height: 130px;
+    }
+    
+
+}

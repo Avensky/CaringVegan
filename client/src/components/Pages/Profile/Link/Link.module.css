@@ -1,0 +1,13 @@
+.Link {
+    margin: 0 2vw 1vh;
+    padding: auto 4vw;
+}
+
+.Link p {
+    overflow-wrap: anywhere;
+}
+
+.authBtn a{
+    padding: 1vh 4vw;
+}
+

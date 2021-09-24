@@ -1,0 +1,99 @@
+.Item {
+    display: grid;
+    border-bottom: white 2px solid;
+    padding: 1vh 0;
+    height: 3vh;
+    gap: 2vw;
+    grid-template-columns: 10fr 2fr 2fr;
+    grid-template-areas: 
+    "desc quant price";
+    align-items: center;
+}
+
+
+.MaterialIcons {
+/*    font-size: 2.4em; */
+    cursor: pointer;
+    user-select: none;
+}
+
+
+.CardTitle{
+    font-weight: 400
+}
+
+ul {
+    list-style: none;
+    list-style-type: none;
+}
+
+.CardThumbnail img {
+    max-height: 70px;
+}
+
+.Cart {
+    margin: 0 auto;
+}
+
+
+.Remove {
+    grid-area: del;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+.CardThumbnail {
+    grid-area: img;
+    display: flex;
+    align-items: center;
+}
+
+.CardDescription {
+    grid-area: desc;
+}
+
+.CardQuantity {
+    grid-area: quant;
+    display: flex;
+    align-items: center;
+    margin: auto;
+}
+
+.CardPrice {
+    grid-area: price;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: auto;
+}
+
+
+
+
+@media only screen and (min-width: 600px) {
+    /* For tablets: */
+    .Item {
+        grid-template-columns: 10fr 2fr 2fr;
+    }
+       
+    .CardThumbnail img {
+        max-height: 100px;
+    }
+    
+    
+
+}
+
+@media only screen and (min-width: 1025px) {
+    /* For desktop: */
+    .Item {
+        grid-template-columns: 10fr 4fr 4fr;
+    }
+       
+    .CardThumbnail img {
+        max-height: 130px;
+    }
+    
+
+}

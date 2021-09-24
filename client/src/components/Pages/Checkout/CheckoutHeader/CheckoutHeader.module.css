@@ -1,0 +1,49 @@
+
+.dualBtn {
+    display: block;
+    justify-content: flex-end;
+    padding: 0vh 0vw;
+    margin: 0;
+}
+
+.dualGrid {
+
+    margin: 0vh 0;
+    padding: 0vh 1vh 0vh;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: 
+        "dualLeft dualRight";
+}
+
+.dualRight button {
+    display: block;
+}
+
+.dualLeft {
+    grid-area: dualLeft;
+}
+.dualRight {
+    grid-area: dualRight;
+}
+@media only screen and (min-width: 600px) {
+    /* For tablets: */
+    .dualBtn {
+    }
+    .filter {
+        justify-content: left;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    /* For desktop: */
+    .dualBtn {
+
+    }
+    .dualRight button {
+    }
+
+    .filter {
+        justify-content: left;
+    }
+}

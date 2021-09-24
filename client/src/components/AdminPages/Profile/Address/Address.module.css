@@ -1,0 +1,10 @@
+.Link {
+    margin: 0 0 2vh;
+    display: inline-block;
+    padding: 2vh 2vw;
+    background-color:#271e00;
+}
+
+.Link p {
+    overflow-wrap: anywhere;
+}

@@ -1,0 +1,169 @@
+.Item {
+    width: 46%;
+    margin: 1vh auto;
+    padding: 1vh 1vw;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    text-align: center;
+    font-size: 13px;
+    border: transparent solid 1px;
+}
+
+.Item a {
+    color:rgb(0, 0, 0);
+}
+
+.ItemFull {
+    width: 100%;
+}
+
+.MaterialIcons {
+    cursor: pointer;
+    user-select: none;
+}
+
+
+.Remove {
+    grid-area: del;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: auto; 
+}
+
+.CardThumbnail {
+    min-height: 165px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; 
+    border: transparent solid 1px;
+}
+.Item:hover {
+    border: rgb(146, 146, 146) solid 1px;
+}
+
+.CardThumbnail img {
+    width: 100%;
+    max-height: 250px;
+    max-width: 250px;
+    margin: 0; 
+}
+
+.CardName {
+    font-size: 14px;
+    cursor:pointer;
+}
+.CardName a:hover {
+    color: rgb(1, 59, 93);
+}
+.CardDescription {
+    font-size: 13px;
+}
+
+.Cardprice {
+    font-size: 13px;
+}
+
+.MaterialIcons {
+    font-size: 13px !important;
+}
+.CardReviews {
+    padding: 0 0 1vh;
+    font-size: 13px !important;
+}
+
+.CardQuantityWrapper{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 1vh 0vw;
+}
+
+.CardQuantity {
+    display: inline-flex;
+    align-items: center;
+    border: black solid 1px;    
+}
+
+.CardPrice {
+    margin: auto;
+    padding: 1vh 2vw;
+    border: rgb(0, 0, 0) solid 1px;
+    background-color: rgb(238, 238, 238);
+    cursor: pointer;
+}
+
+.CardPrice:hover {
+    color: rgb(1, 59, 93);
+    border: rgb(68, 124, 156) solid 1px;
+}
+
+.CardStock {
+    font-size: 13px;
+}
+
+.CardPriceWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.CardTitle {
+    display: flex;
+    align-items:center;
+    margin: auto 0;
+}
+
+.CardSold {
+    font-size: 13px;
+}
+.Arrow {
+    font-size: 18px !important;
+}
+
+@media only screen and (min-width: 600px) {
+    /* For tablets: */    
+    .Item {
+        width: 30%;
+    }
+    .CardName {
+        font-size: 18px;
+    }
+    .CardDescription {
+        font-size: 14px;
+    }
+    .Cardprice {
+        font-size: 14px;
+    }
+    
+    .CardReviews {
+        font-size: 14px;
+    }
+
+    .CardQuantityWrapper {
+        font-size: 16px;
+    }
+    .Arrow {
+        font-size: 20px !important;
+    }
+    .CardStock {
+        font-size: 14px;
+    }
+    .CardSold {
+        font-size: 14px;
+    }
+
+}
+
+@media only screen and (min-width: 1025px) {
+    /* For desktop: */
+    .CardThumbnail img {
+
+    }
+    .Item {
+        width: 21%;
+    }
+
+}

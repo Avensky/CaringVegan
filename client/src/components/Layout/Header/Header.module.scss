@@ -1,0 +1,27 @@
+.Header {
+	margin: 10vh 0 2vh;
+	text-align: center;
+	align-items: center;
+	white-space: nowrap;
+	grid-area: header;
+}
+.HeaderRight{
+	display:none;
+	text-align:center;
+}
+
+.HeaderItem {
+	padding: .5rem;
+}
+
+.Header h2{
+    margin:0px;
+    font-size: 3em;
+	
+}
+
+.Header h3{
+	margin: 0px;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}

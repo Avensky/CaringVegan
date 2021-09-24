@@ -1,0 +1,91 @@
+.Shop {
+    background-color: rgb(34, 26, 0);
+}
+
+.filter {
+    display: flex;
+    margin: 2vh 0;
+    justify-content: space-between;
+}
+
+.filter label  p {
+    margin: 1vh 1vw;
+    padding: 1vh 2vw;
+    border: solid white 1px;
+}
+
+.Items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.Search {
+    margin: 1vh 1vw;
+    padding: 1vh 2vw;
+}
+
+.dropbtn {
+    background-color: transparent;
+    padding: 1vh 2vw;
+    color: white;
+    border: none;
+    border: solid white 1px;
+    cursor: pointer;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdownContent a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdownContent a:hover {background-color: #f1f1f1}
+  
+  .dropdown:hover .dropdownContent {
+    display: block;
+  }
+  
+  .dropdown:hover .dropbtn {
+    /* background-color: #0a0814; */
+  }
+
+@media only screen and (min-width: 600px) {
+    /* For tablets: */
+    .Shop {
+        margin: 2vh 5vw 0;
+        padding: 7vh 5vw;
+    }
+
+    .filter {
+        justify-content: left;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    /* For desktop: */
+    .Shop {
+        margin: 2vh 15vw 0;
+        padding: 7vh 5vw;
+    }
+
+    .filter {
+        justify-content: left;
+    }
+}
