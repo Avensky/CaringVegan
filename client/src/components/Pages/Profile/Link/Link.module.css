@@ -7,7 +7,14 @@
     overflow-wrap: anywhere;
 }
 
-.authBtn a{
+.Details{
+    margin: auto;
+    padding: auto;
+    height: 100%;
+}
+
+.authBtn {
+    width: 100%;
     padding: 1vh 4vw;
 }
 

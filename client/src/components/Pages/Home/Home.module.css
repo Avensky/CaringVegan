@@ -1,7 +1,5 @@
 .Home {
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    min-height: 84vh;
 }
 
 .BackgroundWrapper {
@@ -66,6 +64,9 @@
 
 }
 
+.PageWrapper{
+    min-height: auto;
+}
 .description{
     margin: 1vh 0;
     font-size: 12px;
@@ -74,7 +75,7 @@
 @media only screen and (min-width: 600px) {
     /* For tablets: */
     .Home {
-        margin:0;
+
     }
     .centered {
         padding: 2vh 1vw;
@@ -96,7 +97,7 @@
 @media only screen and (min-width: 1025px) {
     /* For desktop: */
     .Home {
-        margin: 0;     
+   
    }
     .centered {
         width: 570px;

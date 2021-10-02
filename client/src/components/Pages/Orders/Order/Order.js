@@ -46,7 +46,7 @@ const Order = props => {
             <div className={classes.bigbox}>
                 <div className={classes.box}>
                     <Address 
-                        link            = 'Shipping Address'
+                        link            = 'Shipping Details'
                         name            = {props.name}
                         phone           = {props.phone}
                         address         = {props.line1}

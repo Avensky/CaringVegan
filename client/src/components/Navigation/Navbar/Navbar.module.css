@@ -14,6 +14,11 @@
     color: white;
     white-space: nowrap;
 }
+
+.Navbar i {
+    cursor: pointer;
+}
+
 .user {
     padding: 0 0vw 0 3vw;
 }

@@ -1,8 +1,9 @@
 .Order {
-    margin: 0 0 2vh;
+    margin: 0 0 4vh;
     height: 100%;
     display: block;
     padding: 2vh 2vw;
+    border-bottom: 2px solid rgb(151, 151, 151);
 }
 
 .Order p {

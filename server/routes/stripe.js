@@ -105,7 +105,7 @@ module.exports = function(app, passport) {
     Orders.findOneAndUpdate({'sessionid' : session.id},{
     $set:{
       // id                            : session.id,
-      // userid                        : body.id,
+      //  userid                        : body.id,
         date                          : new Date(),
         line_items                    : line_items,
         object                        : session.object,                
@@ -287,7 +287,7 @@ module.exports = function(app, passport) {
       //res.json({ id: session.id });
       const orderObj = new Orders({
           sessionid                     : session.id,
-          userid                        : userid,
+          userid                        : userid || null,
           date                          : new Date(),
           payment_status                : "unpaid",  
         })

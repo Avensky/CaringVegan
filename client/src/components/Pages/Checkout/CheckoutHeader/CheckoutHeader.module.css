@@ -7,9 +7,9 @@
 }
 
 .dualGrid {
-
+    height: 105px;
     margin: 0vh 0;
-    padding: 0vh 1vh 0vh;
+    padding: 0vh 0vh 0vh;
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-template-areas: 

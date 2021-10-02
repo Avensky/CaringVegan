@@ -12,28 +12,25 @@ const Success = props => {
     },[])
 
     return (
-        <Auxiliary>
-            <div className={[classes.Card, classes.Shop].join(' ')}>
-                <div className={classes.Cart}>
-                    {/* Title */}
-                    <div className="container">
-                        <div className="page-header text-center border-bottom">
-                            <h1>Checkout</h1>
-                        </div>
-                    </div>
-                    <div className={classes.Progress}>    
-                        <title>Thanks for your order!</title>
-                    
-                        <h1>Thanks for your order!</h1>
-                        <p>
-                            We appreciate your business!
-                            If you have any questions, please email
-                            <a href="mailto:orders@example.com">orders@example.com</a>.
-                        </p>
+        <div className={['page-wrapper'].join(' ')}>
+            <div className={classes.Cart}>
+                {/* Title */}
+                <div className="container">
+                    <div className="page-header text-center border-bottom">
+                        <h1>Checkout</h1>
                     </div>
                 </div>
+                <div className={classes.Progress}>    
+                    <title>Thanks for your order!</title>
+                
+                    <h1>Thanks for your order!</h1>
+                    <p>
+                        We appreciate your business!
+                        If you have any questions, please email <a href="mailto:orders@example.com">orders@example.com</a>
+                    </p>
+                </div>
             </div>
-        </Auxiliary>
+        </div>
     )
 }
 

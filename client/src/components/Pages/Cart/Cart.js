@@ -17,9 +17,7 @@ const Cart = props => {
     const addToCart                     = (id)=>{ props.addToCart(id)}
     const subtractQuantity              = (id)=>{ props.subtractQuantity(id);}
     const viewCartHandler               = () => {history.push('/shop')}
-    const purchaseHandler = () => {
-        props.isAuth ? setPurchasing(true) :history.push('/authentication')
-    }
+    const purchaseHandler               = () => {setPurchasing(true)}
     const purchaseCancelHandler         = () => {setPurchasing(false)}
     
     let orderSummary = null
@@ -33,65 +31,65 @@ const Cart = props => {
     }
 
     let cartList = props.addedItems;
-        let myCart 
-        if(cartList.length){
-            myCart = cartList.map( item => {
-            return( 
-                <CartItem
-                    image               = {item.imageData}
-                    handleRemove        = {() =>handleRemove(item._id)}
-                    addToCart           = {() =>addToCart(item._id)}
-                    subtractQuantity    = {() =>subtractQuantity(item._id)}
-                    key                 = {item._id}
-                    id                  = {item._id}
-                    alt                 = {item.title}
-                    title               = {item.title}
-                    link                = {"/shop/"}
-                    to                  = "/"
-                    desc                = {item.desc}
-                    name                = {item.name}
-                    price               = {item.price}
-                    quantity            = {item.amount||0}
-                    add                 = {true}
-                />
-            )}
+    let myCart 
+    if(cartList.length){
+        myCart = cartList.map( item => {
+        return( 
+            <CartItem
+                image               = {item.imageData}
+                handleRemove        = {() =>handleRemove(item._id)}
+                addToCart           = {() =>addToCart(item._id)}
+                subtractQuantity    = {() =>subtractQuantity(item._id)}
+                key                 = {item._id}
+                id                  = {item._id}
+                alt                 = {item.title}
+                title               = {item.title}
+                link                = {"/shop/"}
+                to                  = "/"
+                desc                = {item.desc}
+                name                = {item.name}
+                price               = {item.price}
+                quantity            = {item.amount||0}
+                add                 = {true}
+            />
         )}
+    )}
+    else {
+        myCart = <p>Shopping cart is empty! :(</p>
+    }
         
-        return(
-            <div className={['page-wrapper', classes.Cart].join(' ')}>
-                <Modal show={purchasing} modalClosed={purchaseCancelHandler}> 
-                    {orderSummary}
-                </Modal>
-            
-                {/* Title */}
-                <div className="text-center">
-                    <h1><a href="/cart">Shopping Cart</a></h1>
-                </div>
-                <CheckoutHeader
-                    totalItems={props.totalItems}
-                    total={props.total}
-                    viewTitle='View Shop'
-                    view={viewCartHandler}
-                    checkout={purchaseHandler}
-                    isAuth={props.isAuth}
-                />
-                <div className='page-body'>
-                    {myCart}
-            
-                    {props.total ? <div className='header'><h3>Subtotal = ${props.total}</h3></div> : null}
-                    {props.totalItems  > 0
-                        ?  (<button 
-                                className='btn-primary btn'
-                                type="button" role="link"
-                                onClick={purchaseHandler}>{
-                                    props.isAuth 
-                                        ? 'CONTINUE TO CHECKOUT' 
-                                        : 'SIGN IN TO ORDER'}
-                            </button>)
-                        : null
-                    }
+    return(
+        <div className={['page-wrapper', classes.Cart].join(' ')}>
+            <Modal show={purchasing} modalClosed={purchaseCancelHandler}> 
+                {orderSummary}
+            </Modal>
+        
+            {/* Title */}
+            <div className="text-center">
+                <h1><a href="/cart">Shopping Cart</a></h1>
             </div>
-            </div>
+            <CheckoutHeader
+                totalItems={props.totalItems}
+                total={props.total}
+                viewTitle='View Shop'
+                view={viewCartHandler}
+                checkout={purchaseHandler}
+                isAuth={props.isAuth}
+            />
+            <div className='page-body'>
+                {myCart}
+        
+                {props.total ? <div className='header'><h3>Subtotal = ${props.total}</h3></div> : null}
+                {props.totalItems  > 0
+                    ?  (<button 
+                            className='btn-primary btn'
+                            type="button" role="link"
+                            onClick={purchaseHandler}>CONTINUE TO CHECKOUT
+                        </button>)
+                    : null
+                }
+        </div>
+        </div>
        )
     }
 

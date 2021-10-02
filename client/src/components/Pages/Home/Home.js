@@ -32,7 +32,7 @@ const Home = (props) => {
         )})
     
     return(
-        <div className={['page-wrapper', classes.Home].join(' ')}>
+        <div className={[classes.Home].join(' ')}>
             <div class={classes.centered}>
                 <div className={classes.title}><b>CHANGE THE WORLD WITH CARING HEARTS.</b></div>
                 <div className={classes.description}>Help spread awareness with our products. Show the world what we stand for. 
@@ -47,13 +47,13 @@ const Home = (props) => {
             <div className={classes.statement}>
                 <p>Lets work together to make this a better world for everyone.</p>
             </div>
-
-            <div className="text-center">
-                <h1>Featured Products</h1>
-            </div>
-
-            <div className='page-body'>
-                {featured}
+            <div className={['page-wrapper', classes.PageWrapper].join(' ')}> 
+                <div className="text-center">
+                    <h1>Featured Products</h1>
+                </div>
+                <div className='page-body'>
+                    {featured}
+                </div>
             </div>
         </div>
     )  

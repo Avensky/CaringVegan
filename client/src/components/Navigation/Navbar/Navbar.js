@@ -29,9 +29,9 @@ const navbar = ( props ) => {
 
             <div className={[classes.MobileLinks, classes.Mobile].join(' ')}>
                 <h2 className="line">
-                    {props.isAuth !== null
-                        ? <div className={classes.NavItem}><h3><a  href="/api/logout">Logout </a></h3></div>
-                        : null}          
+                    {/*props.isAuth !== null
+                        ? <div className={classes.NavItem}><a  href="/api/logout">Logout </a></div>
+                    : null*/}          
                     {cart}
                     {/* props.isAuth !== null
                         ? <NavLink to="/profile"   ><h3><span className={["fa fa-user", classes.user].join(' ')} /></h3></NavLink>

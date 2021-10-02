@@ -23,7 +23,7 @@
     color: rgb(161, 131, 103);
 }
 
-@media (min-width: 600px) {
+@media only screen and (min-width: 1025px) {
     .NavItem {
         margin: 0;
         display: flex;

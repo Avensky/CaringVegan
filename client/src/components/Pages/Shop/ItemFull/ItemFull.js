@@ -9,6 +9,9 @@ import {useHistory}     from 'react-router-dom'
 import Item from './ItemDetails/ItemDetails'
 import CheckoutHeader   from '../../Checkout/CheckoutHeader/CheckoutHeader'
 import Review from '../ItemFull/Review/Review'
+import Modal from '../../../UI/Modal/Modal';
+import OrderSummary from '../../OrderSummary/OrderSummary';
+import {purchaseContinueHandler} from '../../../../utility/stripe'
 
 const ItemFull = props => {
     //const [id, setId]       = useState(null);
@@ -40,9 +43,19 @@ const ItemFull = props => {
     const handleClick           = (id) => {props.addToCart(id); }
     const addToCart             = (id) => {props.addToCart(id)}
     const subtractQuantity      = (id) => {props.subtractQuantity(id);}
-    const purchaseHandler       = ()   => {props.isAuth ? setPurchasing(true) :history.push('/authentication')}
+    const purchaseHandler       = ()   => {setPurchasing(true)}
     const purchaseCancelHandler = ()   => {setPurchasing(false)}
     const viewCartHandler       = ()   => {history.push('/cart')}
+
+    let orderSummary = null
+    if (props.addedItems) {
+        orderSummary = <OrderSummary 
+            items={props.addedItems}
+            total={props.total}
+            purchaseCancelled={purchaseCancelHandler}
+            purchaseContinued={()=>purchaseContinueHandler(props.addedItems, props.isAuth)}
+        />;
+    }
  
     let details = <p style={{textAlign: 'center'}}>Please select an item!</p>;
     if ( props.match.params.id ) {
@@ -91,6 +104,10 @@ const ItemFull = props => {
 
     return(
         <div className={['page-wrapper', classes.ItemFull].join(' ')}>
+            <Modal show={purchasing} modalClosed={purchaseCancelHandler}> 
+                {orderSummary}
+            </Modal>
+        
             <div className="text-center">
                 <h1><a href='/shop'>Shop</a></h1>
             </div>

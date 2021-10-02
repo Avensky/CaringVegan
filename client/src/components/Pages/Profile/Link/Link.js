@@ -20,7 +20,7 @@ const Link = props => {
             { props.token || props.id  
                 ? <h3><span className={["fa", props.icon, 'my-' + props.mystyle].join(' ')} /><span> {props.link}</span></h3>
                 : null }
-            <p>
+            <div className={classes.Details}>
                 { props.name        ? <strong>Name:          {props.name}<br /></strong>         : null }
                 { props.displayName ? <strong>Display Name:  {props.displayName}<br /></strong>  : null }
                 { props.username    ? <strong>Username:      {props.username}<br /></strong>     : null }
@@ -28,7 +28,7 @@ const Link = props => {
                 { props.email       ? <strong>Email:         {props.email}<br /></strong>        : null }
                 { props.token       ? <strong>Token:         {props.token}<br /></strong>        : null }
                 { props.password    ? <strong>Password:      {props.password}<br /></strong>     : null }
-            </p>
+            </div>
             <Modal show={unlink} modalClosed={cancelHandler}>
                 <div>
                     <h1>Unlink Account</h1>

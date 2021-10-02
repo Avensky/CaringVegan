@@ -38,7 +38,11 @@ const Purchase = props => {
              console.log('data = '+JSON.stringify(data))
             return data
         })
-    
+        
+        let body 
+        isAuth 
+        ? body = JSON.stringify({items: line_items,userid: isAuth['_id']})
+        : body = JSON.stringify({items: line_items})
         // Call your backend to create the Checkout Session
         const response = await fetch('/api/checkout', { 
             method: 'POST',
@@ -48,10 +52,7 @@ const Purchase = props => {
             },
     
             //make sure to serialize your JSON body
-            body: JSON.stringify({
-                items: line_items,
-                userid: isAuth['_id']
-            })
+            body
         })
     
         const session = await response.json()
@@ -72,7 +73,7 @@ const Purchase = props => {
 
     const addToCart             = (id) => {props.addToCart(id)}
     const subtractQuantity      = (id) => {props.subtractQuantity(id);}
-    const purchaseHandler       = ()   => {props.isAuth ? setPurchasing(true) :history.push('/authentication')}
+    const purchaseHandler       = ()   => {setPurchasing(true)}
     const purchaseCancelHandler = ()   => {setPurchasing(false)}
     const viewCartHandler       = ()   => {history.push('/cart')}
 
@@ -113,7 +114,7 @@ const Purchase = props => {
                 total={props.total}
                 viewTitle='View Cart'
                 view={viewCartHandler}
-                checkout={checkout}
+                checkout={purchaseHandler}
                 isAuth={props.isAuth}
             />
 
@@ -162,11 +163,7 @@ const Purchase = props => {
                     ?  (<button 
                             className='btn-primary btn'
                             type="button" role="link"
-                            onClick={purchaseHandler}>{
-                                props.isAuth 
-                                    ? 'CONTINUE TO CHECKOUT' 
-                                    : 'SIGN IN TO ORDER'}
-                        </button>)
+                            onClick={purchaseHandler}>CONTINUE TO CHECKOUT</button>)
                     : null
                 }
             </div>
