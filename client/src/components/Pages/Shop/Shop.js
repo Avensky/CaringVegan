@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { connect }      from 'react-redux'
-import classes          from './Shop.module.css'
-import Item             from './Items/Item/Item'
-import * as actions     from '../../../store/actions/index'
-import {useHistory}     from 'react-router-dom'
-import CheckoutHeader   from '../Checkout/CheckoutHeader/CheckoutHeader'
-import OrderSummary     from '../OrderSummary/OrderSummary'
-import Modal            from '../../UI/Modal/Modal'
-import { loadStripe }   from '@stripe/stripe-js'
-import Dropdown from 'react-dropdown';
+import React, { useState }  from 'react'
+import { connect }          from 'react-redux'
+import classes              from './Shop.module.css'
+import Item                 from './Items/Item/Item'
+import * as actions         from '../../../store/actions/index'
+import {useHistory}         from 'react-router-dom'
+import CheckoutHeader       from '../Checkout/CheckoutHeader/CheckoutHeader'
+import OrderSummary         from '../OrderSummary/OrderSummary'
+import Modal                from '../../UI/Modal/Modal'
+import { loadStripe }       from '@stripe/stripe-js'
+import Dropdown             from 'react-dropdown';
+import NewItem              from './NewItem/NewItem';
 
 
 
@@ -92,12 +93,16 @@ const Purchase = props => {
         ? checkout = purchaseHandler
         : checkout = null
 
-    const options = [
-        'Lowest price', 'Highest price', 'Most recent', 'Most Popular'
-        ];
+    const options = ['Lowest price', 'Highest price', 'Most recent', 'Most Popular'];
+    const defaultOption = '-- Order By --';
 
-     const defaultOption = '-- Order By --';
-
+    console.log(props.isAuth)
+    let newitem
+    if (props.isAuth){
+        props.isAuth.role === 'admin' 
+        ? newitem = <NewItem />
+        : newitem = null
+    }
     return(
         <div className={['page-wrapper', classes.Shop].join(' ')}>
             <Modal show={purchasing} modalClosed={purchaseCancelHandler}> 
@@ -138,6 +143,7 @@ const Purchase = props => {
                     placeholder="Select an option"
                 />
             </div>
+            {newitem}
             <div className='page-body'>
                 {props.shop.map( item => {
                     return( 

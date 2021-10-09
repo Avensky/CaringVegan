@@ -5,12 +5,13 @@ import {connect} from 'react-redux';
 import * as actions from '../../../../store/actions/index';
 
 const NewItem = ( props ) => {
-    const [name, setName]           = useState("");
-    const [desc, setDesc]           = useState("");
-    const [price, setPrice]         = useState("");
-    const [priceId, setPriceId]     = useState("");
+    const [name,     setName]       = useState("");
+    const [desc,     setDesc]       = useState("");
+    const [price,    setPrice]      = useState("");
+    const [priceId,  setPriceId]    = useState("");
     const [quantity, setQuantity]   = useState("");
-    const [avatar, setAvatar]       = useState("");
+    const [avatar,   setAvatar]     = useState("");
+    const [featured, setFeatured]   = useState("");
 
     return (
         <div className={classes.NewItem}>
@@ -69,6 +70,31 @@ const NewItem = ( props ) => {
                     name="avatar" 
                     onChange={e => setAvatar(e.target.value)}
                     className={[classes.Photo, classes.Right].join(' ')}
+                />                            
+            </div>
+            <div className={classes.MidLine}>
+                <label className={classes.Left}>Type </label> 
+                <input  
+                    type="text" 
+                    name="type" 
+                    onChange={e => setAvatar(e.target.value)}
+                    className={[classes.Right].join(' ')}
+                />                            
+            </div>
+            <div className={classes.MidLine}>
+                <label className={classes.Left}>True</label> 
+                <input  
+                    type="radio" 
+                    name="featured" 
+                    onChange={e => setFeatured(true)}
+                    className={[classes.Right].join(' ')}
+                />
+                <label className={classes.Left}>False</label>                            
+                <input  
+                    type="radio" 
+                    name="featured" 
+                    onChange={e => setFeatured(false)}
+                    className={[classes.Right].join(' ')}
                 />                            
             </div>
             <button  

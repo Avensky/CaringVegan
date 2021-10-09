@@ -9,7 +9,6 @@ import Profile                        from './components/Pages/Profile/Profile'
 import Auth                           from './components/Pages/Auth/Auth'
 import Connect	                      from './components/Pages/Connect/Connect'
 import Shop                           from './components/Pages/Shop/Shop'
-import AdminShop                      from './components/AdminPages/Shop/Shop'
 import Cart                           from './components/Pages/Cart/Cart'
 import Orders                         from './components/Pages/Orders/Orders'
 import Checkout                       from './components/Pages/Checkout/Success'
@@ -55,25 +54,6 @@ const App = props => {
         <Route path="/cart"                   component={Cart} />
         <Route path="/orders"                 component={Orders} />
         <Route path="/"                       component={Home} />             
-      </Switch>
-    )
-  }
-
-  
-  if (props.fetchedUser && (props.fetchedUser.role === 'admin')) {
-    routes = (
-      <Switch>
-        <Route path="/checkout"             component={Checkout} />
-        <Route path="/authentication"       render={props => <Auth {...props} />} />
-        <Route exact path="/authentication/api/v1/users/resetPassword/:token"       
-                                          render={props => <Auth {...props} />} />
-        <Route path="/home"                 component={Home} />         
-        <Route path="/connect"              component={Connect} />
-        <Route path="/profile"              component={Profile} />
-        <Route path="/shop"                 component={AdminShop} />
-        <Route path="/cart"                 component={Cart} />
-        <Route path="/orders"               component={Orders} />
-        <Route path="/"                     component={Home} />             
       </Switch>
     )
   }
