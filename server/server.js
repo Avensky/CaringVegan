@@ -18,6 +18,9 @@ const session             = require('cookie-session')
 const passport            = require('passport')
 const mongoose            = require('mongoose')
 const keys                = require('./config/keys')
+const multer              = require("multer");
+const path                = require("path");
+const shopController      = require("./controllers/shopController");
 let   server              = app
 
 if (process.env.NODE_ENV !== 'production') {
@@ -41,6 +44,40 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.use('/files', express.static("files"));
+
+
+let files
+process.env.NODE_ENV === 'production'
+    ? files = "./files/"
+    : files = "./devFiles/"
+
+//image upload
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+         cb(null, files);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        cb(null, file.fieldname  + '-' + uniqueSuffix);
+    }
+});
+// checking file type
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpeg') {
+        cb(null, true);
+    } else {
+//        cb(new Error('Not an image! Please upload an image.', 400), false);
+        cb(null, false);
+    }
+};
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 6
+    },
+    fileFilter: fileFilter
+});
 //==============================================================================
 // configuration ===============================================================
 //==============================================================================
@@ -120,6 +157,7 @@ app.use(bodyParser.json({verify: (req, res, buf) => { req.rawBody = buf }}))
 require('./routes/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 require('./routes/stripe.js')(app, passport); 
 require('./routes/shop.js')(app);
+app.post("/api/addImage", upload.single('avatar'), shopController.createProduct);
 
 //==============================================================================
 // launch ======================================================================

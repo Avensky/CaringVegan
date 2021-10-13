@@ -11,7 +11,7 @@ const NewItem = ( props ) => {
     const [priceId,  setPriceId]    = useState("");
     const [quantity, setQuantity]   = useState("");
     const [avatar,   setAvatar]     = useState("");
-    const [featured, setFeatured]   = useState("");
+    const [featured, setFeatured]   = useState("0");
 
     return (
         <div className={classes.NewItem}>
@@ -86,14 +86,16 @@ const NewItem = ( props ) => {
                 <input  
                     type="radio" 
                     name="featured" 
-                    onChange={e => setFeatured(true)}
+                    onChange={e =>setFeatured(e.target.value)}
+                    defaultValue='1'
                     className={[classes.Right].join(' ')}
                 />
                 <label className={classes.Left}>False</label>                            
                 <input  
                     type="radio" 
                     name="featured" 
-                    onChange={e => setFeatured(false)}
+                    onChange={e =>setFeatured(e.target.value)}
+                    defaultValue='0'
                     className={[classes.Right].join(' ')}
                 />                            
             </div>

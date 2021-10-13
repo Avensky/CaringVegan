@@ -1,6 +1,6 @@
 // const router = require("express").Router();
 const shopController = require("../controllers/shopController");
-const multerInstance = require('../image')
+//const multerInstance = require('../image.js.bk')
 const productRepository = require('../repository')
 // load all the things we need
 const mongoose              = require('mongoose')
@@ -8,7 +8,7 @@ const mongoose              = require('mongoose')
 const Product             = mongoose.model('Product')
 
 module.exports = function(app) {
-    app.post("/api/addImage", multerInstance.upload.single('avatar'), shopController.createProduct);
+   // app.post("/api/addImage", multerInstance.upload.single('avatar'), shopController.createProduct);
    // app.post('/api/getProductById:id', shopController.getProduct)
 
     app.get("/api/getProducts", shopController.getProducts);

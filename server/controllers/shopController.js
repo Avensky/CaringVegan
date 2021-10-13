@@ -9,6 +9,8 @@ exports.createProduct = async (req, res) => {
             price       : req.body.price,
             priceid     : req.body.priceId,
             quantity    : req.body.quantity,
+            featured    : req.body.featured,
+            type        : req.body.type,
             //image       : req.file.path,
             //imageName   : req.body.imageName,
             imageData   : req.file.path,
