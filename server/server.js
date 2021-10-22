@@ -33,17 +33,6 @@ aws.config.update({
 });
 
 if (process.env.NODE_ENV !== 'production') {
-  // const https = require('https');
-  // const fs = require('fs');
-  // 
-  // const options = {
-  //   "rejectUnauthorized": false,
-  //   key: fs.readFileSync('../.cert/key.pem'), // Replace with the path to your key
-  //   cert: fs.readFileSync('../.cert/cert.pem') // Replace with the path to your certificate
-  // }
-  // 
-  // server = https.createServer(options, app)
-
   // Development logging
   const morgan = require('morgan');
   app.use(morgan('dev'));
@@ -52,25 +41,20 @@ if (process.env.NODE_ENV !== 'production') {
   app.use('/devFiles', express.static("devFiles"));
 }
 
-app.use(__dirname+'/files', express.static(__dirname+"/files"));
-
-
 let files
 process.env.NODE_ENV === 'production'
-    ? files = __dirname+"/files/"
+    ? files = "./files/"
     : files = "./devFiles/"
 
 //image upload
 const storage = multerS3({
     s3: s3,
     acl: 'public-read',
-//   ACL: 'public-read',
-//Bucket: process.env.BUCKET_NAME,
     bucket: keys.bucket,
-//    destination: (req, file, cb) => { cb(null, files) },
-    //metadata: function(req, file, cb) {
-    //    cb(null, {fieldName: file.fieldname});
-    //},
+    destination: (req, file, cb) => { cb(null, files) },
+    metadata: function(req, file, cb) {
+        cb(null, {fieldName: file.fieldname});
+    },
     key: function(req, file, cb) {
       cb(null, Date.now()+ '-' + Math.round(Math.random() * 1E9))
     }
@@ -87,11 +71,9 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-    storage: storage
-//    limits: {
-//        fileSize: 1024 * 1024 * 6
-//    },
-//    fileFilter: fileFilter
+    storage: storage,
+    limits: {fileSize: 1024 * 1024 * 6},
+    fileFilter: fileFilter
 })
 
 //==============================================================================
@@ -174,9 +156,10 @@ require('./routes/routes.js')(app, passport); // load our routes and pass in our
 require('./routes/stripe.js')(app, passport); 
 require('./routes/shop.js')(app);
 //app.post("/api/addImage", upload.any(), shopController.createProduct);
-app.post("/api/addImage", upload.single('avatar'), function(req, res, next) {
-  res.send('Successfully uploaded files!')
-})
+app.post("/api/addImage", upload.single('avatar'), shopController.createProduct);
+//app.post("/api/addImage", upload.single('avatar'), function(req, res, next) {
+//  res.send('Successfully uploaded files!')
+//})
 //==============================================================================
 // launch ======================================================================
 //==============================================================================

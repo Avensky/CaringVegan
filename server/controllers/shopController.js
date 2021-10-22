@@ -1,7 +1,5 @@
 const productRepository = require('../repository')
 exports.createProduct = async (req, res) => {
-    console.log(req.file)
-    // var ab = req.body.avatar.replace('C:\\fakepath\\','');
     try {
         let payload = {
             name        : req.body.name,
@@ -11,15 +9,10 @@ exports.createProduct = async (req, res) => {
             quantity    : req.body.quantity,
             featured    : req.body.featured,
             type        : req.body.type,
-            //image       : req.file.path,
-            //imageName   : req.body.imageName,
             imageData   : req.file.path,
         }
        
-        let product = await productRepository.createProduct({
-            ...payload
-        });
-        //res.json({status: true,data: product,})
+        let product = await productRepository.createProduct({...payload});
         res.redirect('/shop')
     } catch (err) {
         console.log(err)
