@@ -1,15 +1,8 @@
 //==============================================================================
 // set up server================================================================
 //==============================================================================
-const aws 		  = require('aws-sdk')
-aws.config.update({
-    // accessKeyId: process.env.s3_accessKeyId,
-    accessKeyId: 'AKIA6IJQLRN5WZXHQGUR',
-    // secretAccessKey: process.env.s3_secretAccessKey
-    secretAccessKey: '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',
-    //region: process.env.REGION
-    region: 'us-west-2'
-});
+const aws 		          = require('aws-sdk')
+const keys                = require('./config/keys')
 const express             = require('express')
 const rateLimit           = require('express-rate-limit');
 const helmet              = require('helmet');
@@ -26,13 +19,18 @@ const cors                = require("cors");
 const session             = require('cookie-session')
 const passport            = require('passport')
 const mongoose            = require('mongoose')
-const keys                = require('./config/keys')
 const multer              = require("multer");
-const multerS3 		  = require('multer-s3')
-const s3 		  = new aws.S3({apiVersion: '2006-03-01'});
+const multerS3 		      = require('multer-s3')
+const s3 		          = new aws.S3({apiVersion: '2006-03-01'});
 const path                = require("path");
 const shopController      = require("./controllers/shopController");
 let   server              = app
+
+aws.config.update({
+    accessKeyId: keys.s3_accessKeyId,
+    secretAccessKey: keys.s3_secretAccessKey,
+    region: keys.region
+});
 
 if (process.env.NODE_ENV !== 'production') {
   // const https = require('https');
@@ -68,7 +66,7 @@ const storage = multerS3({
     acl: 'public-read',
 //   ACL: 'public-read',
 //Bucket: process.env.BUCKET_NAME,
-    bucket: 'caring-vegan',
+    bucket: keys.bucket,
 //    destination: (req, file, cb) => { cb(null, files) },
     //metadata: function(req, file, cb) {
     //    cb(null, {fieldName: file.fieldname});

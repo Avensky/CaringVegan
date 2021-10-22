@@ -1,3 +1,5 @@
+const { region } = require("./dev");
+
 module.exports = {
     emailUsername           : process.env.EMAIL_USERNAME,
     emailPassword           : process.env.EMAIL_PASSWORD,
@@ -32,5 +34,9 @@ module.exports = {
     twitterConsumerKey      : process.env.TWITTER_CONSUMER_KEY,
     twitterConsumerSecret   : process.env.TWITTER_CONSUMER_SECRET,
     twitterCallbackURL      : "https://www.uriza86.com/api/twitter/callback/",
-
+    
+    accessKeyId             : process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey         : process.env.S3_SECRET_ACCESS_KEY,
+    region                  : process.env.REGION,
+    bucket                  : process.env.BUCKET,
 }
