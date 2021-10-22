@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1013.0",
     "axios": "^0.21.1",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
@@ -39,6 +40,7 @@
     "http-proxy-middleware": "^2.0.0",
     "mongoose": "^5.9.11",
     "multer": "^1.4.2",
+    "multer-s3": "^2.10.0",
     "nodemailer": "^6.6.2",
     "nodemon": "^2.0.3",
     "passport": "^0.4.1",
@@ -50,6 +52,7 @@
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "redux-thunk": "^2.3.0",
+    "s3": "^4.4.0",
     "stripe": "^8.160.0",
     "xss-clean": "^0.1.1"
   },
