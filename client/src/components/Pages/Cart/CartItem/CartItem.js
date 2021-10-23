@@ -4,6 +4,11 @@ import classes from './CartItem.module.css';
 
 //{classes.CardThumbnail}
 const CartItem = props => {
+    let url
+    process.env.NODE_ENV === 'production'
+    ? url = 'https://caring-vegan.s3.us-west-2.amazonaws.com/'
+    : url = 'http://localhost:5000/'
+
     return  (
     <div className={classes.Item} key={props.id}>
         {/* Product */}
@@ -16,7 +21,7 @@ const CartItem = props => {
             {/* Image */}
             <div className={classes.CardThumbnail}>
                 <Link to={'/shop/itemfull/' + props.id}>
-                    <img src={'http://localhost:5000/'+props.image} alt={props.alt}/>
+                    <img src={url+props.image} alt={props.alt}/>
                 </Link>
             </div>
             

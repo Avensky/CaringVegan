@@ -7,7 +7,7 @@ import classes from './ItemDetails.module.css';
 const item = props => {
     let url
     process.env.NODE_ENV === 'production'
-        ? url = 'https://localhost:3000/'
+        ? url = 'https://caring-vegan.s3.us-west-2.amazonaws.com/'
         : url = 'http://localhost:5000/'
 
     let stock

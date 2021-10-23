@@ -51,13 +51,14 @@ const storage = multerS3({
     s3: s3,
     acl: 'public-read',
     bucket: keys.bucket,
-    destination: (req, file, cb) => { cb(null, files) },
-    metadata: function(req, file, cb) {
-        cb(null, {fieldName: file.fieldname});
-    },
+//    destination: (req, file, cb) => { cb(null, files) },
+//    metadata: function(req, file, cb) {
+//        cb(null, {fieldName: file.fieldname});
+//    },
     key: function(req, file, cb) {
-      cb(null, Date.now()+ '-' + Math.round(Math.random() * 1E9))
-    }
+        const uniqueSuffix = Date.now()+ '-' + Math.round(Math.random() * 1E9)
+        cb(null, uniqueSuffix)
+      }
 
 });
 // checking file type
@@ -156,10 +157,32 @@ require('./routes/routes.js')(app, passport); // load our routes and pass in our
 require('./routes/stripe.js')(app, passport); 
 require('./routes/shop.js')(app);
 //app.post("/api/addImage", upload.any(), shopController.createProduct);
-app.post("/api/addImage", upload.single('avatar'), shopController.createProduct);
-//app.post("/api/addImage", upload.single('avatar'), function(req, res, next) {
-//  res.send('Successfully uploaded files!')
-//})
+//app.post("/api/addImage", upload.single('avatar'), shopController.createProduct);
+const productRepository = require('./repository')
+app.post("/api/addImage", upload.single('avatar'), async (req, res) => {
+console.log('req = ',req)
+console.log('body =',req.body)
+try {
+        let payload = {
+            name        : req.body.name,
+            desc        : req.body.desc,
+            price       : req.body.price,
+            priceid     : req.body.priceId,
+            quantity    : req.body.quantity,
+            featured    : req.body.featured,
+            type        : req.body.type,
+            imageData   : req.file.key
+        }
+        let product = await productRepository.createProduct({...payload});
+        res.redirect('/shop')
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            error: err,
+            status: false,
+        })
+    }
+})
 //==============================================================================
 // launch ======================================================================
 //==============================================================================

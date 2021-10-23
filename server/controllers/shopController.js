@@ -9,7 +9,7 @@ exports.createProduct = async (req, res) => {
             quantity    : req.body.quantity,
             featured    : req.body.featured,
             type        : req.body.type,
-            imageData   : req.file.path,
+            imageData   : req.file.key,
         }
        
         let product = await productRepository.createProduct({...payload});
