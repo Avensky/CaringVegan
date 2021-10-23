@@ -9,7 +9,7 @@ const Home = (props) => {
     const addToCart             = (id) => {props.addToCart(id)}
     const subtractQuantity      = (id) => {props.subtractQuantity(id);}
 
-    let shop = props.shop.filter(item => item.featured === true)
+    let shop = props.shop.filter(item => item.featured === '1')
     let featured = shop.map( item => {
         return( 
             <Item
