@@ -11,8 +11,8 @@ module.exports = {
     sengridPassword         : process.env.SENDGRID_PASSWORD,
     secretKey               : process.env.SECRET_KEY,
 
-    checkoutSuccessUrl      : "https://www.uriza86.com/checkout",
-    checkoutCancelUrl       : "https://www.uriza86.com/shop",
+    checkoutSuccessUrl      : "https://www.caringvegan.com/checkout",
+    checkoutCancelUrl       : "https://www.caringvegan.com/shop",
 
     secretKey               : process.env.SECRET_KEY,
     mongoURI                : process.env.MONGO_URI,
