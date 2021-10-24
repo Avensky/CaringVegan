@@ -1,7 +1,7 @@
 // load all the things we need
 const mongoose          = require('mongoose')
 const Orders            = mongoose.model('Orders')
-const Products           = mongoose.model('Product')
+const Products          = mongoose.model('Product')
 const Stripe            = require('stripe')
 const keys              = require('../config/keys')
 const webhookSecret     = keys.webhookSecret
