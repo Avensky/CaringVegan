@@ -7,14 +7,13 @@ import Logo from '../../UI/Logo/Logo';
 const navItems = ( props ) => (
     <div className={classes.Desktop}>
 
-            <NavLink  to="/home">
+            <NavLink  to="/home"className={classes.LogoWrapper}>
                 <div className={classes.Logo}>
                     <Logo />
-                    <div className={classes.LogoName}>CaringVegan</div>
                 </div>  
             </NavLink >
-
         <ul className={classes.NavItems}>
+            <NavItem link="/home" myClass="LogoName" exact>CaringVegan</NavItem>
             <NavItem link="/shop"           exact>Shop</NavItem>
             {props.isAuthenticated != null ? <NavItem link="/profile"          >Profile</NavItem> : null}
             {props.isAuthenticated != null ? <NavItem link="/orders"          >Orders</NavItem> : null}

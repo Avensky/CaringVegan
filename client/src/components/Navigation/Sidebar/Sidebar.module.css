@@ -11,6 +11,10 @@
     box-sizing: border-box;
     transition: transform 0.3s ease-out;
     text-align: center;
+    flex-direction: column;
+}
+.DesktopOnly {
+    display: none;
 }
 
 @media only screen and (min-width: 1025px) {
@@ -28,6 +32,6 @@
 }
 
 .Logo {
-    height: 11%;
-    margin-bottom: 32px;
+    height: 15%;
+    margin-bottom: 50px;
 }

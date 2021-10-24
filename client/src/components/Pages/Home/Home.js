@@ -34,8 +34,9 @@ const Home = (props) => {
     return(
         <div className={[classes.Home].join(' ')}>
             <div class={classes.centered}>
-                <div className={classes.title}><b>CHANGE THE WORLD WITH CARING HEARTS.</b></div>
-                <div className={classes.description}>Help spread awareness with our products. Show the world what we stand for. 
+                <div className={classes.title}><b>CHANGE THE WORLD WITH CARING HEARTS</b></div>
+                <div className={classes.description}>
+                        Animals are our friends <span className="fa fa-heart" />
                 </div>
                 <div className={classes.shop}>
                     <NavLink to="/shop"><b>Shop Now</b></NavLink>
@@ -45,7 +46,7 @@ const Home = (props) => {
             <img src={myImg} />
             </div>
             <div className={classes.statement}>
-                <p>Lets work together to make this a better world for everyone.</p>
+                <p>Lets make this a better world .</p>
             </div>
             <div className={['page-wrapper', classes.PageWrapper].join(' ')}> 
                 <div className="text-center">

@@ -19,14 +19,15 @@ const orderSummary = (props) => {
             <p><strong>Subtotal: ${props.total}</strong></p>
             <p>Continue to Checkout?</p>
             <div className="spread">
-            <button 
-                className={["auth-btn btn"].join(' ')}
-                onClick={props.purchaseCancelled}
-            >CANCEL</button>
+
             <button 
                 className={["btn-primary btn"].join(' ')}
                 onClick={props.purchaseContinued}
-            >CONTINUE</button>
+            >BUY</button>
+                        <button 
+                className={["auth-btn btn"].join(' ')}
+                onClick={props.purchaseCancelled}
+            >CANCEL</button>
             </div>
         </Auxiliary>
     )

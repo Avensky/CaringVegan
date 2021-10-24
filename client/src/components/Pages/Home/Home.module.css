@@ -34,7 +34,12 @@
 }
 
 .title {
-    font-size: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.shop a b:hover {
+   border: 2px solid grey;
 }
 
 .centered a{ 
@@ -42,12 +47,13 @@
 }
 .shop a b{ 
     background-color: rgb(255, 255, 255);
-    font-size: 20px;
+    font-size: 16px;
     color: rgb(4, 0, 10);
-    padding: .5vh .5vw;
-    margin: 2vh 0vw;
+    padding: 1vh 1vw;
+    margin: 0vh 0vw;
     border-radius: 8px;
     cursor: pointer;
+    border:2px solid white
 }
 
 .shop {
@@ -84,7 +90,7 @@
         left : 35%;
     }
     .shop a b{ 
-        font-size: 32px;
+        font-size: 24px;
     }
     .description {
         font-size: 24px;
@@ -105,8 +111,12 @@
         top: 40%;
         left : 30%;
     }
+
+    .shop {
+        padding: 1vh 1vw;
+    }
     .shop a b{ 
-        font-size: 48px;
+        font-size: 32px;
     }
     .description {
         font-size: 32px;

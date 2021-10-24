@@ -1,11 +1,11 @@
 .NavItems {
-    margin: 0 auto;
+    margin: 50px 0 0;
     padding: 0;
     list-style: none;
     display: flex;
     flex-flow: column;
     align-items: center;
-    height: 100%;
+    width: 100%;
     margin-block-start: 0;
     margin-block-end: 0;
     font-size: 1.25em;
@@ -14,7 +14,6 @@
 .NavItem {
     margin: 0;
     width: 100%;
-    height: 6vh;
     box-sizing: border-box;
     text-align: center;
 }
@@ -30,10 +29,11 @@
     margin: 0;
 }
 
-.NavItem a:hover
+.NavItem a:hover,
 .NavItem a:active,
-.NavItem a.active {
-    color: rgb(161, 131, 103);
+.NavItem li.active {
+    background-color: rgb(9, 4, 19);
+    color: white;
 }
 
 .inline {
@@ -45,19 +45,26 @@
     align-items: center;
 }
 .Desktop a{
+}
+.LogoWrapper {
     display: flex;
     align-items: center;
 }
 .Logo {
-    height: 80%;
+    height: 100%;
     display: flex;
     text-align: center;
-    align-items: center;
+    align-items: center;  
+}
+.logo img {
+    height: 80%;
 }
 
 .LogoName {
     font-size: 1.5em;
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .NavItemLogo {
@@ -65,7 +72,16 @@
     align-items: center;
 }
 
+
 @media only screen and (min-width: 1025px) {
+    .Desktop {
+        display: flex;
+    }    
+    .Desktop a{
+        display: flex;
+        align-items: center;
+    }
+
     .NavItem {
         margin: 0;
         display: flex;
@@ -76,10 +92,11 @@
     
     .NavItem a {
         color: white;
-        height: 100%;
+        height: 100vh;
         padding: 1.6vh 1vw;
         border-bottom: 4px solid transparent;
         align-items: center;
+        height: 51px;
     }
     
     .NavItem a:hover,
@@ -92,8 +109,21 @@
     .NavItems {
         flex-flow: row;
     }
+    .LogoWrapper {
+        height: 100%;
+    }
     .LogoName {
-        font-size: 1.5em;
-        display:contents;
+        height: 51px;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .LogoName a {
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+    }
+    .LogoName a:hover{
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid #40A4C8;
     }
 }

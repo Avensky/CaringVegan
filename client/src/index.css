@@ -4,7 +4,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.LogoName {
+  font-size: 1.3em;
+}
 .btn { 
   width: 100%;
   padding: 1vh 1vw;

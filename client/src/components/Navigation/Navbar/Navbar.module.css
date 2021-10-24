@@ -1,6 +1,6 @@
 .Navbar {
     height: 51px;
-    width: 100vw;
+    width: 100%;
     position: fixed;
     top: 0;
     left: 0;
@@ -69,16 +69,22 @@
 }
 
 .Logo {
-    height: 80%;
+    height: 100%;
     display: flex;
     text-align: center;
     align-items: center;
 }
-
-.LogoName {
-    font-size: 1.5em;
+.Logo img {
+    height: 80%;
 }
 
+.LogoName {
+    height: 100%;
+    font-size: 1.5em;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
 .NavItemLogo {
     display: flex;
     align-items: center;
@@ -98,8 +104,12 @@
 @media only screen and (min-width: 1025px) {
     /* For desktop: */
     .DesktopOnly {
+        height: 51px;
         display: inherit;
     }
+    .LogoName {
+    height: 100%;
+}
 
     .Navbar .MobileLinks, .Navbar .Logo {
         display: none;
@@ -109,8 +119,4 @@
         justify-content: center;
     }
 
-    a {
-        padding: 0;
-        
-    }
 }
