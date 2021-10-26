@@ -1,22 +1,25 @@
 
-# Express Server With Social Login Authentication
+# Online Store 
 
-## Easy Node Authentication
+## Express Server With React Front End 
 
-Code for the entire scotch.io tutorial series: Complete Guide to Node Authentication
+## Local and Social Media Login Authentication
 
-We will be using Passport to authenticate users locally, with Facebook, Twitter, and Google.
+This example uses an amazon lightsail server and a bucket instance to store images.
+
+We will be using Passport to authenticate users locally, with Facebook, Twitter, and Google. 
 
 ## Instructions
 
-If you would like to download the code and try it for yourself:
+Download the code and try it for yourself:
 
-1. Clone the repo: `git clone git@github.com:Avensky/express-server-template`
-2. Install packages: `npm install`
-3. Install packages in client: cd client `npm install`
-4. Change out the config files with your credentials
-5. Launch: `npm run dev`
-6. Visit in your browser at: `http://localhost:3000`
+1. Clone the repo: `git clone git@github.com:Avensky/CaringVegan.git`
+2. Install server packages: cd server `npm install`
+3. Install client packages: cd ../client `npm install`
+4. Under server go to the config folder and copy the contents of prod.js to a new file called dev.js 
+5. Edit the dev.js file to match your credentials
+6. Launch: cd ../server `npm run dev`
+7. Visit in your browser at: `http://localhost:3000`
 
 
 
