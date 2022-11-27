@@ -4,10 +4,7 @@ import classes from './CartItem.module.css';
 
 //{classes.CardThumbnail}
 const CartItem = props => {
-    let url
-    process.env.NODE_ENV === 'production'
-    ? url = 'https://caring-vegan.s3.us-west-2.amazonaws.com/'
-    : url = 'http://localhost:5000/'
+    const url = 'https://caring-vegan.s3.us-west-2.amazonaws.com/'
 
     return  (
     <div className={classes.Item} key={props.id}>

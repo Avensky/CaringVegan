@@ -5,10 +5,7 @@ import classes from './Item.module.css';
 //{classes.CardThumbnail}
 
 const item = props => {
-    let url
-    process.env.NODE_ENV === 'production'
-        ? url = 'https://caring-vegan.s3.us-west-2.amazonaws.com/'
-        : url = 'http://localhost:5000/'
+    const url = 'https://caring-vegan.s3.us-west-2.amazonaws.com/'
 
     let stock
     if (props.stock>11){

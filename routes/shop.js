@@ -1,14 +1,13 @@
-// const router = require("express").Router();
-const shopController = require("../controllers/shopController");
-//const multerInstance = require('../image.js.bk')
-const productRepository = require('../repository')
-// load all the things we need
-const mongoose              = require('mongoose')
-// load up the user model
-const Product             = mongoose.model('Product')
+const shopController    = require("../controllers/shopController");
+const uploadController  = require("../controllers/uploadController");
+const mongoose          = require('mongoose')
+const Product           = mongoose.model('Product')
 
 module.exports = function(app) {
-   // app.post("/api/addImage", multerInstance.upload.single('avatar'), shopController.createProduct);
+    app.post("/api/addImage", 
+    uploadController.upload.single('avatar'), 
+    shopController.createProduct);
+
    // app.post('/api/getProductById:id', shopController.getProduct)
 
     app.get("/api/getProducts", shopController.getProducts);
@@ -27,26 +26,26 @@ module.exports = function(app) {
     });
 
     app.post('/api/addProduct',(req,res) => {        //add a new item
-    //    const { title, author, content} = req.body;
-    const itemObj = new Product({
-        name        : req.body.name,
-        desc        : req.body.desc,
-    //        itemId : req.body.itemid,
-        price       : req.body.price,
-        image       : req.body.image,
-        quantity    : req.body.quantity,
-        type        : req.body.type,
-        featured    : req.body.featured,
-        date        : new Date()
-    })
-    itemObj.save((err)=>{
-        if(err){
-        console.log(err);
-        res.send('Unable to save item data!');
-        }
-        else
-        res.send('item data saved successfully!');
-    })
+        // const { title, author, content} = req.body;
+        const itemObj = new Product({
+            name        : req.body.name,
+            desc        : req.body.desc,
+        //        itemId : req.body.itemid,
+            price       : req.body.price,
+            image       : req.body.image,
+            quantity    : req.body.quantity,
+            type        : req.body.type,
+            featured    : req.body.featured,
+            date        : new Date()
+        })
+        // itemObj.save((err)=>{
+        //     if(err){
+        //     console.log(err);
+        //     res.send('Unable to save item data!');
+        //     }
+        //     else
+        //     res.send('item data saved successfully!');
+        // })
     });
 
     app.get('/api/getitemDetails/:itemid',(req,res)=>{              //get a item details

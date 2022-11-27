@@ -1,26 +1,35 @@
-const productRepository = require('../repository')
+const mongoose  = require('mongoose');
+const Product   = mongoose.model('Product');
+
+// exports.getProducts = async () => {
+//     const products = await Product.find();
+//     return products;
+// };
+// exports.productById = async id => {
+//     const product = await Product.findById(id);
+//     return product;
+// }
+// exports.removeProduct = async id => {
+//     const product = await Product.findByIdAndRemove(id);
+//     return product
+// }
+
+//const Product = require("../models/shop");
+
 exports.createProduct = async (req, res) => {
-    try {
-        let payload = {
-            name        : req.body.name,
-            desc        : req.body.desc,
-            price       : req.body.price,
-            priceid     : req.body.priceId,
-            quantity    : req.body.quantity,
-            featured    : req.body.featured,
-            type        : req.body.type,
-            imageData   : req.file.key,
-        }
-       
-        let product = await productRepository.createProduct({...payload});
-        res.redirect('/shop')
-    } catch (err) {
-        console.log(err)
-        res.status(500).json({
-            error: err,
-            status: false,
-        })
-    }
+    console.log('createProduct : ', req.body);
+    const productObj = {
+        name        : req.body.name,
+        desc        : req.body.desc,
+        price       : req.body.price,
+        priceid     : req.body.priceId,
+        quantity    : req.body.quantity,
+        featured    : req.body.featured,
+        type        : req.body.type,
+        imageData   : req.file.key,
+    }   
+    const newProduct = await Product.create(productObj);
+    return res.json(newProduct)
 }
 
 exports.getProducts = async (req, res) => {
