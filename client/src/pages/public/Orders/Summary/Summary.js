@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
 import classes from './Summary.module.css';
-import Modal from  '../../../UI/Modal/Modal';
+import Modal from  '../../../../components/UI/Modal/Modal';
 // import classes from '../../Pages.module.scss'
 import {useHistory} from 'react-router-dom'
 

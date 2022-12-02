@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../../Layout/Layout';
 import {connect} from 'react-redux';
-import classes from './Auth.module.css';
-import Auxiliary from '../../../hoc/Auxiliary';
-import * as actions from '../../../store/actions/index';
-import Spinner from '../../../components/UI/Spinner/Spinner'
+import classes from './AuthForm.module.css';
+import Auxiliary from '../../../../hoc/Auxiliary';
+import * as actions from '../../../../store/actions/index';
+import Spinner from '../../../../components/UI/Spinner/Spinner'
 import { Redirect } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 
-const Auth = props => {
+const AuthForm = props => {
     const [auth, setAuth] = useState('login')
     console.log('auth',auth)
     const [token, setToken] = useState(props.match.params.token)
@@ -289,37 +288,27 @@ const Auth = props => {
         authRedirect = <Redirect to={props.authRedirectPath} />
     }
 
-    return(
-        <Layout>
-            <div className={[classes.Card, classes.Auth].join(' ')}>
-            {authRedirect}
-            {authSelector}
-            <br />
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={submitHandler}
-                enableReinitialize> 
-                { formik => 
-                <Form>
-                    {message}
-                    {form}
-                    <br />
-                    <button  
-                        className={[classes.Btn, classes.AuthBtn, 'auth-btn' ].join(' ')}
-                        type='submit'
-                        disabled={!formik.isValid || formik.isSubmitting }
-                    >
-                        {button}
-                    </button>
-                </Form>}
-            </Formik>
-            {socialAuth}
-        </div> 
-
-        </Layout>
+    return( 
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={submitHandler}
+            enableReinitialize> 
+            { formik => 
+            <Form>
+                {message}
+                {form}
+                <br />
+                <button  
+                    className={[classes.Btn, classes.AuthBtn, 'auth-btn' ].join(' ')}
+                    type='submit'
+                    disabled={!formik.isValid || formik.isSubmitting }
+                >
+                    {button}
+                </button>
+            </Form>}
+        </Formik>
     )
-    
 }
 
 const mapStateToProps = state => {
@@ -344,4 +333,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps)(Auth);
+export default connect (mapStateToProps, mapDispatchToProps)(AuthForm);

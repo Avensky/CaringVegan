@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Link from './Link/Link';
 import classes from './Profile.module.css';
 import * as actions from '../../../store/actions/index';
+import Wrapper from '../../../components/Wrapper/Wrapper';
 // import Address from './Address/Address'
 // import { useHistory }from 'react-router-dom'
 const Profile = (props) =>{
@@ -147,6 +148,7 @@ const Profile = (props) =>{
     }
 
     return (
+        <Wrapper>
         <div className='page-wrapper'>
             <div className="text-center">
                 <h1><span className="fa fa-anchor"></span> Profile Page</h1>
@@ -164,6 +166,7 @@ const Profile = (props) =>{
                 {google}
             </div>
         </div>
+        </Wrapper>
     )
     
 }

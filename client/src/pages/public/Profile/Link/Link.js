@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
 import classes from './Link.module.css';
-import Modal from  '../../../UI/Modal/Modal';
+import Modal from  '../../../../components/UI/Modal/Modal';
 // import classes from '../../Pages.module.scss'
 
 const Link = props => {

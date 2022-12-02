@@ -9,7 +9,7 @@ import {useHistory}     from 'react-router-dom'
 import Item from './ItemDetails/ItemDetails'
 import CheckoutHeader   from '../../Checkout/CheckoutHeader/CheckoutHeader'
 import Review from '../ItemFull/Review/Review'
-import Modal from '../../../UI/Modal/Modal';
+import Modal from '../../../../components/UI/Modal/Modal';
 import OrderSummary from '../../OrderSummary/OrderSummary';
 import {purchaseContinueHandler} from '../../../../utility/stripe'
 

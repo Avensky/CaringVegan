@@ -4,11 +4,12 @@ import classes from './Cart.module.css'
 //import Item from '../Shop/Items/Item/Item'
 import CartItem from './CartItem/CartItem';
 import OrderSummary from '../OrderSummary/OrderSummary'
-import Modal from '../../UI/Modal/Modal'
+import Modal from '../../../components/UI/Modal/Modal'
 import { useHistory } from 'react-router-dom';
 import * as actions from '../../../store/actions/index';
 import CheckoutHeader from '../Checkout/CheckoutHeader/CheckoutHeader';
 import {purchaseContinueHandler} from '../../../utility/stripe'
+import Wrapper from '../../../components/Wrapper/Wrapper';
 
 const Cart = props => {
     const [purchasing, setPurchasing]   = useState(false);
@@ -59,6 +60,7 @@ const Cart = props => {
     }
         
     return(
+        <Wrapper>
         <div className={['page-wrapper', classes.Cart].join(' ')}>
             <Modal show={purchasing} modalClosed={purchaseCancelHandler}> 
                 {orderSummary}
@@ -90,6 +92,7 @@ const Cart = props => {
                 }
         </div>
         </div>
+        </Wrapper>
        )
     }
 

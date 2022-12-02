@@ -4,7 +4,8 @@ import Order from './Order/Order';
 import classes from './Orders.module.css';
 //import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
-import Spinner from '../../UI/Spinner/Spinner';
+import Spinner from '../../../components/UI/Spinner/Spinner';
+import Wrapper from '../../../components/Wrapper/Wrapper';
 
 const Orders = (props) => {
     useEffect(() => {
@@ -36,12 +37,13 @@ const Orders = (props) => {
                 state           = {order.shipping.address.state}
                 postal_code     = {order.shipping.address.postal_code}
                 email           = {order.customer_details.email}
-                amount_total    = {order.amount_total}
+                //amount_total    = {order.amount_total}
                 amount_subtotal = {order.amount_subtotal}
             />
         })
     }
     return (
+        <Wrapper>
         <div>            
             <div className='page-wrapper'>
                 <div className="container">
@@ -52,8 +54,8 @@ const Orders = (props) => {
             {orders}
             </div>
         </div>
+        </Wrapper>
     );
-
 }
 
 const mapStateToProps = state => {

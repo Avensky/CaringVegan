@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 //import Auxiliary from '../../../hoc/Auxiliary';
 import classes from './Connect.module.css'
-import Spinner from '../../UI/Spinner/Spinner';
+import Spinner from '../../../components/UI/Spinner/Spinner';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../../../store/actions/index';
 //import { Redirect } from 'react-router-dom';

@@ -5,6 +5,9 @@ import * as actions     from '../../../store/actions/index'
 import myImg from '../../../assets/images/bike-stickers-image-3.jpg';
 import Item from '../Shop/Items/Item/Item';
 import { NavLink } from 'react-router-dom';
+import Wrapper from '../../../components/Wrapper/Wrapper';
+
+
 const Home = (props) => {
     const addToCart             = (id) => {props.addToCart(id)}
     const subtractQuantity      = (id) => {props.subtractQuantity(id);}
@@ -32,7 +35,8 @@ const Home = (props) => {
         )})
     
     return(
-        <div className={[classes.Home].join(' ')}>
+<Wrapper>
+<div className={[classes.Home].join(' ')}>
             <div class={classes.centered}>
                 <div className={classes.title}><b>CHANGE THE WORLD WITH CARING HEARTS</b></div>
                 <div className={classes.description}>
@@ -57,6 +61,8 @@ const Home = (props) => {
                 </div>
             </div>
         </div>
+
+</Wrapper>
     )  
 }
 

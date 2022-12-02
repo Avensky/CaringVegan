@@ -1,18 +1,23 @@
 import React, { useEffect, Suspense } from 'react';
 import './App.css';
 import { connect }                    from 'react-redux';
-import { Route, Switch }              from 'react-router-dom'
+import { Route, Switch }              from 'react-router-dom';
 import * as actions                   from './store/actions/index';
-import Wrapper                        from './components/Wrapper/Wrapper'
-import Home                           from './components/Pages/Home/Home'
-import Profile                        from './components/Pages/Profile/Profile'
-import Auth                           from './components/Pages/Auth/Auth'
-import Connect	                      from './components/Pages/Connect/Connect'
-import Shop                           from './components/Pages/Shop/Shop'
-import Cart                           from './components/Pages/Cart/Cart'
-import Orders                         from './components/Pages/Orders/Orders'
-import Checkout                       from './components/Pages/Checkout/Success'
-import ItemFull                       from './components/Pages/Shop/ItemFull/ItemFull'
+//import Wrapper                        from './components/Wrapper/Wrapper';
+import Home                           from './pages/public/Home/Home';
+import Profile                        from './pages/public/Profile/Profile'
+import Auth                           from './pages/public/Auth/Auth';
+import Login                          from './pages/public/Auth/Login/Login';
+import Register                       from './pages/public/Auth/Register/Register';
+import ResetPassword                  from './pages/public/Auth/ResetPassword/ResetPassword';
+import ForgotPassword                 from './pages/public/Auth/ForgotPassword/ForgotPassword';
+import Connect	                      from './pages/public/Connect/Connect';
+import Shop                           from './pages/public/Shop/Shop';
+import Cart                           from './pages/public/Cart/Cart';
+import Orders                         from './pages/public/Orders/Orders';
+import Checkout                       from './pages/public/Checkout/Success';
+import ItemFull                       from './pages/public/Shop/ItemFull/ItemFull';
+
 const App = props => {
   const { fetchedUser } = props
   
@@ -28,8 +33,15 @@ const App = props => {
     <Switch>
       <Route path="/checkout"               component={Checkout} />
       <Route path="/authentication"         component={Auth} />
-      <Route exact path="/authentication/api/v1/users/resetPassword/:token"       
-                                          render={props => <Auth {...props} />} />
+      <Route path="/login"                  component={Login} />
+      <Route path="/register"               component={Register} />
+      <Route path="/forgotPassword"         component={ForgotPassword} />
+      <Route path="/resetPassword"          component={ResetPassword} />
+      <Route 
+        exact 
+        path="/resetPassword/:token"       
+        render={props => <ResetPassword {...props} />} 
+      />
       <Route path="/home"                   component={Home} />   
       <Route path="/connect"                component={Connect} />
       <Route path="/shop"                   component={Shop} exact />
@@ -59,7 +71,7 @@ const App = props => {
   }
 
   return (
-    <Wrapper><Suspense fallback={<p>Loading...</p>}>{routes}</Suspense></Wrapper>
+    <Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>
   );
 }
 

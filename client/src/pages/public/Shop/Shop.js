@@ -6,11 +6,11 @@ import * as actions         from '../../../store/actions/index'
 import {useHistory}         from 'react-router-dom'
 import CheckoutHeader       from '../Checkout/CheckoutHeader/CheckoutHeader'
 import OrderSummary         from '../OrderSummary/OrderSummary'
-import Modal                from '../../UI/Modal/Modal'
+import Modal                from '../../../components/UI/Modal/Modal'
 import { loadStripe }       from '@stripe/stripe-js'
 import Dropdown             from 'react-dropdown';
 import NewItem              from './NewItem/NewItem';
-
+import Wrapper              from '../../../components/Wrapper/Wrapper';
 
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
@@ -104,6 +104,7 @@ const Purchase = props => {
         : newitem = null
     }
     return(
+        <Wrapper>
         <div className={['page-wrapper', classes.Shop].join(' ')}>
             <Modal show={purchasing} modalClosed={purchaseCancelHandler}> 
                 {orderSummary}
@@ -174,6 +175,7 @@ const Purchase = props => {
                 }
             </div>
         </div>
+        </Wrapper>
     )
 } 
 
