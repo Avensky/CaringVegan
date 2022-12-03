@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request: 
+    branches: [ main ]
+
+jobs: 
+  build:
+    runs-on: self-hosted
+    steps: 
+    - name: Get Code
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with: 
+        node-version: ${{ matrix.node-version }}
+    - run: |
+        npm i
+        cd ../client
+        npm i
+        npm run build
+        cd ..
+        pm2 stop 0
+        pm2 start 0
+        pm2 save
+        sudo service nginx restart
