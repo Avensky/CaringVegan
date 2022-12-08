@@ -132,6 +132,7 @@ export const auth = (values, auth, token) => {
                 url = ('/api/resetPassword/'+token)
                 console.log('url',url)
                 break;
+            default : url = '/api/login'
         }
         let method
         auth === 'reset-password'

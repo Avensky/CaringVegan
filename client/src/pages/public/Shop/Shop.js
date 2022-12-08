@@ -24,7 +24,7 @@ process.env.NODE_ENV === 'production'
 	? taxRates = 'txr_1JDZnwGhmYf08967zBVwcLgB'
 	: taxRates = 'txr_1JB319GhmYf089678Co4Kjze'
 
-const Purchase = props => { 
+const Shop = props => { 
    
     const purchaseContinueHandler = async (addedItems, isAuth, event) => {
         console.log('checkout start')        // Get Stripe.js instance
@@ -202,4 +202,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps)(Purchase);
+export default connect (mapStateToProps, mapDispatchToProps)(Shop);

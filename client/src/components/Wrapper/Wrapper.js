@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classes from './Wrapper.module.css';
 import Navbar from '../Navigation/Navbar/Navbar';
 import Sidebar from '../Navigation/Sidebar/Sidebar';
-import Background from './Background/Background';
+//import Background from './Background/Background';
 import * as actions from '../../store/actions/index';
 import Footer from '../UI/Footer/Footer';
 

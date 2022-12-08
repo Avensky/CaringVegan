@@ -196,7 +196,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.CONNECT_START          : return connectStart(state, action);
         case actionTypes.CONNECT_SUCCESS        : return connectSuccess(state, action);
         case actionTypes.CONNECT_FAIL           : return connectFail(state, action);
-        case actionTypes.SET_AUTH_REDIRECT_PATH : return setAuthRedirectPath(state,action);
+        //case actionTypes.SET_AUTH_REDIRECT_PATH : return setAuthRedirectPath(state,action);
         case actionTypes.NEW_ADDRESS_START      : return newAddressStart(state, action);
         case actionTypes.NEW_ADDRESS_SUCCESS    : return newAddressSuccess(state, action);     
         case actionTypes.NEW_ADDRESS_FAIL       : return newAddressFail(state, action);     
