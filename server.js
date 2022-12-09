@@ -2,14 +2,7 @@
 const app       = require('./app');
 const keys      = require('./config/keys')
 const express   = require('express')
-
-let local;
-process.env.NODE_ENV === 'production' 
-    ? local = "127.0.0.1"
-    : local = keys.localPort 
-    
 const mongoose = require('mongoose')
-const port     = process.env.port || 5000;
 
 //connect to database
 mongoose.Promise = global.Promise;// connect to our database
@@ -43,8 +36,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // start server
-const server = app.listen(port, local, (err) =>{
-    console.log('App running on port: ' + port);
+const server = app.listen(keys.port, keys.ipAdress, (err) =>{
+    console.log('App running on port: ' + keys.port);
 //    console.log('server NODE_ENV: ' + process.env.NODE_ENV);
 });
 
