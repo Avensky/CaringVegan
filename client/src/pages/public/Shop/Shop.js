@@ -11,7 +11,7 @@ import { loadStripe }       from '@stripe/stripe-js';
 import Dropdown             from 'react-dropdown';
 import NewItem              from './NewItem/NewItem';
 import Wrapper              from '../../../components/Wrapper/Wrapper';
-import keys                 from '../../../../../config/keys';
+import keys                 from '../../../config/keys';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
