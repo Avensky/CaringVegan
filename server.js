@@ -1,6 +1,8 @@
 //define constants
-const app      = require('./app');
-const keys     = require('./config/keys')
+const app       = require('./app');
+const keys      = require('./config/keys')
+const express   = require('express')
+
 let local;
 process.env.NODE_ENV === 'production' 
     ? local = "127.0.0.1"
