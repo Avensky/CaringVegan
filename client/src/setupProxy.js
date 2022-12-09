@@ -1,5 +1,5 @@
-const { createProxyMiddleware } = require("http-proxy-middleware");
-import keys from './config';
+const keys = require('./config/keys');
+const {createProxyMiddleware} = require('http-proxy-middleware');
 
 module.exports = function (app) {
   app.use(
