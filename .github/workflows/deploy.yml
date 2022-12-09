@@ -30,13 +30,14 @@ jobs:
       with:
         node-version: 16.18.1
     - run: |
-      cd client
-      npm run build
+        cd client
+        npm run build
   Restart Nginx:
     needs: Build
     runs-on: self-hosted
     steps:
-      pm2 stop 0
-      pm2 start 0
-      pm2 save
-      sudo service nginx restart
+    - run: |
+        pm2 stop 0
+        pm2 start 0
+        pm2 save
+        sudo service nginx restart
