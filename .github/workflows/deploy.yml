@@ -8,22 +8,35 @@ on:
     branches: [ master ]
 
 jobs: 
-  build:
+  Get Code:
     runs-on: self-hosted
-    steps: 
-    - name: Get Code
-      uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with: 
-        node-version: ${{ matrix.node-version }}
+    steps:
+    - name: Get code
+      uses: actions/checkout@v3
+    - name: Use Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.18.1
     - run: |
-        npm i
+        npm ci
         cd client
-        npm i
-        npm run build
-        cd ..
-        pm2 stop 0
-        pm2 start 0
-        pm2 save
-        sudo service nginx restart
+        npm ci
+  Build:
+    needs: Get Code
+    runs-on: self-hosted
+    steps:
+    - name: Use Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.18.1
+    - run: |
+      cd client
+      npm run build
+  Restart Nginx:
+    needs: Build
+    runs-on: self-hosted
+    steps:
+      pm2 stop 0
+      pm2 start 0
+      pm2 save
+      sudo service nginx restart
