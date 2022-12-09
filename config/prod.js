@@ -1,5 +1,3 @@
-const { region } = require("./dev");
-
 module.exports = {
     emailUsername           : process.env.EMAIL_USERNAME,
     emailPassword           : process.env.EMAIL_PASSWORD,

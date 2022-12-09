@@ -1,28 +1,21 @@
-import React, { useState }  from 'react'
-import { connect }          from 'react-redux'
-import classes              from './Shop.module.css'
-import Item                 from './Items/Item/Item'
-import * as actions         from '../../../store/actions/index'
-import {useHistory}         from 'react-router-dom'
-import CheckoutHeader       from '../Checkout/CheckoutHeader/CheckoutHeader'
-import OrderSummary         from '../OrderSummary/OrderSummary'
-import Modal                from '../../../components/UI/Modal/Modal'
-import { loadStripe }       from '@stripe/stripe-js'
+import React, { useState }  from 'react';
+import { connect }          from 'react-redux';
+import classes              from './Shop.module.css';
+import Item                 from './Items/Item/Item';
+import * as actions         from '../../../store/actions/index';
+import {useHistory}         from 'react-router-dom';
+import CheckoutHeader       from '../Checkout/CheckoutHeader/CheckoutHeader';
+import OrderSummary         from '../OrderSummary/OrderSummary';
+import Modal                from '../../../components/UI/Modal/Modal';
+import { loadStripe }       from '@stripe/stripe-js';
 import Dropdown             from 'react-dropdown';
 import NewItem              from './NewItem/NewItem';
 import Wrapper              from '../../../components/Wrapper/Wrapper';
-
+import keys                 from '../../../../../config/keys';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-let stripePromise;
-process.env.NODE_ENV === 'production'
-	? stripePromise = loadStripe('pk_live_51J8eeGGhmYf089672u6NJwvMPcEER5uaLCQ3eejbU8FNjl6MCe4JKK5DPp5AJF7OpAHFhgK2uhit046XhSnZUqMG00MQjPQoKZ')
-	: stripePromise = loadStripe('pk_test_51J8eeGGhmYf08967atQfhNcWSsJpgUNfFCbL49tWBsPRhe30UedjKbYJDGkv1RI2tlRFmL1UbHxzSkOxDYQb0ufO00UU3w8gGA');
-let taxRates;
-process.env.NODE_ENV === 'production'
-	? taxRates = 'txr_1JDZnwGhmYf08967zBVwcLgB'
-	: taxRates = 'txr_1JB319GhmYf089678Co4Kjze'
+let stripePromise = loadStripe(keys.stripePublishableKey)
 
 const Shop = props => { 
    
@@ -34,7 +27,7 @@ const Shop = props => {
             let data = {
                 price       : item.priceid,
                 quantity    : item.amount,
-                tax_rates   : [taxRates]
+                tax_rates   : [keys.taxRates]
             }
              console.log('data = '+JSON.stringify(data))
             return data
