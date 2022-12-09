@@ -22,7 +22,7 @@ jobs:
         cd client
         npm ci
   Build:
-    needs: Get Code
+    needs: getCode
     runs-on: self-hosted
     steps:
     - name: Use Node
