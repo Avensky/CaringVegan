@@ -8,10 +8,10 @@ on:
     branches: [ master ]
 
 jobs: 
-  Get Code:
+  getCode:
     runs-on: self-hosted
     steps:
-    - name: Get code
+    - name: getcode
       uses: actions/checkout@v3
     - name: Use Node
       uses: actions/setup-node@v3
@@ -32,7 +32,7 @@ jobs:
     - run: |
         cd client
         npm run build
-  Restart Nginx:
+  restartNginx:
     needs: Build
     runs-on: self-hosted
     steps:
