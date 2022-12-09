@@ -1,5 +1,5 @@
 module.exports = {
-    port                    : process.env.port,
+    port                    : process.env.PORT,
     ipAdress                : "127.0.0.1",
 
     emailUsername           : process.env.EMAIL_USERNAME,
