@@ -1,40 +1,39 @@
 .Order {
-    margin: 0 0 4vh;
-    height: 100%;
-    display: block;
-    padding: 2vh 2vw;
-    border-bottom: 2px solid rgb(151, 151, 151);
+  margin: 0 0 4vh;
+  height: 100%;
+  display: block;
+  padding: 2vh 2vw;
+  border-bottom: 2px solid rgb(151, 151, 151);
 }
 
 .Order p {
-    margin: 0;
-    word-break: break-all;
-    white-space: pre-wrap !important;
+  margin: 0;
+  word-break: break-all;
+  white-space: pre-wrap !important;
 }
 .bigbox {
-    display:block;
+  display: block;
 }
 
-
 @media only screen and (min-width: 600px) {
-    /* For tablets: */
-    .bigbox {
-        display:flex;
-        justify-content: space-evenly;
-    }
+  /* For tablets: */
+  .bigbox {
+    display: flex;
+    justify-content: space-evenly;
+  }
 
-    .box {
-        width: 50%;
-    }
+  .box {
+    width: 50%;
+  }
 }
 
 @media only screen and (min-width: 1025px) {
-    /* For desktop: */
-    .bigbox {
-        display:flex;
-        justify-content: space-evenly;
-    }
-    .box {
-        width: 50%;
-    }
+  /* For desktop: */
+  .bigbox {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .box {
+    width: 50%;
+  }
 }

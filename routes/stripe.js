@@ -105,7 +105,7 @@ module.exports = function(app, passport) {
     Orders.findOneAndUpdate({'sessionid' : session.id},{
     $set:{
       // id                            : session.id,
-      //  userid                        : body.id,
+      // userid                        : body.id,
         date                          : new Date(),
         line_items                    : line_items,
         object                        : session.object,                

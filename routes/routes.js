@@ -51,7 +51,7 @@ module.exports  = function(app, passport) {
         // LOGIN ===============================
         // =====================================
         app.post('/api/login', function(req, res, next) {
-            passport.authenticate('local-login', function(err, user, info) {
+            passport.authenticate('local-login', (err, user, info) =>{
                 if (err) { return next(err); }
                 if (!user) { return res.send(info); }
                 req.logIn(user, function(err) {

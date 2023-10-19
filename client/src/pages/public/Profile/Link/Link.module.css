@@ -1,20 +1,19 @@
 .Link {
-    margin: 0 2vw 1vh;
-    padding: auto 4vw;
+  margin: 0 2vw 1vh;
+  padding: auto 4vw;
 }
 
 .Link p {
-    overflow-wrap: anywhere;
+  overflow-wrap: anywhere;
 }
 
-.Details{
-    margin: auto;
-    padding: auto;
-    height: 100%;
+.Details {
+  margin: auto;
+  padding: auto;
+  height: 100%;
 }
 
 .authBtn {
-    width: 100%;
-    padding: 1vh 4vw;
+  width: 100%;
+  padding: 1vh 4vw;
 }
-

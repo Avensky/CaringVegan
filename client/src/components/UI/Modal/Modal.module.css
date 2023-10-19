@@ -1,19 +1,19 @@
 .Modal {
-    position: fixed;
-    z-index: 500;
-    background-color: white;
-    border: 1px solid rgb(27, 16, 6);
-    padding: 2vh 5vw 5vh;
-    left: 25%;
-    top: 20%;
-    box-sizing: border-box;
-    transition: all 0.3s ease-out;
+  position: fixed;
+  z-index: 500;
+  background-color: white;
+  border: 1px solid rgb(27, 16, 6);
+  padding: 2vh 5vw 5vh;
+  left: 25%;
+  top: 20%;
+  box-sizing: border-box;
+  transition: all 0.3s ease-out;
 }
 
 @media only screen and (min-width: 600px) {
-    /* For tablets: */
-    .Modal {
-        /* left: calc(50% - 250px);*/
-        left: 35%;
-    }
+  /* For tablets: */
+  .Modal {
+    /* left: calc(50% - 250px);*/
+    left: 35%;
+  }
 }

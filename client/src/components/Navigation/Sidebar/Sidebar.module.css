@@ -1,37 +1,37 @@
 .Sidebar {
-    position: fixed;
-    width: 280px;
-    max-width: 70%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    z-index: 200;
-    background-color: rgb(20, 19, 17);
-    padding: 32px 16px;
-    box-sizing: border-box;
-    transition: transform 0.3s ease-out;
-    text-align: center;
-    flex-direction: column;
+  position: fixed;
+  width: 280px;
+  max-width: 70%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  background-color: rgb(20, 19, 17);
+  padding: 32px 16px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease-out;
+  text-align: center;
+  flex-direction: column;
 }
 .DesktopOnly {
-    display: none;
+  display: none;
 }
 
 @media only screen and (min-width: 1025px) {
-    .Sidebar {
-        display: none;
-    }
+  .Sidebar {
+    display: none;
+  }
 }
 
 .Open {
-    transform: translateX(0);
+  transform: translateX(0);
 }
 
 .Close {
-    transform: translateX(-100%);
+  transform: translateX(-100%);
 }
 
 .Logo {
-    height: 15%;
-    margin-bottom: 50px;
+  height: 15%;
+  margin-bottom: 50px;
 }

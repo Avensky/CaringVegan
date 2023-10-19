@@ -1,110 +1,96 @@
-
-.Cart a{
+.Cart a {
   color: black;
 }
 
 .Item {
-    padding: 1vh 0;
-    display: grid;
-    gap: 2vw;
-    grid-template-columns: 25px 1fr 100px 1fr 1fr;
-    grid-template-areas: 
-    "del img desc quant price";
+  padding: 1vh 0;
+  display: grid;
+  gap: 2vw;
+  grid-template-columns: 25px 1fr 100px 1fr 1fr;
+  grid-template-areas: "del img desc quant price";
 }
-   
-  .Item:nth-child(3) {
-    border-top:  1px solid #E1E8EE;
-    border-bottom:  1px solid #E1E8EE;
-  }
 
-
+.Item:nth-child(3) {
+  border-top: 1px solid #e1e8ee;
+  border-bottom: 1px solid #e1e8ee;
+}
 
 .Remove {
-    grid-area: del;
-    display: flex;
-    text-align: center;
-    align-items: center;
+  grid-area: del;
+  display: flex;
+  text-align: center;
+  align-items: center;
 }
 
 .CardThumbnail {
-    grid-area: img;
-    display: flex;
-    align-items: center;
+  grid-area: img;
+  display: flex;
+  align-items: center;
 }
 
 .CardDescription {
-    grid-area: desc;
-
-
+  grid-area: desc;
 }
 
 .CardQuantity {
-    grid-area: quant;
-    display: flex;
-    align-items: center;
+  grid-area: quant;
+  display: flex;
+  align-items: center;
 }
 
 .CardPrice {
-    grid-area: price;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
+  grid-area: price;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
-
-
 .Title {
-    border-bottom: 1px solid #E1E8EE;
-    padding: 0;
-  }
-   
-
-
-
+  border-bottom: 1px solid #e1e8ee;
+  padding: 0;
+}
 
 .buttons {
-    position: relative;
-    padding-top: 30px;
-    margin-right: 60px;
-  }
-  .deleteBtn,
-  .likeBtn {
-    display: inline-block;
-    Cursor: pointer;
-  }
-  .deleteBtn {
-    width: 18px;
-    height: 17px;
-    /*background: url(&quot;delete-icn.svg&quot;) no-repeat center;*/
-  }
-   
-  .likeBtn {
-    position: absolute;
-    top: 9px;
-    left: 15px;
+  position: relative;
+  padding-top: 30px;
+  margin-right: 60px;
+}
+.deleteBtn,
+.likeBtn {
+  display: inline-block;
+  cursor: pointer;
+}
+.deleteBtn {
+  width: 18px;
+  height: 17px;
+  /*background: url(&quot;delete-icn.svg&quot;) no-repeat center;*/
+}
 
-    width: 60px;
-    height: 60px;
-    background-size: 2900%;
-    background-repeat: no-repeat;
+.likeBtn {
+  position: absolute;
+  top: 9px;
+  left: 15px;
+
+  width: 60px;
+  height: 60px;
+  background-size: 2900%;
+  background-repeat: no-repeat;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .Item {
+    grid-template-columns: 25px 1fr 200px 1fr 1fr;
   }
-
-  @media only screen and (min-width: 600px) {
-    /* For tablets: */
-    .Item {
-        grid-template-columns: 25px 1fr 200px 1fr 1fr;
-    }
-    .Cart {
-
+  .Cart {
   }
 }
 
 @media only screen and (min-width: 1025px) {
-    /* For desktop: */
-    .Item {
-        grid-template-columns: 25px 1fr 250px 1fr 1fr;
-    }
-    .Cart {
-
+  /* For desktop: */
+  .Item {
+    grid-template-columns: 25px 1fr 250px 1fr 1fr;
+  }
+  .Cart {
   }
 }

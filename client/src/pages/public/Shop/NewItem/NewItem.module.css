@@ -1,47 +1,47 @@
-.NewItem form{
-    display: flex;
-    flex-direction: column;
+.NewItem form {
+  display: flex;
+  flex-direction: column;
 }
 
 textarea {
-    width: 100%;
-    background-color: rgb(255, 255, 255);
+  width: 100%;
+  background-color: rgb(255, 255, 255);
 }
 
 .NewItem button {
-    color: white;
+  color: white;
 }
 
 .NewItem {
-    margin-bottom: 5vh;
+  margin-bottom: 5vh;
 }
 
 input {
-    margin: 0;
-    background-color: rgba(255, 255, 255, 0.15);
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .Line {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 1vw;
-    margin: 0 0 2vw;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 1vw;
+  margin: 0 0 2vw;
 }
 .MidLine {
-    display: flex;
-    align-items: center;
-    margin: 0 0 2vw;
+  display: flex;
+  align-items: center;
+  margin: 0 0 2vw;
 }
 
 .Left {
-    width: 25%;
+  width: 25%;
 }
 
 .Right {
-    width: 75%;
+  width: 75%;
 }
 
 .Photo {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }

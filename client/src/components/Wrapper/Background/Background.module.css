@@ -1,8 +1,8 @@
 .BackgroundWrapper {
-	width: 100%;
-	text-align: center;
-	overflow: hidden;
-	text-align: center;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  text-align: center;
 }
 
 video {
@@ -15,7 +15,7 @@ video {
   height: auto;
   z-index: -90;
   transform: translateX(-50%) translateY(-50%);
- 	background-color: black;
+  background-color: black;
   background-size: cover;
   transition: 1s opacity;
 }
@@ -30,7 +30,7 @@ video {
   height: auto;
   z-index: -90;
   transform: translateX(-50%) translateY(-50%);
- 	background-color: black;
+  background-color: black;
   background-size: cover;
   transition: 1s opacity;
 }

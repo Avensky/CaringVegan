@@ -1,90 +1,104 @@
-import React, { useEffect, Suspense } from 'react';
-import './App.css';
-import { connect }                    from 'react-redux';
-import { Route, Switch }              from 'react-router-dom';
-import * as actions                   from './store/actions/index';
-//import Wrapper                        from './components/Wrapper/Wrapper';
-import Home                           from './pages/public/Home/Home';
-import Profile                        from './pages/public/Profile/Profile'
-import Auth                           from './pages/public/Auth/Auth';
-import Login                          from './pages/public/Auth/Login/Login';
-import Register                       from './pages/public/Auth/Register/Register';
-import ResetPassword                  from './pages/public/Auth/ResetPassword/ResetPassword';
-import ForgotPassword                 from './pages/public/Auth/ForgotPassword/ForgotPassword';
-import Connect	                      from './pages/public/Connect/Connect';
-import Shop                           from './pages/public/Shop/Shop';
-import Cart                           from './pages/public/Cart/Cart';
-import Orders                         from './pages/public/Orders/Orders';
-import Checkout                       from './pages/public/Checkout/Success';
-import ItemFull                       from './pages/public/Shop/ItemFull/ItemFull';
+import React, { useEffect, Suspense } from "react";
+import "./App.css";
+import { connect } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import * as actions from "./store/actions/index";
+import {
+  Home,
+  Shop,
+  Checkout,
+  Profile,
+  Auth,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  Connect,
+  ItemFull,
+  Cart,
+  Orders,
+} from "./pages";
+import PropTypes from "prop-types";
 
-const App = props => {
-  const { fetchedUser } = props
-  
-  const fetchData = async () => { props.onFetchUser() }
-  
-  useEffect(()=> { 
-    if ( !fetchedUser){
-      fetchData()
+const App = (props) => {
+  const { fetchedUser } = props;
+
+  const fetchData = async () => {
+    // props.onFetchUser();
+  };
+
+  useEffect(() => {
+    if (!fetchedUser) {
+      fetchData();
     }
-  }, [fetchedUser])
+  }, [fetchedUser]);
 
   let routes = (
-    <Switch>
-      <Route path="/checkout"               component={Checkout} />
-      <Route path="/authentication"         component={Auth} />
-      <Route path="/login"                  component={Login} />
-      <Route path="/register"               component={Register} />
-      <Route path="/forgotPassword"         component={ForgotPassword} />
-      <Route path="/resetPassword"          component={ResetPassword} />
-      <Route 
-        exact 
-        path="/resetPassword/:token"       
-        render={props => <ResetPassword {...props} />} 
+    <Routes>
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/authentication" element={<Auth />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
+      <Route path="/resetPassword" element={<ResetPassword />} />
+      <Route
+        exact
+        path="/resetPassword/:token"
+        render={(props) => <ResetPassword {...props} />}
       />
-      <Route path="/home"                   component={Home} />   
-      <Route path="/connect"                component={Connect} />
-      <Route path="/shop"                   component={Shop} exact />
-      <Route path="/shop/itemfull/:itemId"  component={ItemFull} />
-      <Route path="/cart"                   component={Cart} />
-      <Route path="/"                       component={Home} />                
-    </Switch>
-  )
+      <Route path="/home" element={<Home />} />
+      <Route path="/connect" element={<Connect />} />
+      <Route path="/shop" element={<Shop />} />
+      <Route path="/shop/itemfull/:itemId" element={<ItemFull />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/" element={<Home />} />
+    </Routes>
+  );
 
   if (props.fetchedUser) {
     routes = (
-      <Switch>
-        <Route path="/checkout"               component={Checkout} />
-        <Route path="/authentication"         render={props => <Auth {...props} />} />
-        <Route exact path="/authentication/api/v1/users/resetPassword/:token"       
-                                          render={props => <Auth {...props} />} />
-        <Route path="/home"                   component={Home} />         
-        <Route path="/connect"                component={Connect} />
-        <Route path="/profile"                component={Profile} />
-        <Route path="/shop"                   component={Shop} exact />
-        <Route path="/shop/itemfull/:itemId"  component={ItemFull} />
-        <Route path="/cart"                   component={Cart} />
-        <Route path="/orders"                 component={Orders} />
-        <Route path="/"                       component={Home} />             
-      </Switch>
-    )
+      <Routes>
+        <Route path="/checkout" element={Checkout} />
+        <Route path="/authentication" render={(props) => <Auth {...props} />} />
+        <Route
+          exact
+          path="/authentication/api/v1/users/resetPassword/:token"
+          render={(props) => <Auth {...props} />}
+        />
+        <Route path="/home" element={Home} />
+        <Route path="/connect" element={Connect} />
+        <Route path="/profile" element={Profile} />
+        <Route path="/shop" element={Shop} exact />
+        <Route path="/shop/itemfull/:itemId" element={ItemFull} />
+        <Route path="/cart" element={Cart} />
+        <Route path="/orders" element={Orders} />
+        <Route path="/" element={Home} />
+      </Routes>
+    );
   }
 
   return (
-    <Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>
+    <BrowserRouter>
+      <Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>;
+    </BrowserRouter>
   );
-}
+};
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    fetchedUser       : state.auth.payload,
+    fetchedUser: state.auth.payload,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchUser           : () => dispatch(actions.fetchUser()),
+    onFetchUser: () => dispatch(actions.fetchUser()),
   };
+};
+
+App.propTypes = {
+  fetchedUser: PropTypes.object,
+  onFetchUser: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

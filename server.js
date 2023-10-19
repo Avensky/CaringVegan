@@ -54,5 +54,4 @@ process.on('unhandledRejection', err => {
     server.close(() => {
       console.log('💥 Process terminated!');
     });
-  });
-  
+  });  

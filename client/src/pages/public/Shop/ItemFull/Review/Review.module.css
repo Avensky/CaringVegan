@@ -1,16 +1,16 @@
 .username {
-    font-size: 1rem;
-    text-transform: uppercase;
+  font-size: 1rem;
+  text-transform: uppercase;
 }
 
 .rating {
-    color: #ffb800;
+  color: #ffb800;
 }
 
 .date {
-    color: #676969;
+  color: #676969;
 }
 
 .item {
-    font-size: 16px;
+  font-size: 16px;
 }

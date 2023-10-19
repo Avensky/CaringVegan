@@ -1,23 +1,21 @@
 .Wrapper {
-    background-color: white;
-    height: 100%;
+  background-color: white;
+  height: 100%;
 }
 
 /* For mobile phones: */
 .Layout {
-    padding: 51px 0 0;
+  padding: 51px 0 0;
 }
 
 @media only screen and (min-width: 600px) {
-    /* For tablets: */
-    .Layout {
-      
-    }
+  /* For tablets: */
+  .Layout {
+  }
 }
 
 @media only screen and (min-width: 768px) {
-    /* For desktop: */
-    .Layout {
-    
-    }
+  /* For desktop: */
+  .Layout {
+  }
 }

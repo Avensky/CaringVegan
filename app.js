@@ -1,35 +1,38 @@
 //define constants
-const express             = require('express')
-const helmet              = require('helmet');
-const mongoSanitize       = require('express-mongo-sanitize');
-const xss                 = require('xss-clean');
+const express = require("express");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
 //const hpp                 = require('hpp');
-const bodyParser          = require('body-parser')
-const compression         = require('compression');
+const bodyParser = require("body-parser");
+const compression = require("compression");
 //const cookieParser        = require('cookie-parser');
-const cors                = require("cors");
-const session             = require('cookie-session')
-const passport            = require('passport')
-const app                 = express()
+const cors = require("cors");
+const session = require("cookie-session");
+const passport = require("passport");
+const productRouter = require("./routes/product");
+const morgan = require("morgan");
+const app = express();
 
 //app.enable('trust proxy');
 
+//MIDDLEWARE
 // Development logging
-if (process.env.NODE_ENV !== 'production') {
-  const morgan = require('morgan');
-  app.use(morgan('dev'));
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
 }
 
-// configuration 
-require('./models/users');
-require('./models/orders');
-require('./models/shop');
-require('./config/passport')(passport); // pass passport for configuration
+app.use(express.json());
+
+// configuration
+require("./models/users");
+require("./models/orders");
+require("./models/product");
+require("./config/passport")(passport); // pass passport for configuration
 
 // set up cors to allow us to accept requests from our client
 app.use(cors());
-app.options('*', cors());
-
+app.options("*", cors());
 
 // Set security HTTP headers
 app.use(helmet());
@@ -47,14 +50,16 @@ app.use(helmet());
 
 // required for passport
 
-app.use(session({ 
-  secret: 'ilovescotchscotchyscotchscotch',   // session secret
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-      maxAge: 30*24*60*60*1000,
-  }
-})); 
+app.use(
+  session({
+    secret: "ilovescotchscotchyscotchscotch", // session secret
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    },
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
@@ -72,20 +77,25 @@ app.use(xss());
 //     ]
 //   })
 // );
-// 
+//
 app.use(compression());
 
 // get information from html forms raw
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({
-	verify: (req, res, buf) => { req.rawBody = buf }
-})) 
+app.use(
+  bodyParser.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 
 //==============================================================================
 // routes ======================================================================
 //==============================================================================
-require('./routes/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-require('./routes/stripe.js')(app, passport); 
-require('./routes/shop.js')(app);
+require("./routes/routes.js")(app, passport); // load our routes and pass in our app and fully configured passport
+require("./routes/stripe.js")(app, passport);
+// require('./routes/shop.js')(app);
+app.use("/api/v1/products", productRouter);
 
 module.exports = app;

@@ -1,122 +1,121 @@
 .Navbar {
-    height: 51px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgb(4, 0, 10);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 4vw;
-    box-sizing: border-box;
-    z-index: 90;
-    color: white;
-    white-space: nowrap;
+  height: 51px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgb(4, 0, 10);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4vw;
+  box-sizing: border-box;
+  z-index: 90;
+  color: white;
+  white-space: nowrap;
 }
 
 .Navbar i {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .user {
-    padding: 0 0vw 0 3vw;
+  padding: 0 0vw 0 3vw;
 }
 
 .Navbar a {
-    color: white;
-    height: 100%;
-    margin: 0;
-    align-items: center;
+  color: white;
+  height: 100%;
+  margin: 0;
+  align-items: center;
 }
 
 .Navbar nav {
-    height: 100%;
+  height: 100%;
 }
 
 .Navbar .Mobile {
-    display: flex;
-    text-align: center;
-    align-items: center;
-    height: 100%;
-    margin: 0;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  height: 100%;
+  margin: 0;
 }
 
 .Mobile a {
-        display: flex;
-    text-align: center;
-    align-items: center;
-    height: 80%;
-    padding: 0;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  height: 80%;
+  padding: 0;
 }
 
 .Navbar h2,
 .Navbar h3 {
-    margin: 0;
+  margin: 0;
 }
 
 .NavItem {
- margin: 0 4vw;
+  margin: 0 4vw;
 }
 
-
 .DesktopOnly {
-    display: none;
+  display: none;
 }
 
 .fa {
-    height: 1vh;
+  height: 1vh;
 }
 
 .Logo {
-    height: 100%;
-    display: flex;
-    text-align: center;
-    align-items: center;
+  height: 100%;
+  display: flex;
+  text-align: center;
+  align-items: center;
 }
 .Logo img {
-    height: 80%;
+  height: 80%;
 }
 
 .LogoName {
-    height: 100%;
-    font-size: 1.5em;
-    display:flex;
-    align-items: center;
-    justify-content: center;
+  height: 100%;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .NavItemLogo {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .SidebarToggle {
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 @media only screen and (min-width: 600px) {
-    /* For tablets: */
-    .DesktopOnly {
-        display: none;
-    }
+  /* For tablets: */
+  .DesktopOnly {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 1025px) {
-    /* For desktop: */
-    .DesktopOnly {
-        height: 51px;
-        display: inherit;
-    }
-    .LogoName {
+  /* For desktop: */
+  .DesktopOnly {
+    height: 51px;
+    display: inherit;
+  }
+  .LogoName {
     height: 100%;
-}
+  }
 
-    .Navbar .MobileLinks, .Navbar .Logo {
-        display: none;
-    }
-    
-    .Navbar {
-        justify-content: center;
-    }
+  .Navbar .MobileLinks,
+  .Navbar .Logo {
+    display: none;
+  }
 
+  .Navbar {
+    justify-content: center;
+  }
 }
