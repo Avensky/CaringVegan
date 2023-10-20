@@ -98,4 +98,13 @@ require("./routes/stripe.js")(app, passport);
 // require('./routes/shop.js')(app);
 app.use("/api/v1/products", productRouter);
 
+// catches all non existing routes
+app.all("*", (req, res, next) => {
+  res.status(404).json({
+    status: "fail",
+    message: `Can't find ${req.originalUrl} on this server!`,
+  });
+  // next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
 module.exports = app;

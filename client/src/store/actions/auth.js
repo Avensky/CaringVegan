@@ -1,7 +1,11 @@
 import axios from "axios";
-//import axios from 'axios-https-proxy-fix';
-// const axios = require('axios-proxy-fix');
 import * as actionTypes from "./actionTypes";
+
+{
+  /***********************************
+    CHECKED FOR LOGGED IN USER
+  ************************************/
+}
 
 export const fetchUserStart = () => {
   return {
@@ -44,15 +48,22 @@ export const fetchUser = () => {
     axios
       .get("/api/fetchUser")
       .then((result) => {
-        console.log(result);
+        console.log("fetchUser : ", result);
         const payload = result.data;
         dispatch(fetchUserSuccess(payload));
       })
       .catch((error) => {
+        console.log("fetchUser : ", error);
         dispatch(fetchUserFail(error));
       });
   };
 };
+
+{
+  /*********************
+
+**********************/
+}
 
 export const fetchUsersStart = () => {
   return {
@@ -89,6 +100,13 @@ export const fetchUsers = () => {
       });
   };
 };
+
+{
+  /*********************
+
+**********************/
+}
+
 export const logout = () => {
   axios.get("/api/logout");
   localStorage.removeItem("token");

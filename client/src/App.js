@@ -21,15 +21,14 @@ import {
 import PropTypes from "prop-types";
 
 const App = (props) => {
-  const { fetchedUser } = props;
-
-  const fetchData = async () => {
-    // props.onFetchUser();
+  const getUser = async () => {
+    props.onFetchUser();
   };
+  const { fetchedUser } = props;
 
   useEffect(() => {
     if (!fetchedUser) {
-      fetchData();
+      getUser();
     }
   }, [fetchedUser]);
 

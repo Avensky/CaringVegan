@@ -19,7 +19,7 @@ const Wrapper = (props) => {
     setShowSidebar(!showSidebar);
   };
   const getItems = () => {
-    props.getItems();
+    // props.getItems();
   };
   // const loadCart = () => {
   //   props.loadCart();
@@ -31,7 +31,7 @@ const Wrapper = (props) => {
   console.log("prop.items = ", props.items);
   useEffect(() => {
     if (!props.items) {
-      console.log("get items");
+      // console.log("get items");
       getItems();
     }
     //    if ( props.items.length>0){

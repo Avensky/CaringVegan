@@ -10,10 +10,14 @@ router
   .route("/getTopProducts")
   .get(productController.getTopProducts, productController.getProducts);
 
+router.route("/getProductStats").get(productController.getProductStats);
+router.route("/getMonthlyPlan").get(productController.getMonthlyPlan);
+
 router
   .route("/")
   .get(productController.getProducts)
   .post(productController.createProduct);
+productController.getProducts;
 
 router
   .route("/:id")

@@ -1,5 +1,5 @@
 const Product = require("./../models/product");
-
+const QueryAPI = require("./../utils/QueryAPI");
 // exports.checkID = (req, res, next, val) => {
 //   console.log(`Product ID = ${val}`);
 
@@ -35,64 +35,17 @@ exports.getTopProducts = (req, res, next) => {
 //const Product = require("../models/shop");
 
 exports.getProducts = async (req, res) => {
+  // let filter = {};
+  // if (req.params.id) filter = { product: req.params.id };
+
   try {
-    console.log("req.query = ", req.query);
-    // BUILD QUERY
-    const queryObj = { ...req.query };
-    // 1A) Filtering
-    const excludedFields = ["page", "sort", "limit", "fields"];
-    excludedFields.forEach((el) => delete queryObj[el]);
-
-    // 1B) Advanced Filtering
-    let queryStr = JSON.stringify(queryObj);
-    // gte, gt, lte, lt must be rewriten
-    // {type: 'mug', quantity: {gte: '10'}} //current string
-    // {type: 'mug', quantity: {$gte: 10}} //mogoDB requirement
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    queryStr = JSON.parse(queryStr);
-    console.log("queryStr = ", queryStr);
-    let query = Product.find(queryStr);
-
-    // 2) Sorting
-    if (req.query.sort) {
-      console.log("sort ", req.query.sort);
-      const sortBy = req.query.sort.split(",").join(" ");
-      console.log("sortBy ", sortBy);
-      query = query.sort(sortBy);
-    } else {
-      // default query
-      console.log("sortBy Default");
-      query = query.sort("-price");
-    }
-
-    // 3) Field limiting
-    if (req.query.fields) {
-      const fields = req.query.fields.split(",").join(" ");
-      console.log("fields ", fields);
-      // query = query.select("name desc price"); //syntax needed
-      query = query.select(fields);
-    } else {
-      //default query
-      console.log("default limit fields");
-      query = query.select("-__v");
-    }
-
-    // 4) Pagination
-    const page = req.query.page * 1 || 1;
-    console.log("page ", page);
-    const limit = req.query.limit * 1 || 2;
-    console.log("limit ", limit);
-    const skip = (page - 1) * limit;
-
-    query = query.skip(skip).limit(limit);
-
-    if (req.query.page) {
-      const numProducts = await Product.countDocuments();
-      if (skip >= numProducts) throw new Error("This page does not exist");
-    }
-
     // EXECUTE QUERY
-    const products = await query;
+    const queryAPI = new QueryAPI(Product.find(), req.query)
+      .filter()
+      .sort()
+      .limit()
+      .paginate();
+    const products = await queryAPI.query;
     // query.sort().select().skip().limit()
 
     // SEND RESPONSE
@@ -102,6 +55,7 @@ exports.getProducts = async (req, res) => {
       data: products,
     });
   } catch (err) {
+    console.log("getProducts err = ", err);
     res.status(404).json({
       status: "fail",
       message: err,
@@ -136,8 +90,9 @@ exports.createProduct = async (req, res) => {
     desc: req.body.desc,
     price: req.body.price,
     priceid: req.body.priceId,
-    quantity: req.body.quantity,
+    stock: req.body.stock,
     featured: req.body.featured,
+    secret: req.body.secret,
     type: req.body.type,
     // imageData: req.file.key,
   };
@@ -185,4 +140,63 @@ exports.deleteProduct = async (req, res) => {
   //     error: err,
   //   });
   // }
+};
+
+exports.getProductStats = async (req, res, next) => {
+  try {
+    const stats = await Product.aggregate([
+      {
+        $match: { rating: { $gte: 4 } },
+      },
+      {
+        $group: {
+          _id: "$type",
+          avgRating: { $avg: "$rating" },
+          minPrice: { $min: "$price" },
+          maxPrice: { $max: "$price" },
+          // _id: { $toUpper: "$difficulty" },
+          // numTours: { $sum: 1 },
+          // numRatings: { $sum: "$ratingsQuantity" },
+          // avgRating: { $avg: "$ratingsAverage" },
+          // avgPrice: { $avg: "$price" },
+          // minPrice: { $min: "$price" },
+          // maxPrice: { $max: "$price" },
+        },
+      },
+      // {
+      //   $sort: { avgPrice: 1 },
+      // },
+      // {
+      //   $match: { _id: { $ne: 'EASY' } }
+      // }
+    ]);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      error: err,
+    });
+  }
+};
+
+exports.getMonthlyPlan = async () => {
+  try {
+    res.status(200).json({
+      status: "success",
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      error: err,
+    });
+  }
 };
