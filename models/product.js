@@ -1,19 +1,18 @@
-//==============================================================================
-// set up ======================================================================
-//==============================================================================
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 
-// define the schema for our user model
 const productSchema = new mongoose.Schema(
   {
     priceid: {
       type: String,
-      required: [false, "Please include the product id"],
+      required: [true, "Please include the product id"],
     },
     name: {
       type: String,
-      required: [false, "Please include the product name"],
+      required: [true, "Please include the product name"],
+      unique: true,
+      trim: true,
+      maxlength: [40, "A tour name must have less or equal then 40 characters"],
     },
     slug: {
       type: String,
@@ -69,10 +68,11 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-//==============================================================================
-// methods =====================================================================
-//==============================================================================
-// Create a new product property potentialCashout
+//==========================================================================
+// methods =================================================================
+//==========================================================================
+
+// Create a new virutal product attribute potentialCashout
 productSchema.virtual("potentialCashout").get(function () {
   return this.stock * this.price;
 });
@@ -89,24 +89,24 @@ productSchema.post("save", function (doc, next) {
 });
 
 // QUERY MIDDLEWARE
-// tourSchema.pre('find', function(next) {
+// Remove any product with secret attribute not equal to true
 productSchema.pre(/^find/, function (next) {
   this.find({ secret: { $ne: true } });
-
   this.start = Date.now();
   next();
 });
 
+// Calculate how long it took for query to yield post
 productSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
   next();
 });
 
 // AGGREGATION MIDDLEWARE
+// unshift any product with secret attribute not equal to true
 productSchema.pre("aggregate", function (next) {
   console.log("aggregate", this);
   this.pipeline().unshift({ $match: { secret: { $ne: true } } });
-
   console.log(this.pipeline());
   next();
 });

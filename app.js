@@ -11,7 +11,10 @@ const cors = require("cors");
 const session = require("cookie-session");
 const passport = require("passport");
 const productRouter = require("./routes/product");
+const userRouter = require("./routes/user");
 const morgan = require("morgan");
+const AppError = require("./utils/appError");
+const globalErrorHandler = require("./controllers/error");
 const app = express();
 
 //app.enable('trust proxy');
@@ -25,7 +28,7 @@ if (process.env.NODE_ENV !== "production") {
 app.use(express.json());
 
 // configuration
-require("./models/users");
+require("./models/user");
 require("./models/orders");
 require("./models/product");
 require("./config/passport")(passport); // pass passport for configuration
@@ -90,6 +93,10 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  console.log(req.headers);
+  next();
+});
 //==============================================================================
 // routes ======================================================================
 //==============================================================================
@@ -97,14 +104,15 @@ require("./routes/routes.js")(app, passport); // load our routes and pass in our
 require("./routes/stripe.js")(app, passport);
 // require('./routes/shop.js')(app);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/users", userRouter);
 
 // catches all non existing routes
 app.all("*", (req, res, next) => {
-  res.status(404).json({
-    status: "fail",
-    message: `Can't find ${req.originalUrl} on this server!`,
-  });
-  // next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
+  // const err = new Error(`Can't find ${req.originalUrl} on this server!`);
+  // err.status = "fail";
+  // err.statusCode = 404;
 
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+app.use(globalErrorHandler);
 module.exports = app;

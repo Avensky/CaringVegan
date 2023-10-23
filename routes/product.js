@@ -1,7 +1,7 @@
 const express = require("express");
 const productController = require("../controllers/product");
 const uploadController = require("../controllers/uploadController");
-
+const authController = require("./../controllers/auth");
 const router = express.Router();
 
 // router.param("id", productController.checkID);
@@ -23,7 +23,11 @@ router
   .route("/:id")
   .get(productController.getProduct)
   .patch(productController.updateProduct)
-  .delete(productController.deleteProduct);
+  .delete(
+    authController.protect,
+    authController.restrictTo("admin"),
+    productController.deleteProduct
+  );
 
 module.exports = router;
 

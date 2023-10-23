@@ -1,5 +1,7 @@
+const AppError = require("../utils/appError");
 const Product = require("./../models/product");
 const QueryAPI = require("./../utils/QueryAPI");
+const catchAsync = require("./../utils/catchAsync");
 // exports.checkID = (req, res, next, val) => {
 //   console.log(`Product ID = ${val}`);
 
@@ -34,56 +36,45 @@ exports.getTopProducts = (req, res, next) => {
 
 //const Product = require("../models/shop");
 
-exports.getProducts = async (req, res) => {
+exports.getProducts = catchAsync(async (req, res, next) => {
   // let filter = {};
   // if (req.params.id) filter = { product: req.params.id };
+  // EXECUTE QUERY
+  const queryAPI = new QueryAPI(Product.find(), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+  const products = await queryAPI.query;
+  // query.sort().select().skip().limit()
 
-  try {
-    // EXECUTE QUERY
-    const queryAPI = new QueryAPI(Product.find(), req.query)
-      .filter()
-      .sort()
-      .limit()
-      .paginate();
-    const products = await queryAPI.query;
-    // query.sort().select().skip().limit()
+  // SEND RESPONSE
+  res.status(200).json({
+    status: "success",
+    results: products.length,
+    data: products,
+  });
+});
 
-    // SEND RESPONSE
-    res.status(200).json({
-      status: "success",
-      results: products.length,
-      data: products,
-    });
-  } catch (err) {
-    console.log("getProducts err = ", err);
-    res.status(404).json({
-      status: "fail",
-      message: err,
-    });
+exports.getProduct = catchAsync(async (req, res, next) => {
+  // console.log("req.params", req.params);
+  // changed to findById to return error on wrong id
+  const product = await Product.findById(req.params.id);
+  // console.log("product = ", product);
+
+  if (!product) {
+    console.log("if !product = ", product);
+    return next(new AppError("No product found with that ID", 404, "WrongId"));
   }
-};
 
-exports.getProduct = async (req, res) => {
-  //try {
-  console.log("req.params", req.params);
-  const id = req.params.id;
-
-  const product = await Product.find({ _id: id });
   res.status(200).json({
     status: "success",
     data: product,
   });
+});
 
-  // } catch (err) {
-  //   res.status(500).json({
-  //     status: false,
-  //     error: err,
-  //   });
-  // }
-};
-
-exports.createProduct = async (req, res) => {
-  console.log("req : ", req);
+exports.createProduct = catchAsync(async (req, res, next) => {
+  // console.log("req : ", req);
   console.log("createProduct : ", req.body);
   const productObj = {
     name: req.body.name,
@@ -97,106 +88,103 @@ exports.createProduct = async (req, res) => {
     // imageData: req.file.key,
   };
   const newProduct = await Product.create(productObj);
+
   res.status(201).json({
     status: "success",
-    data: newProduct,
+    product: newProduct,
   });
-};
+});
 
-exports.updateProduct = async (req, res) => {
-  const productObj = {
-    name: req.body.name,
-    desc: req.body.desc,
-    price: req.body.price,
-    priceid: req.body.priceId,
-    quantity: req.body.quantity,
-    featured: req.body.featured,
-    type: req.body.type,
-    //    imageData: req.file.key,
-  };
+exports.updateProduct = catchAsync(async (req, res, next) => {
+  // const productObj = {
+  //   name: req.body.name,
+  //   desc: req.body.desc,
+  //   price: req.body.price,
+  //   priceid: req.body.priceId,
+  //   stock: req.body.stock,
+  //   featured: req.body.featured,
+  //   secret: req.body.secret,
+  //   type: req.body.type,
+  //   //    imageData: req.file.key,
+  // };
 
   let id = req.params.id;
-  console.log("req.params", req.params);
+  console.log("req.params.id", req.params.id);
+  console.log("req.boy", req.body);
 
-  const updatedProduct = await Product.findByIdAndUpdate(id);
-  res.status(204).json({
-    status: "success",
-    data: updatedProduct,
+  const product = await Product.findByIdAndUpdate(id, req.body, {
+    new: "true",
+    validators: "true",
   });
-};
 
-exports.deleteProduct = async (req, res) => {
+  if (!product) {
+    console.log("if !product = ", product);
+    return next(new AppError("No product found with that ID", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: product,
+  });
+});
+
+exports.deleteProduct = catchAsync(async (req, res, next) => {
   //try {
   let id = req.params.id;
   console.log("req.params", req.params);
-  await Product.findByIdAndDelete(id);
+  const product = await Product.findByIdAndDelete(id);
+
+  if (!product) {
+    return next(new AppError("No product found with that ID", 404));
+  }
+
   res.status(204).json({
     status: "success",
     data: null,
   });
-  // } catch (err) {
-  //   res.status(500).json({
-  //     status: false,
-  //     error: err,
-  //   });
-  // }
-};
+});
 
-exports.getProductStats = async (req, res, next) => {
-  try {
-    const stats = await Product.aggregate([
-      {
-        $match: { rating: { $gte: 4 } },
+exports.getProductStats = catchAsync(async (req, res, next) => {
+  const stats = await Product.aggregate([
+    {
+      $match: { rating: { $gte: 4 } },
+    },
+    {
+      $group: {
+        _id: "$type",
+        avgRating: { $avg: "$rating" },
+        minPrice: { $min: "$price" },
+        maxPrice: { $max: "$price" },
+        // _id: { $toUpper: "$difficulty" },
+        // numTours: { $sum: 1 },
+        // numRatings: { $sum: "$ratingsQuantity" },
+        // avgRating: { $avg: "$ratingsAverage" },
+        // avgPrice: { $avg: "$price" },
+        // minPrice: { $min: "$price" },
+        // maxPrice: { $max: "$price" },
       },
-      {
-        $group: {
-          _id: "$type",
-          avgRating: { $avg: "$rating" },
-          minPrice: { $min: "$price" },
-          maxPrice: { $max: "$price" },
-          // _id: { $toUpper: "$difficulty" },
-          // numTours: { $sum: 1 },
-          // numRatings: { $sum: "$ratingsQuantity" },
-          // avgRating: { $avg: "$ratingsAverage" },
-          // avgPrice: { $avg: "$price" },
-          // minPrice: { $min: "$price" },
-          // maxPrice: { $max: "$price" },
-        },
-      },
-      // {
-      //   $sort: { avgPrice: 1 },
-      // },
-      // {
-      //   $match: { _id: { $ne: 'EASY' } }
-      // }
-    ]);
+    },
+    // {
+    //   $sort: { avgPrice: 1 },
+    // },
+    // {
+    //   $match: { _id: { $ne: 'EASY' } }
+    // }
+  ]);
 
-    res.status(200).json({
-      status: "success",
-      data: {
-        stats,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      error: err,
-    });
-  }
-};
+  res.status(200).json({
+    status: "success",
+    data: {
+      stats,
+    },
+  });
+});
 
-exports.getMonthlyPlan = async () => {
-  try {
-    res.status(200).json({
-      status: "success",
-      data: {
-        stats,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      error: err,
-    });
-  }
-};
+exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      stats,
+    },
+  });
+});
