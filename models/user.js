@@ -101,6 +101,12 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// Only find active documents
+userSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({ "local.active": { $ne: false } });
+  next();
+});
 //==============================================================================
 // Methods =====================================================================
 //==============================================================================
@@ -126,6 +132,7 @@ userSchema.methods.generateHash = function (password) {
 
 // Checking if password is valid
 userSchema.methods.verifyPassword = async function (tryPassword, userPassword) {
+  console.log("veryfy pass ", tryPassword, userPassword);
   return await bcrypt.compare(tryPassword, userPassword);
 };
 

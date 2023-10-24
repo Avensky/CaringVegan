@@ -6,6 +6,10 @@ const AppError = require("../utils/appError");
 const QueryAPI = require("./../utils/QueryAPI");
 const factory = require("./handlerFactory");
 
+// =================================================================
+// UPLOAD FOTO HELPERS =============================================
+// =================================================================
+
 // const multerStorage = multer.diskStorage({
 //   destination: (req, file, cb) => {
 //     cb(null, 'public/img/users');
@@ -47,6 +51,10 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   next();
 });
 
+// =================================================================
+// FILTER OBJECT ===================================================
+// =================================================================
+
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
   Object.keys(obj).forEach((el) => {
@@ -55,9 +63,20 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+// =================================================================
+// Get Id ==========================================================
+// =================================================================
+
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
+};
+
+exports.createUser = (req, res) => {
+  res.status(500).json({
+    status: "error",
+    message: "This route is not defined! Please use /signup instead",
+  });
 };
 
 exports.updateMe = catchAsync(async (req, res, next) => {
@@ -71,12 +90,19 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
 
-  // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filteredBody = filterObj(req.body, "name", "email");
+  // 2) Filtered out unwanted fields names that are not allowed to be updated like admin roles
+  const filteredBody = filterObj(
+    req.body,
+    "username",
+    "firstName",
+    "middleName",
+    "lastName",
+    "email"
+  );
   if (req.file) filteredBody.photo = req.file.filename;
 
   // 3) Update user document
-  const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
+  const updatedUser = await User.findByIdAndUpdate(req.user._id, filteredBody, {
     new: true,
     runValidators: true,
   });
@@ -90,20 +116,17 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  await User.findByIdAndUpdate(req.user.id, { active: false });
+  console.log("delete me", req.user);
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    $set: { "local.active": false },
+  });
+  console.log("user", user);
 
   res.status(204).json({
     status: "success",
     data: null,
   });
 });
-
-exports.createUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not defined! Please use /signup instead",
-  });
-};
 
 exports.getUser = catchAsync(async (req, res, next) => {
   const queryAPI = new QueryAPI(User.findOne(), req.query);
@@ -135,5 +158,19 @@ exports.getUsers = catchAsync(async (req, res, next) => {
 });
 
 // Do NOT update passwords with this!
-exports.updateUser = factory.updateOne(User);
-exports.deleteUser = factory.deleteOne(User);
+exports.updateUser = (req, res) => {
+  res.status(500).json({
+    status: "error",
+    message: "This route is not yet defined!",
+  });
+};
+//factory.updateOne(User);
+
+exports.deleteUser = (req, res) => {
+  res.status(500).json({
+    status: "error",
+    message: "This route is not yet defined!",
+  });
+};
+
+//factory.deleteOne(User);
