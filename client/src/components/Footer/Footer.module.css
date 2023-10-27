@@ -1,0 +1,128 @@
+.FooterWrapper {
+  min-height: 250px;
+  background-color: black;
+  color: white;
+}
+.FooterWrapper a {
+  color: white;
+}
+
+.Footer {
+  border-top: 1px solid #afe4f7;
+  text-align: center;
+  flex-shrink: 0;
+  padding: 1vh 3vw;
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+  grid-template-areas:
+    "bio"
+    "connect"
+    "projects";
+}
+
+.Footer li {
+  list-style: none;
+}
+
+.Legal {
+  border-top: 1px solid #afe4f7;
+  font-size: small;
+  color: rgb(207, 208, 209);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding: 0 5vw; */
+  /* background-color: black; */
+}
+.Legal a {
+  text-decoration: none;
+  color: rgb(207, 208, 209);
+}
+
+.Copyright a {
+  cursor: pointer;
+}
+
+.bio {
+  grid-area: bio;
+}
+.connect {
+  grid-area: connect;
+}
+.projects {
+  grid-area: projects;
+}
+
+.Footer ul {
+  padding-inline-start: 0;
+}
+/* //li{list-style: none;} */
+
+.PaymentTypes {
+  display: flex;
+  justify-content: left;
+}
+.PaymentTypes img {
+  margin: 1vh 1vw;
+  padding: 0 0.5vw;
+  background-color: white;
+}
+
+.Social {
+  /* padding: 0 80px; */
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.Social li {
+  font-size: 48px;
+  margin: 0 3vw;
+}
+
+.Contact span {
+  width: 1em;
+}
+
+.NavLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.NavLinks {
+  /* display: flex; */
+  border-bottom: 2px solid white;
+}
+.NavLinkWrapper {
+  border-top: 2px solid white;
+  display: flex;
+  justify-content: space-between;
+  padding: 1vh 4vw;
+}
+.NavLink {
+  /* text-align: left; */
+  /* border-top: 2px solid white; */
+  text-decoration: none;
+}
+.NavLinkDrawer {
+  font-size: larger;
+  font-weight: 900;
+}
+
+@media only screen and (min-width: 600px) {
+  .Footer {
+    /* padding: 0 5vw; */
+    grid-template-areas: "bio connect projects";
+    grid-template-columns: 3fr 1fr 2fr;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  .PaymentTypes img {
+    margin: 1vh 0.5vw;
+  }
+  .Social li {
+    margin: 0vh 0.5vw;
+  }
+}

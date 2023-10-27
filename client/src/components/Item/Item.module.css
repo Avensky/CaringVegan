@@ -1,0 +1,171 @@
+.Item {
+  width: 100%;
+  /* padding: 4vh 8vw; */
+  /* display: flex;     */
+  /* flex-direction: column; */
+  /* text-align: center; */
+  /* justify-content: center; */
+  box-sizing: border-box;
+}
+
+.Item a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+
+.MaterialIcons {
+  cursor: pointer;
+  user-select: none;
+}
+
+.Remove {
+  /* grid-area: del;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: auto;  */
+}
+
+.Thumbnail {
+  height: 30vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding: 1vh 1vw; */
+}
+.Thumbnail a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Thumbnail img {
+  max-width: 100%;
+  width: max-content;
+  background-size: contain;
+  transition: transform 0.2s;
+}
+.Thumbnail img:hover {
+  transform: scale(1.05);
+}
+
+.Name {
+  padding: 1vh 0;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.Description {
+  font-size: 14px;
+}
+
+.Price {
+  font-size: 14px;
+}
+
+.SelectWrapper {
+  /* margin: auto; */
+  /* padding: 1vh 2vw; */
+  border: rgb(0, 0, 0) solid 1px;
+  background-color: rgb(238, 238, 238);
+  cursor: pointer;
+}
+.SelectWrapper:hover {
+  background-color: rgb(210, 218, 218);
+}
+
+.Select {
+  font-size: 16px;
+  padding: 1vh 0;
+}
+
+/* 
+.MaterialIcons {
+    font-size: 13px !important;
+}
+
+.Reviews {
+    padding: 0 0 1vh;
+    font-size: 13px !important;
+}
+
+.QuantityWrapper{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 1vh 0vw;
+}
+
+.Quantity {
+    display: inline-flex;
+    align-items: center;
+    border: black solid 1px;    
+} */
+
+/* .Title {
+    display: flex;
+    align-items:center;
+    margin: auto 0;
+}
+
+.Sold {
+    font-size: 13px;
+}
+.Arrow {
+    font-size: 18px !important;
+} */
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .Item {
+    width: 50%;
+    padding: 4vh 4vw;
+  }
+
+  .Thumbnail {
+    padding: 2vh 2vw;
+  }
+
+  /*
+    .Name {
+        font-size: 18px;
+    }
+    .Description {
+        font-size: 14px;
+    }
+    .price {
+        font-size: 14px;
+    }
+    
+    .Reviews {
+        font-size: 14px;
+    }
+
+    .QuantityWrapper {
+        font-size: 16px;
+    }
+    .Arrow {
+        font-size: 20px !important;
+    }
+    .Stock {
+        font-size: 14px;
+    }
+    .Sold {
+        font-size: 14px;
+    } */
+}
+
+@media only screen and (min-width: 1025px) {
+  /* For desktop: */
+  /* .Thumbnail img {
+
+    }
+    */
+
+  .Item {
+    width: 33%;
+  }
+}

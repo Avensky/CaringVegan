@@ -1,5 +1,3 @@
-// define constants
-const Product = require("./../models/product");
 const AppError = require("./../utils/appError");
 const aws = require("aws-sdk");
 const aws3 = require("@aws-sdk/client-s3");
@@ -23,13 +21,13 @@ const storage = multerS3({
   acl: "public-read", // access control
   bucket: keys.bucket, // storage bucket name
   metadata: function (req, file, cb) {
-    console.log("fieldName: ", file.fieldname);
+    // console.log("fieldName: ", file.fieldname);
     cb(null, { fieldName: file.fieldname });
   },
   key: function (req, file, cb) {
-    console.log("file: ", file);
+    // console.log("file: ", file);
     const fileName = `${Date.now()}-${file.originalname}`; // filename
-    console.log("fileName: ", fileName);
+    // console.log("fileName: ", fileName);
     cb(null, fileName);
   },
 });

@@ -1,0 +1,48 @@
+.NavItem {
+    height: 100%;
+    margin: auto 1vw;
+    padding: 5px 0;
+    box-sizing: border-box;
+}
+
+.NavItem a {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    width: 100%;
+    padding: 0 .5vw;
+    margin: auto 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: white;
+    border-bottom: 1px solid transparent;
+}
+.none {
+    border-bottom: 1px solid transparent;
+}
+.Fit {
+    height: fit-content;
+}
+
+.dropdownButton:hover {
+    display: block;
+}
+
+.dropdownButton {
+    
+}
+
+@media only screen and (min-width: 600px) {
+    .NavItem {
+        margin: 0 .25vw;
+    }
+}
+
+@media only screen and (min-width: 1025px) {    
+    .NavItem a:hover,
+    .NavItem a.active {
+        border-bottom: 1px solid #afe4f7;
+    }
+}

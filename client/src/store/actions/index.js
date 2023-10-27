@@ -10,7 +10,7 @@ export {
 } from "./auth";
 
 export {
-  getItems,
+  getProducts,
   addToCart,
   removeItem,
   subtractQuantity,
@@ -24,6 +24,6 @@ export {
   getItemByType,
   deleteItem,
   updateItem,
-} from "./shop";
+} from "./product";
 
 export { fetchOrders, fetchOrdersStart } from "./orders";

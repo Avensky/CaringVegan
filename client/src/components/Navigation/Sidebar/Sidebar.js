@@ -1,9 +1,9 @@
 import React from "react";
 import Logo from "../../UI/Logo/Logo";
-import NavItems from "../NavItems/NavItems";
+import SidebarItem from "./SidebarItem/SidebarItem";
 import classes from "./Sidebar.module.css";
 import Backdrop from "../../UI/Backdrop/Backdrop";
-import Auxiliary from "../../../hoc/Auxiliary";
+//import Auxiliary from '../../../hoc/Auxiliary';
 import { Link } from "react-router-dom";
 
 const sidebar = (props) => {
@@ -12,22 +12,55 @@ const sidebar = (props) => {
     attachedClasses = [classes.Sidebar, classes.Open];
   }
   return (
-    <Auxiliary>
+    <div className={classes.SidebarWrapper}>
       <Backdrop show={props.open} clicked={props.closed} />
       <div className={attachedClasses.join(" ")} onClick={props.closed}>
-        <Link to="/">
-          <div className={classes.Logo}>
+        <div className={classes.LogoWrapper}>
+          <Link to="/home">
             <Logo />
-          </div>
-        </Link>
-        <div>
-          <NavItems
-            isAuthenticated={props.isAuth}
-            totalItems={props.totalItems}
-          />
+          </Link>
         </div>
+        <div className={classes.heading}>Pages</div>
+        <SidebarItem exact="true" to="/home">
+          Home
+        </SidebarItem>
+        <SidebarItem exact="true" to="/shop">
+          Shop
+        </SidebarItem>
+        <SidebarItem exact="true" to="/cart">
+          Cart
+        </SidebarItem>
+        {!props.user ? (
+          <SidebarItem exact="true" to="/login">
+            Login
+          </SidebarItem>
+        ) : (
+          <div className={classes.SidebarItemWrapper} onClick={props.logout}>
+            <div className={classes.SidebarItem}>Logout</div>
+          </div>
+        )}
+
+        {/* <div className={classes.heading}>Admin Dashboard</div>
+                <SidebarItem exact='true' to='/ecommerce'>ECommerce</SidebarItem>
+                <SidebarItem exact='true' to='/pages'>Pages</SidebarItem>
+                <SidebarItem exact='true' to='/orders'>Orders</SidebarItem>
+                <SidebarItem exact='true' to='/customers'>Customers</SidebarItem>
+                <div className={classes.heading}>Apps</div>
+                <SidebarItem exact='true' to='/calendar'>Calendar</SidebarItem>
+                <SidebarItem exact='true' to='/kanbar'>Kanban</SidebarItem>
+                <SidebarItem exact='true' to='/editor'>Editor</SidebarItem>
+                <SidebarItem exact='true' to='/color-picker'>Color-Picker</SidebarItem>
+                <div className={classes.heading}>Charts</div>
+                <SidebarItem exact='true' to='/line'>Line</SidebarItem>
+                <SidebarItem exact='true' to='/area'>Area</SidebarItem>
+                <SidebarItem exact='true' to='/bar'>Bar</SidebarItem>
+                <SidebarItem exact='true' to='/pie'>Pie</SidebarItem>
+                <SidebarItem exact='true' to='/finacial'>Financial</SidebarItem>
+                <SidebarItem exact='true' to='/color-mapping'>Color-Mapping</SidebarItem>
+                <SidebarItem exact='true' to='/pyramid'>pyramid</SidebarItem>
+                <SidebarItem exact='true' to='/stacked'>Stacked</SidebarItem> */}
       </div>
-    </Auxiliary>
+    </div>
   );
 };
 

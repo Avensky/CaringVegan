@@ -1,0 +1,129 @@
+.CartBar {
+    padding-top: 51px;
+    position: fixed;
+    /* min-height: 230px; */
+    /* max-height: 70%; */
+    left: 0;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+    padding: 0vh 5vw 2vh;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-out;
+    text-align: left;
+    display: flex;
+    width: 100%;
+    /* overflow-y: auto; */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    /* justify-content: space-between; */
+    align-items: stretch;
+}
+.content {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1025px;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+
+}
+.LogoWrapper {
+    box-sizing: border-box;
+    padding: 25px;
+}
+
+
+.Open {
+    transform: translateY(51px);
+}
+
+.Close {
+    transform: translateY(-100%);
+}
+
+
+.heading {
+    text-transform: uppercase;
+    margin: 1vh 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+.title {
+    font-weight: 900;
+    font-size: 1.3em;
+}
+.x {
+    /* font-weight: 900; */
+    font-size: 1.7em;
+    cursor: pointer;
+}
+
+.item {
+    display: flex;
+    width: 100%;
+}
+
+.image {
+    padding: 1vh 25px 1vh 10px;
+}
+.image img {
+    width: 100px;
+}
+
+.details {
+    margin: auto 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+    height: 50px;
+}
+
+.button {
+    width: 100%;
+    cursor: pointer;
+}
+
+.buttons a {
+    cursor: pointer;
+}
+
+.checkout {
+    background-color: black;
+    color: white;
+    text-transform: uppercase;
+}
+
+.cartWrapper{
+    /* height: 100%; */
+    /* box-sizing: border-box; */
+}
+
+.viewCart {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.disabled {
+    background-color: -internal-light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
+    background-color: grey;
+    color: -internal-light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+}
+
+/* For tablet */
+@media only screen and (min-width: 600px) {
+}
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
+    .CartBar {
+        justify-content: flex-end;
+    }    
+    
+} 

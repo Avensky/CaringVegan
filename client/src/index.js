@@ -4,6 +4,56 @@ import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faStar as faStarBorder,
+  faStarHalfStroke,
+} from "@fortawesome/free-regular-svg-icons";
+
+import {
+  fab,
+  faFacebook,
+  faGooglePlus,
+} from "@fortawesome/free-brands-svg-icons";
+
+import {
+  faCheckSquare,
+  faCoffee,
+  faUser,
+  faCartShopping,
+  //faBagShopping,
+  faMagnifyingGlass,
+  faHeart,
+  faBars,
+  faStar,
+  faTrashCan,
+  faMinus,
+  faPlus,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
+
+library.add(
+  fab,
+  faCheckSquare,
+  faCoffee,
+  faUser,
+  faCartShopping,
+  //faBagShopping,
+  faMagnifyingGlass,
+  faHeart,
+  faBars,
+  faStar,
+  faStarHalfStroke,
+  faStarBorder,
+  faTrashCan,
+  faPlus,
+  faMinus,
+  faEye,
+  faEyeSlash,
+  faFacebook,
+  faGooglePlus
+);
 
 const app = (
   // <React.StrictMode>

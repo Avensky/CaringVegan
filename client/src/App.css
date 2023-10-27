@@ -1,7 +1,10 @@
+.app {
+  /* padding-top: 51px; */
+}
 .page-wrapper {
-  min-height: 84vh;
-  margin: 3vh 1vw;
-  padding: 1vh 1vw 2vh;
+  /* min-height: 84vh; */
+  /* margin: 51px 1vw; */
+  padding: 51px 0 0;
 }
 
 .page-body {
@@ -37,8 +40,8 @@
 @media only screen and (min-width: 600px) {
   /* For tablets: */
   .page-wrapper {
-    margin: 6vh 5vw 0;
-    padding: 1vh 5vw 2vh;
+    /* margin: 6vh 5vw 0; */
+    /* padding: 1vh 5vw 2vh; */
   }
   .ItemFullImg {
     max-height: 350px !important;
@@ -59,8 +62,8 @@
   .ItemFullColumn {
   }
   .page-wrapper {
-    margin: 6vh 10vw 0;
-    padding: 1vh 5vw 2vh;
+    /* margin: 6vh 10vw 0;
+    padding: 1vh 5vw 2vh; */
   }
   .ItemFullImg {
     max-height: 450px !important;

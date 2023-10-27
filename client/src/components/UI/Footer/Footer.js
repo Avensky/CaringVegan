@@ -38,7 +38,7 @@ const Footer = (props) => {
               <li
                 className={classes.OrderbarItem}
                 id="#all"
-                onClick={() => props.getItems()}
+                onClick={() => props.getProducts()}
               >
                 <NavLink to="/shop" exact>
                   All Items{" "}
@@ -144,8 +144,8 @@ const mapDispatchToProps = (dispatch) => {
     addToCart: (id) => {
       dispatch(actions.addToCart(id));
     },
-    getItems: () => {
-      dispatch(actions.getItems());
+    getProducts: () => {
+      dispatch(actions.getProducts());
     },
     getItemByType: (type) => {
       dispatch(actions.getItemByType(type));
@@ -167,6 +167,6 @@ const mapDispatchToProps = (dispatch) => {
 
 Footer.propTypes = {
   getItemByType: PropTypes.func,
-  getItems: PropTypes.func,
+  getProducts: PropTypes.func,
 };
 export default connect(null, mapDispatchToProps)(Footer);
