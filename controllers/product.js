@@ -1,18 +1,11 @@
 const AppError = require("../utils/appError");
 const Product = require("./../models/product");
-const QueryAPI = require("./../utils/QueryAPI");
+// const imageController = require("./../controllers/image");
+// const QueryAPI = require("./../utils/QueryAPI");
 const catchAsync = require("./../utils/catchAsync");
-// exports.checkID = (req, res, next, val) => {
-//   console.log(`Product ID = ${val}`);
-
-//   if (req.params.id * 1 > products.length) {
-//     return res.status(404).json({
-//       status: fail,
-//       mesage: "Invalid ID",
-//     });
-//   }
-//   next();
-// };
+const keys = require("./../config/keys");
+// const webhookSecret = keys.webhookSecret;
+const stripe = require("stripe")(keys.stripeSecretKey);
 
 exports.getTopProducts = (req, res, next) => {
   req.query.limit = "6";
@@ -21,46 +14,43 @@ exports.getTopProducts = (req, res, next) => {
   next();
 };
 
-// exports.getProducts = async () => {
-//     const products = await Product.find();
-//     return products;
-// };
-// exports.productById = async id => {
-//     const product = await Product.findById(id);
-//     return product;
-// }
-// exports.removeProduct = async id => {
-//     const product = await Product.findByIdAndRemove(id);
-//     return product
-// }
-
-//const Product = require("../models/shop");
-
 exports.getProducts = catchAsync(async (req, res, next) => {
   // let filter = {};
   // if (req.params.id) filter = { product: req.params.id };
   // EXECUTE QUERY
-  const queryAPI = new QueryAPI(Product.find(), req.query)
-    .filter()
-    .sort()
-    .limit()
-    .paginate();
-  const products = await queryAPI.query;
+  // const queryAPI = new QueryAPI(Product.find(), req.query)
+  //   .filter()
+  //   .sort()
+  //   .limit()
+  //   .paginate();
+  // const products = await queryAPI.query;
   // query.sort().select().skip().limit()
+  const queryParams = {
+    // endindBefore: '',
+    limit: req.query.limit,
+    // active: true,
+    // shippable: true,
+    // ending_before: '',
+    // starting_after: '',
+    // url: '',
+  };
+  const products = await stripe.products.list(queryParams);
 
   // SEND RESPONSE
   res.status(200).json({
     status: "success",
-    results: products.length,
-    data: products,
+    results: products.data.length,
+    products,
   });
 });
 
 exports.getProduct = catchAsync(async (req, res, next) => {
   // console.log("req.params", req.params);
   // changed to findById to return error on wrong id
-  const product = await Product.findById(req.params.id);
+  // const product = await Product.findById(req.params.id);
   // console.log("product = ", product);
+
+  const product = await stripe.products.retrieve(req.params.id);
 
   if (!product) {
     console.log("if !product = ", product);
@@ -74,53 +64,62 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.createProduct = catchAsync(async (req, res, next) => {
-  // console.log("req : ", req);
-  console.log("createProduct : ", req.body);
+  // 1 CREATE NEW PRODUCT OBJ
+  console.log("body ", req.body);
+  console.log("req.file: ", req.file);
+
   const productObj = {
     name: req.body.name,
-    desc: req.body.desc,
-    price: req.body.price,
-    priceid: req.body.priceId,
-    stock: req.body.stock,
-    featured: req.body.featured,
-    secret: req.body.secret,
-    type: req.body.type,
-    // imageData: req.file.key,
+    description: req.body.description,
+    default_price_data: {
+      currency: req.body.currency,
+      unit_amount_decimal: req.body.unit_amount_decimal,
+    },
+    statement_descriptor: req.body.statement_descriptor,
+    metadata: {
+      stock: req.body.stock,
+      featured: req.body.featured,
+      type: req.body.type,
+      ratings_quantity: req.body.ratings_quantity,
+      ratings_average: req.body.ratings_average,
+    },
   };
-  const newProduct = await Product.create(productObj);
+  req.file ? (productObj.images = req.file.location) : null; // Add image url to Obj
+
+  // 2) CREATE PRODUCT IN STRIPE
+  const product = await stripe.products.create(productObj);
+  if (!product) next(new AppError("PROBLEM CREATING PRODUCT", 500, "Error"));
+  console.log("stripe product: ", stripeProduct);
 
   res.status(201).json({
     status: "success",
-    product: newProduct,
+    product,
   });
 });
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
-  // const productObj = {
-  //   name: req.body.name,
-  //   desc: req.body.desc,
-  //   price: req.body.price,
-  //   priceid: req.body.priceId,
-  //   stock: req.body.stock,
-  //   featured: req.body.featured,
-  //   secret: req.body.secret,
-  //   type: req.body.type,
-  //   //    imageData: req.file.key,
-  // };
+  // CREATE A PRODUCT OBJECT
+  const productObj = {
+    name: req.body.name,
+    description: req.body.description,
+    default_price_data: {
+      currency: req.body.currency,
+      unit_amount_decimal: req.body.unit_amount_decimal,
+    },
+    statement_descriptor: req.body.statement_descriptor,
+    metadata: {
+      stock: req.body.stock,
+      featured: req.body.featured,
+      type: req.body.type,
+      ratings_quantity: req.body.ratings_quantity,
+      ratings_average: req.body.ratings_average,
+    },
+  };
+  req.file ? (productObj.images = req.file.location) : null; // Add image url to Obj
+  const product = await stripe.products.update(req.params.id, productObj);
+  console.log("stripeProduct ", product);
 
-  let id = req.params.id;
-  console.log("req.params.id", req.params.id);
-  console.log("req.boy", req.body);
-
-  const product = await Product.findByIdAndUpdate(id, req.body, {
-    new: "true",
-    validators: "true",
-  });
-
-  if (!product) {
-    console.log("if !product = ", product);
-    return next(new AppError("No product found with that ID", 404));
-  }
+  console.log("stripeProduct ", product);
 
   res.status(200).json({
     status: "success",
@@ -129,18 +128,19 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteProduct = catchAsync(async (req, res, next) => {
-  //try {
   let id = req.params.id;
-  console.log("req.params", req.params);
-  const product = await Product.findByIdAndDelete(id);
-
+  console.log("id = ", id);
+  const product = await Product.findById(id, { active: false });
   if (!product) {
     return next(new AppError("No product found with that ID", 404));
   }
 
+  stripeProduct = await stripe.products.update(product.id);
+  console.log("stripe delete");
+
   res.status(204).json({
     status: "success",
-    data: null,
+    data: stripeProduct.id,
   });
 });
 
@@ -152,9 +152,9 @@ exports.getProductStats = catchAsync(async (req, res, next) => {
     {
       $group: {
         _id: "$type",
-        avgRating: { $avg: "$rating" },
-        minPrice: { $min: "$price" },
-        maxPrice: { $max: "$price" },
+        // avgRating: { $avg: "$rating" },
+        // minPrice: { $min: "$price" },
+        // maxPrice: { $max: "$price" },
         // _id: { $toUpper: "$difficulty" },
         // numTours: { $sum: 1 },
         // numRatings: { $sum: "$ratingsQuantity" },
