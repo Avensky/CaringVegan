@@ -1,11 +1,8 @@
 const AppError = require("../utils/appError");
 const Product = require("./../models/product");
-// const imageController = require("./../controllers/image");
 // const QueryAPI = require("./../utils/QueryAPI");
 const catchAsync = require("./../utils/catchAsync");
-const keys = require("./../config/keys");
-// const webhookSecret = keys.webhookSecret;
-const stripe = require("stripe")(keys.stripeSecretKey);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 exports.getTopProducts = (req, res, next) => {
   req.query.limit = "6";

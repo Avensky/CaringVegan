@@ -1,13 +1,12 @@
 const nodemailer = require("nodemailer");
 const pug = require("pug");
 const htmlToText = require("html-to-text");
-const keys = require("../config/keys");
 module.exports = class Email {
   constructor(user, url) {
     this.to = user.local.email;
     //this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `Team CaringVegan <${keys.emailFrom}>`;
+    this.from = `Team CaringVegan <${process.env.EMAIL_FROM}>`;
   }
 
   newTransport() {
@@ -16,22 +15,22 @@ module.exports = class Email {
       return nodemailer.createTransport({
         service: "SendGrid",
         auth: {
-          user: keys.sengridUsername,
-          pass: keys.sengridPassword,
+          user: process.env.SENGRID_USERNAME,
+          pass: process.env.SENGRID_PASSWORD,
         },
       });
     }
     console.log("newTransport");
-    console.log("EMAIL_HOST", keys.emailHost);
-    console.log("EMAIL_PORT", keys.emailPort);
-    console.log("EMAIL_USERNAME", keys.emailUsername);
-    console.log("EMAIL_PASSWORD", keys.emailPassword);
+    console.log("EMAIL_HOST", process.env.EMAIL_HOST);
+    console.log("EMAIL_PORT", process.env.EMAIL_PORT);
+    console.log("EMAIL_USERNAME", process.env.EMAIL_USERNAME);
+    console.log("EMAIL_PASSWORD", process.env.EMAIL_PASSWORD);
     return nodemailer.createTransport({
-      host: keys.emailHost,
-      port: keys.emailPort,
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
       auth: {
-        user: keys.emailUsername,
-        pass: keys.emailPassword,
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
   }

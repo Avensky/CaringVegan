@@ -57,27 +57,28 @@ export const orderBy = (values) => {
 // ===================================================================
 // GET PRODUCTS ======================================================
 // ===================================================================
+
 export const getProducts = () => {
   return (dispatch) => {
     dispatch(getProductsStart());
     axios
       .get("/api/v1/products")
       .then((result) => {
-        console.log("/api/v1/products", result.data.products.data);
-        const items = result.data.products.data;
-        dispatch(getProductsSuccess(items));
+        // console.log("/api/v1/products", result.data.products.data);
+        const products = result.data.products.data;
+        dispatch(getProductsSuccess(products));
       })
       .catch((error) => {
         console.log("getProducts error = " + error);
-        console.log("getProducts error = " + JSON.stringify(error));
+        // console.log("getProducts error = " + JSON.stringify(error));
         dispatch(getProductsFail(error));
       });
   };
 };
-export const getProductsSuccess = (items) => {
+export const getProductsSuccess = (products) => {
   return {
     type: actionTypes.GET_PRODUCTS_SUCCESS,
-    items,
+    products,
   };
 };
 export const getProductsFail = (error) => {
@@ -89,6 +90,82 @@ export const getProductsFail = (error) => {
 export const getProductsStart = () => {
   return {
     type: actionTypes.GET_PRODUCTS_START,
+  };
+};
+
+// ===================================================================
+// GET PRICE =========================================================
+// ===================================================================
+
+export const getPrice = (price, id, products) => {
+  // console.log("action price ", price);
+  // console.log("action id ", id);
+  return (dispatch) => {
+    dispatch(getPriceStart());
+    axios
+      .get("/api/v1/prices/" + price)
+      .then((result) => {
+        // console.log("/api/v1/prices", result.data.price);
+        const price = result.data.price;
+        dispatch(getPriceSuccess(price, id, products));
+      })
+      .catch((error) => {
+        dispatch(getPriceFail(JSON.stringify(error)));
+      });
+  };
+};
+export const getPriceStart = () => {
+  return {
+    type: actionTypes.GET_PRICE_START,
+  };
+};
+export const getPriceSuccess = (price, id, products) => {
+  return {
+    type: actionTypes.GET_PRICE_SUCCESS,
+    products,
+    price,
+    id,
+  };
+};
+export const getPriceFail = (error) => {
+  return {
+    type: actionTypes.GET_PRICE_FAIL,
+    error,
+  };
+};
+// ===================================================================
+// GET PRICE =========================================================
+// ===================================================================
+
+export const getPrices = (products) => {
+  return (dispatch) => {
+    dispatch(getPricesStart());
+
+    for (let i = 0; i < products.length; i++) {
+      // console.log("get prices ", products[i].id);
+      dispatch(getPrice(products[i].default_price, products[i].id, products));
+    }
+    console.log("finished for loop");
+    dispatch(getPricesSuccess());
+  };
+};
+
+export const getPricesStart = () => {
+  return {
+    type: actionTypes.GET_PRICES_START,
+  };
+};
+
+export const getPricesSuccess = (products) => {
+  return {
+    type: actionTypes.GET_PRICES_SUCCESS,
+    products,
+  };
+};
+export const getPricesFail = (error) => {
+  return {
+    type: actionTypes.GET_PRICES_FAIL,
+    error,
   };
 };
 

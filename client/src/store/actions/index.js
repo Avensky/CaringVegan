@@ -11,6 +11,8 @@ export {
 
 export {
   getProducts,
+  getPrice,
+  getPrices,
   addToCart,
   removeItem,
   subtractQuantity,

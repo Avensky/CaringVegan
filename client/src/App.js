@@ -25,19 +25,29 @@ import {
 const App = (props) => {
   // const getUser = async () => { await props.onFetchUser();}; // prettier-ignore
 
-  // const { fetchedUser, products } = props;
+  const { products } = props;
 
+  console.log("App ", products);
   // get Products
   useEffect(() => {
     async function getProducts() {
+      console.log("get products");
       await props.getProducts();
     }
+    if (products.length === 0) getProducts();
+    console.log("products = ", products);
+  }, []);
 
-    if (props.products && props.products.length === 0) {
-      console.log("get products");
-      getProducts();
+  useEffect(() => {
+    async function getPrices(products) {
+      console.log("get prices");
+      await props.getPrices(products);
     }
-  }, []); // ignore eslint
+
+    if (products.length !== 0) {
+      getPrices(props.products);
+    }
+  }, [props.products]);
 
   // useEffect(() => {
   //   if (!fetchedUser) {
@@ -108,7 +118,7 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return {
     fetchedUser: state.auth.payload,
-    products: state.product.items,
+    products: state.product.products,
     cart: state.product.cart,
   };
 };
@@ -117,6 +127,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onFetchUser: () => dispatch(actions.fetchUser()),
     getProducts: () => dispatch(actions.getProducts()),
+    getPrices: (products) => dispatch(actions.getPrices(products)),
   };
 };
 
@@ -126,6 +137,7 @@ App.propTypes = {
   fetchedUser: PropTypes.any,
   onFetchUser: PropTypes.func,
   getProducts: PropTypes.func,
+  getPrices: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

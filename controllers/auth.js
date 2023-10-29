@@ -5,16 +5,14 @@ const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Email = require("../utils/email");
-const { success } = require("concurrently/src/defaults");
-const keys = require("./../config/keys");
 // const { debug } = require('console');
 
 // ========================================================================
 // Tokens =================================================================
 // ========================================================================
 const signToken = (id) => {
-  return jwt.sign({ id }, keys.jwtSecret, {
-    expiresIn: keys.jwtCookieExpiresIn,
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
@@ -22,7 +20,7 @@ const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
-      Date.now() + keys.jwtCookieExpiresIn * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
   };
@@ -138,7 +136,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   // 2) VerifY token
-  const decoded = await promisify(jwt.verify)(token, keys.jwtSecret);
+  const decoded = await promisify(jwt.verify)(token, process.env.jwtSecret);
   console.log("decoded: ", decoded);
   const userid = decoded.id;
   const tokenCreatedAt = decoded.iat;

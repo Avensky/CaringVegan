@@ -7,7 +7,6 @@ const TwitterStrategy = require("passport-twitter").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
-const keys = require("./keys");
 
 module.exports = function (passport) {
   // =========================================================================
@@ -205,9 +204,9 @@ module.exports = function (passport) {
   passport.use(
     new FacebookStrategy(
       {
-        clientID: keys.facebookClientID,
-        clientSecret: keys.facebookClientSecret,
-        callbackURL: keys.facebookCallbackURL,
+        clientID: process.env.FACEBOOK_CLIENT_ID,
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL: process.env.FACEBOOK_CALLBACK_URL,
         passReqToCallback: true, // allows us to pass in the req from our route (lets us check if a user is logged in or not)
         profileFields: [
           "id",
@@ -289,9 +288,9 @@ module.exports = function (passport) {
   passport.use(
     new TwitterStrategy(
       {
-        consumerKey: keys.twitterConsumerKey,
-        consumerSecret: keys.twitterConsumerSecret,
-        callbackURL: keys.twitterCallbackURL,
+        consumerKey: process.env.TWITTER_CONSUMER_KEY,
+        consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+        callbackURL: process.env.TWITTER_CALLBACK_URL,
         passReqToCallback: true, // allows us to pass in the req from our route (lets us check if a user is logged in or not)
       },
       function (req, token, tokenSecret, profile, done) {
@@ -356,9 +355,9 @@ module.exports = function (passport) {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: keys.googleClientID,
-        clientSecret: keys.googleClientSecret,
-        callbackURL: keys.googleCallbackURL,
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL,
         passReqToCallback: true, // allows us to pass in the req from our route (lets us check if a user is logged in or not)
       },
       function (req, token, refreshToken, profile, done) {
@@ -393,8 +392,8 @@ module.exports = function (passport) {
 
                 newUser.save(function (err) {
                   if (err) throw err;
-                  return done(null, newUser);
                 });
+                return done(null, newUser);
               }
             });
           } else {

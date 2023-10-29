@@ -1,5 +1,4 @@
 //define constants
-const express = require("express");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -17,6 +16,7 @@ const userRouter = require("./routes/user");
 const morgan = require("morgan");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/error");
+const express = require("express");
 const app = express();
 
 // =============================================================================
@@ -68,7 +68,7 @@ app.use((req, res, next) => {
 require("./models/user");
 require("./models/orders");
 require("./models/product");
-require("./config/passport")(passport); // pass passport for configuration
+require("./config/passport"); // pass passport for configuration
 
 // set up cors to allow us to accept requests from our client
 app.use(cors());

@@ -14,13 +14,16 @@ const Home = (props) => {
   // const subtractQuantity = (id) => {
   //   props.subtractQuantity(id);
   // };
-
+  console.log("home ", props.products);
   let products = props.products.map((item) => {
-    console.log("props.products = ", props.products);
+    // console.log("item = ", item);
     return (
       <Item
         url={item.images[0]}
-        key={item._id}
+        key={item.id}
+        id={item.id}
+        description={item.description}
+        price={item.price}
         // id={item._id}
         // alt={item.title}
         // title={item.title}
@@ -70,8 +73,8 @@ const mapStateToProps = (state) => {
   return {
     addedItems: state.product.addedItems,
     totalItems: state.product.totalItems,
-    products: state.product.items,
     total: state.product.total,
+    products: state.product.prices,
     shop: state.product.shop,
     isAuth: state.auth.payload,
   };
@@ -107,6 +110,6 @@ Home.propTypes = {
   addToCart: PropTypes.func,
   subtractQuantity: PropTypes.func,
   shop: PropTypes.any,
-  products: PropTypes.any,
+  products: PropTypes.array,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

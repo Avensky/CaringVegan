@@ -1,13 +1,17 @@
 //define constants
-const app = require("./app");
-const keys = require("./config/keys");
 const express = require("express");
 const mongoose = require("mongoose");
+console.log("No value for PORT yet:", process.env.PORT);
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+console.log("Now the value for PORT is:", process.env.PORT);
+const app = require("./app");
 
 //connect to database
 mongoose.Promise = global.Promise; // connect to our database
 mongoose
-  .connect(keys.mongoURI, {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
@@ -37,8 +41,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // start server
-const server = app.listen(keys.port, keys.ipAdress, (err) => {
-  console.log("App running on port: " + keys.port);
+const server = app.listen(process.env.PORT, process.env.IP_ADDRESS, (err) => {
+  console.log("App running on port: " + process.env.PORT);
   //    console.log('server NODE_ENV: ' + process.env.NODE_ENV);
 });
 

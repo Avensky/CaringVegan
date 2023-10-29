@@ -58,27 +58,33 @@ const item = (props) => {
   //    </div>
 
   return (
-    <div className={[classes.Item, props.class].join(" ")} key={props.key}>
+    <div className={[classes.Item, props.class].join(" ")}>
       {/* Name */}
       <div className={[classes.Name, props.class, "Name"].join(" ")}>
         <Link to={props.link + "/" + props.id}>{props.name}</Link>
       </div>
       {/* Image */}
-      <div className={classes.Thumbnail}>
-        {/* <Link to={props.link + "/" + props.id}> */}
-        <img className={props.imgClass} src={props.url} alt={props.alt} />
-        {/* </Link> */}
-      </div>
+      {props.url ? (
+        <div className={classes.Thumbnail}>
+          {/* <Link to={props.link + "/" + props.id}> */}
+          <img className={props.imgClass} src={props.url} alt={props.alt} />
+          {/* </Link> */}
+        </div>
+      ) : null}
 
       <div className={props.myClass}>
         {/* Description */}
-        <div className={[classes.Description, props.class].join(" ")}>
-          {props.desc}
-        </div>
+        {props.description ? (
+          <div className={[classes.Description, props.class].join(" ")}>
+            {props.description}
+          </div>
+        ) : null}
 
         {/* Price */}
         {props.price ? (
-          <div className={classes.Price}>${props.price.toFixed(2)}</div>
+          <div className={classes.Price}>
+            ${(props.price.unit_amount / 100).toFixed(2)}
+          </div>
         ) : null}
 
         {/* Reviews */}
@@ -86,19 +92,25 @@ const item = (props) => {
         {/* Quantity */}
 
         {/* Stock */}
-        {mystock}
+        {mystock ? mystock : null}
 
         {/* Sold */}
-        {sold}
+        {props.sold ? sold : null}
 
         {/* Select */}
-        <div className={[classes.SelectWrapper]} /*onClick={props.addToCart}*/>
-          <Link to={props.link + "/" + props.id}>
-            <div className={["text-center noselect", classes.Select].join(" ")}>
-              Select Options
-            </div>
-          </Link>
-        </div>
+        {props.options ? (
+          <div
+            className={[classes.SelectWrapper]} /*onClick={props.addToCart}*/
+          >
+            <Link to={props.link + "/" + props.id}>
+              <div
+                className={["text-center noselect", classes.Select].join(" ")}
+              >
+                Select Options
+              </div>
+            </Link>
+          </div>
+        ) : null}
       </div>
     </div>
   );
