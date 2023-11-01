@@ -69,9 +69,9 @@ export const getProducts = () => {
         dispatch(getProductsSuccess(products));
       })
       .catch((error) => {
-        console.log("getProducts error = " + error);
+        //console.log("getProducts error = " + error);
         // console.log("getProducts error = " + JSON.stringify(error));
-        dispatch(getProductsFail(error));
+        dispatch(getProductsFail(JSON.stringify(error)));
       });
   };
 };
@@ -97,17 +97,26 @@ export const getProductsStart = () => {
 // GET PRICE =========================================================
 // ===================================================================
 
-export const getPrice = (price, id, products) => {
+export const getPrices = (products) => {
+  return (dispatch) => {
+    for (let i = 0; i < products.length; i++) {
+      // console.log("get prices ", products[i].id);
+      dispatch(getPrice(products[i].default_price, products[i].id));
+    }
+  };
+};
+
+export const getPrice = (priceid, productid) => {
   // console.log("action price ", price);
   // console.log("action id ", id);
   return (dispatch) => {
     dispatch(getPriceStart());
     axios
-      .get("/api/v1/prices/" + price)
+      .get("/api/v1/prices/" + priceid)
       .then((result) => {
         // console.log("/api/v1/prices", result.data.price);
-        const price = result.data.price;
-        dispatch(getPriceSuccess(price, id, products));
+        const priceObj = result.data.price;
+        dispatch(getPriceSuccess(priceObj, productid));
       })
       .catch((error) => {
         dispatch(getPriceFail(JSON.stringify(error)));
@@ -119,12 +128,11 @@ export const getPriceStart = () => {
     type: actionTypes.GET_PRICE_START,
   };
 };
-export const getPriceSuccess = (price, id, products) => {
+export const getPriceSuccess = (priceObj, productid) => {
   return {
     type: actionTypes.GET_PRICE_SUCCESS,
-    products,
-    price,
-    id,
+    priceObj,
+    productid,
   };
 };
 export const getPriceFail = (error) => {
@@ -134,48 +142,12 @@ export const getPriceFail = (error) => {
   };
 };
 // ===================================================================
-// GET PRICE =========================================================
+// GET PRICES ========================================================
 // ===================================================================
 
-export const getPrices = (products) => {
-  return (dispatch) => {
-    dispatch(getPricesStart());
-
-    for (let i = 0; i < products.length; i++) {
-      // console.log("get prices ", products[i].id);
-      dispatch(getPrice(products[i].default_price, products[i].id, products));
-    }
-    console.log("finished for loop");
-    dispatch(getPricesSuccess());
-  };
-};
-
-export const getPricesStart = () => {
-  return {
-    type: actionTypes.GET_PRICES_START,
-  };
-};
-
-export const getPricesSuccess = (products) => {
-  return {
-    type: actionTypes.GET_PRICES_SUCCESS,
-    products,
-  };
-};
-export const getPricesFail = (error) => {
-  return {
-    type: actionTypes.GET_PRICES_FAIL,
-    error,
-  };
-};
-
 // =====================================================================
-//
+// New Item ============================================================
 // =====================================================================
-
-/*******************************************
- * New Item
- *******************************************/
 export const newItemStart = () => {
   return {
     type: actionTypes.NEW_ITEM_START,

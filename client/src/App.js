@@ -25,7 +25,7 @@ import {
 const App = (props) => {
   // const getUser = async () => { await props.onFetchUser();}; // prettier-ignore
 
-  const { products } = props;
+  const products = [...props.products];
 
   console.log("App ", products);
   // get Products
@@ -35,7 +35,7 @@ const App = (props) => {
       await props.getProducts();
     }
     if (products.length === 0) getProducts();
-    console.log("products = ", products);
+    // console.log("products = ", products);
   }, []);
 
   useEffect(() => {
@@ -45,9 +45,9 @@ const App = (props) => {
     }
 
     if (products.length !== 0) {
-      getPrices(props.products);
+      getPrices(products);
     }
-  }, [props.products]);
+  }, [products]);
 
   // useEffect(() => {
   //   if (!fetchedUser) {

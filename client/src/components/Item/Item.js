@@ -83,7 +83,7 @@ const item = (props) => {
         {/* Price */}
         {props.price ? (
           <div className={classes.Price}>
-            ${(props.price.unit_amount / 100).toFixed(2)}
+            ${(props.price.unit_amount / 100).toFixed(2)} {props.price.currency}
           </div>
         ) : null}
 

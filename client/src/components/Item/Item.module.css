@@ -51,19 +51,23 @@
 }
 
 .Name {
-  padding: 1vh 0;
+  padding: 1px 0;
   text-align: center;
-  font-size: 24px;
-  font-weight: 900;
+  font-size: 28px;
+  font-weight: 800;
 }
 
 .Description {
+  padding: 1px 0;
   text-align: center;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .Price {
-  font-size: 14px;
+  padding: 1px 0;
+  text-align: center;
+  font-size: 18px;
+  text-transform: uppercase;
 }
 
 .SelectWrapper {

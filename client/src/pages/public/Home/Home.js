@@ -14,7 +14,7 @@ const Home = (props) => {
   // const subtractQuantity = (id) => {
   //   props.subtractQuantity(id);
   // };
-  console.log("home ", props.products);
+  // console.log("home ", props.products);
   let products = props.products.map((item) => {
     // console.log("item = ", item);
     return (
@@ -75,6 +75,7 @@ const mapStateToProps = (state) => {
     totalItems: state.product.totalItems,
     total: state.product.total,
     products: state.product.prices,
+    productPrices: state.product.prices,
     shop: state.product.shop,
     isAuth: state.auth.payload,
   };
