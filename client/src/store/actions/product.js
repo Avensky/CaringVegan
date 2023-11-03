@@ -1,6 +1,19 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 
+/*******************************************
+ * Get screen size
+ *******************************************/
+export const resize = () => {
+  const width = window.innerWidth;
+  // const height = window.innerHeight;
+  // console.log(width);
+  return {
+    type: actionTypes.RESIZE,
+    width,
+  };
+};
+
 //add cart action
 export const addToCart = (id) => {
   return {
@@ -50,10 +63,6 @@ export const orderBy = (values) => {
   };
 };
 
-/*******************************************
- * Get Items from database
- *******************************************/
-
 // ===================================================================
 // GET PRODUCTS ======================================================
 // ===================================================================
@@ -64,7 +73,7 @@ export const getProducts = () => {
     axios
       .get("/api/v1/products")
       .then((result) => {
-        // console.log("/api/v1/products", result.data.products.data);
+        console.log("actions getProducts", result.data.products.data);
         const products = result.data.products.data;
         dispatch(getProductsSuccess(products));
       })
@@ -92,20 +101,48 @@ export const getProductsStart = () => {
     type: actionTypes.GET_PRODUCTS_START,
   };
 };
+// ===================================================================
+// GET PRODUCT =======================================================
+// ===================================================================
+
+export const getProduct = (id) => {
+  return (dispatch) => {
+    dispatch(getProductsStart());
+    axios
+      .get(`/api/v1/products/${id}`)
+      .then((result) => {
+        // console.log("actions getProduct ", result.data);
+        // const product = result.data;
+        dispatch(getProductSuccess(result.data.product));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(getProductFail(JSON.stringify(error)));
+      });
+  };
+};
+export const getProductSuccess = (product) => {
+  return {
+    type: actionTypes.GET_PRODUCT_SUCCESS,
+    product,
+  };
+};
+export const getProductFail = (error) => {
+  return {
+    type: actionTypes.GET_PRODUCT_FAIL,
+    error,
+  };
+};
+export const getProductStart = () => {
+  return {
+    type: actionTypes.GET_PRODUCT_START,
+  };
+};
 
 // ===================================================================
 // GET PRICE =========================================================
 // ===================================================================
-
-export const getPrices = (products) => {
-  return (dispatch) => {
-    for (let i = 0; i < products.length; i++) {
-      // console.log("get prices ", products[i].id);
-      dispatch(getPrice(products[i].default_price, products[i].id));
-    }
-  };
-};
-
 export const getPrice = (priceid, productid) => {
   // console.log("action price ", price);
   // console.log("action id ", id);
@@ -114,7 +151,7 @@ export const getPrice = (priceid, productid) => {
     axios
       .get("/api/v1/prices/" + priceid)
       .then((result) => {
-        // console.log("/api/v1/prices", result.data.price);
+        // console.log("action getPriceStart /api/v1/prices", result.data.price);
         const priceObj = result.data.price;
         dispatch(getPriceSuccess(priceObj, productid));
       })

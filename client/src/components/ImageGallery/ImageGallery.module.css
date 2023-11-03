@@ -1,0 +1,52 @@
+.ImageGallery {
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+.PreviewWrapper {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    top: 5%;
+    left: 1%;
+}
+
+.SlideWrapper {
+    /* padding: 2vh 1vw; */
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+}
+.Slide {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.preview {
+    height: 75px;
+    width: 75px;
+    border: 2px solid black;
+    margin: 1vh 1vw;
+    cursor: pointer;
+    /* size: cover; */
+    /* position: center; */
+    background-size: cover;
+}
+
+.preview:hover {
+    border-color: rgb(151, 149, 149);
+}
+
+@media only screen and (min-width: 600px) {
+    /* For tablets: */
+}
+
+@media only screen and (min-width: 1025px) {
+  /* For desktop: */
+
+}

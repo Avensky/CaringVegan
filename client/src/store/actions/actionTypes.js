@@ -1,4 +1,7 @@
 //Types should be in const to avoid typos and duplication since it's a string and could be easily miss spelled
+
+export const RESIZE = "RESIZE";
+
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_ITEM = "REMOVE_ITEM";
 export const SUB_QUANTITY = "SUB_QUANTITY";
@@ -77,6 +80,11 @@ export const GET_PRODUCTS_START = "GET_PRODUCTS_START";
 export const GET_PRODUCTS_SUCCESS = "GET_PRODUCTS_SUCCESS";
 export const GET_PRODUCTS_FAIL = "GET_PRODUCTS_FAIL";
 export const GET_PRODUCTS = "GET_PRODUCTS";
+
+export const GET_PRODUCT_START = "GET_PRODUCT_START";
+export const GET_PRODUCT_SUCCESS = "GET_PRODUCT_SUCCESS";
+export const GET_PRODUCT_FAIL = "GET_PRODUCT_FAIL";
+export const GET_PRODUCT = "GET_PRODUCT";
 
 export const GET_ITEM_BY_ID_START = "GET_ITEM_BY_ID_START";
 export const GET_ITEM_BY_ID_SUCCESS = "GET_ITEM_BY_ID_SUCCESS";

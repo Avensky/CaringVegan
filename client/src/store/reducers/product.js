@@ -4,6 +4,8 @@ import { copyArray, updateObject } from "../../utility/utility";
 const initialState = {
   cart: [],
   products: [],
+  product: {},
+  width: null,
   prices: [],
   items: [],
   loading: false,
@@ -18,6 +20,13 @@ const initialState = {
   orderby: null,
   cartLoaded: false,
   shopLoaded: true,
+};
+
+// track screen width
+const resize = (state, action) => {
+  return updateObject(state, {
+    width: action.width,
+  });
 };
 
 const newItemStart = (state) => {
@@ -105,17 +114,40 @@ const getProductsStart = (state) => {
 };
 
 const getProductsSuccess = (state, action) => {
-  // console.log("reducer", action.products);
+  console.log("reducer getProductsSuccess", action.products);
   // console.log("getProductsSuccess = " + JSON.stringify(action.products));
-  return {
-    ...state,
+  return updateObject(state, {
     products: action.products,
     prices: action.products,
-    loading: false,
-  };
+    // loading: false,
+  });
 };
 
 const getProductsFail = (state) => {
+  return updateObject(state, {
+    // loading: false,
+  });
+};
+// ============================================================================
+// GET PRODUCT ================================================================
+// ============================================================================
+
+const getProductStart = (state) => {
+  return updateObject(state, {
+    loading: true,
+  });
+};
+
+const getProductSuccess = (state, action) => {
+  console.log("getProductSuccess reducer", action.product);
+  // console.log("getProductsSuccess = " + JSON.stringify(action.products));
+  return updateObject(state, {
+    product: action.product,
+    loading: false,
+  });
+};
+
+const getProductFail = (state) => {
   return updateObject(state, {
     loading: false,
   });
@@ -126,7 +158,7 @@ const getProductsFail = (state) => {
 
 const getPriceStart = (state) => {
   return updateObject(state, {
-    loading: true,
+    // loading: true,
   });
 };
 
@@ -134,27 +166,23 @@ const getPriceSuccess = (state, action) => {
   // const prices = [...state.prices, action.priceObj];
   // prices.push(action.priceObj);
 
-  const prices = copyArray([...state.prices]); // avoids mutating the state
-  // const products = copyArray([...state.products]); // avoids mutating the state
-  // prices.push(action.priceObj);
-
+  const prices = copyArray(state.prices); // avoids mutating the state
   prices.map((product) => {
     if (product.id === action.productid) {
       product.price = action.priceObj;
     }
   });
 
-  console.log("updated products ", prices);
-  return {
-    ...state,
-    prices: prices,
-    loading: false,
-  };
+  // console.log("reducer getPriceSuccess: ", prices);
+  return updateObject(state, {
+    prices,
+    // loading: false,
+  });
 };
 
 const getPriceFail = (state) => {
   return updateObject(state, {
-    loading: false,
+    // loading: false,
   });
 };
 
@@ -488,6 +516,11 @@ const checkoutSuccess = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    // Resize
+    case actionTypes.RESIZE:
+      return resize(state, action);
+
+    // New item
     case actionTypes.NEW_ITEM_SUCCESS:
       return newItemSuccess(state, action);
     case actionTypes.NEW_ITEM_FAIL:
@@ -515,6 +548,7 @@ const reducer = (state = initialState, action) => {
       return getItemByTypeFail(state, action);
     case actionTypes.GET_ITEM_BY_TYPE_START:
       return getItemByTypeStart(state, action);
+
     // products
     case actionTypes.GET_PRODUCTS_SUCCESS:
       return getProductsSuccess(state, action);
@@ -522,6 +556,15 @@ const reducer = (state = initialState, action) => {
       return getProductsFail(state, action);
     case actionTypes.GET_PRODUCTS_START:
       return getProductsStart(state, action);
+
+    // product
+    case actionTypes.GET_PRODUCT_SUCCESS:
+      return getProductSuccess(state, action);
+    case actionTypes.GET_PRODUCT_FAIL:
+      return getProductFail(state, action);
+    case actionTypes.GET_PRODUCT_START:
+      return getProductStart(state, action);
+
     // price
     case actionTypes.GET_PRICE_SUCCESS:
       return getPriceSuccess(state, action);

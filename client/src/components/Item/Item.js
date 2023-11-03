@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import classes from "./Item.module.css";
 
 //{classes.Thumbnail}
@@ -58,17 +58,18 @@ const item = (props) => {
   //    </div>
 
   return (
-    <div className={[classes.Item, props.class].join(" ")}>
+    <NavLink
+      to={props.link + "/" + props.id}
+      className={[classes.Item, props.class].join(" ")}
+    >
       {/* Name */}
       <div className={[classes.Name, props.class, "Name"].join(" ")}>
-        <Link to={props.link + "/" + props.id}>{props.name}</Link>
+        {props.name}
       </div>
       {/* Image */}
       {props.url ? (
         <div className={classes.Thumbnail}>
-          {/* <Link to={props.link + "/" + props.id}> */}
           <img className={props.imgClass} src={props.url} alt={props.alt} />
-          {/* </Link> */}
         </div>
       ) : null}
 
@@ -82,8 +83,9 @@ const item = (props) => {
 
         {/* Price */}
         {props.price ? (
-          <div className={classes.Price}>
-            ${(props.price.unit_amount / 100).toFixed(2)} {props.price.currency}
+          <div className={classes.PriceWrapper}>
+            {`$ ${(props.price.unit_amount / 100).toFixed(2)}`}
+            <div className={classes.Currency}>{props.price.currency}</div>
           </div>
         ) : null}
 
@@ -112,7 +114,7 @@ const item = (props) => {
           </div>
         ) : null}
       </div>
-    </div>
+    </NavLink>
   );
 };
 export default item;

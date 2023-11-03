@@ -1,0 +1,107 @@
+.ImageSlider {
+    position: relative;
+    /* height: fit-content; */
+    box-sizing: border-box;
+}
+
+.SlideWrapper {
+    margin: 0 auto;
+    width: 300px;
+    height: 300px;
+    /* border-radius: 10px; */
+    box-sizing: border-box;
+}
+
+.Slide {
+    width: 100%;
+    height: 100%;
+    /* border-radius: 10px; */
+    /* background-size: cover; */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+}
+
+.Arrow {
+    user-select: none;
+    transition: color, .2s;
+    color: black;
+}
+
+.Arrow:hover {
+    color: rgb(116, 116, 116);
+}
+
+.LeftArrow {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    left: 24px;
+    font-size: 45px;
+    /* color: #fff; */
+    z-index: 1;
+    cursor: pointer;
+    font-size: 72px;
+}
+
+.RightArrow {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: 24px;
+    font-size: 45px;
+    /* color: #fff; */
+    z-index: 1;
+    cursor: pointer;   
+    font-size: 72px;
+    /* transition: color, .2s; */
+}
+
+.DotsContainer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    bottom: 2%;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.Dot {
+    margin: 0 3px;
+    cursor: pointer;
+    font-size: 32px;
+    user-select: none;
+    transition: color, .2s;
+}
+  
+.Dot:hover{
+    color:rgb(151, 149, 149);
+}
+
+
+.SlideWrapper {
+    margin: 0 auto;
+    width: 300px;
+    height: 300px;
+    /* border-radius: 10px; */
+    box-sizing: border-box;
+}
+
+@media only screen and (min-width: 600px) {
+    /* For tablets: */
+    .SlideWrapper {
+        margin: 0 auto;
+        width: 500px;
+        height: 500px;
+        /* border-radius: 10px; */
+        box-sizing: border-box;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+  /* For desktop: */
+
+}

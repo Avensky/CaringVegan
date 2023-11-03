@@ -8,6 +8,7 @@ import Footer from "./components/Footer/Footer";
 import "./App.css";
 import {
   Home,
+  Product,
   // Shop,
   // Checkout,
   // Profile,
@@ -25,13 +26,14 @@ import {
 const App = (props) => {
   // const getUser = async () => { await props.onFetchUser();}; // prettier-ignore
 
-  const products = [...props.products];
+  // console.log("APP props.products : ", props.products);
+  const products = props.products;
 
-  console.log("App ", products);
+  // console.log("App ", products);
   // get Products
   useEffect(() => {
     async function getProducts() {
-      console.log("get products");
+      // console.log("get products");
       await props.getProducts();
     }
     if (products.length === 0) getProducts();
@@ -40,8 +42,11 @@ const App = (props) => {
 
   useEffect(() => {
     async function getPrices(products) {
-      console.log("get prices");
-      await props.getPrices(products);
+      // console.log("get prices");
+      for (let i = 0; i < products.length; i++) {
+        // console.log("get prices ", products[i].id);
+        await props.getPrice(products[i].default_price, products[i].id);
+      }
     }
 
     if (products.length !== 0) {
@@ -69,6 +74,7 @@ const App = (props) => {
         render={(props) => <ResetPassword {...props} />}
       /> */}
       <Route path="/home" element={<Home />} />
+      <Route path="/product/:id" element={<Product />} />
       {/* <Route path="/connect" element={<Connect />} />
       <Route path="/shop" element={<Shop />} />
       <Route path="/shop/itemfull/:itemId" element={<ItemFull />} />
@@ -119,6 +125,7 @@ const mapStateToProps = (state) => {
   return {
     fetchedUser: state.auth.payload,
     products: state.product.products,
+    prices: state.product.prices,
     cart: state.product.cart,
   };
 };
@@ -127,7 +134,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onFetchUser: () => dispatch(actions.fetchUser()),
     getProducts: () => dispatch(actions.getProducts()),
-    getPrices: (products) => dispatch(actions.getPrices(products)),
+    getPrice: (priceid, productid) =>
+      dispatch(actions.getPrice(priceid, productid)),
   };
 };
 
@@ -137,7 +145,7 @@ App.propTypes = {
   fetchedUser: PropTypes.any,
   onFetchUser: PropTypes.func,
   getProducts: PropTypes.func,
-  getPrices: PropTypes.func,
+  getPrice: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
