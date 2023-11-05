@@ -95,6 +95,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
+  console.log("body: ", req.body);
   // CREATE A PRODUCT OBJECT
   const productObj = {
     name: req.body.name,
@@ -104,6 +105,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
       unit_amount_decimal: req.body.unit_amount_decimal,
     },
     statement_descriptor: req.body.statement_descriptor,
+    images: req.body.images,
     metadata: {
       stock: req.body.stock,
       featured: req.body.featured,
@@ -114,13 +116,13 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   };
   req.file ? (productObj.images = req.file.location) : null; // Add image url to Obj
   const product = await stripe.products.update(req.params.id, productObj);
-  console.log("stripeProduct ", product);
+  // console.log("stripeProduct ", product);
 
-  console.log("stripeProduct ", product);
+  // console.log("stripeProduct ", product);
 
   res.status(200).json({
     status: "success",
-    data: product,
+    product,
   });
 });
 

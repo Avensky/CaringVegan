@@ -10,53 +10,57 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Navbar = (props) => {
   // const linkDisabled = (e) => { e.preventDefault(); };
+  // Mobile Sidebar
+  const mobile = (
+    <div className={[classes.Navbar, classes.Mobile].join(" ")}>
+      <div className={classes.NavItems}>
+        <FontAwesomeIcon
+          icon="fa-solid fa-bars"
+          onClick={props.sidebarToggleClicked}
+          className={classes.Bars}
+        >
+          Bars
+        </FontAwesomeIcon>
+      </div>
+      <div className={classes.NavItems} onClick={props.closeCartbar}>
+        <NavLink to="/shop" exact="true" className={classes.LogoWrapper}>
+          <Logo height="80%" />
+          <div className={classes.LogoText}>AVENSKY</div>
+        </NavLink>
+      </div>
+      <div className={classes.NavItems}>
+        {!props.user ? (
+          <NavItem
+            to="/login"
+            exact="true"
+            className="mobile-login"
+            onClick={props.closeCartbar}
+          >
+            <FontAwesomeIcon icon="fa-solid fa-user" />
+          </NavItem>
+        ) : (
+          <div className={classes.NavItemWrapper} onClick={props.logout}>
+            <div className={[classes.NavItem, "mobile-logout"].join(" ")}>
+              LOGOUT
+            </div>
+          </div>
+        )}
+
+        <div className={classes.Cart} onClick={props.cartbarToggleClicked}>
+          <div className={classes.TotalItems}>
+            {props.totalItems > 0 ? props.totalItems : null}
+          </div>
+          <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className={classes.dropdown}>
       <div className={classes.NavbarWrapper}>
-        {/* Mobile Sidebar */}
-        <div className={[classes.Navbar, classes.Mobile].join(" ")}>
-          <div className={classes.NavItems}>
-            <FontAwesomeIcon
-              icon="fa-solid fa-bars"
-              onClick={props.sidebarToggleClicked}
-              className={classes.Bars}
-            >
-              Bars
-            </FontAwesomeIcon>
-          </div>
-          <div className={classes.NavItems} onClick={props.closeCartbar}>
-            <NavLink to="/shop" exact="true" className={classes.LogoWrapper}>
-              <Logo height="80%" />
-              <div className={classes.LogoText}>AVENSKY</div>
-            </NavLink>
-          </div>
-          <div className={classes.NavItems}>
-            {!props.user ? (
-              <NavItem
-                to="/login"
-                exact="true"
-                className="mobile-login"
-                onClick={props.closeCartbar}
-              >
-                <FontAwesomeIcon icon="fa-solid fa-user" />
-              </NavItem>
-            ) : (
-              <div className={classes.NavItemWrapper} onClick={props.logout}>
-                <div className={[classes.NavItem, "mobile-logout"].join(" ")}>
-                  LOGOUT
-                </div>
-              </div>
-            )}
-
-            <div className={classes.Cart} onClick={props.cartbarToggleClicked}>
-              <div className={classes.TotalItems}>
-                {props.totalItems > 0 ? props.totalItems : null}
-              </div>
-              <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
-            </div>
-          </div>
-        </div>
+        {/* Mobile Navbar */}
+        {mobile}
         {/* Desktop Navbar */}
         <div className={[classes.Navbar, classes.Desktop].join(" ")}>
           <div className={classes.NavItems} onClick={props.closeCartbar}>

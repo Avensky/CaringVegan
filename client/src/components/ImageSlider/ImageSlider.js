@@ -3,50 +3,74 @@ import classes from "./ImageSlider.module.css";
 import PropTypes from "prop-types";
 
 const ImageSlider = (props) => {
-  // const url = "https://caring-vegan.s3.us-west-2.amazonaws.com/";
-  const myCollection = [props.images];
-  console.log("imagedata = ", myCollection);
-  // const myCollection = [
-  //   {
-  //     label: "First Image",
-  //     url: url + collection,
-  //   },
-  //   {
-  //     label: "Second Image",
-  //     url: url + collection,
-  //   },
-  //   {
-  //     label: "Third Image",
-  //     url: url + collection,
-  //   },
-  // ];
+  const gallery = props.images;
+  // set currIndex to first slide, use function to set which slide you want
+  const [currIndex, setIndex] = useState(0);
+  const [animated, setAnimated] = useState(false);
+  const [animatedRight, setAnimatedRight] = useState(false);
+  const [animatedDot, setAnimatedDot] = useState(false);
 
-  const [index, setIndex] = useState(0);
+  // =========================================================================
+  // Functions ===============================================================
+  // =========================================================================
 
+  // move to next slide
   const next = () => {
-    const isLastsSlide = index === myCollection.length - 1;
-    const newIndex = isLastsSlide ? 0 : index + 1;
+    setAnimatedRight(true);
+    setAnimatedDot(false);
+    setAnimated(false);
+    // check if your in the last slide by comparing the currIndex to the amount of images minus 1
+    const isLastsSlide = currIndex === gallery.length - 1;
+    // if its the last slide set currIndex to 0, otherwise keep going
+    const newIndex = isLastsSlide ? 0 : currIndex + 1;
     setIndex(newIndex);
   };
 
+  // got to previous slide
   const previous = () => {
-    // const isFirstSlide = index === 0;
-    // const newIndex = isFirstSlide ? myCollection.length - 1 : 0;
+    setAnimated(true);
+    setAnimatedDot(false);
+    setAnimatedRight(false);
+    // check if currIndex is set to the first slide
+    const isFirstSlide = currIndex === 0;
+    // if your in the first slide go to the end of gallery, else go to previous slide
+    const newIndex = isFirstSlide ? gallery.length - 1 : currIndex - 1;
+    setIndex(newIndex);
   };
 
-  const goToSlide = (collectionIndex) => {
-    setIndex(collectionIndex);
+  // go to any slide
+  const goToSlide = (currIndex) => {
+    setAnimatedDot(true);
+    setAnimatedRight(false);
+    setAnimated(false);
+    setIndex(currIndex);
   };
 
-  const slideStylesWithImage = {
-    backgroundImage: `url(${myCollection[index]})`,
-  };
+  // =============================================================================
+  // Variables ===================================================================
+  // =============================================================================
 
-  const dots = myCollection.map((slide, index) => {
+  const slide = gallery[currIndex];
+  // console.log("slideStylesWithImage: ", slideStylesWithImage);
+
+  const dots = gallery.map((slide, index) => {
+    let style = [];
+    if (currIndex === index) {
+      style = classes.ActiveDot;
+    }
+    if (currIndex === index && animatedDot) {
+      style = [classes.ActiveDot, classes.AnimatedDot].join(" ");
+    }
+
     return (
-      <div className={classes.Dot} key={index} onClick={() => goToSlide(index)}>
+      <span
+        className={style}
+        key={index}
+        onClick={() => goToSlide(index)}
+        onAnimationEnd={() => setAnimatedDot(false)}
+      >
         ●
-      </div>
+      </span>
     );
   });
 
@@ -54,24 +78,41 @@ const ImageSlider = (props) => {
 
   return (
     <div className={classes.ImageSlider}>
-      <div>
+      <div className={classes.Arrows}>
         <div
-          className={[classes.Arrow, classes.LeftArrow].join(" ")}
+          // className={[classes.ArrowWrapperLeft].join(" ")}
           onClick={previous}
+          onAnimationEnd={() => setAnimated(false)}
+          className={classes.ArrowWrapperLeft}
         >
-          ❰
+          <span className={animated ? classes.Animated : null}>❰</span>
+          <span className={animated ? classes.Animated : null}>❰</span>
+          <span className={animated ? classes.Animated : null}>❰</span>
         </div>
         <div
-          className={[classes.Arrow, classes.RightArrow].join(" ")}
+          onAnimationEnd={() => setAnimatedRight(false)}
+          className={
+            animatedRight
+              ? [classes.ArrowWrapperRight, classes.AnimatedRight].join(" ")
+              : classes.ArrowWrapperRight
+          }
           onClick={next}
         >
-          ❱
+          <span className={animatedRight ? classes.AnimatedRight : null}>
+            ❱
+          </span>
+          <span className={animatedRight ? classes.AnimatedRight : null}>
+            ❱
+          </span>
+          <span className={animatedRight ? classes.AnimatedRight : null}>
+            ❱
+          </span>
         </div>
       </div>
       <div className={classes.SlideWrapper}>
-        <div className={classes.Slide} style={slideStylesWithImage} />
+        <img className={classes.Slide} src={slide} alt="product image" />
       </div>
-      <div className={classes.DotsContainer}>{dots}</div>
+      <div className={classes.Dots}>{dots}</div>
     </div>
   );
 };

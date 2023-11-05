@@ -3,6 +3,7 @@ import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
 import PropTypes from "prop-types";
 import CartBar from "./CartBar/CartBar";
+import classes from "./Navigation.css";
 
 const Navigation = (props) => {
   // Toggle sidebar view
@@ -27,7 +28,7 @@ const Navigation = (props) => {
   };
 
   return (
-    <div>
+    <div className={classes.navigation}>
       <Navbar
         user={props.user}
         logout={props.logout}

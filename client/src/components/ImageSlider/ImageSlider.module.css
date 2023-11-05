@@ -1,107 +1,199 @@
 .ImageSlider {
-    position: relative;
-    /* height: fit-content; */
-    box-sizing: border-box;
+  position: relative;
+  /* height: fit-content; */
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .SlideWrapper {
-    margin: 0 auto;
-    width: 300px;
-    height: 300px;
-    /* border-radius: 10px; */
-    box-sizing: border-box;
+  /* margin: 0 auto; */
+  /* width: 100vw; */
+  /* height: auto; */
+  /* border-radius: 10px; */
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .Slide {
-    width: 100%;
-    height: 100%;
-    /* border-radius: 10px; */
-    /* background-size: cover; */
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-sizing: border-box;
+  width: 100vw;
+  /* height: 300px; */
+  /* border-radius: 10px; */
+  /* background-size: cover; */
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden;
 }
 
-.Arrow {
-    user-select: none;
-    transition: color, .2s;
-    color: black;
-}
-
-.Arrow:hover {
+/* .Arrow:hover {
     color: rgb(116, 116, 116);
+} */
+
+.Arrows {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+/********************************************
+Right Arrow animation 
+********************************************/
+
+.ArrowWrapperLeft {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 0px;
+  display: flex;
+  padding-left: 2px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.LeftArrow {
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    left: 24px;
-    font-size: 45px;
-    /* color: #fff; */
-    z-index: 1;
-    cursor: pointer;
-    font-size: 72px;
+.ArrowWrapperLeft span {
+  font-size: 4em;
+  width: auto;
+  margin: auto -4px;
+}
+.Animated {
+  animation: animate 2s 1 ease-in-out;
 }
 
-.RightArrow {
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    right: 24px;
-    font-size: 45px;
-    /* color: #fff; */
-    z-index: 1;
-    cursor: pointer;   
-    font-size: 72px;
-    /* transition: color, .2s; */
+.ArrowWrapperLeft span:nth-child(2) {
+  animation-delay: -0.2s;
 }
 
-.DotsContainer {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    bottom: 2%;
-    left: 0; 
-    right: 0; 
-    margin-left: auto; 
-    margin-right: auto; 
+.ArrowWrapperLeft span:nth-child(3) {
+  animation-delay: -0.4s;
 }
 
-.Dot {
-    margin: 0 3px;
-    cursor: pointer;
-    font-size: 32px;
-    user-select: none;
-    transition: color, .2s;
+@keyframes animate {
+  0% {
+    opacity: 0;
+    transform: translate(20px, 0px);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-20px, 0px);
+  }
 }
-  
-.Dot:hover{
-    color:rgb(151, 149, 149);
+/********************************************
+Right Arrow animation 
+********************************************/
+.ArrowWrapperRight {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  right: 0px;
+  display: flex;
+  padding-right: 2px;
+  justify-content: right;
+  overflow: hidden;
+  /* transform: translateX(50%); */
+}
+.AnimatedRight {
+  animation: animateRight 2s 1 ease-in-out;
+}
+.ArrowWrapperRight span {
+  overflow: hidden;
+  box-sizing: border-box;
+  font-size: 4em;
+  width: auto;
+  margin: auto -4px;
+  animation-delay: -0.4s;
 }
 
-
-.SlideWrapper {
-    margin: 0 auto;
-    width: 300px;
-    height: 300px;
-    /* border-radius: 10px; */
-    box-sizing: border-box;
+.ArrowWrapperRight span:nth-child(2) {
+  box-sizing: border-box;
+  animation-delay: -0.2s;
 }
+
+.ArrowWrapperRight span:nth-child(3) {
+  box-sizing: border-box;
+  animation-delay: 0s;
+}
+
+@keyframes animateRight {
+  0% {
+    opacity: 0;
+    transform: translate(-20px, 0px);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(20px, 0px);
+  }
+}
+
+/*******************************************
+ * DOTS 
+*******************************************/
+.Dots {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  bottom: 0.5%;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+.Dots span {
+  margin: 0 4px;
+  cursor: pointer;
+  font-size: 3em;
+  user-select: none;
+  transition: color, 0.2s;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ActiveDot {
+  color: rgb(151, 149, 149);
+  box-sizing: border-box;
+}
+
+.AnimatedDot {
+  animation: animatedDot 1s linear;
+}
+@keyframes animatedDot {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* .Dot:hover {
+  color: rgb(151, 149, 149);
+  box-sizing: border-box;
+} */
 
 @media only screen and (min-width: 600px) {
-    /* For tablets: */
-    .SlideWrapper {
-        margin: 0 auto;
-        width: 500px;
-        height: 500px;
-        /* border-radius: 10px; */
-        box-sizing: border-box;
-    }
+  /* For tablets: */
+  .SlideWrapper {
+    /* margin: 0 auto; */
+    width: 500px;
+    height: 500px;
+    /* border-radius: 10px; */
+    box-sizing: border-box;
+  }
 }
 
 @media only screen and (min-width: 1025px) {
   /* For desktop: */
-
 }
