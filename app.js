@@ -102,7 +102,7 @@ app.use(xss());
 // Only allow these parameters to be searched by a range
 app.use(
   hpp({
-    whitelist: ["price"],
+    whitelist: ["/api"],
   })
 );
 

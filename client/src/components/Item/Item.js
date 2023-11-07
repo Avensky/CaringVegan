@@ -62,16 +62,17 @@ const item = (props) => {
       to={props.link + "/" + props.id}
       className={[classes.Item, props.class].join(" ")}
     >
-      {/* Name */}
-      <div className={[classes.Name, props.class, "Name"].join(" ")}>
-        {props.name}
-      </div>
       {/* Image */}
       {props.url ? (
         <div className={classes.Thumbnail}>
           <img className={props.imgClass} src={props.url} alt={props.alt} />
         </div>
       ) : null}
+
+      {/* Name */}
+      <div className={[classes.Name, props.class, "Name"].join(" ")}>
+        {props.name}
+      </div>
 
       <div className={props.myClass}>
         {/* Description */}

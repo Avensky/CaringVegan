@@ -23,13 +23,13 @@ const Navbar = (props) => {
         </FontAwesomeIcon>
       </div>
       <div className={classes.NavItems} onClick={props.closeCartbar}>
-        <NavLink to="/shop" exact="true" className={classes.LogoWrapper}>
-          <Logo height="80%" />
-          <div className={classes.LogoText}>AVENSKY</div>
+        <NavLink to="/" exact="true" className={classes.LogoWrapper}>
+          <Logo height="70%" />
+          <div className={classes.LogoText}>CaringVegan</div>
         </NavLink>
       </div>
       <div className={classes.NavItems}>
-        {!props.user ? (
+        {/* {!props.user ? (
           <NavItem
             to="/login"
             exact="true"
@@ -44,7 +44,7 @@ const Navbar = (props) => {
               LOGOUT
             </div>
           </div>
-        )}
+        )} */}
 
         <div className={classes.Cart} onClick={props.cartbarToggleClicked}>
           <div className={classes.TotalItems}>
@@ -72,7 +72,7 @@ const Navbar = (props) => {
             <NavLink to="/home" exact="true">
               <div className={classes.LogoWrapper}>
                 <Logo height="80%" />
-                <div className={classes.LogoText}>AVENSKY</div>
+                <div className={classes.LogoText}>CaringVegan</div>
               </div>
             </NavLink>
             <div className={classes.dropdownButton}>

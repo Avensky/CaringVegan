@@ -124,7 +124,7 @@ const getProductsSuccess = (state, action) => {
   // console.log("getProductsSuccess = " + JSON.stringify(action.products));
   return updateObject(state, {
     products: action.products,
-    prices: action.products,
+    // prices: action.products,
     // loading: false,
   });
 };
@@ -173,19 +173,21 @@ const getPriceSuccess = (state, action) => {
   // prices.push(action.priceObj);
   // console.log("reducer getPriceSuccess: ", action.mode);
   // console.log("reducer getPriceSuccess: ", action.priceObj);
+  // console.log("reducer getPriceSuccess productid: ", action.productid);
 
   const prices = copyArray(state.prices); // avoid mutating state
+  const products = copyArray(state.products); // avoid mutating state
+
   if (action.mode === "products") {
-    prices.map((product) => {
-      if (product.id === action.productid) {
-        product.price = action.priceObj;
-      }
-    });
+    // console.log("getPriceSuccess products", prices);
+    const product = findItem(products, action.productid);
+    product.price = action.priceObj;
+    prices.push(product);
   }
 
   const price = copyArray(state.product);
   if (action.mode === "product") {
-    // console.log("reducer getPriceSuccess price", price);
+    // console.log("getPriceSuccess price", price);
     price.price = action.priceObj;
   }
 

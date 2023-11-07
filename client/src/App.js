@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import Navigation from "./components/Navigation/Navigation";
 import Footer from "./components/Footer/Footer";
 import "./App.css";
+import { ScrollToTop } from "./utility/utility";
 import {
   Home,
   Product,
@@ -81,6 +82,7 @@ const App = (props) => {
   return (
     <div className="app">
       <BrowserRouter>
+        <ScrollToTop />
         <Navigation
           // totalItems={props.totalItems}
           cart={props.cart}

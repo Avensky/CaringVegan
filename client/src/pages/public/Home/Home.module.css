@@ -87,10 +87,14 @@
 }
 
 .Products {
-  padding: 0vh 4vw;
+  padding: 0vh 0vw;
 }
-.Products h1 {
+.Heading {
   text-align: center;
+  font-size: 2rem;
+  text-transform: uppercase;
+  margin: 0.5vh 0;
+  font-weight: 900;
 }
 @media only screen and (min-width: 600px) {
   /* For tablets: */

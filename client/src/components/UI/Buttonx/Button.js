@@ -5,14 +5,14 @@ import PropTypes from "prop-types";
 const Button = (props) => {
   // const animation = false;
   const [animation, setAnimation] = useState(false);
-  console.log("animation ", animation);
+  // console.log("animation ", animation);
   const click = () => {
     setAnimation(true);
     props.click();
   };
 
   const button = props.children;
-  console.log("click ", click);
+  // console.log("click ", click);
   return (
     <button
       disabled={props.disabled}

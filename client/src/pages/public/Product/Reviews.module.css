@@ -1,0 +1,28 @@
+.Reviews {
+  background-color: black;
+  box-sizing: border-box;
+  padding: 2vh 4vw;
+}
+
+.ReviewsHeading {
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-size: 2em;
+  padding: 4vh 0;
+  box-sizing: border-box;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .Reviews {
+    padding: 2vh 15vw;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  /* For desktop: */
+  .Reviews {
+    padding: 4vh 30vw;
+  }
+}
