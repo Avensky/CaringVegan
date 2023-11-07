@@ -4,8 +4,9 @@
 }
 .page-wrapper {
   min-height: 300px;
-  /* margin: 51px 1vw; */
+  /* margin: 51px 0; */
   padding: 51px 0 0;
+  box-sizing: border-box;
 }
 
 .page-body {

@@ -15,10 +15,11 @@ export const resize = () => {
 };
 
 //add cart action
-export const addToCart = (id) => {
+export const addToCart = (product) => {
+  console.log("add to cart");
   return {
     type: actionTypes.ADD_TO_CART,
-    id,
+    product,
   };
 };
 //remove item action
@@ -73,7 +74,7 @@ export const getProducts = () => {
     axios
       .get("/api/v1/products")
       .then((result) => {
-        console.log("actions getProducts", result.data.products.data);
+        // console.log("actions getProducts", result.data.products.data);
         const products = result.data.products.data;
         dispatch(getProductsSuccess(products));
       })
@@ -143,7 +144,7 @@ export const getProductStart = () => {
 // ===================================================================
 // GET PRICE =========================================================
 // ===================================================================
-export const getPrice = (priceid, productid) => {
+export const getPrice = (priceid, productid, mode) => {
   // console.log("action price ", price);
   // console.log("action id ", id);
   return (dispatch) => {
@@ -153,7 +154,7 @@ export const getPrice = (priceid, productid) => {
       .then((result) => {
         // console.log("action getPriceStart /api/v1/prices", result.data.price);
         const priceObj = result.data.price;
-        dispatch(getPriceSuccess(priceObj, productid));
+        dispatch(getPriceSuccess(priceObj, productid, mode));
       })
       .catch((error) => {
         dispatch(getPriceFail(JSON.stringify(error)));
@@ -165,11 +166,12 @@ export const getPriceStart = () => {
     type: actionTypes.GET_PRICE_START,
   };
 };
-export const getPriceSuccess = (priceObj, productid) => {
+export const getPriceSuccess = (priceObj, productid, mode) => {
   return {
     type: actionTypes.GET_PRICE_SUCCESS,
     priceObj,
     productid,
+    mode,
   };
 };
 export const getPriceFail = (error) => {

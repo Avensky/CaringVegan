@@ -1,6 +1,6 @@
 .ImageSlider {
   position: relative;
-  /* height: fit-content; */
+  height: fit-content;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -53,32 +53,32 @@ Right Arrow animation
 .ArrowWrapperLeft span {
   font-size: 4em;
   width: auto;
-  margin: auto -4px;
+  margin: auto -3px;
 }
 .Animated {
-  animation: animate 2s 1 ease-in-out;
+  animation: animate 1s 1 ease-in-out;
 }
 
 .ArrowWrapperLeft span:nth-child(2) {
-  animation-delay: -0.2s;
+  animation-delay: -0.1s;
 }
 
 .ArrowWrapperLeft span:nth-child(3) {
-  animation-delay: -0.4s;
+  animation-delay: -0.2s;
 }
 
 @keyframes animate {
   0% {
-    opacity: 0;
-    transform: translate(20px, 0px);
-  }
-  50% {
     opacity: 1;
     transform: translate(0px, 0px);
   }
-  100% {
+  50% {
     opacity: 0;
-    transform: translate(-20px, 0px);
+    transform: translate(-25px, 0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
   }
 }
 /********************************************
@@ -96,20 +96,20 @@ Right Arrow animation
   /* transform: translateX(50%); */
 }
 .AnimatedRight {
-  animation: animateRight 2s 1 ease-in-out;
+  animation: animateRight 1s 1 ease-in-out;
 }
 .ArrowWrapperRight span {
   overflow: hidden;
   box-sizing: border-box;
   font-size: 4em;
   width: auto;
-  margin: auto -4px;
-  animation-delay: -0.4s;
+  margin: auto -3px;
+  animation-delay: -0.2s;
 }
 
 .ArrowWrapperRight span:nth-child(2) {
   box-sizing: border-box;
-  animation-delay: -0.2s;
+  animation-delay: -0.1s;
 }
 
 .ArrowWrapperRight span:nth-child(3) {
@@ -119,16 +119,16 @@ Right Arrow animation
 
 @keyframes animateRight {
   0% {
-    opacity: 0;
-    transform: translate(-20px, 0px);
-  }
-  50% {
     opacity: 1;
     transform: translate(0px, 0px);
   }
-  100% {
+  50% {
     opacity: 0;
-    transform: translate(20px, 0px);
+    transform: translate(25px, 0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
   }
 }
 
@@ -169,7 +169,7 @@ Right Arrow animation
     transform: scale(1);
   }
   50% {
-    opacity: 0.75;
+    opacity: 0.65;
     transform: scale(1.15);
   }
   100% {

@@ -7,13 +7,13 @@ export const updateObject = (oldObject, updatedProperties) => {
 
 // search for item in array
 export const findItem = (array, id) => {
-  return array.find((item) => item._id === id);
+  return array.find((item) => item.id === id);
 };
 
 // replace item in array of objects with matching id
 export const updateArray = (currentArray, updatedItem) => {
   return currentArray.map(
-    (obj) => [updatedItem].find((item) => item._id === obj._id) || obj
+    (obj) => [updatedItem].find((item) => item.id === obj.id) || obj
   );
 };
 
@@ -36,7 +36,7 @@ export const copyArray = (array) => {
 
 // remove Item from array
 export const removeItem = (array, id) => {
-  return array.filter((item) => item._id !== id);
+  return array.filter((item) => item.id !== id);
 };
 
 // stringify and store cart session in browser

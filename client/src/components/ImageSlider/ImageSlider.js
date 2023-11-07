@@ -6,6 +6,7 @@ const ImageSlider = (props) => {
   const gallery = props.images;
   // set currIndex to first slide, use function to set which slide you want
   const [currIndex, setIndex] = useState(0);
+  // set animations for onclick events
   const [animated, setAnimated] = useState(false);
   const [animatedRight, setAnimatedRight] = useState(false);
   const [animatedDot, setAnimatedDot] = useState(false);
@@ -54,7 +55,7 @@ const ImageSlider = (props) => {
   // console.log("slideStylesWithImage: ", slideStylesWithImage);
 
   const dots = gallery.map((slide, index) => {
-    let style = [];
+    let style;
     if (currIndex === index) {
       style = classes.ActiveDot;
     }

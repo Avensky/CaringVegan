@@ -1,10 +1,11 @@
 .Product {
   /* box-sizing: border-box; */
-  /* padding: 0 4vw; */
+  padding: 2vh 0 0;
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */
   /* align-items: stretch; */
+  min-height: 70vh;
 }
 
 .Heading {
@@ -14,8 +15,25 @@
 }
 
 .Name {
-  font-size: 1.3em;
-  font-weight: 600;
+  text-align: center;
+  font-size: 1.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  height: auto;
+  /* margin: 0.5vh 0; */
+}
+
+.Description {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: capitalize;
+  /* margin: 0.5vh 0; */
+}
+
+.Price {
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .ProductDetails {
@@ -36,12 +54,18 @@
   /* box-sizing: border-box; */
 }
 
-.Rating {
+.Ratings {
   display: flex;
+  padding: 1vh 0;
 }
 
 .Content {
   /* box-sizing: border-box; */
+}
+
+.bottomContent {
+  padding: 0 2vw;
+  box-sizing: border-box;
 }
 
 /* Pricing */
@@ -63,7 +87,7 @@
 }
 
 .Availability {
-  padding: 1vh 1vw;
+  /* padding: 1vh 1vw; */
   display: flex;
   justify-content: space-between;
 }
@@ -99,6 +123,7 @@
 }
 
 .ReviewsHeading {
+  text-align: center;
   color: white;
   font-weight: 700;
   font-size: 2em;

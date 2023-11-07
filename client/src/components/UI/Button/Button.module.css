@@ -1,13 +1,15 @@
 .Button {
-  background-color: transparent;
-  border: none;
-  color: white;
+  width: 100%;
+  border: 1px solid black;
   outline: none;
   cursor: pointer;
-  font: inherit;
-  padding: 10px;
-  margin: 10px;
+  padding: 1.5vh 0;
+  margin: 1vh 0;
   font-weight: bold;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .Button:first-of-type {
@@ -26,4 +28,23 @@
 
 .Danger {
   color: #944317;
+}
+
+.Animation {
+  animation: button 0.15s 1 ease-in-out;
+}
+
+@keyframes button {
+  0% {
+    background-color: white;
+  }
+
+  50% {
+    transform: scale(1.06);
+    background-color: rgb(207, 207, 207);
+  }
+
+  100% {
+    background-color: white;
+  }
 }

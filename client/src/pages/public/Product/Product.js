@@ -7,17 +7,20 @@ import * as actions from "../../../store/actions/index";
 import Review from "./Review/Review";
 import Modal from "../../../components/UI/Modal/Modal";
 import Spinner from "../../../components/UI/Spinner/Spinner";
-// import Rating from "../../../components/Rating/Rating";
+import Rating from "../../../components/UI/Rating/Rating";
 import ImageSlider from "../../../components/ImageSlider/ImageSlider";
 // import ImageGallery from "../../../components/ImageGallery/ImageGallery";
+import Button from "../../../components/UI/Button/Button";
 import PropTypes from "prop-types";
 
 const Product = (props) => {
   const id = useParams().id;
   // console.log("id = ", id);
-  // console.log("product = ", props.product);
+  // console.log("product price = ", props.price);
 
   const [purchasing, setPurchasing] = useState(false);
+  const price = props.price;
+  const product = props.product;
   //   const [index, setActiveStep] = useState(0);
 
   //   const goToNextPicture = () => {
@@ -29,39 +32,49 @@ const Product = (props) => {
   //   const handleClick = (id) => {
   //     //props.addToCart(id);
   //   };
-  // const addToCart = () => {
-  //   props.addToCart(props.product.id);
+  // const addToCart = (price) => {
+  //   console.log("add to cart");
+  //   props.addToCart(price);
   // };
+
   //   const subtractQuantity = (id) => {
   //     //props.subtractQuantity(id);
   //   };
   //   const purchaseHandler = () => {
   //     setPurchasing(true);
   //   };
-  const purchaseCancelHandler = () => {
-    setPurchasing(false);
-  };
+  const purchaseCancelHandler = () => setPurchasing(false);
   //   const viewCartHandler = () => {
   //     //history.push('/cart');
   //   };
   const getProduct = async (id) => await props.getProduct(id);
-  // console.log("product = ", props.product);
+  // console.log("product = ", props.price);
 
   useEffect(() => {
     //get product if not loaded
-    if (props.product.id !== id) {
+    if (price.id !== id) {
       // console.log("id: ", id);
       getProduct(id);
       console.log("get product");
     }
-    // console.log("product = ", props.product);
-    // if (props.product) {
+    // console.log("product = ", props.price);
+    // if (props.price) {
     //   //If Product exists reload
-    //   console.log("check product in memory= ", props.product);
-    //   if (props.product._id !== id) {
+    //   console.log("check product in memory= ", props.price);
+    //   if (props.price._id !== id) {
     //     getProduct(id);
     //   }
     // }
+  }, []);
+
+  useEffect(() => {
+    const getPrice = async (priceid, productid) => {
+      console.log("get price");
+      await props.getPrice(priceid, productid, "product");
+    };
+    if (product.id && !price.price) {
+      getPrice(product.default_price, product.id);
+    }
   }, [props.product]);
 
   let details;
@@ -73,50 +86,47 @@ const Product = (props) => {
   //    console.log('width = ',width);
   //    console.log('size = ',props.width);
 
-  if (props.loading) {
-    console.log("loading");
-    details = <Spinner />;
-  }
-  if (props.product.id) {
+  if (props.loading) details = <Spinner />;
+
+  if (price.id) {
     details = (
       <div className={classes.Content}>
-        <ImageSlider images={props.product.images} alt={props.product.name} />
-        {/* <div className={classes.Heading}>
-          <div className={classes.Name}>
-            {props.product ? props.product.name : ""}
+        <div className={classes.Name}>{props.price.name}</div>
+        {price.description ? (
+          <div className={classes.Description}>{price.description}</div>
+        ) : null}
+        {price.price ? (
+          <div className={classes.Price}>
+            ${(price.price.unit_amount / 100).toFixed(2)}{" "}
+            <span className={classes.Currency}>{price.price.currency}</span>
           </div>
-          <div className={classes.Rating}>
-            <Rating rating={props.product.rating} id={props.product.id} />(
-            {props.product.reviewCount || 0})
+        ) : null}
+        {price.images.length > 0 ? (
+          <ImageSlider images={props.price.images} />
+        ) : null}
+
+        <div className={classes.bottomContent}>
+          <div className={classes.Ratings}>
+            <Rating rating={price.rating} id={price.id} />(
+            {price.reviewCount || "Be the first to leave a review!"})
+          </div>
+
+          <div className={classes.Availability}>
+            {price.metadata.inStock ? (
+              <div>In Stock: {price.metadata.inStock || 0}</div>
+            ) : null}
+            {price.metadata.sold ? (
+              <div>Sold: {price.metadata.sold || 0}</div>
+            ) : null}
           </div>
         </div>
-        <div className={classes.ProductDetails}>
-          <div className={classes.ImageWrapper}>
-            <ImageSlider
-              collection={props.product.images}
-              alt={props.product.name}
-            />
-          </div>
-          <div className={classes.DetailsWrapper}>
-            <div className={classes.Options}></div>
-            {props.product.price ? (
-              <div className={classes.PriceWrapper}>
-                <div
-                  className={classes.Price}
-                >{` $${props.product.price.toFixed(2)}`}</div>
-              </div>
-            ) : null}
-
-            <div className={classes.Availability}>
-              <div>In Stock: {props.product.quantity || 0}</div>
-              <div>Sold: {props.product.sold || 0}</div>
-            </div>
-            <div className={classes.Button} onClick={addToCart}>
-              Add to cart
-            </div>
-            <div className={classes.Desc}>{props.product.desc}</div>
-          </div>
-        </div> */}
+        <Button
+          click={() => props.addToCart(price)}
+          disabled={false}
+          type="success"
+        >
+          ADD TO CART
+        </Button>
       </div>
     );
 
@@ -125,26 +135,26 @@ const Product = (props) => {
     //     <div className={classes.Content}>
     //       <div className={classes.ImageWrapper}>
     //         <ImageGallery
-    //           collection={props.product.imageData}
-    //           alt={props.product.name}
+    //           collection={props.price.imageData}
+    //           alt={props.price.name}
     //         />
     //       </div>
     //       <div className={classes.ProductDetails}>
     //         <div className={classes.Heading}>
     //           <div className={classes.Name}>
-    //             {props.product ? props.product.name : ""}
+    //             {props.price ? props.price.name : ""}
     //           </div>
     //         </div>
     //         <div className={classes.Heading}>
     //           <div className={classes.Rating}>
-    //             {props.product ? (
+    //             {props.price ? (
     //               <>
     //                 <Rating
-    //                   rating={props.product.rating}
-    //                   id={props.product._id}
-    //                   key={props.product.id}
+    //                   rating={props.price.rating}
+    //                   id={props.price._id}
+    //                   key={props.price.id}
     //                 />
-    //                 ({props.product.reviewCount || 0})
+    //                 ({props.price.reviewCount || 0})
     //               </>
     //             ) : (
     //               ""
@@ -157,11 +167,11 @@ const Product = (props) => {
     //           <div className={classes.PriceWrapper}>
     //             <div
     //               className={classes.Price}
-    //             >{` $${props.product.price.toFixed(2)}`}</div>
+    //             >{` $${props.price.price.toFixed(2)}`}</div>
     //           </div>
     //           <div className={classes.Availability}>
-    //             <div>In Stock: {props.product.stock || 0}</div>
-    //             <div>Sold: {props.product.sold || 0}</div>
+    //             <div>In Stock: {props.price.stock || 0}</div>
+    //             <div>Sold: {props.price.sold || 0}</div>
     //           </div>
     //           <button
     //             type="button"
@@ -170,7 +180,7 @@ const Product = (props) => {
     //           >
     //             Add to cart
     //           </button>
-    //           <div className={classes.Desc}>{props.product.desc}</div>
+    //           <div className={classes.Desc}>{props.price.desc}</div>
     //         </div>
     //       </div>
     //     </div>
@@ -178,36 +188,50 @@ const Product = (props) => {
     // }
   }
 
-  let reviews = [
-    // {
-    //   _id: "lskjd;lfkasd",
-    //   title: "Great Gift!",
-    //   username: "poly",
-    //   rating: 3.5,
-    //   date: "November 30th 2022",
-    //   // item: 'be yourself',
-    //   review:
-    //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    // },
+  let reviewsArray = [
+    {
+      _id: "lskjd;lfkasd",
+      title: "Great Gift!",
+      username: "poly",
+      rating: 3.5,
+      date: "November 30th 2022",
+      // item: 'be yourself',
+      review:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    },
+    {
+      _id: "lskjd;lsd",
+      title: "Great Gift!",
+      username: "poly",
+      rating: 4.5,
+      date: "November 30th 2022",
+      // item: 'be yourself',
+      review:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    },
   ];
-  if (reviews) {
-    <div className={classes.Reviews}>
-      <div className={classes.ReviewsHeading}>REVIEWS</div>
-      {reviews.map((review) => {
-        return (
-          <Review
-            key={review._id}
-            _id={review._id}
-            title={review.title}
-            username={review.username}
-            rating={review.rating}
-            date={review.date}
-            item={review.item}
-            review={review.review}
-          />
-        );
-      })}
-    </div>;
+
+  let reviews;
+  if (reviewsArray) {
+    reviews = (
+      <div className={classes.Reviews}>
+        <div className={classes.ReviewsHeading}>REVIEWS</div>
+        {reviewsArray.map((review) => {
+          return (
+            <Review
+              key={review._id}
+              _id={review._id}
+              title={review.title}
+              username={review.username}
+              rating={review.rating}
+              date={review.date}
+              // item={review.item}
+              review={review.review}
+            />
+          );
+        })}
+      </div>
+    );
   }
 
   //   let checkout;
@@ -223,7 +247,6 @@ const Product = (props) => {
         <Modal show={purchasing} modalClosed={purchaseCancelHandler}>
           {/* {orderSummary} */}
         </Modal>
-        <div className="page-title">Product</div>
         {details}
       </div>
       {reviews}
@@ -234,6 +257,7 @@ const Product = (props) => {
 const mapStateToProps = (state) => {
   return {
     product: state.product.product,
+    price: state.product.price,
     loading: state.product.loading,
     width: state.product.width,
   };
@@ -241,15 +265,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProduct: (id) => {
-      dispatch(actions.getProduct(id));
-    },
-    resize: () => {
-      dispatch(actions.resize());
-    },
-    addToCart: (id) => {
-      dispatch(actions.addToCart(id));
-    },
+    getProduct: (id) => dispatch(actions.getProduct(id)),
+    getPrice: (priceid, productid, mode) =>
+      dispatch(actions.getPrice(priceid, productid, mode)),
+    resize: () => dispatch(actions.resize()),
+    addToCart: (product) => dispatch(actions.addToCart(product)),
   };
 };
 
@@ -257,7 +277,9 @@ Product.propTypes = {
   width: PropTypes.number,
   resize: PropTypes.func,
   product: PropTypes.object,
+  price: PropTypes.object,
   getProduct: PropTypes.func,
+  getPrice: PropTypes.func,
   addToCart: PropTypes.func,
   total: PropTypes.number,
   totalItems: PropTypes.number,

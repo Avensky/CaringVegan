@@ -1,5 +1,10 @@
 import * as actionTypes from "../actions/actionTypes";
-import { copyArray, updateObject } from "../../utility/utility";
+import {
+  copyArray,
+  updateObject,
+  findItem,
+  updateArray,
+} from "../../utility/utility";
 
 const initialState = {
   cart: [],
@@ -7,6 +12,7 @@ const initialState = {
   product: {},
   width: null,
   prices: [],
+  price: {},
   items: [],
   loading: false,
   posted: false,
@@ -114,7 +120,7 @@ const getProductsStart = (state) => {
 };
 
 const getProductsSuccess = (state, action) => {
-  console.log("reducer getProductsSuccess", action.products);
+  // console.log("reducer getProductsSuccess", action.products);
   // console.log("getProductsSuccess = " + JSON.stringify(action.products));
   return updateObject(state, {
     products: action.products,
@@ -139,7 +145,7 @@ const getProductStart = (state) => {
 };
 
 const getProductSuccess = (state, action) => {
-  console.log("getProductSuccess reducer", action.product);
+  // console.log("getProductSuccess reducer", action.product);
   // console.log("getProductsSuccess = " + JSON.stringify(action.products));
   return updateObject(state, {
     product: action.product,
@@ -158,31 +164,41 @@ const getProductFail = (state) => {
 
 const getPriceStart = (state) => {
   return updateObject(state, {
-    // loading: true,
+    loading: true,
   });
 };
 
 const getPriceSuccess = (state, action) => {
   // const prices = [...state.prices, action.priceObj];
   // prices.push(action.priceObj);
+  // console.log("reducer getPriceSuccess: ", action.mode);
+  // console.log("reducer getPriceSuccess: ", action.priceObj);
 
-  const prices = copyArray(state.prices); // avoids mutating the state
-  prices.map((product) => {
-    if (product.id === action.productid) {
-      product.price = action.priceObj;
-    }
-  });
+  const prices = copyArray(state.prices); // avoid mutating state
+  if (action.mode === "products") {
+    prices.map((product) => {
+      if (product.id === action.productid) {
+        product.price = action.priceObj;
+      }
+    });
+  }
 
-  // console.log("reducer getPriceSuccess: ", prices);
+  const price = copyArray(state.product);
+  if (action.mode === "product") {
+    // console.log("reducer getPriceSuccess price", price);
+    price.price = action.priceObj;
+  }
+
   return updateObject(state, {
     prices,
-    // loading: false,
+    price,
+    loading: false,
   });
 };
 
 const getPriceFail = (state) => {
   return updateObject(state, {
-    // loading: false,
+    loading: false,
   });
 };
 
@@ -190,52 +206,32 @@ const getPriceFail = (state) => {
 // CART ========================================================================
 // =============================================================================
 const addToCart = (state, action) => {
-  // Find item in db
-  let addedItem = state.items.find((item) => item._id === action.id);
-  // Find item in cart
-  let existed_item;
-  if (state.addedItems) {
-    existed_item = state.addedItems.find((item) => action.id === item._id);
+  // console.log("add to cart ", action.product);
+
+  // check if item already exists in cart
+  console.log("addToCart start ", action.product);
+  const cart = copyArray(state.cart);
+  let cartItem = findItem(cart, action.product.id);
+
+  if (cartItem) {
+    cartItem.cartAmount += 1;
+    updateArray(cart, cartItem);
   }
-  let stringMyAddedItems, total, totalItems, shop, addedItems;
-  if (existed_item) {
-    if (existed_item.amount < addedItem.quantity) {
-      existed_item.amount += 1;
-    }
-    addedItems = state.addedItems.map(
-      (obj) => [existed_item].find((item) => item._id === obj._id) || obj
-    );
-    shop = state.shop.map(
-      (obj) => [existed_item].find((item) => item._id === obj._id) || obj
-    );
-    //make cart a string and store in local space
-    stringMyAddedItems = JSON.stringify(addedItems);
-    localStorage.setItem("addedItems", stringMyAddedItems);
-    total = addedItems
-      .map((item) => item.price * item.amount)
-      .reduce((prev, curr) => prev + curr, 0);
-    totalItems = addedItems.reduce((a, b) => a + b.amount, 0);
-  } else {
-    addedItem.amount = 1;
-    shop = state.shop.map(
-      (obj) => [addedItem].find((item) => item._id === obj._id) || obj
-    );
-    addedItems = [...state.addedItems, addedItem];
-    //make cart a string and store in local space
-    stringMyAddedItems = JSON.stringify(addedItems);
-    localStorage.setItem("addedItems", stringMyAddedItems);
-    total = addedItems
-      .map((item) => item.price * item.amount)
-      .reduce((prev, curr) => prev + curr, 0);
-    totalItems = addedItems.reduce((a, b) => a + b.amount, 0);
+
+  if (!cartItem) {
+    cartItem = { ...action.product };
+    cartItem.cartAmount = 1;
+    cart.push(cartItem);
   }
-  return {
-    ...state,
-    addedItems: addedItems,
-    total: total,
-    totalItems: totalItems,
-    shop: shop,
-  };
+
+  console.log("cart ", cart);
+  return updateObject(state, {
+    cart,
+    // addedItems: addedItems,
+    // total: total,
+    // totalItems: totalItems,
+    // shop: shop,
+  });
 };
 
 const removeItem = (state, action) => {
