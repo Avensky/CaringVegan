@@ -1,0 +1,221 @@
+.Cart {
+    margin: 0 0 5vh;
+}
+
+.Item {
+    padding: 2vh  0;
+    margin: 0 0 2vh;
+    border-bottom: #221a00 1px solid;
+    /* align-content: space-between; */
+    /* justify-content: space-around; */
+    /* border-bottom: 2px solid rgb(0, 0, 0); */
+}
+
+
+.ItemData {
+    display: flex;
+    flex-direction: row;
+    /* padding: 1vh 0; */
+}
+
+.Remove {
+    grid-area: del;
+    font-size: 1.4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   /* margin: 0; 
+    padding: 0 1vw;
+    cursor: pointer; */
+}
+
+.ImageWrapper {
+    grid-area: img;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4vw;
+    cursor: pointer;
+}
+
+.ImageWrapper img {
+    max-height: 100px;
+    max-width: 100px;
+    margin: 0; 
+}
+
+.Details {
+    grid-area: details;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items:flex-start;
+    text-align: left;
+    width: 100%;
+}
+
+.Name {
+    grid-area: name;
+    font-weight: 600;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    /* margin: 0; */
+    padding: 2px 0; 
+    width: 100%;
+}
+
+.Description {
+    padding: 2px 0
+}
+
+.Pricing {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+.Quantity {
+    grid-area: qty;
+    display: flex;
+    align-items: center;
+    /* margin: 0; */
+}
+
+.QuantityLabel{
+    font-weight: 600;
+    padding: 2px 0;
+}
+
+.QuantityModifier{
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* font-weight: 900; */
+    font-size: 1.2em;
+    padding: 2px;
+    cursor:pointer;
+
+}
+
+.QuantityAmount {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    font-size: 1.2em;
+}
+
+.Price {
+    grid-area: price;
+    font-size: 1.2em;
+    width: 30%;
+}
+
+.ItemTotal{
+    grid-area: itemTotal;
+    font-size: 1.2em;
+    width: 30%;
+}
+
+/* Bars */
+.Bar {
+    margin: 2vh 0;
+    height: 30px;
+    border-radius: 3% / 50%;
+    background-color: rgb(214, 214, 215);
+}
+
+/* Order Summary */
+
+.OrderSummary {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.OrderDetails {
+    text-align: start;
+    width: 100%;
+}
+
+.OrderDetailsSection {
+    display: flex;
+    padding: 15px 4vw 15px 6vw;
+    justify-content: space-between;
+    border-bottom: 1px solid grey;
+}
+
+.SubtotalLabel,
+.ShippingLabel {
+    color: grey;
+}
+
+.OrderDetailsTotal {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 4vw;
+}
+
+.Checkout {
+    padding: 15px;
+    background-color: #221a00;
+    color: white;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.buttonsWrapper {
+    display: flex;
+}
+.Button{
+    width: 50%;
+    padding: 2vh 2vw;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.RemoveButton {
+    background-color: black;
+    color: white;
+}
+@media only screen and (min-width: 600px) {
+    /* For tablets: */ 
+    .Item{
+        display: flex;
+        justify-content: space-between;
+    }      
+    .CardThumbnail img {
+        max-height: 100px;
+        max-width: 130px;
+    }
+
+    .ItemData {
+        width: 60%;
+    }
+    .Pricing {
+        width: 40%;
+    }
+    .Bar {
+        border-radius: 1% / 50%;
+     }
+}
+
+@media only screen and (min-width: 1025px) {
+    /* For desktop: */
+    .CardThumbnail img {
+        max-height: 130px;
+        max-width: 160px;
+    }
+
+    .Cart {
+        margin: 0 15vw 5vh;
+    }
+}

@@ -1,5 +1,9 @@
 import * as actionTypes from "./actionTypes";
+import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+
+// eslint-disable-next-line no-undef
+let stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 /*******************************************
  * Get screen size
@@ -14,7 +18,9 @@ export const resize = () => {
   };
 };
 
-//add cart action
+/*******************************************
+ * Cart Stuffs
+ *******************************************/
 export const addToCart = (product) => {
   console.log("add to cart");
   return {
@@ -22,20 +28,21 @@ export const addToCart = (product) => {
     product,
   };
 };
-//remove item action
-export const removeItem = (id) => {
+
+export const removeFromCart = (id) => {
   return {
-    type: actionTypes.REMOVE_ITEM,
+    type: actionTypes.REMOVE_FROM_CART,
     id,
   };
 };
-//subtract qt action
-export const subtractQuantity = (id) => {
+
+export const subQuantity = (id) => {
   return {
     type: actionTypes.SUB_QUANTITY,
     id,
   };
 };
+
 //add qt action
 export const addQuantity = (id) => {
   return {
@@ -181,211 +188,69 @@ export const getPriceFail = (error) => {
   };
 };
 // ===================================================================
-// GET PRICES ========================================================
+// STRIPE CHECKOUT ========================================================
 // ===================================================================
 
-// =====================================================================
-// New Item ============================================================
-// =====================================================================
-export const newItemStart = () => {
+export const checkoutStart = () => {
   return {
-    type: actionTypes.NEW_ITEM_START,
+    type: actionTypes.CHECKOUT_START,
   };
 };
-
-export const newItemFail = (error) => {
+export const checkoutSuccess = async (id) => {
+  // Get Stripe.js instance
+  const stripe = await stripePromise;
+  // When the customer clicks on the button, redirect them to Checkout.
+  const result = await stripe.redirectToCheckout({ sessionId: id });
+  console.log("result ", result);
   return {
-    type: actionTypes.NEW_ITEM_FAIL,
-    error: error,
+    type: actionTypes.CHECKOUT_SUCCESS,
+    //result
   };
 };
 
-export const newItemSuccess = (itemData) => {
+export const checkoutFail = (error) => {
+  // If `redirectToCheckout` fails due to a browser or network
+  // error, display the localized error message to your customer
+  // using `result.error.message`.
+  console.log(error);
   return {
-    type: actionTypes.NEW_ITEM_SUCCESS,
-    itemData: itemData,
+    type: actionTypes.CHECKOUT_FAIL,
+    error,
   };
 };
 
-export const newItem = (values) => {
-  return (dispatch) => {
-    dispatch(newItemStart());
-
-    axios
-      .post("/api/addImage", values)
-      .then((response) => {
-        console.log(response);
-        const data = response.data;
-        console.log(data);
-        dispatch(newItemSuccess(data));
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(newItemFail(error));
-      });
-  };
-};
-
-/*******************************************
- * Get Items by id
- *******************************************/
-
-export const getItemByIdSuccess = (charById) => {
-  return {
-    type: actionTypes.GET_ITEM_BY_ID_SUCCESS,
-    charById: charById,
-  };
-};
-export const getItemByIdFail = (error) => {
-  return {
-    type: actionTypes.GET_ITEM_BY_ID_FAIL,
-    error: error,
-  };
-};
-export const getItemByIdStart = () => {
-  return {
-    type: actionTypes.GET_ITEM_BY_ID_START,
-  };
-};
-export const getItemById = (id) => {
-  return (dispatch) => {
-    dispatch(getItemByIdStart());
-    axios
-      .get("/api/getitemDetails/" + id)
-      .then((result) => {
-        console.log(result);
-        const charById = result.data;
-        //            const fetchedPostsById = {id: id}
-        //            const obj = {...post, ...fetchedPostsById}
-        dispatch(getItemByIdSuccess(charById));
-      })
-      .catch((error) => {
-        dispatch(getItemByIdFail(error));
-      });
-  };
-};
-
-/*******************************************
- * Get Items by type
- *******************************************/
-
-export const getItemByTypeSuccess = (items) => {
-  return {
-    type: actionTypes.GET_ITEM_BY_TYPE_SUCCESS,
-    items,
-  };
-};
-
-export const getItemByTypeFail = (error) => {
-  return {
-    type: actionTypes.GET_ITEM_BY_TYPE_FAIL,
-    error: error,
-  };
-};
-
-export const getItemByTypeStart = () => {
-  return {
-    type: actionTypes.GET_ITEM_BY_TYPE_START,
-  };
-};
-
-export const getItemByType = (type) => {
-  return (dispatch) => {
-    dispatch(getItemByTypeStart());
-    axios
-      .get("/api/getProductsbytype/" + type)
-      .then((result) => {
-        const items = result.data;
-        console.log("get item by type = ", items);
-        dispatch(getItemByTypeSuccess(items));
-      })
-      .catch((error) => {
-        dispatch(getItemByTypeFail(error));
-      });
-  };
-};
-
-/*******************************************
- * Update Item
- *******************************************/
-export const updateItemStart = () => {
-  return { type: actionTypes.UPDATE_ITEM_START };
-};
-
-export const updateItemFail = (error) => {
-  return {
-    type: actionTypes.UPDATE_ITEM_FAIL,
-    error: error,
-  };
-};
-
-export const updateItemSuccess = (itemData) => {
-  return {
-    type: actionTypes.UPDATE_ITEM_SUCCESS,
-    itemData: itemData,
-  };
-};
-
-export const updateItem = (id, name, age, relatives, bio) => {
-  return (dispatch) => {
-    dispatch(updateItemStart());
-
-    const itemData = {
-      id: id,
-      name: name,
-      age: age,
-      relatives: relatives,
-      bio: bio,
+export const checkout = (cart, user) => {
+  console.log("cart ", cart);
+  let line_items = cart.map((item) => {
+    let data = {
+      price: item.priceid,
+      quantity: item.orderAmt,
+      //tax_rates   : [keys.taxRates]
     };
+    console.log("data = " + JSON.stringify(data));
+    return data;
+  });
 
-    axios
-      .delete("/api/updateitem/" + itemData)
-      .then((response) => {
-        console.log(response);
-        dispatch(updateItemSuccess(itemData));
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(updateItemFail(error));
-      });
-  };
-};
+  let body;
+  user
+    ? (body = { items: line_items, userid: user["_id"] })
+    : (body = { items: line_items });
 
-/*******************************************
- * Delete Item
- *******************************************/
+  console.log("body = ", body);
 
-export const deleteItemStart = () => {
-  return {
-    type: actionTypes.DELETE_ITEM_START,
-  };
-};
-
-export const deleteItemFail = (error) => {
-  return {
-    type: actionTypes.DELETE_ITEM_FAIL,
-    error: error,
-  };
-};
-
-export const deleteItemSuccess = () => {
-  return {
-    type: actionTypes.DELETE_ITEM_SUCCESS,
-  };
-};
-
-export const deleteItem = (id) => {
   return (dispatch) => {
-    dispatch(deleteItemStart());
+    dispatch(checkoutStart());
+    // Call your backend to create the Checkout Session
     axios
-      .delete("/api/deleteitem/" + id)
-      .then((response) => {
-        console.log(response);
-        dispatch(deleteItemSuccess());
+      .post("/api/checkout", body)
+      .then((res) => {
+        const session = res.data;
+        console.log("checkout", session);
+        dispatch(checkoutSuccess(session.id));
       })
-      .catch((error) => {
-        console.log(error);
-        dispatch(deleteItemFail(error));
+      .catch((err) => {
+        console.log("err", err);
+        dispatch(checkoutFail(err));
       });
   };
 };

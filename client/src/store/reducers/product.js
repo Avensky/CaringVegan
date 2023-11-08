@@ -4,6 +4,9 @@ import {
   updateObject,
   findItem,
   updateArray,
+  getTotalPrice,
+  getTotalItems,
+  removeItem,
 } from "../../utility/utility";
 
 const initialState = {
@@ -32,80 +35,6 @@ const initialState = {
 const resize = (state, action) => {
   return updateObject(state, {
     width: action.width,
-  });
-};
-
-const newItemStart = (state) => {
-  return updateObject(state, { posted: false });
-};
-
-const newItemFail = (state) => {
-  return updateObject(state, {
-    loading: false,
-  });
-};
-
-const newItemSuccess = (state) => {
-  //const newItem = updateObject(action.itemData, { id: action.itemId })
-  return updateObject(state, {
-    loading: false,
-    //        items: state.items.concat( newItem )
-  });
-};
-
-const getItemByIdStart = (state) => {
-  return updateObject(state, {
-    loading: true,
-  });
-};
-
-const getItemByIdFail = (state) => {
-  return updateObject(state, {
-    loading: false,
-  });
-};
-
-const getItemByIdSuccess = (state, action) => {
-  return updateObject(state, {
-    itemById: action.itemById,
-    loading: false,
-  });
-};
-
-const getItemByTypeStart = (state) => {
-  return updateObject(state, {
-    loading: true,
-  });
-};
-
-const getItemByTypeFail = (state) => {
-  return updateObject(state, {
-    loading: false,
-  });
-};
-
-const getItemByTypeSuccess = (state, action) => {
-  return updateObject(state, {
-    items: action.items,
-    loading: false,
-  });
-};
-
-const deleteItemStart = (state) => {
-  return updateObject(state, {
-    loading: true,
-  });
-};
-
-const deleteItemFail = (state) => {
-  return updateObject(state, {
-    loading: false,
-  });
-};
-
-const deleteItemSuccess = (state) => {
-  return updateObject(state, {
-    loading: false,
   });
 };
 
@@ -185,9 +114,11 @@ const getPriceSuccess = (state, action) => {
     prices.push(product);
   }
 
-  const price = copyArray(state.product);
+  let price = copyArray(state.price);
+
   if (action.mode === "product") {
     // console.log("getPriceSuccess price", price);
+    price = copyArray(state.product);
     price.price = action.priceObj;
   }
 
@@ -236,27 +167,21 @@ const addToCart = (state, action) => {
   });
 };
 
-const removeItem = (state, action) => {
-  let existed_item = state.addedItems.find((item) => action.id === item._id);
-  let quantityToRemove = existed_item.amount;
-  delete existed_item.amount;
-  let addedItems = state.addedItems.filter((item) => action.id !== item._id);
-  let newTotal = state.total - existed_item.price * quantityToRemove;
-  let shop = state.shop.map(
-    (obj) => [existed_item].find((item) => item._id === obj._id) || obj
-  );
-  //store in local storage
-  let stringNewItems = JSON.stringify(addedItems);
-  localStorage.setItem("addedItems", stringNewItems);
+const removeFromCart = (state, action) => {
+  const cart = copyArray(state.cart);
+  let updatedCart = removeItem(cart, action.id);
+
+  // storeLocally('cart', updatedCart);
+  const totalPrice = getTotalPrice(updatedCart);
+  const totalItems = getTotalItems(updatedCart);
+
   return {
     ...state,
-    addedItems: addedItems,
-    total: newTotal,
-    totalItems: state.totalItems - quantityToRemove,
-    shop: shop,
+    cart: updatedCart,
+    totalPrice: totalPrice,
+    totalItems: totalItems,
   };
 };
-
 const addQuantity = (state, action) => {
   let addedItem = state.addedItems.find((item) => item.id === action.id);
   addedItem.quantity += 1;
@@ -274,54 +199,33 @@ const addQuantity = (state, action) => {
     totalItems: state.totalItems + 1,
   };
 };
-const subQuantity = (state, action) => {
-  let existed_item = state.addedItems.find((item) => item._id === action.id);
-  let stringMyAddedItems, total, shop, addedItems;
-  //if the qt == 0 then it should be removed
-  if (existed_item && existed_item.amount > 1) {
-    existed_item.amount -= 1;
-    addedItems = state.addedItems.map(
-      (obj) => [existed_item].find((o) => o._id === obj.id) || obj
-    );
-    shop = state.shop.map(
-      (obj) => [existed_item].find((item) => item._id === obj._id) || obj
-    );
-    total = state.total - existed_item.price;
-    //store in local storage
-    stringMyAddedItems = JSON.stringify(addedItems);
-    localStorage.setItem("addedItems", stringMyAddedItems);
-    return {
-      ...state,
-      addedItems: addedItems,
-      total: total,
-      totalItems: state.totalItems - 1,
-      shop: shop,
-    };
-  }
 
-  if (existed_item && existed_item.amount === 1) {
-    existed_item.amount -= 1;
-    addedItems = state.addedItems.filter((item) => item._id !== action.id);
-    shop = state.shop.map(
-      (obj) => [existed_item].find((item) => item._id === obj._id) || obj
-    );
-    total = state.total - existed_item.price;
-    //store in local storage
-    stringMyAddedItems = JSON.stringify(addedItems);
-    localStorage.setItem("addedItems", stringMyAddedItems);
-    return {
-      ...state,
-      addedItems: addedItems,
-      total: total,
-      totalItems: state.totalItems - 1,
-      shop: shop,
-    };
+const subQuantity = (state, action) => {
+  const cart = copyArray(state.cart);
+  let cartItem = findItem(cart, action.id);
+  let updatedCart;
+  //if the qt == 0 then it should be removed
+  if (cartItem && cartItem.cartAmount > 1) {
+    cartItem.cartAmount -= 1;
+    updatedCart = updateArray(cart, cartItem);
   } else {
-    return {
-      ...state,
-    };
+    updatedCart = removeItem(cart, action.id);
   }
+  // storeLocally('cart', updatedCart);
+  const totalPrice = getTotalPrice(updatedCart);
+  const totalItems = getTotalItems(updatedCart);
+
+  return updateObject(state, {
+    cart: updatedCart,
+    totalPrice: totalPrice,
+    totalItems: totalItems,
+  });
 };
+
+// =============================================================================
+// OTHER =======================================================================
+// =============================================================================
+
 const addShipping = (state) => {
   return {
     state,
@@ -512,40 +416,15 @@ const checkoutSuccess = (state, action) => {
   });
 };
 
+// =============================================================================
+// REDUCER =====================================================================
+// =============================================================================
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     // Resize
     case actionTypes.RESIZE:
       return resize(state, action);
-
-    // New item
-    case actionTypes.NEW_ITEM_SUCCESS:
-      return newItemSuccess(state, action);
-    case actionTypes.NEW_ITEM_FAIL:
-      return newItemFail(state, action);
-    case actionTypes.NEW_ITEM_START:
-      return newItemStart(state, action);
-
-    case actionTypes.DELETE_ITEM_SUCCESS:
-      return deleteItemSuccess(state, action);
-    case actionTypes.DELETE_ITEM_FAIL:
-      return deleteItemFail(state, action);
-    case actionTypes.DELETE_ITEM_START:
-      return deleteItemStart(state, action);
-
-    case actionTypes.GET_ITEM_BY_ID_SUCCESS:
-      return getItemByIdSuccess(state, action);
-    case actionTypes.GET_ITEM_BY_ID_FAIL:
-      return getItemByIdFail(state, action);
-    case actionTypes.GET_ITEM_BY_ID_START:
-      return getItemByIdStart(state, action);
-
-    case actionTypes.GET_ITEM_BY_TYPE_SUCCESS:
-      return getItemByTypeSuccess(state, action);
-    case actionTypes.GET_ITEM_BY_TYPE_FAIL:
-      return getItemByTypeFail(state, action);
-    case actionTypes.GET_ITEM_BY_TYPE_START:
-      return getItemByTypeStart(state, action);
 
     // products
     case actionTypes.GET_PRODUCTS_SUCCESS:
@@ -574,12 +453,13 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_TO_CART:
       return addToCart(state, action);
-    case actionTypes.REMOVE_ITEM:
-      return removeItem(state, action);
+    case actionTypes.REMOVE_FROM_CART:
+      return removeFromCart(state, action);
     case actionTypes.ADD_QUANTITY:
       return addQuantity(state, action);
     case actionTypes.SUB_QUANTITY:
       return subQuantity(state, action);
+
     case actionTypes.ADD_SHIPPING:
       return addShipping(state, action);
     case actionTypes.SUB_SHIPPING:

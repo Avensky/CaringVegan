@@ -136,9 +136,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getPrice(priceid, productid, mode)),
     loadCart: (cart) => dispatch(actions.loadCart(cart)),
     loadShop: (cart) => dispatch(actions.loadShop(cart)),
-    getItemByType: (type) => dispatch(actions.getItemByType(type)),
-    orderBy: (type) => dispatch(actions.orderBy(type)),
-    subtractQuantity: (id) => dispatch(actions.subtractQuantity(id)),
+    subQuantity: (id) => dispatch(actions.subQuantity(id)),
   };
 };
 

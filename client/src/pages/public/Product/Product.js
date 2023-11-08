@@ -77,8 +77,8 @@ const Product = (props) => {
   }, [product]);
 
   useEffect(() => {
-    if (price.price) {
-      // console.log("setItem price: ", price);
+    if (price.id) {
+      console.log("setItem price: ", price);
       // console.log("setItem price: ", price.price.product);
       // console.log("priced product detected");
       if (price.price.product === id) {

@@ -2,8 +2,12 @@
 
 export const RESIZE = "RESIZE";
 
+// ===================================================================
+// CART ==============================================================
+// ===================================================================
+
 export const ADD_TO_CART = "ADD_TO_CART";
-export const REMOVE_ITEM = "REMOVE_ITEM";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const SUB_QUANTITY = "SUB_QUANTITY";
 export const ADD_QUANTITY = "ADD_QUANTITY";
 export const ADD_SHIPPING = "ADD_SHIPPING";
@@ -11,6 +15,9 @@ export const SUB_SHIPPING = "SUB_SHIPPING";
 export const LOAD_CART = "LOAD_CART";
 export const LOAD_SHOP = "LOAD_SHOP";
 
+// ===================================================================
+// AUTH ==============================================================
+// ===================================================================
 export const CONNECT_START = "CONNECT_START";
 export const CONNECT_SUCCESS = "CONNECT_SUCCESS";
 export const CONNECT_FAIL = "CONNECT_FAIL";
@@ -36,6 +43,9 @@ export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_FAIL = "SIGNUP_FAIL";
 export const SIGNUP = "SIGNUP";
 
+// ===================================================================
+// CART ==============================================================
+// ===================================================================
 export const NEW_CHARACTER_START = "NEW_CHARACTER_START";
 export const NEW_CHARACTER_SUCCESS = "NEW_CHARACTER_SUCCESS";
 export const NEW_CHARACTER_FAIL = "NEW_CHARACTER_FAIL";
@@ -86,6 +96,10 @@ export const GET_PRODUCT_SUCCESS = "GET_PRODUCT_SUCCESS";
 export const GET_PRODUCT_FAIL = "GET_PRODUCT_FAIL";
 export const GET_PRODUCT = "GET_PRODUCT";
 
+// ===================================================================
+// CART ==============================================================
+// ===================================================================
+
 export const GET_ITEM_BY_ID_START = "GET_ITEM_BY_ID_START";
 export const GET_ITEM_BY_ID_SUCCESS = "GET_ITEM_BY_ID_SUCCESS";
 export const GET_ITEM_BY_ID_FAIL = "GET_ITEM_BY_ID_FAIL";
@@ -105,6 +119,10 @@ export const UPDATE_ITEM_START = "UPDATE_ITEM_START";
 export const UPDATE_ITEM_SUCCESS = "UPDATE_ITEM_SUCCESS";
 export const UPDATE_ITEM_FAIL = "UPDATE_ITEM_FAIL";
 export const UPDATE_ITEM = "UPDATE_ITEM";
+
+// ===================================================================
+// CART ==============================================================
+// ===================================================================
 
 export const NEW_FAQ_START = "NEW_FAQ_START";
 export const NEW_FAQ_SUCCESS = "NEW_FAQ_SUCCESS";
@@ -131,6 +149,9 @@ export const UPDATE_FAQ_SUCCESS = "UPDATE_FAQ_SUCCESS";
 export const UPDATE_FAQ_FAIL = "UPDATE_FAQ_FAIL";
 export const UPDATE_FAQ = "UPDATE_FAQ";
 
+// ===================================================================
+// CART ==============================================================
+// ===================================================================
 export const LOGIN_START = "LOGIN_START";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
@@ -154,6 +175,10 @@ export const NEW_ADDRESS = "NEW_ADDRESS";
 
 export const SET_AUTH_REDIRECT_PATH = "SET_AUTH_REDIRECT_PATH";
 export const SET_CONTACTS = "SET_CONTACTS";
+
+// ===================================================================
+// CART ==============================================================
+// ===================================================================
 
 export const CHECKOUT = "CHECKOUT";
 export const CHECKOUT_START = "CHECKOUT_START";

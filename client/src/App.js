@@ -21,7 +21,7 @@ import {
   // ResetPassword,
   // Connect,
   // ItemFull,
-  // Cart,
+  Cart,
   // Orders,
 } from "./pages";
 
@@ -51,8 +51,8 @@ const App = (props) => {
       <Route path="/product/:id" element={<Product />} />
       {/* <Route path="/connect" element={<Connect />} />
       <Route path="/shop" element={<Shop />} />
-      <Route path="/shop/itemfull/:itemId" element={<ItemFull />} />
-      <Route path="/cart" element={<Cart />} /> */}
+      <Route path="/shop/itemfull/:itemId" element={<ItemFull />} />*/}
+      <Route path="/cart" element={<Cart />} />
       <Route path="/" element={<Home />} />
     </Routes>
   );

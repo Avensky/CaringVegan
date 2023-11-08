@@ -8,7 +8,7 @@ export { default as Product } from "./public/Product/Product";
 // export { default as ForgotPassword } from "./public/Auth/ForgotPassword/ForgotPassword";
 // export { default as Connect } from "./public/Connect/Connect";
 // export { default as Shop } from "./public/Shop/Shop";
-// export { default as Cart } from "./public/Cart/Cart";
+export { default as Cart } from "./public/Cart/Cart";
 // export { default as Orders } from "./public/Orders/Orders";
 // export { default as Checkout } from "./public/Checkout/Success";
 // export { default as ItemFull } from "./public/Shop/ItemFull/ItemFull";

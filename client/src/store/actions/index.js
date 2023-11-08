@@ -1,13 +1,4 @@
-export {
-  fetchUser,
-  fetchUsers,
-  connect,
-  auth,
-  fbAuth,
-  setAuthRedirectPath,
-  newAddress,
-  newAddressStart,
-} from "./auth";
+export { fetchUser } from "./auth";
 
 export {
   getProducts,
@@ -15,18 +6,11 @@ export {
   getPrice,
   resize,
   addToCart,
-  removeItem,
-  subtractQuantity,
-  addQuantity,
+  removeFromCart,
+  subQuantity,
+  checkout,
   loadCart,
   loadShop,
-  orderBy,
-  newItem,
-  newItemStart,
-  getItemById,
-  getItemByType,
-  deleteItem,
-  updateItem,
 } from "./product";
 
 export { fetchOrders, fetchOrdersStart } from "./orders";
