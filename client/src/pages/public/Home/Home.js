@@ -67,24 +67,17 @@ const Home = (props) => {
       // console.log("item = ", item);
       return (
         <Item
-          url={item.images[0]}
           key={item.id}
           id={item.id}
+          url={item.images[0]}
+          name={item.name}
           description={item.description}
           price={item.price}
-          // id={item._id}
-          // alt={item.title}
-          // title={item.title}
           link={"/product"}
           // to="/"
           // clicked={() => addToCart(item._id)}
           // addToCart={() => addToCart(item._id)}
           // subtractQuantity={() => subtractQuantity(item._id)}
-          name={item.name}
-          // desc={item.desc}
-          // price={item.price}
-          // quantity={item.amount | 0}
-          // add={true}
         />
       );
     });
@@ -109,7 +102,7 @@ const Home = (props) => {
           <p>Lets make this a better world .</p>
         </div> */}
       <div className={classes.Products}>
-        <div className={classes.Heading}>Featured</div>
+        <div className="page-title">Featured</div>
         {shop}
       </div>
     </div>

@@ -74,7 +74,7 @@ const Cart = (props) => {
 
             {/* Image */}
             <NavLink
-              to={"/product/" + item._id}
+              to={"/product/" + item.id}
               className={classes.ImageWrapper}
             >
               <img src={item.images[0]} />
@@ -106,7 +106,7 @@ const Cart = (props) => {
                 <div className={classes.QuantityAmount}>{item.cartAmount}</div>
                 <div
                   className={classes.QuantityModifier}
-                  onClick={() => addToCart(item.id)}
+                  onClick={() => addToCart(item)}
                 >
                   <FontAwesomeIcon icon="fa-solid fa-plus" />
                 </div>

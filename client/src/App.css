@@ -10,6 +10,14 @@
   box-sizing: border-box;
 }
 
+.page-title {
+  text-align: center;
+  font-size: 48px;
+  font-size: 2rem;
+  text-transform: uppercase;
+  margin: 0.5vh 0;
+  font-weight: 900;
+}
 /* 
 .page-body {
   display: flex;
@@ -18,12 +26,6 @@
   flex-wrap: wrap;
 }
 
-.page-title {
-  text-align: center;
-  font-size: 48px;
-  font-weight: 900;
-  text-decoration: none;
-}
 
 .page-title a {
   color: black;
