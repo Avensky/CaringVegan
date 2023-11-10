@@ -158,11 +158,14 @@ const addToCart = (state, action) => {
   }
 
   console.log("cart ", cart);
+
+  const totalItems = getTotalItems(cart);
+  const total = getTotalPrice(cart);
+
   return updateObject(state, {
     cart,
-    // addedItems: addedItems,
-    // total: total,
-    // totalItems: totalItems,
+    total: total,
+    totalItems: totalItems,
     // shop: shop,
   });
 };

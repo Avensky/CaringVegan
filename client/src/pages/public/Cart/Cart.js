@@ -28,36 +28,40 @@ const Cart = (props) => {
     hideModal();
     await props.removeFromCart(id);
   };
-  // const onCheckout = async (cart, user) => props.onCheckout(cart, user);
+  const onCheckout = async (cart, user) => props.onCheckout(cart, user);
 
-  // let orderSummary = <></>;
+  let orderSummary = <></>;
 
-  // props.cart.length > 0
-  //   ? (orderSummary = (
-  //       <div className={classes.OrderSummary}>
-  //         <div className={classes.OrderDetails}>
-  //           <div className={classes.OrderDetailsSection}>
-  //             <div className={classes.SubtotalLabel}>Subtotal</div>
-  //             <div className={classes.SubTotal}>${props.totalPrice}</div>
-  //           </div>
-  //           <div className={classes.OrderDetailsSection}>
-  //             <div className={classes.ShippingLabel}>Shipping</div>
-  //             <div className={classes.Shipping}></div>
-  //           </div>
-  //           <div className={classes.OrderDetailsTotal}>
-  //             <div className={classes.TotalLabel}>TOTAL(USD)</div>
-  //             <div className={classes.Total}>${props.totalPrice}</div>
-  //           </div>
-  //           <div
-  //             className={classes.Checkout}
-  //             onClick={() => onCheckout(props.cart, props.user)}
-  //           >
-  //             CHECKOUT
-  //           </div>
-  //         </div>
-  //       </div>
-  //     ))
-  //   : null;
+  props.cart.length > 0
+    ? (orderSummary = (
+        <div className={classes.OrderSummary}>
+          <div className={classes.OrderDetails}>
+            <div className={classes.OrderDetailsSection}>
+              <div className={classes.SubtotalLabel}>Subtotal</div>
+              <div className={classes.SubTotal}>
+                ${(props.total / 100).toFixed(2)}
+              </div>
+            </div>
+            <div className={classes.OrderDetailsSection}>
+              <div className={classes.ShippingLabel}>Shipping</div>
+              <div className={classes.Shipping}></div>
+            </div>
+            <div className={classes.OrderDetailsTotal}>
+              <div className={classes.TotalLabel}>TOTAL (USD)</div>
+              <div className={classes.Total}>
+                ${(props.total / 100).toFixed(2)}
+              </div>
+            </div>
+            <div
+              className={classes.Checkout}
+              onClick={() => onCheckout(props.cart, props.user)}
+            >
+              CHECKOUT
+            </div>
+          </div>
+        </div>
+      ))
+    : null;
 
   let cart = <p>Nothing here. So sad.</p>;
 
@@ -67,56 +71,68 @@ const Cart = (props) => {
         <div key={item.id} className={classes.Item}>
           {/* Item Data */}
           <div className={classes.ItemData}>
-            {/* Remove Item*/}
-            <div className={classes.Remove} onClick={() => showModal(item.id)}>
-              <FontAwesomeIcon icon="fa-solid fa-trash-can" />
+            <div className={classes.ImageWrapper}>
+              {/* Image */}
+              <NavLink
+                to={"/product/" + item.id}
+                className={classes.ImageContainer}
+              >
+                <img src={item.images[0]} />
+              </NavLink>
             </div>
-
-            {/* Image */}
-            <NavLink
-              to={"/product/" + item.id}
-              className={classes.ImageWrapper}
-            >
-              <img src={item.images[0]} />
-            </NavLink>
             {/* Details */}
             <div className={classes.Details}>
               {/* Name */}
               <div className={classes.Name}>{item.name}</div>
               {/* Description */}
               <div className={classes.Description}>{item.description}</div>
+              {/* Price */}
+              <div className={classes.PriceWrapper}>
+                <span className={classes.Price}>Price: $</span>
+                <span>{(item.price.unit_amount / 100).toFixed(2)}</span>
+              </div>
+              <div className={classes.PriceWrapper}>
+                <span className={classes.ItemTotal}>Total: $</span>
+                <span>
+                  {((item.price.unit_amount * item.cartAmount) / 100).toFixed(
+                    2
+                  )}
+                </span>
+              </div>
             </div>
           </div>
 
           {/* Pricing section */}
           <div className={classes.Pricing}>
-            {/* Price */}
-            <div className={classes.Price}>Price ${item.price.unit_amount}</div>
-
             {/* Quantity */}
             <div className={classes.QuantityWrapper}>
-              <div className={classes.QuantityLabel}>Qty:</div>
               <div className={classes.Quantity}>
                 <div
-                  className={classes.QuantityModifier}
+                  className={classes.QuantityModifierL}
                   onClick={() => subQuantity(item.id)}
                 >
                   <FontAwesomeIcon icon="fa-solid fa-minus" />
                 </div>
                 <div className={classes.QuantityAmount}>{item.cartAmount}</div>
                 <div
-                  className={classes.QuantityModifier}
+                  className={classes.QuantityModifierR}
                   onClick={() => addToCart(item)}
                 >
                   <FontAwesomeIcon icon="fa-solid fa-plus" />
                 </div>
               </div>
             </div>
-
-            {/* Price */}
-            <div className={classes.ItemTotal}>
-              Total ${item.price.unit_amount * item.cartAmount}
+            <div className={classes.Options}>
+              <div
+                className={classes.Remove}
+                onClick={() => showModal(item.id)}
+              >
+                <FontAwesomeIcon icon="fa-solid fa-trash-can" />
+                <span className={classes.delete}>Delete</span>
+              </div>
+              <div className={classes.save}>Save for later</div>
             </div>
+            {/* Remove Item*/}
           </div>
         </div>
       );
@@ -146,7 +162,7 @@ const Cart = (props) => {
       <div className="page-title">Cart</div>
       <div className={classes.CartWrapper}>{cart}</div>
       {/* <div className={classes.Bar}></div> */}
-      {/* {orderSummary} */}
+      {orderSummary}
     </div>
   );
 };
@@ -154,7 +170,7 @@ const Cart = (props) => {
 const mapStateToProps = (state) => {
   return {
     cart: state.product.cart,
-    totalPrice: state.product.totalPrice,
+    total: state.product.total,
   };
 };
 
@@ -180,8 +196,9 @@ Cart.propTypes = {
   addToCart: PropTypes.func,
   subQuantity: PropTypes.func,
   removeFromCart: PropTypes.func,
-  totalPrice: PropTypes.number,
+  total: PropTypes.number,
   onCheckout: PropTypes.func,
+  user: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

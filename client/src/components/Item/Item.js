@@ -85,8 +85,8 @@ const item = (props) => {
         {/* Price */}
         {props.price ? (
           <div className={classes.PriceWrapper}>
-            {`$ ${(props.price.unit_amount / 100).toFixed(2)}`}
-            <div className={classes.Currency}>{props.price.currency}</div>
+            {`$${(props.price.unit_amount / 100).toFixed(2)}`}
+            <div className={classes.Currency}> {props.price.currency}</div>
           </div>
         ) : null}
 

@@ -1,98 +1,89 @@
 .Home {
-  /* min-height: 84vh; */
 }
 
-.BackgroundWrapper {
-  width: 100%;
-  text-align: center;
+.headerWrapper {
   overflow: hidden;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+  display: flex;
 }
 
-.BackgroundWrapper img {
-  /* position: fixed; */
-  /* top: 50%; */
-  /* left: 50%; */
-  max-width: 100%;
-  height: 100%;
-  /* width: auto; */
-  height: auto;
-  /* z-index: -90; */
-  /* transform: translateX(-50%) translateY(-50%); */
-  background-color: black;
-  background-size: cover;
-  transition: 1s opacity;
+.headerTitle {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.headerWrapper img {
+  width: 100%;
 }
 
 /* Centered text */
-.centered {
-  width: 225px;
+.header {
+  color: rgb(255, 255, 255);
+  font-size: 3.5rem;
+  font-weight: 900;
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  top: 25%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 32px;
-  /*color: rgb(1, 7, 12);*/
-  padding: 1vh 1vw;
-  border-radius: 8px;
-  color: white;
-  background-color: rgba(4, 0, 10, 0.815);
 }
 
 .title {
-  text-align: center;
-  font-size: 18px;
+  /* text-align: center;
+  font-size: 18px; */
+  text-shadow: -3px 3px 1px rgba(0, 0, 0, 1), -10px 2px 12px rgba(68, 0, 0, 1);
 }
 
 .shop a b:hover {
-  border: 2px solid grey;
+  /* border: 2px solid grey; */
 }
 
 .centered a {
-  text-align: center;
+  /* text-align: center; */
 }
 .shop a b {
-  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(255, 255, 255);
   font-size: 16px;
   color: rgb(4, 0, 10);
   padding: 1vh 1vw;
   margin: 0vh 0vw;
   border-radius: 8px;
   cursor: pointer;
-  border: 2px solid white;
+  border: 2px solid white; */
 }
 
 .shop {
-  text-align: center;
-  margin: 0vh 0vw 0;
+  /* text-align: center;
+  margin: 0vh 0vw 0; */
+}
+
+.PageWrapper {
+  /* min-height: auto; */
+}
+.description {
+  /* margin: 1vh 0;
+  font-size: 12px; */
+}
+
+.Products {
+  /* padding: 0vh 0vw; */
+  background-color: white;
 }
 
 .statement {
   text-align: center;
   background-color: aquamarine;
-  margin: 0 0 3vh;
+  /* margin: 0 0 3vh; */
   padding: 3vh 0;
   font-size: 16px;
 }
 
-.PageWrapper {
-  min-height: auto;
-}
-.description {
-  margin: 1vh 0;
-  font-size: 12px;
-}
-
-.Products {
-  padding: 0vh 0vw;
-}
-
 @media only screen and (min-width: 600px) {
   /* For tablets: */
-  .Home {
+  /* .Home {
   }
   .centered {
     padding: 2vh 1vw;
@@ -108,12 +99,12 @@
   }
   .title {
     font-size: 32px;
-  }
+  } */
 }
 
 @media only screen and (min-width: 1025px) {
   /* For desktop: */
-  .Home {
+  /* .Home {
   }
   .centered {
     width: 570px;
@@ -133,5 +124,5 @@
   }
   .title {
     font-size: 48px;
-  }
+  } */
 }

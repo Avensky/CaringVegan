@@ -1,10 +1,6 @@
-//==============================================================================
-// set up ======================================================================
-//==============================================================================
 const mongoose = require("mongoose");
 
-// define the schema for our user model
-const ordersSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
   id: { type: String },
   object: { type: String },
   allow_promotion_codes: { type: Boolean },
@@ -18,13 +14,12 @@ const ordersSchema = new mongoose.Schema({
   customer_details: {
     email: { type: String },
     tax_exempt: { type: String },
-    tax_ids: [{ type: String }],
+    tax_ids: { type: Array },
   },
   customer_email: { type: String },
   livemode: { type: Boolean },
   locale: { type: String },
-  //metadata              : {},
-  //metadata                    : {type          : String},
+  metadata: { type: Array },
   mode: { type: String },
   payment_intent: { type: String },
   payment_method_types: [{ type: String }],
@@ -70,7 +65,7 @@ const ordersSchema = new mongoose.Schema({
         currency: { type: String },
         livemode: { type: Boolean },
         //lookup_key              : null,
-        //metadata                : {},
+        metadata: { type: Array },
         //nickname                : null,
         product: { type: String },
         //recurring               : null,
@@ -100,4 +95,5 @@ const ordersSchema = new mongoose.Schema({
 //==============================================================================
 
 // create the model for users and expose it to our app
-mongoose.model("Orders", ordersSchema);
+//const Orders = mongoose.model("Orders", ordersSchema);
+module.exports = mongoose.model("Order", orderSchema);

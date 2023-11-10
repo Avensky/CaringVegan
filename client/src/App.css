@@ -15,8 +15,9 @@
   font-size: 48px;
   font-size: 2rem;
   text-transform: uppercase;
-  margin: 0.5vh 0;
+  /* margin: 0.5vh 0; */
   font-weight: 900;
+  box-sizing: border-box;
 }
 /* 
 .page-body {

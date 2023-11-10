@@ -223,8 +223,8 @@ export const checkout = (cart, user) => {
   console.log("cart ", cart);
   let line_items = cart.map((item) => {
     let data = {
-      price: item.priceid,
-      quantity: item.orderAmt,
+      price: item.price.id,
+      quantity: item.cartAmount,
       //tax_rates   : [keys.taxRates]
     };
     console.log("data = " + JSON.stringify(data));
@@ -242,7 +242,7 @@ export const checkout = (cart, user) => {
     dispatch(checkoutStart());
     // Call your backend to create the Checkout Session
     axios
-      .post("/api/checkout", body)
+      .post("/api/v1/stripe/checkout", body)
       .then((res) => {
         const session = res.data;
         console.log("checkout", session);
@@ -250,7 +250,7 @@ export const checkout = (cart, user) => {
       })
       .catch((err) => {
         console.log("err", err);
-        dispatch(checkoutFail(err));
+        dispatch(checkoutFail(JSON.stringify(err)));
       });
   };
 };

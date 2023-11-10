@@ -4,7 +4,6 @@ import SidebarItem from "./SidebarItem/SidebarItem";
 import classes from "./Sidebar.module.css";
 import Backdrop from "../../UI/Backdrop/Backdrop";
 //import Auxiliary from '../../../hoc/Auxiliary';
-import { Link } from "react-router-dom";
 
 const sidebar = (props) => {
   let attachedClasses = [classes.Sidebar, classes.Close];
@@ -14,24 +13,22 @@ const sidebar = (props) => {
   return (
     <div className={classes.SidebarWrapper}>
       <Backdrop show={props.open} clicked={props.closed} />
-      <div className={attachedClasses.join(" ")} onClick={props.closed}>
+      <div className={attachedClasses.join(" ")}>
         <div className={classes.LogoWrapper}>
-          <Link to="/home">
-            <Logo />
-          </Link>
+          <Logo />
         </div>
-        <div className={classes.heading}>Pages</div>
-        <SidebarItem exact="true" to="/home">
+        <div className={classes.SidebarItem}>Pages</div>
+        <SidebarItem exact="true" to="/home" clicked={props.closed}>
           Home
         </SidebarItem>
-        <SidebarItem exact="true" to="/shop">
+        <SidebarItem exact="true" to="/shop" clicked={props.closed}>
           Shop
         </SidebarItem>
-        <SidebarItem exact="true" to="/cart">
+        <SidebarItem exact="true" to="/cart" clicked={props.closed}>
           Cart
         </SidebarItem>
         {!props.user ? (
-          <SidebarItem exact="true" to="/login">
+          <SidebarItem exact="true" to="/login" clicked={props.closed}>
             Login
           </SidebarItem>
         ) : (

@@ -1,55 +1,56 @@
-.SidebarWrapper{
-
+.SidebarWrapper {
 }
 
 .Sidebar {
-    position: fixed;
-    width: 280px;
-    max-width: 70%;
-    left: 0;
-    top: 0;
-    z-index: 200;
-    background-color: rgb(4, 0, 10);;
-    padding: 0 1vw;
-    box-sizing: border-box;
-    transition: transform 0.3s ease-out;
-    text-align: center;
-    flex-direction: column;
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    cursor: pointer;
+  position: fixed;
+  width: 280px;
+  max-width: 70%;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(4, 0, 10); */
+  padding: 0 1vw;
+  box-sizing: border-box;
+  transition: transform 0.3s ease-out;
+  text-align: center;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  cursor: pointer;
 }
 
-.SidebarItemWrapper{
-    color: white;
-    margin: .25vh .25vw;
-    box-sizing: border-box;
+.SidebarItemWrapper {
+  color: white;
+  margin: 1vh 0.25vw;
+  box-sizing: border-box;
 }
-
 
 .SidebarItem {
-    padding: .25vh 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; 
-    width: 100%;
-    box-sizing: border-box;
-    text-decoration: none;
-    color: white;
-    border-bottom: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid black;
+  padding: 1.5vh 0;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: dimgray;
 }
 
 .SidebarItemWrapper:hover,
 .active {
-    background-color: #afe4f7;
+  background-color: lightgray;
 }
 
 .LogoWrapper {
-    box-sizing: border-box;
-    padding: 25px;
+  box-sizing: border-box;
+  padding: 25px;
 }
 
 /* @media only screen and (min-width: 1025px) {
@@ -57,9 +58,9 @@
 } */
 
 .Open {
-    transform: translateX(0);
+  transform: translateX(0);
 }
 
 .Close {
-    transform: translateX(-100%);
+  transform: translateX(-100%);
 }

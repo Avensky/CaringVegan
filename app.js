@@ -13,6 +13,7 @@ const passport = require("passport");
 const productRouter = require("./routes/product");
 const priceRouter = require("./routes/price");
 const userRouter = require("./routes/user");
+const stripeRouter = require("./routes/stripe");
 const morgan = require("morgan");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/error");
@@ -22,11 +23,28 @@ const app = express();
 // =============================================================================
 // GLOBAL MIDDLEWARE ===========================================================
 // =============================================================================
+// set up cors to allow us to accept requests from our client
+app.use(cors());
+app.options("*", cors());
 
+// Body parser, ready from body into req.body. Reject data over the limit.
+// app.use(express.json({ limit: "10kb" }));
+// app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+
+// Read data from the body
+// get information from html forms raw
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  bodyParser.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 //app.enable('trust proxy');
 
 // Set security HTTP headers
-app.use(helmet());
+// app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV !== "production") {
@@ -41,22 +59,6 @@ const limiter = rateLimit({
 });
 app.use("/api", limiter);
 
-// Body parser, ready from body into req.body. Reject data over the limit.
-app.use(express.json({ limit: "10kb" }));
-app.use(express.urlencoded({ extended: true, limit: "10kb" }));
-
-// Read data from the body
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Get data raw for multer
-app.use(
-  bodyParser.json({
-    verify: (req, res, buf) => {
-      req.rawBody = buf;
-    },
-  })
-);
-
 // test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -66,13 +68,9 @@ app.use((req, res, next) => {
 
 // configuration
 require("./models/user");
-require("./models/orders");
+require("./models/order.js");
 require("./models/product");
 require("./config/passport"); // pass passport for configuration
-
-// set up cors to allow us to accept requests from our client
-app.use(cors());
-app.options("*", cors());
 
 // read cookies (needed for auth)
 // app.use(cookieParser());
@@ -93,10 +91,10 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
 // Data sanitization against NoSQL query injection
-app.use(mongoSanitize());
+// app.use(mongoSanitize());
 
 // Data sanitization against XSS
-app.use(xss());
+// app.use(xss());
 
 // Prevent parameter pollution
 // Only allow these parameters to be searched by a range
@@ -106,15 +104,15 @@ app.use(
   })
 );
 
-app.use(compression());
+// app.use(compression());
 
 //==============================================================================
 // routes ======================================================================
 //==============================================================================
 
 require("./routes/routes.js")(app, passport); // load our routes and pass in our app and fully configured passport
-require("./routes/stripe.js")(app, passport);
 // require('./routes/shop.js')(app);
+app.use("/api/v1/stripe", stripeRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/prices", priceRouter);

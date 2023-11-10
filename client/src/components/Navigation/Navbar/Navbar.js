@@ -24,7 +24,7 @@ const Navbar = (props) => {
       </div>
       <div className={classes.NavItems} onClick={props.closeCartbar}>
         <NavLink to="/" exact="true" className={classes.LogoWrapper}>
-          <Logo height="70%" />
+          <Logo height="60%" />
           <div className={classes.LogoText}>CaringVegan</div>
         </NavLink>
       </div>

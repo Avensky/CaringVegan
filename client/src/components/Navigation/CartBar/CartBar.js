@@ -18,12 +18,11 @@ const CartBar = (props) => {
             <img src={item.images[0]} />
           </div>
           <div className={classes.details}>
-            <div>{item.name}</div>
+            <div className={classes.name}>{item.name}</div>
             <div>{item.description}</div>
             <div>Qty:{item.cartAmount}</div>
             <div className={classes.price}>
               ${(item.price.unit_amount / 100).toFixed(2)}
-              <span className={classes.currency}>{item.price.currency}</span>
             </div>
           </div>
         </div>
@@ -46,6 +45,9 @@ const CartBar = (props) => {
             </div>
           </div>
           <div className={classes.cartWrapper}>{cart}</div>
+          <div className={classes.total}>
+            SUBTOTAL ${(props.total / 100).toFixed(2)} USD
+          </div>
           <div className={classes.buttons}>
             <button
               className={
@@ -80,6 +82,7 @@ CartBar.propTypes = {
   marginTop: PropTypes.string,
   cart: PropTypes.array,
   checkout: PropTypes.func,
+  total: PropTypes.number,
 };
 
 export default CartBar;

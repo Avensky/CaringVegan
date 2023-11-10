@@ -64,7 +64,6 @@ const Home = (props) => {
 
   if (items) {
     shop = items.map((item) => {
-      // console.log("item = ", item);
       return (
         <Item
           key={item.id}
@@ -85,22 +84,18 @@ const Home = (props) => {
 
   return (
     <div className={[classes.Home, "page-wrapper"].join(" ")}>
-      {/* <div className={classes.centered}>
-        <div className={classes.title}>
-          <b>THE CARING VEGAN</b>
-        </div>
-        <div className={classes.description}>
-          REJECT THE CYCLE OF PAIN, LOVE YOUR FURRY FRIENDS
-          <span className="fa fa-heart" />
-        </div>
-      </div> */}
-      <div className={classes.BackgroundWrapper}>
+      <div className={classes.headerWrapper}>
         <img src={myImg} />
+        <div className={classes.header}>
+          <div className={classes.title}>
+            I <span className="fa fa-heart" /> MY PUG
+          </div>
+        </div>
       </div>
 
-      {/* <div className={classes.statement}>
-          <p>Lets make this a better world .</p>
-        </div> */}
+      <div className={classes.statement}>
+        Together, we make a better world. <span className="fa fa-heart" />
+      </div>
       <div className={classes.Products}>
         <div className="page-title">Featured</div>
         {shop}

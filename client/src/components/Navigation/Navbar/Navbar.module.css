@@ -10,12 +10,13 @@
   /* top: 0; */
   /* left: 0; */
   background-color: rgb(4, 0, 10);
-  padding: 0 2vw;
+  padding: 0 4vw;
   box-sizing: border-box;
   z-index: 150;
   color: white;
   white-space: nowrap;
   border-bottom: 1px solid #afe4f7;
+  font-size: 1.5em;
 }
 
 .Navbar {
@@ -43,11 +44,12 @@
 
 .LogoText {
   height: 100%;
-  font-size: 1.15em;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  margin-left: -7px;
 }
 
 /* Center Nav links */
@@ -55,7 +57,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 1em;
+  /* font-size: 1em; */
   height: 100%;
   box-sizing: border-box;
 }
@@ -108,10 +110,6 @@
   box-sizing: border-box;
 }
 
-.Mobile {
-  font-size: 1.35em;
-}
-
 /* Hide desktop */
 .Desktop {
   display: none;
@@ -129,9 +127,9 @@
 }
 
 .TotalItems {
-  font-size: 1.3em;
   margin-right: 0.5vw;
-  padding: 0.75vh 0 1vh;
+  /* padding: 0.75vh 0 1vh; */
+  font-size: 1.2em;
 }
 
 svg {

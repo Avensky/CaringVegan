@@ -84,8 +84,9 @@ const App = (props) => {
       <BrowserRouter>
         <ScrollToTop />
         <Navigation
-          // totalItems={props.totalItems}
+          totalItems={props.totalItems}
           cart={props.cart}
+          total={props.total}
           // checkout={checkout}
           // user={props.user} logout={logout}
         />
@@ -100,6 +101,8 @@ const mapStateToProps = (state) => {
   return {
     fetchedUser: state.auth.payload,
     cart: state.product.cart,
+    totalItems: state.product.totalItems,
+    total: state.product.total,
   };
 };
 
@@ -111,8 +114,10 @@ const mapDispatchToProps = (dispatch) => {
 
 App.propTypes = {
   cart: PropTypes.array,
-  fetchedUser: PropTypes.any,
+  fetchedUser: PropTypes.object,
   onFetchUser: PropTypes.func,
+  totalItems: PropTypes.number,
+  total: PropTypes.number,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

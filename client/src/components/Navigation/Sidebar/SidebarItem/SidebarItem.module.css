@@ -1,26 +1,24 @@
 .SidebarItem {
-    color: white;
-    margin: .25vh .25vw;
-    box-sizing: border-box;
+  font-weight: 600;
 }
-
-
 .SidebarItem a {
-    padding: .25vh 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; 
-    width: 100%;
-    box-sizing: border-box;
-    text-decoration: none;
-    color: white;
-    border-bottom: 1px solid transparent;
+  /* font-size: 1.25rem; */
+  padding: 1.5vh 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: black;
+  border-bottom: 1px solid black;
+  font-size: 0.95rem;
 }
 
 .SidebarItem:hover,
 .active {
-    background-color: #afe4f7;
+  background-color: buttonface;
 }
 
 /*

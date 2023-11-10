@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+// get
 export const ScrollToTop = () => {
   const { pathname } = useLocation();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
   return null;
 };
 
+// copy object and update new object properties
 export const updateObject = (oldObject, updatedProperties) => {
   return {
     ...oldObject,
@@ -30,16 +30,16 @@ export const updateArray = (currentArray, updatedItem) => {
   );
 };
 
-// multiply item.price by orderAmt in cart, then add each total
+// multiply item.price by cartAmount in cart, then add each total
 export const getTotalPrice = (cart) => {
   return cart
-    .map((item) => item.price * item.orderAmt)
+    .map((item) => item.price.unit_amount * item.cartAmount)
     .reduce((prev, curr) => prev + curr, 0);
 };
 
 // get totalNumber of items
 export const getTotalItems = (cart) => {
-  return cart.reduce((a, b) => a + b.orderAmt, 0);
+  return cart.reduce((a, b) => a + b.cartAmount, 0);
 };
 
 // Copy array
