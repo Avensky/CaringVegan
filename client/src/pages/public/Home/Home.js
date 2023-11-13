@@ -111,7 +111,7 @@ const mapStateToProps = (state) => {
     total: state.product.total,
     products: state.product.products,
     prices: state.product.prices,
-    shop: state.product.shop,
+    // shop: state.product.shop,
     isAuth: state.auth.payload,
   };
 };
@@ -131,7 +131,7 @@ const mapDispatchToProps = (dispatch) => {
 Home.propTypes = {
   addToCart: PropTypes.func,
   subtractQuantity: PropTypes.func,
-  shop: PropTypes.any,
+  // shop: PropTypes.any,
   products: PropTypes.array,
   getProducts: PropTypes.func,
   getPrice: PropTypes.func,

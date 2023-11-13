@@ -35,7 +35,10 @@ const handleJWTExpiredError = () =>
 //SEND THE WHOLE MESSAGE
 const sendErrorDev = (err, req, res) => {
   // A) API
-  if (req.originalUrl.startsWith("/api")) {
+  // console.log("originalurl", req.originalUrl);
+  console.log("originalurl", req.req.originalUrl);
+  if (req.req.originalUrl.startsWith("/api")) {
+    console.log("err", err);
     return res.status(err.statusCode).json({
       status: err.status,
       error: err,
@@ -45,11 +48,11 @@ const sendErrorDev = (err, req, res) => {
   }
 
   // B) RENDERED WEBSITE
-  //   console.error("ERROR 💥", err);
-  //   return res.status(err.statusCode).render("error", {
-  //     title: "Something went wrong!",
-  //     msg: err.message,
-  //   });
+  console.error("ERROR 💥", err);
+  return res.status(err.statusCode).render("error", {
+    title: "Something went wrong!",
+    msg: err.message,
+  });
 };
 
 // SEND MEANINGFUL ERROR RESPONSES
@@ -107,7 +110,7 @@ module.exports = (err, req, res, next) => {
   //   message: err.message,
   // });
 
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV === "production") {
     // console.log("global error handler production");
     let error = { ...err };
     error.message = err.stack.split("\n", 1).join("");

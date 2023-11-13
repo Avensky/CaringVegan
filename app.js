@@ -29,7 +29,7 @@ app.options("*", cors());
 
 // Body parser, ready from body into req.body. Reject data over the limit.
 // app.use(express.json({ limit: "10kb" }));
-// app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
 // Read data from the body
 // get information from html forms raw
@@ -44,7 +44,7 @@ app.use(
 //app.enable('trust proxy');
 
 // Set security HTTP headers
-// app.use(helmet());
+app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV !== "production") {
@@ -91,10 +91,10 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
 // Data sanitization against NoSQL query injection
-// app.use(mongoSanitize());
+app.use(mongoSanitize());
 
 // Data sanitization against XSS
-// app.use(xss());
+app.use(xss());
 
 // Prevent parameter pollution
 // Only allow these parameters to be searched by a range
@@ -104,7 +104,7 @@ app.use(
   })
 );
 
-// app.use(compression());
+app.use(compression());
 
 //==============================================================================
 // routes ======================================================================

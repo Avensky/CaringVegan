@@ -1,4 +1,6 @@
 .FooterWrapper {
+  /* position: relative; */
+  /* bottom: 0; */
   min-height: 250px;
   background-color: black;
   color: white;

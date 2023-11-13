@@ -2,9 +2,9 @@ const nodemailer = require("nodemailer");
 const pug = require("pug");
 const htmlToText = require("html-to-text");
 module.exports = class Email {
-  constructor(user, url) {
-    this.to = user.local.email;
-    //this.firstName = user.name.split(' ')[0];
+  constructor(name, email, url) {
+    this.to = email;
+    this.firstName = name.split(" ")[0];
     this.url = url;
     this.from = `Team CaringVegan <${process.env.EMAIL_FROM}>`;
   }
@@ -45,7 +45,7 @@ module.exports = class Email {
 
     // 1) Render HTML based on a pug template
     const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
-      //firstName: this.firstName,
+      name: this.name,
       url: this.url,
       subject,
     });

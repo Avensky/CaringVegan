@@ -1,5 +1,3 @@
-// const mongoose = require("mongoose");
-const Order = require("./../models/order");
 // const Products = mongoose.model("Product");
 const Email = require("../utils/email");
 const AppError = require("../utils/appError");
@@ -7,102 +5,51 @@ const Stripe = require("stripe");
 const catchAsync = require("./../utils/catchAsync");
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_ENDPOINT_SECRET;
+const orderController = require("./order");
 
-exports.createOrder = catchAsync(async (session) => {
-  // TODO: fill me in
-  console.log("Creating order");
-  // const sessionRetrieve = await stripe.checkout.sessions.retrieve(session.id, {
-  //   expand: ["line_items"],
-  // });
-  // console.log("sessionRetrieve ", sessionRetrieve);
-  // console.log("sessionRetrieve line_items", sessionRetrieve.line_items);
-  // let line_items = sessionRetrieve.line_items.data.map((item) => {
-  //   let line_item = {
-  //     id: item.id,
-  //     object: item.object,
-  //     amount_subtotal: item.amount_subtotal,
-  //     amount_total: item.amount_total,
-  //     currency: item.currency,
-  //     description: item.description,
-  //     price: {
-  //       id: item.price.id,
-  //       object: item.price.object,
-  //       active: item.price.active,
-  //       billing_scheme: item.price.billing_scheme,
-  //       //created                 : item.price.created,
-  //       currency: item.price.currency,
-  //       livemode: item.price.livemode,
-  //       //lookup_key              : null,
-  //       metadata: item,
-  //       //nickname                : null,
-  //       product: item.price.product,
-  //       //recurring               : null,
-  //       //tiers_mode              : null,
-  //       //transform_quantity      : null,
-  //       type: item.price.type,
-  //       unit_amount: item.price.unit_amount,
-  //       unit_amount_decimal: item.price.unit_amount_decimal,
-  //     },
-  //     quantity: item.quantity,
-  //   };
-  //   return line_item;
-  // });
-});
 // =============================================================================
 // checkout ====================================================================
 // =============================================================================
 
-exports.checkout = catchAsync(async (req, res, next) => {
-  let body = req.body.items;
-  console.log("checkout body = " + JSON.stringify(body));
-  let userid = req.body.userid;
+exports.checkout = catchAsync(async (req, res) => {
+  console.log("checkout");
+  // let body = req.body;
 
   const session = await stripe.checkout.sessions.create({
+    // ui_mode: "embedded",
     billing_address_collection: "auto",
     shipping_address_collection: {
       allowed_countries: ["US"],
     },
     payment_method_types: ["card"],
-    line_items: body,
+    line_items: req.body.items,
     mode: "payment",
+    // success_url:`${YOUR_DOMAIN}/return?session_id={CHECKOUT_SESSION_ID`},
     success_url: process.env.CHECKOUT_SUCCESS_URL,
     cancel_url: process.env.CHECKOUT_CANCEL_URL,
   });
 
-  // this.createOrder(res, session, userid);
+  if (!session)
+    new AppError("stripe failed to create session", 400, "stripe error");
 
-  // } catch (err) {
-  //   return next(
-  //     new AppError(`${err.code}: ${err.message}`, err.statusCode, err.type)
-  //   );
-  // }
+  let userid;
+  req.body.userid ? (userid = req.body.userid) : null;
+  // console.log("userid = ", userid);
 
-  //res.json({ id: session.id });
-  // const orderObj = new Order({
-  //   sessionid: session.id,
-  //   userid: userid || null,
-  //   date: new Date(),
-  //   payment_status: "unpaid",
-  // });
-
-  // orderObj.save((err) => {
-  //   if (err) {
-  //     //console.log(err);
-  //     res.send("Unable to save order data!");
-  //   }
-  //   //res.send('order data saved successfully!');
-  //   else res.json({ id: session.id });
-  // });
+  orderController.createOrder(res, session, userid);
 });
 
 exports.fulfillOrder = (req, session) => {
-  //console.log('session',session)
-  const url = `${req.protocol}://${req.get("host")}/authentication`;
+  // TODO: fill me in
+  console.log("Fulfilling order", session);
+
+  const url = `${req.protocol}://${req.get("host")}/home`;
   //console.log(url);
   const email = session.customer_details.email;
-  new Email(req.user, email, url).sendReceipt();
-  // TODO: fill me in
-  //console.log("Fulfilling order", session);
+  const name = session.customer_details.name;
+
+  // orderController.fulfillOrder(session);
+  new Email(name, email, url).sendReceipt();
 };
 
 exports.emailCustomerAboutFailedPayment = (session) => {
@@ -111,44 +58,40 @@ exports.emailCustomerAboutFailedPayment = (session) => {
 };
 
 exports.webhook = catchAsync(async (req, res) => {
+  console.log("webhook");
   // choco install stripe-cli
-  // stripe listen --forward-to localhost:5000/webhook
-  // stripe listen --forward-to 192.168.1.19:5000/webhook
-  // stripe listen --forward-to 192.168.0.236:5000/webhook
+  // stripe listen --forward-to
   const payload = req.rawBody;
-  console.log("payload", payload);
-
   const sig = req.headers["stripe-signature"];
-  console.log("sig", sig);
 
-  // let event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
   let event;
   try {
     event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
+    // console.log("event: ", event);
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
+
   // Successfully constructed event
   console.log("✅ Success:", event.id);
 
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object;
-      console.log("session completed");
+      console.log("checkout.session.completed ", session.payment_status);
       // Save an order in your database, marked as 'awaiting payment'
-      //   shopController.updateSession(req, res, session);
+      this.updateSession(req, res, session);
 
       // Check if the order is paid (e.g., from a card payment)
       //
       // A delayed notification payment will have an `unpaid` status, as
-      // you're still waiting for funds to be transferred from the customer's
-      // account.
+      // you're still waiting for funds to be transferred from the customer's account.
       if (session.payment_status === "paid") {
-        //shopController.updateSession(req,res, session);
-        // shopController.fulfillOrder(req, res, session);
+        console.log("payment_status ", session.payment_status);
+        this.fulfillOrder(req, session);
       }
-
+      res.status(200).end();
       break;
     }
 
@@ -157,32 +100,113 @@ exports.webhook = catchAsync(async (req, res) => {
       const session = event.data.object;
 
       // Fulfill the purchase...
-      //fulfillOrder(session);
 
+      //console.log('session',session)
+      const url = `${req.protocol}://${req.get("host")}/home`;
+      //console.log(url);
+      const email = session.customer_details.email;
+      const name = session.customer_details.name;
+
+      // orderController.fulfillOrder(session);
+      new Email(name, email, url).sendReceipt();
+
+      // TODO: fill me in
+      console.log("Fulfilling order, sending email to ", email);
+      res.status(200).end();
       break;
     }
 
     case "checkout.session.async_payment_failed": {
       const session = event.data.object;
       console.log("session async_payment_failed");
-      // Send an email to the customer asking them to retry their order
-      //emailCustomerAboutFailedPayment(session);
 
+      // Send an email to the customer asking them to retry their order
+
+      // emailCustomerAboutFailedPayment(session);
+
+      //console.log('session',session)
+      const url = `${req.protocol}://${req.get("host")}/cart`;
+      //console.log(url);
+
+      const email = session.customer_details.email;
+      const name = session.customer_details.name;
+      new Email(name, email, url).sendFailure();
+
+      // TODO: fill me in
+      console.log("Emailing customer failed payment", session);
+      res.status(200).end();
       break;
     }
     default: {
-      res.status(200).json({
-        status: "success",
-        session,
-      });
+      console.log("default");
+      res.status(200).end();
     }
   }
-
-  res.status(200).json({
-    status: "success",
-    session,
-  });
 });
+
+// =============================================================================
+//  ======================================================================
+// =============================================================================
+
+exports.updateSession = async (req, res, session) => {
+  // TODO: fill me in
+  //console.log("Creating order", session);
+  const sessionRetrieve = await stripe.checkout.sessions.retrieve(session.id, {
+    expand: ["line_items"],
+  });
+  console.log("sessionRetrieve ", sessionRetrieve);
+  //console.log("sessionRetrieve line_items", sessionRetrieve.line_items);
+  let line_items = sessionRetrieve.line_items.data.map((item) => {
+    let line_item = {
+      id: item.id,
+      object: item.object,
+      amount_subtotal: item.amount_subtotal,
+      amount_total: item.amount_total,
+      currency: item.currency,
+      description: item.description,
+      price: {
+        id: item.price.id,
+        object: item.price.object,
+        active: item.price.active,
+        billing_scheme: item.price.billing_scheme,
+        //created                 : item.price.created,
+        currency: item.price.currency,
+        livemode: item.price.livemode,
+        //lookup_key              : null,
+        //metadata                : {},
+        //nickname                : null,
+        product: item.price.product,
+        //recurring               : null,
+        //tiers_mode              : null,
+        //transform_quantity      : null,
+        type: item.price.type,
+        unit_amount: item.price.unit_amount,
+        unit_amount_decimal: item.price.unit_amount_decimal,
+      },
+      quantity: item.quantity,
+    };
+    return line_item;
+  });
+
+  //    let products_update = line_items.map( item => {
+  //      let product = Products.find({
+  //          priceid : item.id
+  //        },(err,doc)=>{
+  //            if(doc)
+  //                res.send('Product updated successfully!');
+  //            else {
+  //                res.err(err.message);
+  //            }
+  //        })
+  //      return product
+  //    })
+
+  // increase items sold;
+  // productsSold(line_items)
+
+  // console.log('line_items = ' + JSON.stringify(line_items))
+  orderController.updateOrder(req, res, session, line_items);
+};
 
 // =============================================================================
 // orders ======================================================================

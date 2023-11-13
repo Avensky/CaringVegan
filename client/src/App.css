@@ -1,10 +1,13 @@
 .app {
   /* padding-top: 51px; */
+  display: flex;
   min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .page-wrapper {
-  min-height: 300px;
+  min-height: 100%;
   /* margin: 51px 0; */
   padding: 51px 0 0;
   box-sizing: border-box;

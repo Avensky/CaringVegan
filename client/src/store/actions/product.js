@@ -21,54 +21,35 @@ export const resize = () => {
 /*******************************************
  * Cart Stuffs
  *******************************************/
+console.log("add to cart");
 export const addToCart = (product) => {
-  console.log("add to cart");
-  return {
-    type: actionTypes.ADD_TO_CART,
-    product,
-  };
+  return { type: actionTypes.ADD_TO_CART, product };
 };
 
 export const removeFromCart = (id) => {
-  return {
-    type: actionTypes.REMOVE_FROM_CART,
-    id,
-  };
+  return { type: actionTypes.REMOVE_FROM_CART, id };
 };
 
 export const subQuantity = (id) => {
-  return {
-    type: actionTypes.SUB_QUANTITY,
-    id,
-  };
+  return { type: actionTypes.SUB_QUANTITY, id };
 };
 
 //add qt action
 export const addQuantity = (id) => {
-  return {
-    type: actionTypes.ADD_QUANTITY,
-    id,
-  };
+  return { type: actionTypes.ADD_QUANTITY, id };
 };
 
+// local storage
 export const loadCart = () => {
-  // local storage
-  return {
-    type: actionTypes.LOAD_CART,
-  };
+  return { type: actionTypes.LOAD_CART };
 };
+
 export const loadShop = (values) => {
-  return {
-    type: actionTypes.LOAD_SHOP,
-    values,
-  };
+  return { type: actionTypes.LOAD_SHOP, values };
 };
 
 export const orderBy = (values) => {
-  return {
-    type: actionTypes.ORDER_BY,
-    values,
-  };
+  return { type: actionTypes.ORDER_BY, values };
 };
 
 // ===================================================================
@@ -93,21 +74,13 @@ export const getProducts = () => {
   };
 };
 export const getProductsSuccess = (products) => {
-  return {
-    type: actionTypes.GET_PRODUCTS_SUCCESS,
-    products,
-  };
+  return { type: actionTypes.GET_PRODUCTS_SUCCESS, products };
 };
 export const getProductsFail = (error) => {
-  return {
-    type: actionTypes.GET_PRODUCTS_FAIL,
-    error,
-  };
+  return { type: actionTypes.GET_PRODUCTS_FAIL, error };
 };
 export const getProductsStart = () => {
-  return {
-    type: actionTypes.GET_PRODUCTS_START,
-  };
+  return { type: actionTypes.GET_PRODUCTS_START };
 };
 // ===================================================================
 // GET PRODUCT =======================================================
@@ -131,21 +104,13 @@ export const getProduct = (id) => {
   };
 };
 export const getProductSuccess = (product) => {
-  return {
-    type: actionTypes.GET_PRODUCT_SUCCESS,
-    product,
-  };
+  return { type: actionTypes.GET_PRODUCT_SUCCESS, product };
 };
 export const getProductFail = (error) => {
-  return {
-    type: actionTypes.GET_PRODUCT_FAIL,
-    error,
-  };
+  return { type: actionTypes.GET_PRODUCT_FAIL, error };
 };
 export const getProductStart = () => {
-  return {
-    type: actionTypes.GET_PRODUCT_START,
-  };
+  return { type: actionTypes.GET_PRODUCT_START };
 };
 
 // ===================================================================
@@ -169,9 +134,7 @@ export const getPrice = (priceid, productid, mode) => {
   };
 };
 export const getPriceStart = () => {
-  return {
-    type: actionTypes.GET_PRICE_START,
-  };
+  return { type: actionTypes.GET_PRICE_START };
 };
 export const getPriceSuccess = (priceObj, productid, mode) => {
   return {
@@ -182,10 +145,7 @@ export const getPriceSuccess = (priceObj, productid, mode) => {
   };
 };
 export const getPriceFail = (error) => {
-  return {
-    type: actionTypes.GET_PRICE_FAIL,
-    error,
-  };
+  return { type: actionTypes.GET_PRICE_FAIL, error };
 };
 // ===================================================================
 // STRIPE CHECKOUT ========================================================
@@ -196,22 +156,20 @@ export const checkoutStart = () => {
     type: actionTypes.CHECKOUT_START,
   };
 };
-export const checkoutSuccess = async (id) => {
-  // Get Stripe.js instance
+export const checkoutSuccess = async (session) => {
   const stripe = await stripePromise;
   // When the customer clicks on the button, redirect them to Checkout.
-  const result = await stripe.redirectToCheckout({ sessionId: id });
-  console.log("result ", result);
+  const result = await stripe.redirectToCheckout({
+    sessionId: session.id,
+  });
+  console.log("checkoutSuccess result ", result);
   return {
     type: actionTypes.CHECKOUT_SUCCESS,
-    //result
+    result,
   };
 };
 
 export const checkoutFail = (error) => {
-  // If `redirectToCheckout` fails due to a browser or network
-  // error, display the localized error message to your customer
-  // using `result.error.message`.
   console.log(error);
   return {
     type: actionTypes.CHECKOUT_FAIL,
@@ -221,6 +179,7 @@ export const checkoutFail = (error) => {
 
 export const checkout = (cart, user) => {
   console.log("cart ", cart);
+
   let line_items = cart.map((item) => {
     let data = {
       price: item.price.id,
@@ -230,26 +189,30 @@ export const checkout = (cart, user) => {
     console.log("data = " + JSON.stringify(data));
     return data;
   });
-
   let body;
   user
     ? (body = { items: line_items, userid: user["_id"] })
     : (body = { items: line_items });
-
   console.log("body = ", body);
-
   return (dispatch) => {
     dispatch(checkoutStart());
     // Call your backend to create the Checkout Session
     axios
       .post("/api/v1/stripe/checkout", body)
-      .then((res) => {
+      .then(async (res) => {
         const session = res.data;
-        console.log("checkout", session);
-        dispatch(checkoutSuccess(session.id));
+        console.log("axios checkout", session);
+        // Get Stripe.js instance
+        // const stripe = await stripePromise;
+        // // When the customer clicks on the button, redirect them to Checkout.
+        // const result = await stripe.redirectToCheckout({
+        //   sessionId: session.id,
+        // });
+        console.log("checkoutSuccess result ", session);
+        dispatch(checkoutSuccess(session));
       })
       .catch((err) => {
-        console.log("err", err);
+        // console.log("err", err);
         dispatch(checkoutFail(JSON.stringify(err)));
       });
   };

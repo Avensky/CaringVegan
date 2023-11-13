@@ -23,7 +23,13 @@ const Cart = (props) => {
   };
 
   const addToCart = async (id) => await props.addToCart(id);
-  const subQuantity = async (id) => await props.subQuantity(id);
+
+  const subQuantity = async (id, cartAmount) => {
+    if (cartAmount === 1) {
+      showModal(id);
+    } else await props.subQuantity(id);
+  };
+
   const removeFromCart = async () => {
     hideModal();
     await props.removeFromCart(id);
@@ -109,7 +115,7 @@ const Cart = (props) => {
               <div className={classes.Quantity}>
                 <div
                   className={classes.QuantityModifierL}
-                  onClick={() => subQuantity(item.id)}
+                  onClick={() => subQuantity(item.id, item.cartAmount)}
                 >
                   <FontAwesomeIcon icon="fa-solid fa-minus" />
                 </div>

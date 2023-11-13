@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 // import React, { useEffect, Suspense } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -27,7 +27,15 @@ import {
 
 const App = (props) => {
   // const getUser = async () => { await props.onFetchUser();}; // prettier-ignore
+  const checkout = async (cart, user) => await props.checkout(cart, user);
+  const loadCart = () => props.loadCart();
 
+  useEffect(() => {
+    if (props.cart.length === 0) {
+      console.log("app, cart.length === 0 ", props.cart);
+      loadCart();
+    }
+  }, []);
   // useEffect(() => {
   //   if (!fetchedUser) {
   //     getUser();
@@ -87,7 +95,7 @@ const App = (props) => {
           totalItems={props.totalItems}
           cart={props.cart}
           total={props.total}
-          // checkout={checkout}
+          checkout={() => checkout(props.cart, props.user)}
           // user={props.user} logout={logout}
         />
         <Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>
@@ -99,7 +107,7 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    fetchedUser: state.auth.payload,
+    user: state.auth.payload,
     cart: state.product.cart,
     totalItems: state.product.totalItems,
     total: state.product.total,
@@ -109,15 +117,19 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchUser: () => dispatch(actions.fetchUser()),
+    checkout: (cart, user) => dispatch(actions.checkout(cart, user)),
+    loadCart: () => dispatch(actions.loadCart()),
   };
 };
 
 App.propTypes = {
   cart: PropTypes.array,
-  fetchedUser: PropTypes.object,
+  user: PropTypes.object,
   onFetchUser: PropTypes.func,
   totalItems: PropTypes.number,
   total: PropTypes.number,
+  checkout: PropTypes.func,
+  loadCart: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

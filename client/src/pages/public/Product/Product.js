@@ -18,7 +18,7 @@ const Product = (props) => {
   // console.log("id = ", id);
   // console.log("product price = ", props.price);
   const [item, setItem] = useState(null);
-  console.log("item: ", item);
+  // console.log("item: ", item);
   const [purchasing, setPurchasing] = useState(false);
   const { price, product } = props;
 
@@ -82,7 +82,7 @@ const Product = (props) => {
       // console.log("setItem price: ", price.price.product);
       // console.log("priced product detected");
       if (price.price.product === id) {
-        console.log("setItem, priced product matches route id");
+        console.log("setItem, the priced product matches route id");
         setItem(price);
       }
     }
