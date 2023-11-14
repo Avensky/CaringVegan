@@ -1,4 +1,7 @@
 .app {
+  min-height: 100vh;
+}
+.container {
   /* padding-top: 51px; */
   display: flex;
   min-height: 100vh;
@@ -8,7 +11,6 @@
 
 .page-wrapper {
   min-height: 100%;
-  /* margin: 51px 0; */
   padding: 51px 0 0;
   box-sizing: border-box;
 }

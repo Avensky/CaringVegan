@@ -22,7 +22,7 @@ const CartBar = (props) => {
             <div>{item.description}</div>
             <div>Qty:{item.cartAmount}</div>
             <div className={classes.price}>
-              ${(item.price.unit_amount / 100).toFixed(2)}
+              ${(item.default_price.unit_amount / 100).toFixed(2)}
             </div>
           </div>
         </div>

@@ -46,14 +46,13 @@ const getProductsSuccess = (state, action) => {
   // console.log("getProductsSuccess = " + JSON.stringify(action.products));
   return updateObject(state, {
     products: action.products,
-    // prices: action.products,
-    // loading: false,
+    loading: false,
   });
 };
 
 const getProductsFail = (state) => {
   return updateObject(state, {
-    // loading: false,
+    loading: false,
   });
 };
 // ============================================================================

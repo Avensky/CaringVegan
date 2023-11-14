@@ -5,7 +5,7 @@
 .Item {
   padding: 2vh 0;
   /* margin: 0 0 2vh; */
-  border-bottom: #221a00 1px solid;
+  border-bottom: grey 1px solid;
 }
 
 .ItemData {
@@ -43,7 +43,7 @@
 }
 
 .PriceWrapper {
-  padding: 0.25vh 4vw;
+  padding: 0.5vh 4vw;
   font-weight: 600;
   display: flex;
   justify-content: space-between;

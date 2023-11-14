@@ -23,14 +23,18 @@ exports.getProducts = catchAsync(async (req, res, next) => {
   // const products = await queryAPI.query;
   // query.sort().select().skip().limit()
   const queryParams = {
-    // endindBefore: '',
+    // include: ["data.prices"],
+    expand: ["data.default_price"],
     limit: req.query.limit,
-    // active: true,
+    active: req.query.active,
+    // endindBefore: '',
     // shippable: true,
     // ending_before: '',
     // starting_after: '',
     // url: '',
   };
+  console.log("queryParams ", queryParams);
+
   const products = await stripe.products.list(queryParams);
 
   // SEND RESPONSE
@@ -47,13 +51,14 @@ exports.getProduct = catchAsync(async (req, res, next) => {
   // const product = await Product.findById(req.params.id);
   // console.log("product = ", product);
 
-  const product = await stripe.products.retrieve(req.params.id);
+  const product = await stripe.products.retrieve(req.params.id, {
+    expand: ["default_price"],
+  });
 
   if (!product) {
     console.log("if !product = ", product);
     return next(new AppError("No product found with that ID", 404, "WrongId"));
   }
-
   res.status(200).json({
     status: "success",
     product,

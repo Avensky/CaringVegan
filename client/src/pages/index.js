@@ -12,3 +12,4 @@ export { default as Cart } from "./public/Cart/Cart";
 // export { default as Orders } from "./public/Orders/Orders";
 // export { default as Checkout } from "./public/Checkout/Success";
 // export { default as ItemFull } from "./public/Shop/ItemFull/ItemFull";
+export { default as Catalog } from "./admin/Catalog/Catalog";

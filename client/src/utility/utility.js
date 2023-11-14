@@ -1,13 +1,40 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-// get
+// Scroll to top on new routes
 export const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
+};
+
+export const formatPrice = (unit_amount) => {
+  return `$${(unit_amount / 100).toFixed(2)}`;
+};
+
+export const formatDate = (date) => {
+  const months = [
+    "jan",
+    "feb",
+    "mar",
+    "apr",
+    "may",
+    "jun",
+    "jul",
+    "aug",
+    "sep",
+    "oct",
+    "nov",
+    "dec",
+  ];
+  const formatDate = new Date(date);
+
+  const day = formatDate.getDate();
+  const month = months[formatDate.getMonth()];
+  const year = formatDate.getFullYear();
+  return `${month} ${day}, ${year}`;
 };
 
 // copy object and update new object properties
@@ -33,7 +60,7 @@ export const updateArray = (currentArray, updatedItem) => {
 // multiply item.price by cartAmount in cart, then add each total
 export const getTotalPrice = (cart) => {
   return cart
-    .map((item) => item.price.unit_amount * item.cartAmount)
+    .map((item) => item.default_price.unit_amount * item.cartAmount)
     .reduce((prev, curr) => prev + curr, 0);
 };
 

@@ -13,15 +13,11 @@ const Home = (props) => {
   // console.log("Items : ", items);
   // console.log("APP props.products : ", props.products);
   const products = props.products;
-  const prices = props.prices;
 
   // console.log("App ", products);
   // get Products
   useEffect(() => {
-    async function getProducts() {
-      // console.log("get products");
-      await props.getProducts();
-    }
+    const getProducts = async () => await props.getProducts();
     if (products.length === 0) {
       console.log("getProducts, no product detected");
       getProducts();
@@ -29,28 +25,11 @@ const Home = (props) => {
   }, []);
 
   useEffect(() => {
-    async function getPrices(products) {
-      console.log("get prices");
-      for (let i = 0; i < products.length; i++) {
-        // console.log("get prices ", products[i].id);
-        await props.getPrice(
-          products[i].default_price,
-          products[i].id,
-          "products"
-        );
-      }
-    }
-    if (prices.length === 0) {
-      getPrices(products);
+    if (products.length > 0) {
+      console.log("setItems ", products);
+      setItems(products);
     }
   }, [products]);
-
-  useEffect(() => {
-    if (prices.length === products.length && prices.length > 0) {
-      console.log("setItems ", prices);
-      setItems(prices);
-    }
-  }, [prices]);
 
   // const addToCart = (id) => {
   //   props.addToCart(id);
@@ -71,7 +50,7 @@ const Home = (props) => {
           url={item.images[0]}
           name={item.name}
           description={item.description}
-          price={item.price}
+          price={item.default_price}
           link={"/product"}
           // to="/"
           // clicked={() => addToCart(item._id)}
@@ -110,7 +89,6 @@ const mapStateToProps = (state) => {
     totalItems: state.product.totalItems,
     total: state.product.total,
     products: state.product.products,
-    prices: state.product.prices,
     // shop: state.product.shop,
     isAuth: state.auth.payload,
   };
@@ -123,7 +101,6 @@ const mapDispatchToProps = (dispatch) => {
     getPrice: (priceid, productid, mode) =>
       dispatch(actions.getPrice(priceid, productid, mode)),
     loadCart: (cart) => dispatch(actions.loadCart(cart)),
-    loadShop: (cart) => dispatch(actions.loadShop(cart)),
     subQuantity: (id) => dispatch(actions.subQuantity(id)),
   };
 };
@@ -135,6 +112,5 @@ Home.propTypes = {
   products: PropTypes.array,
   getProducts: PropTypes.func,
   getPrice: PropTypes.func,
-  prices: PropTypes.array,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

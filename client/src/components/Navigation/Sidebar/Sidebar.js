@@ -17,6 +17,10 @@ const sidebar = (props) => {
         <div className={classes.LogoWrapper}>
           <Logo />
         </div>
+        <div className={classes.SidebarItem}>Admin</div>
+        <SidebarItem exact="true" to="/catalog" clicked={props.closed}>
+          Catalog
+        </SidebarItem>
         <div className={classes.SidebarItem}>Pages</div>
         <SidebarItem exact="true" to="/home" clicked={props.closed}>
           Home

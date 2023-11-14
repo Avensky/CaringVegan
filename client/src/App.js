@@ -23,6 +23,7 @@ import {
   // ItemFull,
   Cart,
   // Orders,
+  Catalog,
 } from "./pages";
 
 const App = (props) => {
@@ -43,7 +44,7 @@ const App = (props) => {
   // }, [fetchedUser]);
 
   let routes = (
-    <Routes>
+    <>
       {/* <Route path="/checkout" element={<Checkout />} />
       <Route path="/authentication" element={<Auth />} />
       <Route path="/login" element={<Login />} />
@@ -62,35 +63,21 @@ const App = (props) => {
       <Route path="/shop/itemfull/:itemId" element={<ItemFull />} />*/}
       <Route path="/cart" element={<Cart />} />
       <Route path="/" element={<Home />} />
-    </Routes>
+    </>
   );
 
-  // if (props.fetchedUser) {
-  //   routes = (
-  //     <Routes>
-  //       <Route path="/checkout" element={Checkout} />
-  //       <Route path="/authentication" render={(props) => <Auth {...props} />} />
-  //       <Route
-  //         exact
-  //         path="/authentication/api/v1/users/resetPassword/:token"
-  //         render={(props) => <Auth {...props} />}
-  //       />
-  //       <Route path="/home" element={Home} />
-  //       <Route path="/connect" element={Connect} />
-  //       <Route path="/profile" element={Profile} />
-  //       <Route path="/shop" element={Shop} exact />
-  //       <Route path="/shop/itemfull/:itemId" element={ItemFull} />
-  //       <Route path="/cart" element={Cart} />
-  //       <Route path="/orders" element={Orders} />
-  //       <Route path="/" element={Home} />
-  //     </Routes>
-  //   );
-  // }
+  let admin;
+  if (!props.user) {
+    admin = (
+      <>
+        <Route path="/catalog" element={<Catalog />} />
+      </>
+    );
+  }
 
   return (
     <div className="app">
       <BrowserRouter>
-        <ScrollToTop />
         <Navigation
           totalItems={props.totalItems}
           cart={props.cart}
@@ -98,8 +85,16 @@ const App = (props) => {
           checkout={() => checkout(props.cart, props.user)}
           // user={props.user} logout={logout}
         />
-        <Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>
-        <Footer />
+        <ScrollToTop />
+        <div className="container">
+          <Suspense fallback={<p>Loading...</p>}>
+            <Routes>
+              {routes}
+              {admin}
+            </Routes>
+          </Suspense>
+          <Footer />
+        </div>
       </BrowserRouter>
     </div>
   );

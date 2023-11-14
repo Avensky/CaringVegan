@@ -10,7 +10,6 @@ export {
   subQuantity,
   checkout,
   loadCart,
-  loadShop,
 } from "./product";
 
 export { fetchOrders, fetchOrdersStart } from "./orders";

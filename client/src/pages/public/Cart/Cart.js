@@ -94,15 +94,20 @@ const Cart = (props) => {
               <div className={classes.Description}>{item.description}</div>
               {/* Price */}
               <div className={classes.PriceWrapper}>
-                <span className={classes.Price}>Price: $</span>
-                <span>{(item.price.unit_amount / 100).toFixed(2)}</span>
+                <span className={classes.Price}>Price:</span>
+                <span>
+                  {"$"}
+                  {(item.default_price.unit_amount / 100).toFixed(2)}
+                </span>
               </div>
               <div className={classes.PriceWrapper}>
-                <span className={classes.ItemTotal}>Total: $</span>
+                <span className={classes.ItemTotal}>Total:</span>
                 <span>
-                  {((item.price.unit_amount * item.cartAmount) / 100).toFixed(
-                    2
-                  )}
+                  {"$"}
+                  {(
+                    (item.default_price.unit_amount * item.cartAmount) /
+                    100
+                  ).toFixed(2)}
                 </span>
               </div>
             </div>

@@ -1,0 +1,69 @@
+.Catalog {
+  /* position: relative;
+  top: 0; */
+}
+
+.filter {
+  display: flex;
+}
+
+.filterItem {
+  /* width: 33.33%; */
+  width: 100%;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin: 1px;
+  padding: 10px;
+  font-weight: 600;
+}
+
+.active {
+  border-color: aquamarine;
+}
+
+.table {
+  font-weight: 900;
+  /* text-transform: uppercase; */
+}
+.itemWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-bottom: 1px solid grey;
+  padding: 1vh 0;
+}
+
+.imageWrapper {
+  width: 15vw;
+}
+
+.image {
+  width: 15vw;
+}
+
+.details {
+  width: 40vw;
+  padding: 0 1vw;
+}
+
+.created {
+  width: 20vw;
+  padding: 0 1vw;
+}
+
+.updated {
+  width: 20vw;
+  padding: 0 1vw;
+}
+
+.edit {
+  width: 5vw;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+}
+
+@media only screen and (min-width: 1025px) {
+  /* For desktop: */
+}

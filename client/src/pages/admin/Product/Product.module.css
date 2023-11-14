@@ -1,0 +1,166 @@
+.Product {
+  /* box-sizing: border-box; */
+  padding: 2vh 0;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  /* align-items: stretch; */
+  /* min-height: 70vh; */
+}
+
+.Heading {
+  display: flex;
+  justify-content: space-between;
+  margin: 2vh 0;
+}
+
+.Name {
+  text-align: center;
+  font-size: 1.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  height: auto;
+  /* margin: 0.5vh 0; */
+}
+
+.Description {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: capitalize;
+  /* margin: 0.5vh 0; */
+}
+
+.Price {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ProductDetails {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.ImageWrapper {
+  /* box-sizing: border-box; */
+  width: 100%;
+  /* height: 30vh; */
+  margin: 0 auto;
+}
+
+.ImageWrapper img {
+  /* width: 100%; */
+  /* box-sizing: border-box; */
+}
+
+.Ratings {
+  display: flex;
+  padding: 1vh 0;
+}
+
+.Content {
+  /* box-sizing: border-box; */
+}
+
+.bottomContent {
+  padding: 0 2vw;
+  box-sizing: border-box;
+}
+
+/* Pricing */
+.PriceWrapper {
+  display: flex;
+  align-items: center;
+  margin: 1vh 0;
+  width: fit-content;
+  font-size: 1.2em;
+  box-sizing: border-box;
+}
+
+.Discount {
+  color: red;
+}
+
+.Price {
+  font-weight: bold;
+}
+
+.Availability {
+  /* padding: 1vh 1vw; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.Button {
+  margin: 1vh 0;
+  background-color: rgb(240, 241, 241);
+  border: 1px solid black;
+  text-transform: uppercase;
+  padding: 1vh 1vw;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  /* -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none; */
+}
+
+.Button:hover {
+  background-color: rgb(210, 218, 218);
+}
+
+.Desc {
+  margin: 1vh 0;
+}
+
+.Reviews {
+  background-color: black;
+  box-sizing: border-box;
+  padding: 2vh 4vw;
+}
+
+.ReviewsHeading {
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-size: 2em;
+  padding: 4vh 0;
+  box-sizing: border-box;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .Reviews {
+    /* padding: 2vh 15vw; */
+  }
+  .ProductDetails {
+    /* width: 30vw; */
+  }
+
+  .ImageWrapper {
+    /* height: 50vh; */
+  }
+  .Content {
+    /* margin: 2vh 0; */
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  /* For desktop: */
+  .Reviews {
+    /* padding: 4vh 30vw; */
+  }
+  .ProductDetails {
+    /* width: 30vw; */
+  }
+
+  .Content {
+    /* display: flex; */
+  }
+  .ImageWrapper {
+    /* height: 70vh; */
+  }
+}

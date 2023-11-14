@@ -34,33 +34,25 @@ export const subQuantity = (id) => {
   return { type: actionTypes.SUB_QUANTITY, id };
 };
 
-//add qt action
-export const addQuantity = (id) => {
-  return { type: actionTypes.ADD_QUANTITY, id };
-};
-
 // local storage
 export const loadCart = () => {
   return { type: actionTypes.LOAD_CART };
 };
 
-export const loadShop = (values) => {
-  return { type: actionTypes.LOAD_SHOP, values };
-};
-
-export const orderBy = (values) => {
-  return { type: actionTypes.ORDER_BY, values };
-};
-
 // ===================================================================
 // GET PRODUCTS ======================================================
 // ===================================================================
-
-export const getProducts = () => {
+export const getProducts = (params, limit) => {
+  console.log("params", params);
+  let string;
+  params ? (string = "&" + params) : (string = "");
+  console.log("string", string);
+  limit ? (string = limit + params) : (string = "/?limit=3" + string);
+  console.log("string2", string);
   return (dispatch) => {
     dispatch(getProductsStart());
     axios
-      .get("/api/v1/products")
+      .get("/api/v1/products" + string)
       .then((result) => {
         // console.log("actions getProducts", result.data.products.data);
         const products = result.data.products.data;
@@ -73,19 +65,22 @@ export const getProducts = () => {
       });
   };
 };
+
 export const getProductsSuccess = (products) => {
   return { type: actionTypes.GET_PRODUCTS_SUCCESS, products };
 };
+
 export const getProductsFail = (error) => {
   return { type: actionTypes.GET_PRODUCTS_FAIL, error };
 };
+
 export const getProductsStart = () => {
   return { type: actionTypes.GET_PRODUCTS_START };
 };
+
 // ===================================================================
 // GET PRODUCT =======================================================
 // ===================================================================
-
 export const getProduct = (id) => {
   return (dispatch) => {
     dispatch(getProductsStart());
@@ -103,12 +98,15 @@ export const getProduct = (id) => {
       });
   };
 };
+
 export const getProductSuccess = (product) => {
   return { type: actionTypes.GET_PRODUCT_SUCCESS, product };
 };
+
 export const getProductFail = (error) => {
   return { type: actionTypes.GET_PRODUCT_FAIL, error };
 };
+
 export const getProductStart = () => {
   return { type: actionTypes.GET_PRODUCT_START };
 };
@@ -133,6 +131,7 @@ export const getPrice = (priceid, productid, mode) => {
       });
   };
 };
+
 export const getPriceStart = () => {
   return { type: actionTypes.GET_PRICE_START };
 };
@@ -144,12 +143,18 @@ export const getPriceSuccess = (priceObj, productid, mode) => {
     mode,
   };
 };
+
 export const getPriceFail = (error) => {
   return { type: actionTypes.GET_PRICE_FAIL, error };
 };
-// ===================================================================
-// STRIPE CHECKOUT ========================================================
-// ===================================================================
+
+// ==========================================================================
+// STRIPE CHECKOUT ==========================================================
+// ==========================================================================
+
+// ==========================================================================
+// STRIPE CHECKOUT ==========================================================
+// ==========================================================================
 
 export const checkoutStart = () => {
   return {
