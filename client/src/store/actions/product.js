@@ -21,8 +21,8 @@ export const resize = () => {
 /*******************************************
  * Cart Stuffs
  *******************************************/
-console.log("add to cart");
 export const addToCart = (product) => {
+  // console.log("add to cart");
   return { type: actionTypes.ADD_TO_CART, product };
 };
 
@@ -42,32 +42,73 @@ export const loadCart = () => {
 // ===================================================================
 // GET PRODUCTS ======================================================
 // ===================================================================
-export const getProducts = (params, limit) => {
-  console.log("params", params);
-  let string;
-  params ? (string = "&" + params) : (string = "");
-  console.log("string", string);
-  limit ? (string = limit + params) : (string = "/?limit=3" + string);
-  console.log("string2", string);
+export const getProducts = (params) => {
+  // console.log("params", params);
+  let string = "";
+  if (
+    params.active ||
+    params.page ||
+    params.limit ||
+    params.starting_after ||
+    params.ending_before
+  ) {
+    string = "?";
+    if (params.active !== undefined) {
+      string = `${string}active=${params.active}`;
+      params.limit ? (string = `${string}&limit=${params.limit}`) : null;
+      params.ending_before
+        ? (string = `${string}&ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`)
+        : null;
+      console.log("Params.results ", params.results);
+      params.starting_after &&
+      params.has_more &&
+      params.results === params.limit
+        ? (string = `${string}&starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`)
+        : null;
+    } else if (params.limit) {
+      string = `${string}limit=${params.limit}`;
+      params.ending_before && params.index > 1
+        ? (string = `${string}&ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`)
+        : null;
+      params.starting_after &&
+      params.has_more &&
+      params.results === params.limit
+        ? (string = `${string}&starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`)
+        : null;
+    } else if (
+      params.starting_after &&
+      params.has_more &&
+      params.results === params.limit
+    ) {
+      string = `${string}&starting_after=${params.starting_after}&has_more=${params.has_more}`;
+    } else if (params.ending_before && params.index > 1) {
+      string = `${string}&ending_before=${params.ending_before}&has_more=${params.has_more}`;
+    }
+  }
+  // limit ? (string = `${string}&limit=${limit}`) : null;
+  // page ? (string = `${string}&page=${page}`) : null;
+
+  console.log("string =", string);
+  // console.log("params: ", params);
   return (dispatch) => {
     dispatch(getProductsStart());
     axios
       .get("/api/v1/products" + string)
       .then((result) => {
-        // console.log("actions getProducts", result.data.products.data);
-        const products = result.data.products.data;
-        dispatch(getProductsSuccess(products));
+        // console.log("actions getProducts", result.data);
+        const data = result.data;
+        dispatch(getProductsSuccess(data));
       })
       .catch((error) => {
-        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + error);
         // console.log("getProducts error = " + JSON.stringify(error));
         dispatch(getProductsFail(JSON.stringify(error)));
       });
   };
 };
 
-export const getProductsSuccess = (products) => {
-  return { type: actionTypes.GET_PRODUCTS_SUCCESS, products };
+export const getProductsSuccess = (data) => {
+  return { type: actionTypes.GET_PRODUCTS_SUCCESS, data };
 };
 
 export const getProductsFail = (error) => {
@@ -187,7 +228,7 @@ export const checkout = (cart, user) => {
 
   let line_items = cart.map((item) => {
     let data = {
-      price: item.price.id,
+      price: item.default_price.id,
       quantity: item.cartAmount,
       //tax_rates   : [keys.taxRates]
     };

@@ -74,9 +74,11 @@ const handleJWTExpiredError = () =>
 const sendErrorDev = (err, req, res) => {
   // A) API
   // console.log("originalurl", req.originalUrl);
-  console.log("originalurl", req.req.originalUrl);
-  if (req.req.originalUrl.startsWith("/api")) {
+  // console.log("originalurl", req);
+  // console.log("originalurl", req.originalUrl);
+  if (req.originalUrl.startsWith("/api")) {
     console.log("err", err);
+    // console.log("err status", err.status);
     return res.status(err.statusCode).json({
       status: err.status,
       error: err,
@@ -168,6 +170,6 @@ module.exports = (err, req, res, next) => {
     if (error.name === "TokenExpiredError") error = handleJWTExpiredError();
     sendErrorProd(error, res);
   } else {
-    sendErrorDev(err, res);
+    sendErrorDev(err, req, res);
   }
 };

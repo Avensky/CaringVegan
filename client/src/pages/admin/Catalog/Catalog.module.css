@@ -1,24 +1,15 @@
 .Catalog {
   /* position: relative;
   top: 0; */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 5vh;
 }
 
 .filter {
   display: flex;
-}
-
-.filterItem {
-  /* width: 33.33%; */
-  width: 100%;
-  border: 1px solid gray;
-  border-radius: 10px;
-  margin: 1px;
-  padding: 10px;
-  font-weight: 600;
-}
-
-.active {
-  border-color: aquamarine;
 }
 
 .table {
@@ -58,8 +49,41 @@
 
 .edit {
   width: 5vw;
+  margin: auto 0;
+  font-weight: 600;
 }
 
+.paginate {
+  display: flex;
+  justify-content: space-between;
+  padding: 1vh 1vw;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+.right {
+  display: flex;
+}
+.right div {
+  padding: 6px;
+  border: 1px black solid;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.prev {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.next {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.disabled {
+  color: grey;
+}
 @media only screen and (min-width: 600px) {
   /* For tablets: */
 }

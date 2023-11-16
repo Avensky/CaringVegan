@@ -11,17 +11,19 @@ import { formatDate, formatPrice } from "../../../utility/utility";
 import FilterItem from "./FilterItem/FilterItem";
 
 const Catalog = (props) => {
+  const index = props.index;
+  const products = props.products;
+  // console.log(props.index, "index");
   const [items, setItems] = useState(null);
   const [all, setAll] = useState(true);
   const [archived, setArchived] = useState(false);
   const [available, setAvailable] = useState(false);
-  const products = props.products;
+  const [isActive, setIsActive] = useState();
 
   useEffect(() => {
-    const getProducts = async () => await props.getProducts();
-    if (products.length === 0) {
-      getProducts();
-    }
+    const params = { limit: 5 };
+    const getProducts = async () => await props.getProducts(params);
+    getProducts();
   }, []);
 
   useEffect(() => {
@@ -45,8 +47,12 @@ const Catalog = (props) => {
       setAll(true);
       setAvailable(false);
       setArchived(false);
+      setIsActive();
       console.log("all ", all);
-      await props.getProducts("");
+      const params = {
+        limit: 5,
+      };
+      await props.getProducts(params);
     }
   };
   const getArchvied = async () => {
@@ -56,8 +62,13 @@ const Catalog = (props) => {
       setAll(false);
       setAvailable(false);
       setArchived(true);
+      setIsActive(false);
       console.log("archived ", archived);
-      await props.getProducts("active=false");
+      const params = {
+        active: false,
+        limit: 5,
+      };
+      await props.getProducts(params);
     }
   };
   const getAvailable = async () => {
@@ -67,8 +78,73 @@ const Catalog = (props) => {
       setAll(false);
       setAvailable(true);
       setArchived(false);
+      setIsActive(true);
       console.log("available ", available);
-      await props.getProducts("active=true");
+      const params = {
+        active: true,
+        limit: 5,
+      };
+      await props.getProducts(params);
+    }
+  };
+  // const [executing, setExecuting] = useState(false);
+  // const onRealClick = async (event) => {
+  //   setExecuting(true);
+  //   try {
+  //     await onClick();
+  //   } finally {
+  //     setExecuting(false);
+  //   }
+  // };
+  // console.log("has_more", props.has_more);
+  // console.log("results", props.results);
+  // console.log("total_count", props.total_count);
+  // console.log("index: ", index);
+
+  let totalPages = props.total_count / 5;
+  // const remainder = props.total_count % 5;
+  // if (remainder) totalPages = totalPages + 1/;
+  // console.log("remainder: ", remainer);
+
+  const next = async (event) => {
+    // const starting_after = props.starting_after;
+    console.log("starting_after", props.starting_after);
+    console.log("totatlPages: ", totalPages);
+    console.log("event", event);
+    console.log("index", index);
+
+    if (index < totalPages) {
+      console.log("page index smaller than total pages");
+      // if (!props.has_more || !starting_after) return;
+      console.log("has more, get next");
+      // setExecuting(true);
+      const params = {
+        active: isActive,
+        limit: 5,
+        starting_after: props.starting_after,
+        results: props.results,
+        has_more: props.has_more,
+        index: props.index,
+      };
+      try {
+        await props.getProducts(params);
+      } finally {
+        // setExecuting(false);
+      }
+    }
+  };
+
+  const prev = () => {
+    if (index > 1) {
+      const params = {
+        active: isActive,
+        limit: 5,
+        ending_before: props.ending_before,
+        results: props.results,
+        has_more: props.has_more,
+        index: props.index,
+      };
+      props.getProducts(params);
     }
   };
   const filter = (
@@ -109,6 +185,43 @@ const Catalog = (props) => {
     });
   }
 
+  let paginate;
+  if (items) {
+    paginate = (
+      <div className={classes.paginate}>
+        <div className={classes.left}>
+          Viewing {(index - 1) * 5 + 1}-
+          {index * 5 > props.total_count ? props.total_count : index * 5} out of{" "}
+          {props.total_count}
+        </div>
+        <div className={classes.right}>
+          <div
+            className={
+              index === 1
+                ? [classes.prev, classes.disabled].join(" ")
+                : classes.prev
+            }
+            // disabled={true}
+            onClick={prev}
+          >
+            previous
+          </div>
+          <div
+            className={
+              props.has_more || props.index < totalPages
+                ? [classes.next].join(" ")
+                : [classes.next, classes.disabled].join(" ")
+            }
+            onClick={next}
+            // disabled={executing}
+          >
+            Next
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={[classes.Catalog, "page-wrapper"].join(" ")}>
       <div className={classes.Products}>
@@ -117,6 +230,7 @@ const Catalog = (props) => {
         {table}
         {catalog}
       </div>
+      {paginate}
     </div>
   );
 };
@@ -127,8 +241,13 @@ const mapStateToProps = (state) => {
     totalItems: state.product.totalItems,
     total: state.product.total,
     products: state.product.products,
-    // shop: state.product.shop,
+    has_more: state.product.has_more,
+    ending_before: state.product.ending_before,
+    starting_after: state.product.starting_after,
+    results: state.product.results,
+    total_count: state.product.total_count,
     isAuth: state.auth.payload,
+    index: state.product.index,
   };
 };
 
@@ -143,8 +262,14 @@ const mapDispatchToProps = (dispatch) => {
 Catalog.propTypes = {
   addToCart: PropTypes.func,
   subtractQuantity: PropTypes.func,
-  // shop: PropTypes.any,
+  ending_before: PropTypes.string,
+  starting_after: PropTypes.string,
   products: PropTypes.array,
+  results: PropTypes.number,
+  has_more: PropTypes.bool,
+  total_count: PropTypes.number,
+  index: PropTypes.number,
   getProducts: PropTypes.func,
+  // params: PropTypes.obj,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Catalog);

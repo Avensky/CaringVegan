@@ -15,6 +15,8 @@ const initialState = {
   cart: [],
   products: [],
   product: {},
+  results: 0,
+  total_count: 0,
   width: null,
   prices: [],
   price: {},
@@ -22,6 +24,7 @@ const initialState = {
   total: 0.0,
   totalItems: 0,
   error: null,
+  index: 1,
 };
 
 // track screen width
@@ -42,10 +45,15 @@ const getProductsStart = (state) => {
 };
 
 const getProductsSuccess = (state, action) => {
-  // console.log("reducer getProductsSuccess", action.products);
-  // console.log("getProductsSuccess = " + JSON.stringify(action.products));
+  console.log("getProductSuccess", action.data);
   return updateObject(state, {
-    products: action.products,
+    starting_after: action.data.starting_after,
+    ending_before: action.data.ending_before,
+    total_count: action.data.products.total_count,
+    has_more: action.data.products.has_more,
+    products: action.data.products.data,
+    results: action.data.results,
+    index: action.data.index,
     loading: false,
   });
 };
@@ -59,7 +67,8 @@ const getProductsFail = (state) => {
 // GET PRODUCT ================================================================
 // ============================================================================
 
-const getProductStart = (state) => updateObject(state, { loading: true });
+const getProductStart = (state) =>
+  updateObject(state, { loading: true, has_more: false });
 
 const getProductSuccess = (state, action) => {
   // console.log("getProductSuccess reducer", action.product);
@@ -177,12 +186,12 @@ const subShipping = (state) => {
 const loadCart = (state, action) => {
   console.log("loadCart action", action);
   let cart = localStorage.getItem("cart");
-  console.log("arrayString", cart);
+  // console.log("arrayString", cart);
   if (cart) {
     cart = JSON.parse(cart);
   }
 
-  console.log("load " + "cart" + ": " + cart);
+  // console.log("load " + "cart" + ": " + cart);
   // const cart = getLocalStorage("cart");
   const totalItems = getTotalItems(cart);
   const total = getTotalPrice(cart);
@@ -281,7 +290,7 @@ const loadShop = (state, action) => {
 
 const orderBy = (state, action) => {
   //let shop=state.shop.sort( function ( a, b ) { return b.price - a.price; } );
-  console.log("orderby " + JSON.stringify(action.values.value));
+  // console.log("orderby " + JSON.stringify(action.values.value));
   //console.log('orderby '+ action.values);
 
   //    console.log('orderBy')

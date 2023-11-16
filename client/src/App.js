@@ -33,7 +33,7 @@ const App = (props) => {
 
   useEffect(() => {
     if (props.cart.length === 0) {
-      console.log("app, cart.length === 0 ", props.cart);
+      // console.log("app, cart.length === 0 ", props.cart);
       loadCart();
     }
   }, []);

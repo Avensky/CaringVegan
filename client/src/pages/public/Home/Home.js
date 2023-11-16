@@ -17,7 +17,8 @@ const Home = (props) => {
   // console.log("App ", products);
   // get Products
   useEffect(() => {
-    const getProducts = async () => await props.getProducts();
+    const params = {};
+    const getProducts = async () => await props.getProducts(params);
     if (products.length === 0) {
       console.log("getProducts, no product detected");
       getProducts();
@@ -97,7 +98,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (id) => dispatch(actions.addToCart(id)),
-    getProducts: () => dispatch(actions.getProducts()),
+    getProducts: (params) => dispatch(actions.getProducts(params)),
     getPrice: (priceid, productid, mode) =>
       dispatch(actions.getPrice(priceid, productid, mode)),
     loadCart: (cart) => dispatch(actions.loadCart(cart)),
