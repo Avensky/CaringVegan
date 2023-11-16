@@ -187,14 +187,15 @@ const loadCart = (state, action) => {
   console.log("loadCart action", action);
   let cart = localStorage.getItem("cart");
   // console.log("arrayString", cart);
+  let totalItems, total;
   if (cart) {
     cart = JSON.parse(cart);
+    totalItems = getTotalItems(cart);
+    total = getTotalPrice(cart);
   }
 
   // console.log("load " + "cart" + ": " + cart);
   // const cart = getLocalStorage("cart");
-  const totalItems = getTotalItems(cart);
-  const total = getTotalPrice(cart);
 
   return updateObject(state, { cart, totalItems, total });
 };
