@@ -1,12 +1,14 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "es2021": true
   },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended"
   ],
+  "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
@@ -14,7 +16,12 @@
       "jsx": true
     }
   },
-  "plugins": ["react", "react-hooks"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "plugins": ["react"],
   "rules": {
     //add customize rules here as per your project's needs
   }

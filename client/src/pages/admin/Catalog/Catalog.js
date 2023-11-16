@@ -24,7 +24,7 @@ const Catalog = (props) => {
     const params = { limit: 5 };
     const getProducts = async () => await props.getProducts(params);
     getProducts();
-  }, []);
+  });
 
   useEffect(() => {
     if (products.length) setItems(products);

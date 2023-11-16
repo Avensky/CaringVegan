@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { connect } from "react-redux";
 // import { useParams, NavLink } from "react-router-dom";
@@ -45,7 +46,7 @@ const Product = (props) => {
       console.log("getProduct, route id does not match saved product");
       getProduct(id);
     }
-  }, []);
+  });
 
   useEffect(() => {
     const getPrice = async (priceid, productid) => {
@@ -199,7 +200,7 @@ const Product = (props) => {
 
   useLayoutEffect(() => {
     window.addEventListener("resize", props.resize);
-  }, []);
+  });
 
   return (
     <div className="page-wrapper">
