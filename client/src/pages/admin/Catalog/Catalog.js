@@ -106,18 +106,8 @@ const Catalog = (props) => {
   // if (remainder) totalPages = totalPages + 1/;
   // console.log("remainder: ", remainer);
 
-  const next = async (event) => {
-    // const starting_after = props.starting_after;
-    console.log("starting_after", props.starting_after);
-    console.log("totatlPages: ", totalPages);
-    console.log("event", event);
-    console.log("index", index);
-
+  const next = async () => {
     if (index < totalPages && !props.loading) {
-      console.log("page index smaller than total pages");
-      // if (!props.has_more || !starting_after) return;
-      console.log("has more, get next");
-      // setExecuting(true);
       const params = {
         active: isActive,
         limit: 5,
@@ -126,16 +116,12 @@ const Catalog = (props) => {
         has_more: props.has_more,
         index: props.index,
       };
-      try {
-        await props.getProducts(params);
-      } finally {
-        // setExecuting(false);
-      }
+      await props.getProducts(params);
     }
   };
 
-  const prev = () => {
-    if (index > 1) {
+  const prev = async () => {
+    if (index > 1 && !props.loading) {
       const params = {
         active: isActive,
         limit: 5,
@@ -144,7 +130,7 @@ const Catalog = (props) => {
         has_more: props.has_more,
         index: props.index,
       };
-      props.getProducts(params);
+      await props.getProducts(params);
     }
   };
   const filter = (
@@ -164,6 +150,11 @@ const Catalog = (props) => {
       <div className={classes.edit}></div>
     </div>
   );
+
+  if (props.loading) {
+    catalog = <Spinner />;
+  }
+
   if (items) {
     catalog = items.map((item) => {
       return (
