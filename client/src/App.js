@@ -36,7 +36,7 @@ const App = (props) => {
       // console.log("app, cart.length === 0 ", props.cart);
       loadCart();
     }
-  });
+  }, []);
   // useEffect(() => {
   //   if (!fetchedUser) {
   //     getUser();
