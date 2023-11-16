@@ -24,7 +24,7 @@ const Catalog = (props) => {
     const params = { limit: 5 };
     const getProducts = async () => await props.getProducts(params);
     getProducts();
-  });
+  }, []);
 
   useEffect(() => {
     if (products.length) setItems(products);
@@ -113,7 +113,7 @@ const Catalog = (props) => {
     console.log("event", event);
     console.log("index", index);
 
-    if (index < totalPages) {
+    if (index < totalPages && !props.loading) {
       console.log("page index smaller than total pages");
       // if (!props.has_more || !starting_after) return;
       console.log("has more, get next");
@@ -201,8 +201,8 @@ const Catalog = (props) => {
                 ? [classes.prev, classes.disabled].join(" ")
                 : classes.prev
             }
-            // disabled={true}
             onClick={prev}
+            disabled={props.loading}
           >
             previous
           </div>
@@ -213,7 +213,7 @@ const Catalog = (props) => {
                 : [classes.next, classes.disabled].join(" ")
             }
             onClick={next}
-            // disabled={executing}
+            disabled={props.loading}
           >
             Next
           </div>
@@ -248,6 +248,7 @@ const mapStateToProps = (state) => {
     total_count: state.product.total_count,
     isAuth: state.auth.payload,
     index: state.product.index,
+    loading: state.product.loading,
   };
 };
 
@@ -266,8 +267,9 @@ Catalog.propTypes = {
   starting_after: PropTypes.string,
   products: PropTypes.array,
   results: PropTypes.number,
-  has_more: PropTypes.bool,
   total_count: PropTypes.number,
+  has_more: PropTypes.bool,
+  loading: PropTypes.bool,
   index: PropTypes.number,
   getProducts: PropTypes.func,
   // params: PropTypes.obj,

@@ -23,7 +23,7 @@ const Home = (props) => {
       console.log("getProducts, no product detected");
       getProducts();
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (products.length > 0) {

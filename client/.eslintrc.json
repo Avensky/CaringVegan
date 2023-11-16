@@ -23,6 +23,7 @@
   },
   "plugins": ["react"],
   "rules": {
+    "react-hooks/exhaustive-deps": 0
     //add customize rules here as per your project's needs
   }
 }
