@@ -186,10 +186,10 @@ const subShipping = (state) => {
 const loadCart = (state, action) => {
   console.log("loadCart action", action);
   let cart = localStorage.getItem("cart") || [];
-  cart = JSON.parse(cart);
   console.log("localstorage cart", cart);
   let totalItems, total;
   if (cart.length > 0) {
+    cart = JSON.parse(cart);
     totalItems = getTotalItems(cart);
     total = getTotalPrice(cart);
   }
