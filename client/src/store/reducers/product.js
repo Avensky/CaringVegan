@@ -25,8 +25,14 @@ const initialState = {
   totalItems: 0,
   error: null,
   index: 1,
+  featured: [],
+  featured_loading: false,
+  featured_total_count: 0,
 };
 
+// ============================================================================
+// MISC         ===============================================================
+// ============================================================================
 // track screen width
 const resize = (state, action) => {
   return updateObject(state, {
@@ -35,12 +41,35 @@ const resize = (state, action) => {
 };
 
 // ============================================================================
+// GET FEATURED ===============================================================
+// ============================================================================
+const getFeaturedStart = (state) => {
+  return updateObject(state, { loading: true });
+};
+
+const getFeaturedFail = (state) => {
+  return updateObject(state, { featured_loading: false });
+};
+
+const getFeaturedSuccess = (state, action) => {
+  const featured = action.featured;
+  console.log("featuredsuccess: ", featured);
+  console.log("featuredsuccess: ", featured.data);
+  return updateObject(state, {
+    featured: featured.data,
+    featured_loading: false,
+    featured_has_more: action.featured.has_more,
+    featured_next_page: action.featured.next_page,
+    featured_total_count: action.featured.total_count,
+  });
+};
+// ============================================================================
 // GET PRODUCTS ===============================================================
 // ============================================================================
 
 const getProductsStart = (state) => {
   return updateObject(state, {
-    loading: true,
+    featured_loading: true,
   });
 };
 
@@ -329,6 +358,14 @@ const reducer = (state = initialState, action) => {
     // Resize
     case actionTypes.RESIZE:
       return resize(state, action);
+
+    // Featured
+    case actionTypes.GET_FEATURED_SUCCESS:
+      return getFeaturedSuccess(state, action);
+    case actionTypes.GET_FEATURED_START:
+      return getFeaturedStart(state, action);
+    case actionTypes.GET_FEATURED_FAIL:
+      return getFeaturedFail(state, action);
 
     // products
     case actionTypes.GET_PRODUCTS_SUCCESS:

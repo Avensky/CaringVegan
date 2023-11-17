@@ -11,26 +11,26 @@ import PropTypes from "prop-types";
 const Home = (props) => {
   const [items, setItems] = useState(null);
   // console.log("Items : ", items);
-  // console.log("APP props.products : ", props.products);
-  const products = props.products;
+  // console.log("APP props.featured : ", props.featured);
+  const featured = props.featured;
 
-  // console.log("App ", products);
+  // console.log("App ", featured);
   // get Products
   useEffect(() => {
-    const params = {};
-    const getProducts = async () => await props.getProducts(params);
-    if (products.length === 0) {
-      console.log("getProducts, no product detected");
-      getProducts();
+    // const params = {};
+    const getFeatured = async () => await props.getFeatured();
+    if (featured.length === 0) {
+      console.log("getFeatured, no product detected");
+      getFeatured();
     }
   }, []);
 
   useEffect(() => {
-    if (products.length > 0) {
-      console.log("setItems ", products);
-      setItems(products);
+    if (featured.length > 0) {
+      console.log("setItems ", featured);
+      setItems(featured);
     }
-  }, [products]);
+  }, [featured]);
 
   // const addToCart = (id) => {
   //   props.addToCart(id);
@@ -38,7 +38,7 @@ const Home = (props) => {
   // const subtractQuantity = (id) => {
   //   props.subtractQuantity(id);
   // };
-  // console.log("home ", props.products);
+  // console.log("home ", props.featured);
 
   let shop = <Spinner />;
 
@@ -86,32 +86,21 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    addedItems: state.product.addedItems,
-    totalItems: state.product.totalItems,
     total: state.product.total,
-    products: state.product.products,
-    // shop: state.product.shop,
+    featured: state.product.featured,
     isAuth: state.auth.payload,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToCart: (id) => dispatch(actions.addToCart(id)),
-    getProducts: (params) => dispatch(actions.getProducts(params)),
-    getPrice: (priceid, productid, mode) =>
-      dispatch(actions.getPrice(priceid, productid, mode)),
+    getFeatured: () => dispatch(actions.getFeatured()),
     loadCart: (cart) => dispatch(actions.loadCart(cart)),
-    subQuantity: (id) => dispatch(actions.subQuantity(id)),
   };
 };
 
 Home.propTypes = {
-  addToCart: PropTypes.func,
-  subtractQuantity: PropTypes.func,
-  // shop: PropTypes.any,
-  products: PropTypes.array,
-  getProducts: PropTypes.func,
-  getPrice: PropTypes.func,
+  featured: PropTypes.array,
+  getFeatured: PropTypes.func,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

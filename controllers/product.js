@@ -11,6 +11,22 @@ exports.getTopProducts = (req, res, next) => {
   next();
 };
 
+exports.getFeatured = catchAsync(async (req, res, next) => {
+  try {
+    const featured = await stripe.products.search({
+      expand: ["data.default_price", "total_count"],
+      query: "metadata['featured']:'true'",
+    });
+    console.log("featured: ", featured);
+    res.status(200).json({
+      status: "success",
+      featured,
+    });
+  } catch (err) {
+    next(new AppError(err.message, err.statusCode, err.type));
+  }
+});
+
 exports.getProducts = catchAsync(async (req, res, next) => {
   // let filter = {};
   // if (req.params.id) filter = { product: req.params.id };

@@ -38,7 +38,35 @@ export const subQuantity = (id) => {
 export const loadCart = () => {
   return { type: actionTypes.LOAD_CART };
 };
+// ==========================================================================
+// STRIPE SEARCH ============================================================
+// ==========================================================================
 
+export const getFeaturedStart = () => {
+  return { type: actionTypes.GET_FEATURED_START };
+};
+export const getFeaturedSuccess = (featured) => {
+  return { type: actionTypes.GET_FEATURED_SUCCESS, featured };
+};
+export const getFeaturedFail = (err) => {
+  return { type: actionTypes.GET_FEATURED_FAIL, err };
+};
+
+export const getFeatured = () => {
+  return (dispatch) => {
+    dispatch(getFeaturedStart());
+    axios
+      .get("/api/v1/products/featured")
+      .then((result) => {
+        console.log("result", result.data);
+        dispatch(getFeaturedSuccess(result.data.featured));
+      })
+      .catch((err) => {
+        console.log("err ", err);
+        dispatch(getFeaturedFail(JSON.stringify(err)));
+      });
+  };
+};
 // ===================================================================
 // GET PRODUCTS ======================================================
 // ===================================================================
@@ -188,10 +216,6 @@ export const getPriceSuccess = (priceObj, productid, mode) => {
 export const getPriceFail = (error) => {
   return { type: actionTypes.GET_PRICE_FAIL, error };
 };
-
-// ==========================================================================
-// STRIPE CHECKOUT ==========================================================
-// ==========================================================================
 
 // ==========================================================================
 // STRIPE CHECKOUT ==========================================================

@@ -5,7 +5,7 @@ const authController = require("./../controllers/auth");
 const router = express.Router();
 
 // router.param("id", productController.checkID);
-
+router.route("/featured").get(productController.getFeatured);
 router
   .route("/getTopProducts")
   .get(productController.getTopProducts, productController.getProducts);

@@ -1,6 +1,7 @@
 export { fetchUser } from "./auth";
 
 export {
+  getFeatured,
   getProducts,
   getProduct,
   getPrice,

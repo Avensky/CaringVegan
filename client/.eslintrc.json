@@ -23,7 +23,8 @@
   },
   "plugins": ["react"],
   "rules": {
-    "react-hooks/exhaustive-deps": 0
+    "react-hooks/exhaustive-deps": 0,
+    "no-useless-escape": "off"
     //add customize rules here as per your project's needs
   }
 }
