@@ -1,5 +1,41 @@
 //Types should be in const to avoid typos and duplication since it's a string and could be easily miss spelled
 
+// ===================================================================
+// PRODUCT ==============================================================
+// ===================================================================
+export const GET_INTERNAL_PRODUCTS_START = "GET_INTERNAL_PRODUCTS_START";
+export const GET_INTERNAL_PRODUCTS_SUCCESS = "GET_INTERNAL_PRODUCTS_SUCCESS";
+export const GET_INTERNAL_PRODUCTS_FAIL = "GET_INTERNAL_PRODUCTS_FAIL";
+export const GET_INTERNAL_PRODUCTS = "GET_INTERNAL_PRODUCTS";
+
+export const GET_INTERNAL_PRODUCT_START = "GET_INTERNAL_PRODUCT_START";
+export const GET_INTERNAL_PRODUCT_SUCCESS = "GET_INTERNAL_PRODUCT_SUCCESS";
+export const GET_INTERNAL_PRODUCT_FAIL = "GET_INTERNAL_PRODUCT_FAIL";
+export const GET_INTERNAL_PRODUCT = "GET_INTERNAL_PRODUCT";
+
+export const GET_STRIPE_PRODUCTS_START = "GET_STRIPE_PRODUCTS_START";
+export const GET_STRIPE_PRODUCTS_SUCCESS = "GET_STRIPE_PRODUCTS_SUCCESS";
+export const GET_STRIPE_PRODUCTS_FAIL = "GET_STRIPE_PRODUCTS_FAIL";
+export const GET_STRIPE_PRODUCTS = "GET_STRIPE_PRODUCTS";
+
+export const GET_STRIPE_PRODUCT_START = "GET_STRIPE_PRODUCT_START";
+export const GET_STRIPE_PRODUCT_SUCCESS = "GET_STRIPE_PRODUCT_SUCCESS";
+export const GET_STRIPE_PRODUCT_FAIL = "GET_STRIPE_PRODUCT_FAIL";
+export const GET_STRIPE_PRODUCT = "GET_STRIPE_PRODUCT";
+
+// ===================================================================
+// PRODUCT ==============================================================
+// ===================================================================
+export const GET_PRODUCTS_START = "GET_PRODUCTS_START";
+export const GET_PRODUCTS_SUCCESS = "GET_PRODUCTS_SUCCESS";
+export const GET_PRODUCTS_FAIL = "GET_PRODUCTS_FAIL";
+export const GET_PRODUCTS = "GET_PRODUCTS";
+
+export const GET_PRODUCT_START = "GET_PRODUCT_START";
+export const GET_PRODUCT_SUCCESS = "GET_PRODUCT_SUCCESS";
+export const GET_PRODUCT_FAIL = "GET_PRODUCT_FAIL";
+export const GET_PRODUCT = "GET_PRODUCT";
+
 export const RESIZE = "RESIZE";
 
 // ===================================================================
@@ -91,15 +127,10 @@ export const GET_PRICES_SUCCESS = "GET_PRICES_SUCCESS";
 export const GET_PRICES_FAIL = "GET_PRICES_FAIL";
 export const GET_PRICES = "GET_PRICES";
 
-export const GET_PRODUCTS_START = "GET_PRODUCTS_START";
-export const GET_PRODUCTS_SUCCESS = "GET_PRODUCTS_SUCCESS";
-export const GET_PRODUCTS_FAIL = "GET_PRODUCTS_FAIL";
-export const GET_PRODUCTS = "GET_PRODUCTS";
-
-export const GET_PRODUCT_START = "GET_PRODUCT_START";
-export const GET_PRODUCT_SUCCESS = "GET_PRODUCT_SUCCESS";
-export const GET_PRODUCT_FAIL = "GET_PRODUCT_FAIL";
-export const GET_PRODUCT = "GET_PRODUCT";
+export const GET_SHOP_START = "GET_SHOP_START";
+export const GET_SHOP_SUCCESS = "GET_SHOP_SUCCESS";
+export const GET_SHOP_FAIL = "GET_SHOP_FAIL";
+export const GET_SHOP = "GET_SHOP";
 
 // ===================================================================
 // CART ==============================================================

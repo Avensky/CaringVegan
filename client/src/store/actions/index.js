@@ -1,16 +1,20 @@
 export { fetchUser } from "./auth";
 
+export { getInternalProduct, getInternalProducts } from "./product";
+
 export {
   getFeatured,
   getProducts,
   getProduct,
   getPrice,
-  resize,
+  getShop,
   addToCart,
   removeFromCart,
   subQuantity,
   checkout,
   loadCart,
-} from "./product";
+} from "./stripe";
+
+export { resize } from "./utility";
 
 export { fetchOrders, fetchOrdersStart } from "./orders";

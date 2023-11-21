@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import classes from "./Catalog.module.css";
+import classes from "../Catalog/Catalog.module.css";
 import * as actions from "../../../store/actions/index";
 import PropTypes from "prop-types";
-import CatalogItems from "./CatalogItems/CatalogItems";
 import FilterItem from "./FilterItem/FilterItem";
 import Pagination from "./Pagination/Pagination";
+import CatalogItems from "./CatalogItems/CatalogItems";
 
-const Catalog = (props) => {
-  const page = props.page;
-  // console.log(props.page, "page");
+const StripeCatalog = (props) => {
+  const index = props.index;
+  // console.log(props.index, "index");
   const [all, setAll] = useState(true);
   const [archived, setArchived] = useState(false);
   const [available, setAvailable] = useState(false);
@@ -76,49 +76,31 @@ const Catalog = (props) => {
       await props.getProducts(params);
     }
   };
-  // const [executing, setExecuting] = useState(false);
-  // const onRealClick = async (event) => {
-  //   setExecuting(true);
-  //   try {
-  //     await onClick();
-  //   } finally {
-  //     setExecuting(false);
-  //   }
-  // };
-  // console.log("has_more", props.has_more);
-  // console.log("results", props.results);
-  // console.log("total_count", props.total_count);
-  // console.log("page: ", page);
 
   let totalPages = props.total_count / 5;
-  // const remainder = props.total_count % 5;
-  // if (remainder) totalPages = totalPages + 1/;
-  // console.log("remainder: ", remainer);
-
   const next = async () => {
-    console.log("loading: ", props.loading);
-    if (page < totalPages && !props.loading) {
+    if (index < totalPages && !props.loading) {
       const params = {
         active: isActive,
         limit: 5,
-        // starting_after: props.starting_after,
+        starting_after: props.starting_after,
         results: props.results,
         has_more: props.has_more,
-        page: props.next_page,
+        index: props.index,
       };
       await props.getProducts(params);
     }
   };
 
   const prev = async () => {
-    if (page > 1 && !props.loading) {
+    if (index > 1 && !props.loading) {
       const params = {
         active: isActive,
         limit: 5,
-        // ending_before: props.ending_before,
+        ending_before: props.ending_before,
         results: props.results,
         has_more: props.has_more,
-        page: props.page - 1,
+        index: props.index,
       };
       await props.getProducts(params);
     }
@@ -141,7 +123,7 @@ const Catalog = (props) => {
       <Pagination
         prev={() => prev()}
         next={() => next()}
-        page={props.page}
+        page={props.index}
         limit={5}
         total_count={props.total_count}
         has_more={props.has_more}
@@ -153,43 +135,41 @@ const Catalog = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    addedItems: state.product.addedItems,
-    totalItems: state.product.totalItems,
-    total: state.product.total,
-    products: state.product.products,
-    has_more: state.product.has_more,
-    ending_before: state.product.ending_before,
-    starting_after: state.product.starting_after,
-    results: state.product.results,
-    total_count: state.product.total_count,
+    addedItems: state.stripe.addedItems,
+    totalItems: state.stripe.totalItems,
+    total: state.stripe.total,
+    products: state.stripe.products,
+    has_more: state.stripe.has_more,
+    ending_before: state.stripe.ending_before,
+    starting_after: state.stripe.starting_after,
+    results: state.stripe.results,
+    total_count: state.stripe.total_count,
     isAuth: state.auth.payload,
-    page: state.product.page,
-    next_page: state.product.next_page,
-    loading: state.product.loading,
+    index: state.stripe.index,
+    loading: state.stripe.loading,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (id) => dispatch(actions.addToCart(id)),
-    getProducts: (params) => dispatch(actions.getInternalProducts(params)),
+    getProducts: (params) => dispatch(actions.getProducts(params)),
     subQuantity: (id) => dispatch(actions.subQuantity(id)),
   };
 };
 
-Catalog.propTypes = {
+StripeCatalog.propTypes = {
   addToCart: PropTypes.func,
   subtractQuantity: PropTypes.func,
   ending_before: PropTypes.string,
   starting_after: PropTypes.string,
-  products: PropTypes.instanceOf(Object),
+  products: PropTypes.array,
   results: PropTypes.number,
   total_count: PropTypes.number,
   has_more: PropTypes.bool,
   loading: PropTypes.bool,
-  page: PropTypes.number,
+  index: PropTypes.number,
   getProducts: PropTypes.func,
-  next_page: PropTypes.number,
   // params: PropTypes.obj,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Catalog);
+export default connect(mapStateToProps, mapDispatchToProps)(StripeCatalog);

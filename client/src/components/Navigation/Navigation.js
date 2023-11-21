@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
-import PropTypes from "prop-types";
 import CartBar from "./CartBar/CartBar";
 import classes from "./Navigation.module.css";
+import PropTypes from "prop-types";
 
 const Navigation = (props) => {
   // Toggle sidebar view

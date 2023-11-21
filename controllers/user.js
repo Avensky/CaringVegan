@@ -4,7 +4,7 @@ const User = require("../models/user");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const QueryAPI = require("./../utils/QueryAPI");
-const factory = require("./handlerFactory");
+const crud = require("./crud");
 
 // =================================================================
 // UPLOAD FOTO HELPERS =============================================

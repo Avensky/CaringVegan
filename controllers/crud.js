@@ -1,6 +1,6 @@
-const catchAsync = require("./../utils/catchAsync");
-const AppError = require("./../utils/appError");
-const QueryAPI = require("./../utils/QueryAPI");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const QueryAPI = require("../utils/QueryAPI");
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
@@ -67,24 +67,67 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    // To allow for nested GET reviews on tour (hack)
+    console.log("getAll: ", Model);
+    // console.log("params: ", req.params);
+    // To allow for nested GET reviews on product (hack)
     let filter = {};
-    if (req.params.tourId) filter = { tour: req.params.tourId };
+    // if (req.params.productId) filter = { product: req.params.productId };
 
     const features = new QueryAPI(Model.find(filter), req.query)
       .filter()
-      .sort()
-      .limitFields()
+      // .sort()
+      // .limitFields()
       .paginate();
     // const doc = await features.query.explain();
-    const doc = await features.query;
+    let doc = await features.query;
+
+    console.log("data TYPE: ", typeof doc);
+    console.log("results: ", doc.length);
+    console.log("doc: ", doc);
+
+    console.log("query: ", req.query);
+    const limit = req.query.limit;
+    console.log("page: ", req.query.page);
+    // const tot al_count = new QueryAPI(Model.count(filter));
+    // doc = Object.entries(doc);
+    // console.log("data TYPE: ", typeof doc);
+    // console.log("data: ", doc);
+
+    const count = new QueryAPI(Model.find(filter), req.query).countDocuments();
+    const total_count = await count.query;
+    console.log("total_count", total_count);
+    let page = 1;
+    if (req.query.page) {
+      page = req.query.page * 1;
+    }
+    console.log("page ", page);
+    console.log("total_count ", total_count);
+    console.log("limit: ", limit);
+    const total_pages = total_count / limit;
+    console.log("total pages", total_pages);
+
+    let has_more = false;
+
+    let next_page = null;
+    if (page < total_pages) {
+      next_page = page + 1;
+      has_more = true;
+    }
+    console.log("has_more, ", has_more);
+    console.log("next_page ", next_page);
 
     // SEND RESPONSE
     res.status(200).json({
       status: "success",
       results: doc.length,
+      total_count,
       data: {
         data: doc,
+        // starting_after,
+        // ending_before,
+        page,
+        next_page,
+        has_more,
       },
     });
   });

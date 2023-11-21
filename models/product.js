@@ -3,7 +3,7 @@ const slugify = require("slugify");
 
 const productSchema = new mongoose.Schema(
   {
-    id: { type: String, required: [false, "Please include the product id"] },
+    id: { type: String },
     object: { type: String },
     active: { type: Boolean, select: false },
     attributes: [String],

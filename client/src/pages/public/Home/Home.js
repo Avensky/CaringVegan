@@ -7,6 +7,7 @@ import Item from "../../../components/Item/Item";
 // import { NavLink } from "react-router-dom";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 const Home = (props) => {
   const [items, setItems] = useState(null);
@@ -64,14 +65,14 @@ const Home = (props) => {
 
   return (
     <div className={[classes.Home, "page-wrapper"].join(" ")}>
-      <div className={classes.headerWrapper}>
+      <NavLink to="/shop" className={classes.headerWrapper}>
         <img src={myImg} />
         <div className={classes.header}>
           <div className={classes.title}>
             I <span className="fa fa-heart" /> MY PUG
           </div>
         </div>
-      </div>
+      </NavLink>
 
       <div className={classes.statement}>
         Together, we make a better world. <span className="fa fa-heart" />
@@ -86,8 +87,8 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    total: state.product.total,
-    featured: state.product.featured,
+    total: state.stripe.total,
+    featured: state.stripe.featured,
     isAuth: state.auth.payload,
   };
 };

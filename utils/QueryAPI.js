@@ -4,6 +4,30 @@ class QueryAPI {
     this.queryString = queryString;
   }
 
+  countDocuments() {
+    console.log("req.query = ", this.queryString);
+    // BUILD QUERY
+    const queryObj = { ...this.queryString };
+    console.log("queryObj = ", queryObj);
+    // 1A) Filtering
+    const excludedFields = ["page", "sort", "limit", "fields"];
+    excludedFields.forEach((el) => delete queryObj[el]);
+    // console.log("queryObj excludedFields = ", queryObj);
+    // 1B) Advanced Filtering
+    let queryStr = JSON.stringify(queryObj);
+    // console.log("queryStr = ", queryStr);
+    // gte, gt, lte, lt must be rewriten
+    // {type: 'mug', quantity: {gte: '10'}} //current string
+    // {type: 'mug', quantity: {$gte: 10}} //mogoDB requirement
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+    // console.log("queryStr = ", queryStr);
+    queryStr = JSON.parse(queryStr);
+    // console.log("queryStr = ", queryStr);
+
+    this.query = this.query.countDocuments(queryStr);
+    // console.log("query = ", this);
+    return this;
+  }
   filter() {
     console.log("req.query = ", this.queryString);
     // BUILD QUERY

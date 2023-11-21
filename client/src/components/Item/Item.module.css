@@ -31,7 +31,7 @@
 }
 
 .Thumbnail {
-  height: 30vh;
+  height: 40vh;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -139,14 +139,14 @@
 
 @media only screen and (min-width: 600px) {
   /* For tablets: */
-  .Item {
+  /* .Item {
     width: 50%;
     padding: 4vh 4vw;
-  }
-
+  } */
+  /* 
   .Thumbnail {
     padding: 2vh 2vw;
-  }
+  } */
 
   /*
     .Name {
@@ -184,7 +184,7 @@
     }
     */
 
-  .Item {
+  /* .Item {
     width: 33%;
-  }
+  } */
 }

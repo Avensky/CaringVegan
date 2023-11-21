@@ -6,12 +6,13 @@ import * as actions from "./store/actions/index";
 import PropTypes from "prop-types";
 import Navigation from "./components/Navigation/Navigation";
 import Footer from "./components/Footer/Footer";
+import "react-tooltip/dist/react-tooltip.css";
 import "./App.css";
 import { ScrollToTop } from "./utility/utility";
 import {
   Home,
   Product,
-  // Shop,
+  Shop,
   // Checkout,
   // Profile,
   // Auth,
@@ -24,6 +25,7 @@ import {
   Cart,
   // Orders,
   Catalog,
+  StripeCatalog,
 } from "./pages";
 
 const App = (props) => {
@@ -58,8 +60,8 @@ const App = (props) => {
       /> */}
       <Route path="/home" element={<Home />} />
       <Route path="/product/:id" element={<Product />} />
-      {/* <Route path="/connect" element={<Connect />} />
       <Route path="/shop" element={<Shop />} />
+      {/* <Route path="/connect" element={<Connect />} />
       <Route path="/shop/itemfull/:itemId" element={<ItemFull />} />*/}
       <Route path="/cart" element={<Cart />} />
       <Route path="/" element={<Home />} />
@@ -71,6 +73,7 @@ const App = (props) => {
     admin = (
       <>
         <Route path="/catalog" element={<Catalog />} />
+        <Route path="/stripe-catalog" element={<StripeCatalog />} />
       </>
     );
   }

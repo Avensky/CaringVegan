@@ -21,6 +21,9 @@ const sidebar = (props) => {
         <SidebarItem exact="true" to="/catalog" clicked={props.closed}>
           Catalog
         </SidebarItem>
+        <SidebarItem exact="true" to="/stripe-catalog" clicked={props.closed}>
+          Stripe Catalog
+        </SidebarItem>
         <div className={classes.SidebarItem}>Pages</div>
         <SidebarItem exact="true" to="/home" clicked={props.closed}>
           Home

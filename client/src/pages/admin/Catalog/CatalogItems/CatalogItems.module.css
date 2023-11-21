@@ -1,0 +1,46 @@
+.table {
+  font-weight: 900;
+  /* text-transform: uppercase; */
+}
+.itemWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-bottom: 1px solid grey;
+  padding: 1vh 0;
+}
+
+.imageWrapper {
+  width: 15vw;
+}
+
+.image {
+  width: 15vw;
+}
+
+.details {
+  width: 40vw;
+  padding: 0 1vw;
+}
+
+.created {
+  width: 20vw;
+  padding: 0 1vw;
+}
+
+.updated {
+  width: 20vw;
+  padding: 0 1vw;
+}
+
+.edit {
+  width: 5vw;
+  margin: auto 0;
+  font-weight: 600;
+}
+
+.tooltip {
+  display: "inline-block";
+  margin: "60px";
+  color: black;
+}
