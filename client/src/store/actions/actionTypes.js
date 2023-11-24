@@ -13,6 +13,12 @@ export const GET_INTERNAL_PRODUCT_SUCCESS = "GET_INTERNAL_PRODUCT_SUCCESS";
 export const GET_INTERNAL_PRODUCT_FAIL = "GET_INTERNAL_PRODUCT_FAIL";
 export const GET_INTERNAL_PRODUCT = "GET_INTERNAL_PRODUCT";
 
+export const DELETE_INTERNAL_PRODUCT_START = "DELETE_INTERNAL_PRODUCT_START";
+export const DELETE_INTERNAL_PRODUCT_SUCCESS =
+  "DELETE_INTERNAL_PRODUCT_SUCCESS";
+export const DELETE_INTERNAL_PRODUCT_FAIL = "DELETE_INTERNAL_PRODUCT_FAIL";
+export const DELETE_INTERNAL_PRODUCT = "DELETE_INTERNAL_PRODUCT";
+
 export const GET_STRIPE_PRODUCTS_START = "GET_STRIPE_PRODUCTS_START";
 export const GET_STRIPE_PRODUCTS_SUCCESS = "GET_STRIPE_PRODUCTS_SUCCESS";
 export const GET_STRIPE_PRODUCTS_FAIL = "GET_STRIPE_PRODUCTS_FAIL";
@@ -37,6 +43,12 @@ export const GET_PRODUCT_FAIL = "GET_PRODUCT_FAIL";
 export const GET_PRODUCT = "GET_PRODUCT";
 
 export const RESIZE = "RESIZE";
+
+// ===================================================================
+// CART ==============================================================
+// ===================================================================
+
+export const SET_IS_ACTIVE = "SET_IS_ACTIVE";
 
 // ===================================================================
 // CART ==============================================================

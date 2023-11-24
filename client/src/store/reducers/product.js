@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import {
+  copyArray,
   // copyArray,
   // copyArray,
   updateObject,
@@ -7,7 +8,7 @@ import {
   // updateArray,
   // getTotalPrice,
   // getTotalItems,
-  // removeItem,
+  removeItem,
   // storeLocally,
   // getLocalStorage,
 } from "../../utility/utility";
@@ -33,6 +34,7 @@ const initialState = {
   shop: [],
   shop_loading: false,
   shop_total_count: 0,
+  isActive: undefined,
 };
 
 // ============================================================================
@@ -50,18 +52,18 @@ const getInternalProductsSuccess = (state, action) => {
   const products = action.data.data.data;
   // products.slice();
   // const products = action.data.data.slice();
-  console.log("getInternalProductsSuccess", products);
+  // console.log("getInternalProductsSuccess", products);
   return updateObject(state, {
     // starting_after: action.data.starting_after,
     // ending_before: action.data.ending_before,
-    total_count: action.data.total_count,
     // has_more: action.data.products.has_more,
+    products,
+    loading: false,
+    total_count: action.data.total_count,
     index: action.data.data.index,
     page: action.data.data.page,
     next_page: action.data.data.next_page,
-    products,
     results: action.data.results,
-    loading: false,
   });
 };
 
@@ -87,6 +89,33 @@ const getInternalProductSuccess = (state, action) => {
 };
 
 const getInternalProductFail = (state) =>
+  updateObject(state, { loading: false });
+
+// ============================================================================
+// GET PRODUCT ================================================================
+// ============================================================================
+
+const deleteInternalProductStart = (state) =>
+  updateObject(state, { loading: true });
+
+const deleteInternalProductSuccess = (state, action) => {
+  // console.log("deleteInternalProductSuccess reducer", action.data);
+  console.log("deleteInternalProductSuccess reducer", action.id);
+  // console.log("deleteInternalProductSuccess reducer", action.id);
+  // console.log("getProductsSuccess = " + JSON.stringify(action.products));
+  const array = copyArray(state.products);
+  const products = removeItem(array, action.id);
+  console.log("deleteInternalProductSuccess reducer", products);
+  console.log();
+  return updateObject(state, {
+    products: products,
+    loading: false,
+    total_count: state.total_count - 1,
+    results: state.results - 1,
+  });
+};
+
+const deleteInternalProductFail = (state) =>
   updateObject(state, { loading: false });
 
 // // ============================================================================
@@ -164,6 +193,12 @@ const getInternalProductFail = (state) =>
 
 // const getPriceFail = (state) => updateObject(state, { loading: false });
 
+// =============================================================================
+// CART ========================================================================
+// =============================================================================
+const setIsActive = (state, action) => {
+  return updateObject(state, { isActive: action.isActive });
+};
 // // =============================================================================
 // // CART ========================================================================
 // // =============================================================================
@@ -395,6 +430,18 @@ const reducer = (state = initialState, action) => {
       return getInternalProductFail(state, action);
     case actionTypes.GET_INTERNAL_PRODUCT_START:
       return getInternalProductStart(state, action);
+
+    // product
+    case actionTypes.DELETE_INTERNAL_PRODUCT_SUCCESS:
+      return deleteInternalProductSuccess(state, action);
+    case actionTypes.DELETE_INTERNAL_PRODUCT_FAIL:
+      return deleteInternalProductFail(state, action);
+    case actionTypes.DELETE_INTERNAL_PRODUCT_START:
+      return deleteInternalProductStart(state, action);
+
+    // misc
+    case actionTypes.SET_IS_ACTIVE:
+      return setIsActive(state, action);
 
     // // Featured
     // case actionTypes.GET_FEATURED_SUCCESS:

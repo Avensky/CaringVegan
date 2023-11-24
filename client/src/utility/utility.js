@@ -76,7 +76,7 @@ export const copyArray = (array) => {
 
 // remove Item from array
 export const removeItem = (array, id) => {
-  return array.filter((item) => item.id !== id);
+  return array.filter((item) => item._id !== id);
 };
 
 // stringify and store cart session in browser

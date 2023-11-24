@@ -8,12 +8,23 @@ const Pagination = (props) => {
 
   let viewing = <div className={classes.left}>No results...</div>;
 
+  let resultCount;
+
+  // if (props.results < props.limit) {
+  //   resultCount = props.results;
+  // }
+
+  if (page * props.limit > props.total_count) {
+    resultCount = props.total_count;
+  } else {
+    resultCount = page * props.limit;
+  }
+
   if (props.results * 1 > 0) {
     viewing = (
       <div className={classes.left}>
-        Viewing {(page - 1) * props.limit + 1}-
-        {page * 5 > props.total_count ? props.total_count : page * props.limit}{" "}
-        out of {props.total_count}
+        Viewing {(page - 1) * props.limit + 1}-{resultCount} out of{" "}
+        {props.total_count}
       </div>
     );
   }

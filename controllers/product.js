@@ -6,7 +6,7 @@ const Product = require("./../models/product");
 const crud = require("./crud");
 
 exports.getProducts = crud.getAll(Product);
-
+exports.deleteProduct = crud.deleteOne(Product);
 // exports.getProduct = catchAsync(async (req, res, next) => {
 //   // console.log("req.params", req.params);
 //   // changed to findById to return error on wrong id

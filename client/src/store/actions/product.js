@@ -10,6 +10,7 @@ import axios from "axios";
 // ===================================================================
 
 export const buildString = (params) => {
+  // console.log("params: ", params);
   let string;
   if (
     params.active ||
@@ -66,7 +67,7 @@ export const buildString = (params) => {
 };
 
 export const getInternalProducts = (params) => {
-  console.log("params", params);
+  console.log("getInternalProducts params", params);
   let string = buildString(params);
   console.log("string =", string);
   // console.log("params: ", params);
@@ -127,7 +128,46 @@ export const getInternalProductFail = (error) => {
 export const getInternalProductStart = () => {
   return { type: actionTypes.GET_INTERNAL_PRODUCT_START };
 };
+// ===================================================================
+// DELETE PRODUCT =======================================================
+// ===================================================================
+export const deleteInternalProduct = (id) => {
+  return (dispatch) => {
+    dispatch(deleteInternalProductStart());
+    axios
+      .delete(`/api/v1/products/${id}`)
+      .then((result) => {
+        console.log("actions delete product ", result.data);
+        const data = result.data;
+        dispatch(deleteInternalProductSuccess(data, id));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(deleteInternalProductFail(JSON.stringify(error)));
+      });
+  };
+};
 
+export const deleteInternalProductSuccess = (data, id) => {
+  return { type: actionTypes.DELETE_INTERNAL_PRODUCT_SUCCESS, data, id };
+};
+
+export const deleteInternalProductFail = (error) => {
+  return { type: actionTypes.DELETE_INTERNAL_PRODUCT_FAIL, error };
+};
+
+export const deleteInternalProductStart = () => {
+  return { type: actionTypes.DELETE_INTERNAL_PRODUCT_START };
+};
+
+// /*******************************************
+//  * Cart Stuffs
+//  *******************************************/
+export const setIsActive = (isActive) => {
+  // console.log("add to cart");
+  return { type: actionTypes.SET_IS_ACTIVE, isActive };
+};
 // /*******************************************
 //  * Cart Stuffs
 //  *******************************************/

@@ -6,12 +6,16 @@
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 8vh;
   border-bottom: 1px solid grey;
   padding: 1vh 0;
+  box-sizing: border-box;
+  align-items: center;
 }
 
 .imageWrapper {
   width: 15vw;
+  box-sizing: border-box;
 }
 
 .image {
@@ -19,24 +23,29 @@
 }
 
 .details {
-  width: 40vw;
-  padding: 0 1vw;
+  width: 25vw;
+  padding: 0 2vw;
+  box-sizing: border-box;
 }
 
 .created {
   width: 20vw;
   padding: 0 1vw;
+  box-sizing: border-box;
 }
 
 .updated {
   width: 20vw;
   padding: 0 1vw;
+  box-sizing: border-box;
 }
 
 .edit {
-  width: 5vw;
-  margin: auto 0;
-  font-weight: 600;
+  width: 20vw;
+  /* margin: auto 0; */
+  padding: 0 2vw;
+  /* font-weight: 600; */
+  box-sizing: border-box;
 }
 
 .tooltip {

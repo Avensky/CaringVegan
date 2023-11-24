@@ -4,22 +4,26 @@ import classes from "./Catalog.module.css";
 import * as actions from "../../../store/actions/index";
 import PropTypes from "prop-types";
 import CatalogItems from "./CatalogItems/CatalogItems";
-import FilterItem from "./FilterItem/FilterItem";
 import Pagination from "./Pagination/Pagination";
+import Filter from "./Filter/Filter";
 
 const Catalog = (props) => {
+  const [items, setItems] = useState([]);
+  // console.log("isActive ", props.isActive);
   const page = props.page;
   // console.log(props.page, "page");
-  const [all, setAll] = useState(true);
-  const [archived, setArchived] = useState(false);
-  const [available, setAvailable] = useState(false);
-  const [isActive, setIsActive] = useState();
 
   useEffect(() => {
     const params = { limit: 5 };
     const getProducts = async () => await props.getProducts(params);
     getProducts();
-  }, []);
+  }, [props.total_count]);
+
+  useEffect(() => {
+    if (props.products) {
+      setItems(props.products);
+    }
+  }, [props.products]);
 
   // const addToCart = (id) => {
   //   props.addToCart(id);
@@ -29,53 +33,6 @@ const Catalog = (props) => {
   // };
   // console.log("home ", props.products);
 
-  const getAll = async () => {
-    if (all) {
-      return;
-    } else {
-      setAll(true);
-      setAvailable(false);
-      setArchived(false);
-      setIsActive();
-      console.log("all ", all);
-      const params = {
-        limit: 5,
-      };
-      await props.getProducts(params);
-    }
-  };
-  const getArchvied = async () => {
-    if (archived) {
-      return;
-    } else {
-      setAll(false);
-      setAvailable(false);
-      setArchived(true);
-      setIsActive(false);
-      console.log("archived ", archived);
-      const params = {
-        active: false,
-        limit: 5,
-      };
-      await props.getProducts(params);
-    }
-  };
-  const getAvailable = async () => {
-    if (available) {
-      return;
-    } else {
-      setAll(false);
-      setAvailable(true);
-      setArchived(false);
-      setIsActive(true);
-      console.log("available ", available);
-      const params = {
-        active: true,
-        limit: 5,
-      };
-      await props.getProducts(params);
-    }
-  };
   // const [executing, setExecuting] = useState(false);
   // const onRealClick = async (event) => {
   //   setExecuting(true);
@@ -99,7 +56,7 @@ const Catalog = (props) => {
     console.log("loading: ", props.loading);
     if (page < totalPages && !props.loading) {
       const params = {
-        active: isActive,
+        active: props.isActive,
         limit: 5,
         // starting_after: props.starting_after,
         results: props.results,
@@ -113,7 +70,7 @@ const Catalog = (props) => {
   const prev = async () => {
     if (page > 1 && !props.loading) {
       const params = {
-        active: isActive,
+        active: props.isActive,
         limit: 5,
         // ending_before: props.ending_before,
         results: props.results,
@@ -123,20 +80,21 @@ const Catalog = (props) => {
       await props.getProducts(params);
     }
   };
-  const filter = (
-    <div className={classes.filter}>
-      <FilterItem activate={getAll} active={all} name="All" />
-      <FilterItem activate={getAvailable} active={available} name="Available" />
-      <FilterItem activate={getArchvied} active={archived} name="Archived" />
-    </div>
-  );
 
   return (
     <div className={[classes.Catalog, "page-wrapper"].join(" ")}>
       <div className={classes.Products}>
         <div className="page-title">Product Catalog</div>
-        {filter}
-        <CatalogItems loading={props.loading} items={props.products} />
+        <Filter
+          isActive={props.isActive}
+          setIsActive={props.setIsActive}
+          getProducts={props.getProducts}
+        />
+        <CatalogItems
+          loading={props.loading}
+          items={items}
+          delete={props.delete}
+        />
       </div>
       <Pagination
         prev={() => prev()}
@@ -166,6 +124,7 @@ const mapStateToProps = (state) => {
     page: state.product.page,
     next_page: state.product.next_page,
     loading: state.product.loading,
+    isActive: state.product.isActive,
   };
 };
 
@@ -174,6 +133,8 @@ const mapDispatchToProps = (dispatch) => {
     addToCart: (id) => dispatch(actions.addToCart(id)),
     getProducts: (params) => dispatch(actions.getInternalProducts(params)),
     subQuantity: (id) => dispatch(actions.subQuantity(id)),
+    setIsActive: (isActive) => dispatch(actions.setIsActive(isActive)),
+    delete: (id) => dispatch(actions.deleteInternalProduct(id)),
   };
 };
 
@@ -182,7 +143,7 @@ Catalog.propTypes = {
   subtractQuantity: PropTypes.func,
   ending_before: PropTypes.string,
   starting_after: PropTypes.string,
-  products: PropTypes.instanceOf(Object),
+  products: PropTypes.array,
   results: PropTypes.number,
   total_count: PropTypes.number,
   has_more: PropTypes.bool,
@@ -190,6 +151,9 @@ Catalog.propTypes = {
   page: PropTypes.number,
   getProducts: PropTypes.func,
   next_page: PropTypes.number,
+  isActive: PropTypes.any,
+  setIsActive: PropTypes.func,
+  delete: PropTypes.func,
   // params: PropTypes.obj,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Catalog);

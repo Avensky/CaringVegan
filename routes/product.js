@@ -41,15 +41,10 @@ const router = express.Router();
 
 router.route("/").get(productController.getProducts);
 // .post(productController.createProduct);
-
-// router
-//   .route("/:id")
 //   .get(productController.getProduct)
 //   .patch(productController.updateProduct)
-//   .delete(
+router.route("/:id").delete(productController.deleteProduct);
 //     authController.protect,
 //     authController.restrictTo("user")
-//     // productController.deleteProduct
-//   );
 
 module.exports = router;

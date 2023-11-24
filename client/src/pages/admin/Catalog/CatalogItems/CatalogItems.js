@@ -10,7 +10,7 @@ const CatalogItems = (props) => {
     items = <Spinner />;
   }
 
-  console.log("items: ", props.items);
+  // console.log("items: ", props.items);
   if (props.items.length > 0) {
     items = props.items.map((item) => {
       let price;
@@ -30,6 +30,7 @@ const CatalogItems = (props) => {
           created={item.created}
           updated={item.updated}
           price={price}
+          delete={() => props.delete(item._id)}
         />
       );
     });
@@ -51,6 +52,7 @@ const CatalogItems = (props) => {
 CatalogItems.propTypes = {
   items: PropTypes.array,
   loading: PropTypes.bool,
+  delete: PropTypes.func,
 };
 
 export default CatalogItems;

@@ -1,6 +1,11 @@
 export { fetchUser } from "./auth";
 
-export { getInternalProduct, getInternalProducts } from "./product";
+export {
+  getInternalProduct,
+  getInternalProducts,
+  deleteInternalProduct,
+  setIsActive,
+} from "./product";
 
 export {
   getFeatured,

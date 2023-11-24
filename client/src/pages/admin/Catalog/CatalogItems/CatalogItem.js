@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import classes from "./CatalogItems.module.css";
 import { formatPrice, formatDate } from "../../../../utility/utility";
-import { Tooltip } from "react-tooltip";
 const CatalogItem = (props) => {
   const noImage =
     "https://caring-vegan.s3.us-west-2.amazonaws.com/assets/iStock-1416208685.jpg";
@@ -18,9 +17,15 @@ const CatalogItem = (props) => {
       <div className={classes.created}>{formatDate(props.created)}</div>
       <div className={classes.updated}>{formatDate(props.updated)}</div>
       <div className={classes.edit}>
-        <Tooltip content="Tooltip Content" style={classes.tooltip}>
-          ...
-        </Tooltip>
+        <div>Edit</div>
+        <div>Archive</div>
+        <div
+          onClick={() => {
+            props.delete();
+          }}
+        >
+          Delete
+        </div>
       </div>
     </div>
   );
@@ -32,8 +37,9 @@ CatalogItem.propTypes = {
   name: PropTypes.string,
   unit_amount: PropTypes.number,
   price: PropTypes.number,
-  created: PropTypes.string,
-  updated: PropTypes.string,
+  created: PropTypes.any,
+  updated: PropTypes.any,
+  delete: PropTypes.func,
 };
 
 export default CatalogItem;

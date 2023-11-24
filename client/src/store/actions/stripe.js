@@ -82,7 +82,7 @@ export const getFeatured = () => {
   return (dispatch) => {
     dispatch(getFeaturedStart());
     axios
-      .get("/api/v1/stripe/products/featured")
+      .get("/api/v1/stripe/featured")
       .then((result) => {
         console.log("result", result.data);
         dispatch(getFeaturedSuccess(result.data.featured));

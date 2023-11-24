@@ -238,10 +238,10 @@ const subShipping = (state) => {
 // OTHER =======================================================================
 // =============================================================================
 
-const loadCart = (state, action) => {
-  console.log("loadCart action", action);
+const loadCart = (state) => {
+  // console.log("loadCart action", action);
   let cart = localStorage.getItem("cart") || [];
-  console.log("localstorage cart", cart);
+  // console.log("localstorage cart", cart);
   let totalItems, total;
   if (cart.length > 0) {
     cart = JSON.parse(cart);
