@@ -24,13 +24,16 @@ const CatalogItems = (props) => {
       return (
         <CatalogItem
           key={item._id || item.id}
+          id={item._id || item.id}
+          editLink={`${props.product}${item.id}`}
           images={item.images}
           name={item.name}
           details={item.details}
           created={item.created}
           updated={item.updated}
           price={price}
-          delete={() => props.delete(item._id)}
+          // delete={() => props.delete(item._id)}
+          continue={props.continue}
         />
       );
     });
@@ -53,6 +56,8 @@ CatalogItems.propTypes = {
   items: PropTypes.array,
   loading: PropTypes.bool,
   delete: PropTypes.func,
+  product: PropTypes.string,
+  continue: PropTypes.func,
 };
 
 export default CatalogItems;

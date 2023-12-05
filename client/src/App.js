@@ -13,6 +13,8 @@ import {
   Home,
   Product,
   Shop,
+  InternalProduct,
+  StripeProduct,
   // Checkout,
   // Profile,
   // Auth,
@@ -74,6 +76,8 @@ const App = (props) => {
       <>
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/stripe-catalog" element={<StripeCatalog />} />
+        <Route path="/internal-product/:id" element={<InternalProduct />} />
+        <Route path="/stripe-product/:id" element={<StripeProduct />} />
       </>
     );
   }
@@ -106,9 +110,9 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.payload,
-    cart: state.product.cart,
-    totalItems: state.product.totalItems,
-    total: state.product.total,
+    cart: state.stripe.cart,
+    totalItems: state.stripe.totalItems,
+    total: state.stripe.total,
   };
 };
 

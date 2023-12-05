@@ -6,9 +6,9 @@ const Button = (props) => {
   // const animation = false;
   const [animation, setAnimation] = useState(false);
   // console.log("animation ", animation);
-  const click = () => {
+  const clicked = () => {
     setAnimation(true);
-    props.click();
+    props.onClick();
   };
 
   const button = props.children;
@@ -21,7 +21,7 @@ const Button = (props) => {
           ? [classes.Button, classes[props.type], classes.Animation].join(" ")
           : [classes.Button, classes[props.type]].join(" ")
       }
-      onClick={click}
+      onClick={clicked}
       onAnimationEnd={() => setAnimation(false)}
     >
       {button}
@@ -33,7 +33,7 @@ Button.propTypes = {
   children: PropTypes.any,
   disabled: PropTypes.bool,
   type: PropTypes.string,
-  click: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default Button;

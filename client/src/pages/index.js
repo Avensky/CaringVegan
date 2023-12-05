@@ -4,6 +4,8 @@ export { default as Home } from "./public/Home/Home";
 export { default as Product } from "./public/Product/Product";
 export { default as Cart } from "./public/Cart/Cart";
 export { default as Shop } from "./public/Shop/Shop";
+export { default as InternalProduct } from "./admin/EditProduct/InternalProduct";
+export { default as StripeProduct } from "./admin/EditProduct/StripeProduct";
 // export { default as Profile } from "./public/Profile/Profile";
 // export { default as Auth } from "./public/Auth/Auth";
 // export { default as Login } from "./public/Auth/Login/Login";

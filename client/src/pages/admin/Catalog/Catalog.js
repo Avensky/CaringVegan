@@ -17,7 +17,7 @@ const Catalog = (props) => {
     const params = { limit: 5 };
     const getProducts = async () => await props.getProducts(params);
     getProducts();
-  }, [props.total_count]);
+  }, []);
 
   useEffect(() => {
     if (props.products) {

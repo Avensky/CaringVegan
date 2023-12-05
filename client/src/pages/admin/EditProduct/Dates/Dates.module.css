@@ -1,0 +1,20 @@
+.Dates {
+  padding: 0 2vw;
+}
+
+.datesHeader {
+  display: flex;
+  font-weight: 900;
+  font-size: 1em;
+  text-transform: uppercase;
+  padding: 1vh 0;
+}
+
+.dates {
+  display: flex;
+  text-transform: uppercase;
+}
+
+.updated {
+  width: 30vw;
+}

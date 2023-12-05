@@ -122,8 +122,7 @@ const getProductsFail = (state) => {
 // GET PRODUCT ================================================================
 // ============================================================================
 
-const getProductStart = (state) =>
-  updateObject(state, { loading: true, has_more: false });
+const getProductStart = (state) => updateObject(state, { loading: true });
 
 const getProductSuccess = (state, action) => {
   // console.log("getProductSuccess reducer", action.product);
@@ -135,6 +134,24 @@ const getProductSuccess = (state, action) => {
 };
 
 const getProductFail = (state) => updateObject(state, { loading: false });
+
+// ============================================================================
+// GET PRODUCT ================================================================
+// ============================================================================
+
+const archiveStripeProductStart = (state) =>
+  updateObject(state, { loading: true });
+
+const archiveStripeProductSuccess = (state, action) => {
+  console.log("archiveStripeProductSuccess reducer", action.id);
+  // console.log("archiveStripeProductSuccess = " + JSON.stringify(action.products));
+  return updateObject(state, {
+    loading: false,
+  });
+};
+
+const archiveStripeProductFail = (state) =>
+  updateObject(state, { loading: false });
 // ============================================================================
 // GET PRICE ==================================================================
 // ============================================================================
@@ -241,7 +258,7 @@ const subShipping = (state) => {
 const loadCart = (state) => {
   // console.log("loadCart action", action);
   let cart = localStorage.getItem("cart") || [];
-  // console.log("localstorage cart", cart);
+  console.log("localstorage cart", cart);
   let totalItems, total;
   if (cart.length > 0) {
     cart = JSON.parse(cart);
@@ -416,6 +433,14 @@ const reducer = (state = initialState, action) => {
       return getProductFail(state, action);
     case actionTypes.GET_PRODUCT_START:
       return getProductStart(state, action);
+
+    // archive
+    case actionTypes.ARCHIVE_STRIPE_PRODUCT_SUCCESS:
+      return archiveStripeProductSuccess(state, action);
+    case actionTypes.ARCHIVE_STRIPE_PRODUCT_FAIL:
+      return archiveStripeProductFail(state, action);
+    case actionTypes.ARCHIVE_STRIPE_PRODUCT_START:
+      return archiveStripeProductStart(state, action);
 
     // price
     case actionTypes.GET_PRICE_SUCCESS:

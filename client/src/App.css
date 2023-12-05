@@ -24,6 +24,48 @@
   font-weight: 900;
   box-sizing: border-box;
 }
+
+/**********************************************************************
+* Modals **************************************************************
+**********************************************************************/
+.modal-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  padding: 2vh 4vw;
+}
+
+.modal-selection {
+  display: flex;
+  padding: 2vh 4vw;
+}
+
+.modal-button {
+  height: 50px;
+  cursor: pointer;
+  width: 50%;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+.modal-message {
+  padding: 2vh 4vw;
+}
+
+.modal-cancel {
+  background-color: black;
+  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+a {
+  text-decoration: none;
+
+  color: black;
+}
 /* 
 .page-body {
   display: flex;

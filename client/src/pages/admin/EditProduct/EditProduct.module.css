@@ -1,0 +1,17 @@
+.Product {
+  /* box-sizing: border-box; */
+  padding: 0vh 0 2vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  /* align-items: stretch; */
+  /* min-height: 70vh; */
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+}
+
+@media only screen and (min-width: 1025px) {
+  /* For desktop: */
+}

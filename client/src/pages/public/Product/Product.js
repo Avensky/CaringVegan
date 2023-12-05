@@ -10,7 +10,7 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 import Rating from "../../../components/UI/Rating/Rating";
 import ImageSlider from "../../../components/ImageSlider/ImageSlider";
 // import ImageGallery from "../../../components/ImageGallery/ImageGallery";
-import Button from "../../../components/UI/Buttonx/Button";
+import Button from "../../../components/UI/Button/Button";
 import PropTypes from "prop-types";
 
 const Product = (props) => {
@@ -185,22 +185,19 @@ const Product = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    product: state.product.product,
-    loading: state.product.loading,
-    width: state.product.width,
+    product: state.stripe.product,
+    loading: state.stripe.loading,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getProduct: (id) => dispatch(actions.getProduct(id)),
-    resize: () => dispatch(actions.resize()),
     addToCart: (product) => dispatch(actions.addToCart(product)),
   };
 };
 
 Product.propTypes = {
-  width: PropTypes.number,
   resize: PropTypes.func,
   product: PropTypes.object,
   getProduct: PropTypes.func,

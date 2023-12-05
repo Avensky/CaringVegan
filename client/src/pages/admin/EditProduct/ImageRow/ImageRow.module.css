@@ -1,0 +1,60 @@
+.HeaderWrapper {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  color: gray;
+  /* padding: 1vh 1vw; */
+}
+
+.left {
+  width: 50%;
+  font-size: 1rem;
+  text-transform: uppercase;
+  display: flex;
+  color: black;
+  cursor: pointer;
+}
+
+.price {
+  color: rgb(70, 70, 70);
+}
+.right {
+  width: 50%;
+  padding: 0 2vw;
+  /* font-size: 1.1rem; */
+  /* text-transform: uppercase; */
+  display: flex;
+  flex-direction: column;
+  color: black;
+}
+
+.thumbnail {
+  /* width: 50%; */
+}
+
+.details {
+  text-transform: capitalize;
+  padding: 0 2px;
+}
+
+.name {
+  /* text-align: center; */
+  font-size: 1em;
+  font-weight: 900;
+  text-transform: uppercase;
+  /* height: auto; */
+  /* margin: 0.5vh 0; */
+}
+
+.copy {
+  margin: 2vh 0;
+}
+
+.edit {
+  margin: 2px 0 8px;
+}
+
+.delete {
+  color: grey;
+  user-select: none;
+}

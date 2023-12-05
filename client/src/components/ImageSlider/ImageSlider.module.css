@@ -3,6 +3,7 @@
   height: fit-content;
   box-sizing: border-box;
   overflow: hidden;
+  color: black;
 }
 
 .SlideWrapper {
@@ -15,7 +16,7 @@
 }
 
 .Slide {
-  width: 100vw;
+  width: 100%;
   /* height: 300px; */
   /* border-radius: 10px; */
   /* background-size: cover; */
@@ -34,6 +35,7 @@
 .Arrows {
   box-sizing: border-box;
   overflow: hidden;
+  font-size: 2.5em;
 }
 /********************************************
 Right Arrow animation 
@@ -51,7 +53,7 @@ Right Arrow animation
 }
 
 .ArrowWrapperLeft span {
-  font-size: 4em;
+  /* font-size: 4em; */
   width: auto;
   margin: auto -3px;
 }
@@ -92,7 +94,7 @@ Right Arrow animation
   display: flex;
   padding-right: 2px;
   justify-content: right;
-  overflow: hidden;
+  /* overflow: hidden; */
   /* transform: translateX(50%); */
 }
 .AnimatedRight {
@@ -101,7 +103,7 @@ Right Arrow animation
 .ArrowWrapperRight span {
   overflow: hidden;
   box-sizing: border-box;
-  font-size: 4em;
+  /* font-size: 2em; */
   width: auto;
   margin: auto -3px;
   animation-delay: -0.2s;
@@ -146,9 +148,9 @@ Right Arrow animation
 }
 
 .Dots span {
-  margin: 0 4px;
+  /* margin: 0 4px; */
   cursor: pointer;
-  font-size: 3em;
+  font-size: 1.75em;
   user-select: none;
   transition: color, 0.2s;
   box-sizing: border-box;

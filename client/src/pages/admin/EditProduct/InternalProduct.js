@@ -2,15 +2,14 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { connect } from "react-redux";
 // import { useParams, NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import classes from "./Product.module.css";
+import classes from "./EditProduct.module.css";
 import * as actions from "../../../store/actions/index";
-import Reviews from "./Reviews";
 import Modal from "../../../components/UI/Modal/Modal";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Rating from "../../../components/UI/Rating/Rating";
 import ImageSlider from "../../../components/ImageSlider/ImageSlider";
 // import ImageGallery from "../../../components/ImageGallery/ImageGallery";
-import Button from "../../../components/UI/Buttonx/Button";
+import Button from "../../../components/UI/Button/Button";
 import PropTypes from "prop-types";
 
 const Product = (props) => {
@@ -20,7 +19,7 @@ const Product = (props) => {
   const [item, setItem] = useState(null);
   // console.log("item: ", item);
   const [purchasing, setPurchasing] = useState(false);
-  const { price, product } = props;
+  const { product } = props;
 
   const purchaseCancelHandler = () => setPurchasing(false);
   const getProduct = async (id) => await props.getProduct(id);
@@ -48,45 +47,12 @@ const Product = (props) => {
   }, []);
 
   useEffect(() => {
-    const getPrice = async (priceid, productid) => {
-      await props.getPrice(priceid, productid, "product");
-    };
+    if (product.id === id) {
+      console.log("setItem product: ", product);
 
-    // if (product.id === id) {
-
-    //   console.log("getPrice, Priced item id matches loaded product");
-    //   getPrice(product.default_price, product.id);
-    // }
-
-    if (product.id) {
-      console.log("Product detected");
-
-      if (!price.id) {
-        console.log("getPrice, product with no price detected");
-        getPrice(product.default_price, product.id);
-      }
-
-      if (price.id) {
-        console.log("Priced product detected");
-        if (product.id !== price.id) {
-          console.log("getPrice, priced product id does not match product id");
-          getPrice(product.default_price, product.id);
-        }
-      }
+      setItem(product);
     }
   }, [product]);
-
-  useEffect(() => {
-    if (price.id) {
-      console.log("setItem price: ", price);
-      // console.log("setItem price: ", price.price.product);
-      // console.log("priced product detected");
-      if (price.price.product === id) {
-        console.log("setItem, the priced product matches route id");
-        setItem(price);
-      }
-    }
-  }, [price]);
 
   let details = <p style={{ textAlign: "center" }}>Please select an item!</p>;
 
@@ -99,10 +65,12 @@ const Product = (props) => {
         {item.description ? (
           <div className={classes.Description}>{item.description}</div>
         ) : null}
-        {item.price ? (
+        {item.default_price.unit_amount ? (
           <div className={classes.Price}>
-            ${(price.price.unit_amount / 100).toFixed(2)}{" "}
-            <span className={classes.Currency}>{item.price.currency}</span>
+            ${(item.default_price.unit_amount / 100).toFixed(2)}{" "}
+            <span className={classes.Currency}>
+              {item.default_price.currency}
+            </span>
           </div>
         ) : null}
         {item.images.length > 0 ? <ImageSlider images={item.images} /> : null}
@@ -199,7 +167,7 @@ const Product = (props) => {
 
   useLayoutEffect(() => {
     window.addEventListener("resize", props.resize);
-  });
+  }, []);
 
   return (
     <div className="page-wrapper">
@@ -209,37 +177,28 @@ const Product = (props) => {
         </Modal>
         {details}
       </div>
-      <Reviews />
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    product: state.product.product,
-    price: state.product.price,
-    loading: state.product.loading,
-    width: state.product.width,
+    product: state.stripe.product,
+    loading: state.stripe.loading,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getProduct: (id) => dispatch(actions.getProduct(id)),
-    getPrice: (priceid, productid, mode) =>
-      dispatch(actions.getPrice(priceid, productid, mode)),
-    resize: () => dispatch(actions.resize()),
     addToCart: (product) => dispatch(actions.addToCart(product)),
   };
 };
 
 Product.propTypes = {
-  width: PropTypes.number,
   resize: PropTypes.func,
   product: PropTypes.object,
-  price: PropTypes.object,
   getProduct: PropTypes.func,
-  getPrice: PropTypes.func,
   addToCart: PropTypes.func,
   total: PropTypes.number,
   totalItems: PropTypes.number,

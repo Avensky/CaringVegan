@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import classes from "../Catalog/Catalog.module.css";
 import * as actions from "../../../store/actions/index";
@@ -6,8 +6,24 @@ import PropTypes from "prop-types";
 import Pagination from "./Pagination/Pagination";
 import CatalogItems from "./CatalogItems/CatalogItems";
 import Filter from "./Filter/Filter";
+import Modal from "../../../components/UI/Modal/Modal";
 
 const StripeCatalog = (props) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const cancelHandler = () => {
+    setShowModal(false);
+  };
+
+  const continueHandler = () => {
+    console.log("continueHandler");
+    setShowModal(true);
+  };
+
+  const archive = () => {
+    setShowModal(false);
+  };
+
   const index = props.index;
   // console.log(props.index, "index");
 
@@ -57,13 +73,39 @@ const StripeCatalog = (props) => {
   return (
     <div className={[classes.Catalog, "page-wrapper"].join(" ")}>
       <div className={classes.Products}>
-        <div className="page-title">Product Catalog</div>
+        <Modal show={showModal} modalClosed={cancelHandler}>
+          <div className="modal-title">Archive product</div>
+          <div className="modal-message">
+            Archive will hide this product from purchases. Are you sure you want
+            to archive this product?
+          </div>
+          <div className="modal-selection">
+            <div
+              onClick={() => setShowModal(false)}
+              className={["modal-cancel", "modal-button"].join(" ")}
+            >
+              Cancel
+            </div>
+            <div
+              onClick={() => archive()}
+              className={["modal-continue", "modal-button"].join(" ")}
+            >
+              Archive product
+            </div>
+          </div>
+        </Modal>
+        <div className="page-title">Stripe Catalog</div>
         <Filter
           isActive={props.isActive}
           setIsActive={props.setIsActive}
           getProducts={props.getProducts}
         />
-        <CatalogItems loading={props.loading} items={props.products} />
+        <CatalogItems
+          loading={props.loading}
+          items={props.products}
+          product="/stripe-product/"
+          continue={() => continueHandler()}
+        />
       </div>
       <Pagination
         prev={() => prev()}
@@ -101,6 +143,7 @@ const mapDispatchToProps = (dispatch) => {
     getProducts: (params) => dispatch(actions.getProducts(params)),
     subQuantity: (id) => dispatch(actions.subQuantity(id)),
     setIsActive: (isActive) => dispatch(actions.setIsActive(isActive)),
+    archive: (id) => dispatch(actions.archiveStripeProduct(id)),
   };
 };
 
@@ -118,7 +161,7 @@ StripeCatalog.propTypes = {
   getProducts: PropTypes.func,
   setIsActive: PropTypes.func,
   isActive: PropTypes.bool,
-
+  archive: PropTypes.func,
   // params: PropTypes.obj,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(StripeCatalog);

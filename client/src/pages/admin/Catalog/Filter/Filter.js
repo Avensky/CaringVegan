@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import FilterItem from "../FilterItem/FilterItem";
+import FilterItem from "./FilterItem/FilterItem";
 import classes from "./Filter.module.css";
 
 const Filter = (props) => {

@@ -1,0 +1,45 @@
+.datesHeader {
+  display: flex;
+  font-weight: 900;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
+.details {
+  text-transform: capitalize;
+  padding: 0 2px;
+}
+.detailsWrapper {
+  display: flex;
+  padding: 1vh 2vw;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detailsLeft {
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.detailsRight {
+  /* font-weight: 600; */
+}
+
+.row {
+  display: flex;
+  margin: 1vh 0;
+}
+
+.label {
+  width: 150px;
+  color: rgb(85, 85, 85);
+}
+
+.Currency {
+  color: rgb(36, 36, 36);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.Content {
+  padding: 0 2vw;
+}

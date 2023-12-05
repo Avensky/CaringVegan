@@ -1,0 +1,25 @@
+.Metadata {
+  padding: 0 2vw;
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1vh 0;
+}
+
+.left {
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.label {
+  width: 100px;
+  color: rgb(85, 85, 85);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}

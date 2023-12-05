@@ -1,16 +1,16 @@
 .table {
   font-weight: 900;
   /* text-transform: uppercase; */
+  align-items: end;
 }
 .itemWrapper {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 8vh;
+  min-height: 5vh;
   border-bottom: 1px solid grey;
   padding: 1vh 0;
   box-sizing: border-box;
-  align-items: center;
 }
 
 .imageWrapper {
@@ -40,12 +40,20 @@
   box-sizing: border-box;
 }
 
-.edit {
+.editWrapper {
   width: 20vw;
   /* margin: auto 0; */
   padding: 0 2vw;
   /* font-weight: 600; */
   box-sizing: border-box;
+}
+
+.edit {
+  /* border-bottom: 1px solid grey; */
+}
+
+.delete {
+  color: gray;
 }
 
 .tooltip {

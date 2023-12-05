@@ -8,6 +8,7 @@ export {
 } from "./product";
 
 export {
+  archiveStripeProduct,
   getFeatured,
   getProducts,
   getProduct,

@@ -1,0 +1,24 @@
+.NavigateWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: gray;
+  padding: 1vh 1vw;
+}
+
+.left {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  display: flex;
+  color: black;
+  cursor: pointer;
+}
+
+.back {
+  font-weight: 900;
+  margin: 0 2px;
+}
+
+.id {
+  color: gray;
+}

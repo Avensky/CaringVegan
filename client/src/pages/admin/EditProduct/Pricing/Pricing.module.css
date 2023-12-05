@@ -1,0 +1,50 @@
+.priceWrapper {
+  padding: 0 2vw;
+  /* display: flex; */
+  /* font-weight: 600; */
+}
+
+.detailsWrapper {
+  display: flex;
+  padding: 1vh 0vw;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detailsLeft {
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.detailsRight {
+  /* font-weight: 600; */
+}
+.priceSubWrapper {
+  padding: 0 2vw;
+  /* display: flex; */
+  /* font-weight: 600; */
+}
+
+.Price {
+  /* width: 15vw; */
+}
+.priceId {
+  /* width: 25vw; */
+  word-wrap: break-word;
+}
+.priceCreated {
+  /* width: 35vw; */
+}
+
+.row {
+  display: flex;
+  margin: 1vh 0;
+}
+
+.label {
+  width: 100px;
+  color: rgb(85, 85, 85);
+}
+
+.dates {
+  text-transform: uppercase;
+}

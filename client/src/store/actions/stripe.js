@@ -182,9 +182,9 @@ export const getProduct = (id) => {
     axios
       .get(`/api/v1/stripe/products/${id}`)
       .then((result) => {
-        // console.log("actions getProduct ", result.data);
-        // const product = result.data;
-        dispatch(getProductSuccess(result.data.product));
+        const product = result.data.product;
+        console.log("actions getProduct ", product);
+        dispatch(getProductSuccess(product));
       })
       .catch((error) => {
         //console.log("getProducts error = " + error);
@@ -204,6 +204,39 @@ export const getProductFail = (error) => {
 
 export const getProductStart = () => {
   return { type: actionTypes.GET_PRODUCT_START };
+};
+
+// ===================================================================
+// GET PRODUCT =======================================================
+// ===================================================================
+export const archiveStripeProduct = (id) => {
+  return (dispatch) => {
+    dispatch(archiveStripeProductStart());
+    axios
+      .delete(`/api/v1/stripe/products/${id}`)
+      .then((result) => {
+        const product = result.data.product;
+        console.log("actions getProduct ", product);
+        dispatch(archiveStripeProductSuccess(id));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(archiveStripeProductFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const archiveStripeProductSuccess = (product) => {
+  return { type: actionTypes.ARCHIVE_STRIPE_PRODUCT_SUCCESS, product };
+};
+
+export const archiveStripeProductFail = (error) => {
+  return { type: actionTypes.ARCHIVE_STRIPE_PRODUCT_FAIL, error };
+};
+
+export const archiveStripeProductStart = () => {
+  return { type: actionTypes.ARCHIVE_STRIPE_PRODUCT_START };
 };
 
 // ===================================================================

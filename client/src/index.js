@@ -31,6 +31,7 @@ import {
   faPlus,
   faEye,
   faEyeSlash,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -52,7 +53,8 @@ library.add(
   faEye,
   faEyeSlash,
   faFacebook,
-  faGooglePlus
+  faGooglePlus,
+  faArrowLeft
 );
 
 const app = (
