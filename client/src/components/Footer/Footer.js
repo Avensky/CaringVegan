@@ -2,18 +2,18 @@ import React from "react";
 import classes from "./Footer.module.css";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Footer = () => {
   return (
     <div className={classes.FooterWrapper}>
       <div className={classes.Footer}>
         <div className={classes.bio}>
-          <h3>About Me</h3>
+          <h3>About Us</h3>
           <p className="grey-text text-lighten-4">
-            Hello! I am a self driven developer with a passion for problem
-            solving and software development. Feel free to contact me regarding
-            any questions you may have about me or any projects I can help out
-            with.
+            Welcome to project Caring Vegan. Our mission is to spread awereness
+            about living cruelty free and reducing the impact on our planet and
+            animal friends.
           </p>
         </div>
         <div className={classes.connect}>
@@ -47,7 +47,7 @@ const Footer = () => {
                 className="white-text"
                 href="https://www.youtube.com/channel/UCyyo9pq7jcUaXzF7FngMqkg"
               >
-                <span className="fa fa-youtube" />
+                <FontAwesomeIcon icon="fa-brands fa-facebook" />
               </a>
             </li>
             <li>
@@ -55,7 +55,7 @@ const Footer = () => {
                 className="white-text"
                 href="https://www.youtube.com/channel/UCyyo9pq7jcUaXzF7FngMqkg"
               >
-                <span className="fa fa-youtube" />
+                <FontAwesomeIcon icon="fa-brands fa-instagram" />
               </a>
             </li>
             <li>
@@ -63,7 +63,7 @@ const Footer = () => {
                 className="white-text"
                 href="https://www.youtube.com/channel/UCyyo9pq7jcUaXzF7FngMqkg"
               >
-                <span className="fa fa-youtube" />
+                <FontAwesomeIcon icon="fa-brands fa-tiktok" />
               </a>
             </li>
             <li>
@@ -71,7 +71,7 @@ const Footer = () => {
                 className="white-text"
                 href="https://www.youtube.com/channel/UCyyo9pq7jcUaXzF7FngMqkg"
               >
-                <span className="fa fa-youtube" />
+                <FontAwesomeIcon icon="fa-brands fa-youtube" />
               </a>
             </li>
           </div>

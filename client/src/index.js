@@ -14,6 +14,10 @@ import {
   fab,
   faFacebook,
   faGooglePlus,
+  faInstagram,
+  faTiktok,
+  faYoutube,
+  faSquareYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
 import {
@@ -53,8 +57,12 @@ library.add(
   faEye,
   faEyeSlash,
   faFacebook,
+  faInstagram,
   faGooglePlus,
-  faArrowLeft
+  faTiktok,
+  faArrowLeft,
+  faYoutube,
+  faSquareYoutube
 );
 
 const app = (
