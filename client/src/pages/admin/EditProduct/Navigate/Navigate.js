@@ -7,23 +7,22 @@ import PropTypes from "prop-types";
 const Navigate = (props) => {
   return (
     <div className={classes.NavigateWrapper}>
-      <NavLink to="/stripe-catalog" className={classes.left}>
+      <NavLink to={props.to} className={classes.left}>
         <span className={classes.back}>
           <FontAwesomeIcon icon="fa-solid fa-arrow-left" />
         </span>
         <span className={classes.back}>{"Products"}</span>
       </NavLink>
       <div className={classes.right}>
-        {props.item ? (
-          <span className={classes.id}>{props.item.id}</span>
-        ) : null}
+        {props.id ? <span className={classes.id}>{props.id}</span> : null}
       </div>
     </div>
   );
 };
 
 Navigate.propTypes = {
-  item: PropTypes.object,
+  id: PropTypes.string,
+  to: PropTypes.string,
 };
 
 export default Navigate;

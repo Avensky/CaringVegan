@@ -33,6 +33,7 @@
 }
 .priceCreated {
   /* width: 35vw; */
+  text-transform: uppercase;
 }
 
 .row {

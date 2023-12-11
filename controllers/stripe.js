@@ -247,6 +247,25 @@ exports.getFeatured = catchAsync(async (req, res, next) => {
   }
 });
 
+exports.migrateAll = catchAsync(async (req, res, next) => {
+  const allProducts = await stripe.products.list({
+    expand: ["data.default_price"],
+  });
+  console.log("allProducts", allProducts.data);
+  const products = allProducts.data;
+
+  for (let i = 0; products.length > i; i++) {
+    console.log(`product ${i}: ${products[i].id}`);
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: allProducts,
+    },
+  });
+});
+
 exports.getProducts = catchAsync(async (req, res, next) => {
   console.log("req.query", req.query);
   // console.log("req.query.starting_after", req.query.starting_after);
@@ -264,8 +283,8 @@ exports.getProducts = catchAsync(async (req, res, next) => {
 
   console.log("queryParams ", queryParams);
 
-  let prev = queryParams.ending_before;
-  let getNext = queryParams.starting_after;
+  // let prev = queryParams.ending_before;
+  // let getNext = queryParams.starting_after;
 
   let index = req.query.index * 1;
   console.log("index start= ", index);
@@ -300,9 +319,6 @@ exports.getProducts = catchAsync(async (req, res, next) => {
       index,
     });
   } catch (err) {
-    // console.log("err ", err.message);
-    // console.log("err ", err.statusCode);
-    // console.log("err ", err.type);
     return next(new AppError(err.message, err.statusCode, err.type));
   }
 });

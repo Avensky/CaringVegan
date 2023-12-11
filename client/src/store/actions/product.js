@@ -1,3 +1,4 @@
+import { formatRoute } from "../../utility/utility";
 import * as actionTypes from "./actionTypes";
 // import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
@@ -6,69 +7,12 @@ import axios from "axios";
 // let stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 // ===================================================================
-// GET PRODUCTS ======================================================
+// GET ALL PRODUCTS ==================================================
 // ===================================================================
-
-export const buildString = (params) => {
-  // console.log("params: ", params);
-  let string;
-  if (
-    params.active ||
-    params.page ||
-    params.limit ||
-    params.starting_after ||
-    params.ending_before
-  ) {
-    if (params.active !== undefined) {
-      string = `?active=${params.active}`;
-    }
-    if (params.limit !== undefined) {
-      if (string === undefined) {
-        string = `?limit=${params.limit}`;
-      } else {
-        const limit = `limit=${params.limit}`;
-        let join = [string, limit].join("&");
-        string = `${join}`;
-      }
-    }
-
-    if (params.page !== undefined) {
-      console.log("params.page ", params.page);
-      if (string === undefined) {
-        string = `?page=${params.page}`;
-      } else {
-        const page = `page=${params.page}`;
-        let join = [string, page].join("&");
-        string = `${join}`;
-      }
-    }
-
-    if (params.ending_before) {
-      if (string === undefined) {
-        string = `?ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`;
-      } else {
-        const ending_before = `ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`;
-        let join = [string, ending_before].join("");
-        string = `${join}`;
-      }
-    }
-
-    if (params.starting_after) {
-      if (string === undefined) {
-        string = `?starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`;
-      } else {
-        const starting_after = `${string}&starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`;
-        let join = [string, starting_after].join("");
-        string = `${join}`;
-      }
-    }
-  }
-  return string;
-};
 
 export const getInternalProducts = (params) => {
   console.log("getInternalProducts params", params);
-  let string = buildString(params);
+  let string = formatRoute(params);
   console.log("string =", string);
   // console.log("params: ", params);
   return (dispatch) => {
@@ -97,7 +41,7 @@ export const getInternalProductsStart = () => {
 };
 
 // ===================================================================
-// GET PRODUCT =======================================================
+// GET ONE PRODUCT ===================================================
 // ===================================================================
 export const getInternalProduct = (id) => {
   return (dispatch) => {
@@ -105,9 +49,10 @@ export const getInternalProduct = (id) => {
     axios
       .get(`/api/v1/products/${id}`)
       .then((result) => {
-        // console.log("actions getProduct ", result.data);
+        const product = result.data.data.data;
+        console.log("actions getProduct ", product);
         // const product = result.data;
-        dispatch(getInternalProductSuccess(result.data.product));
+        dispatch(getInternalProductSuccess(product));
       })
       .catch((error) => {
         //console.log("getProducts error = " + error);
@@ -128,10 +73,79 @@ export const getInternalProductFail = (error) => {
 export const getInternalProductStart = () => {
   return { type: actionTypes.GET_INTERNAL_PRODUCT_START };
 };
+
+// ===================================================================
+// MIGRATE A PRODUCT =================================================
+// ===================================================================
+export const migrateStripeProduct = (data) => {
+  console.log("data", data);
+  return (dispatch) => {
+    dispatch(migrateStripeProductStart());
+    axios
+      .post(`/api/v1/products/migrate`, data)
+      .then((result) => {
+        console.log("actions MIGRATE stripe product ", result.data);
+        const data = result.data;
+        dispatch(migrateStripeProductSuccess(data));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(migrateStripeProductFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const migrateStripeProductSuccess = (data) => {
+  return { type: actionTypes.MIGRATE_STRIPE_PRODUCT_SUCCESS, data };
+};
+
+export const migrateStripeProductFail = (error) => {
+  return { type: actionTypes.MIGRATE_STRIPE_PRODUCT_FAIL, error };
+};
+
+export const migrateStripeProductStart = () => {
+  return { type: actionTypes.MIGRATE_STRIPE_PRODUCT_START };
+};
+// ===================================================================
+// MIGRATE ALL PRODUCTS ==============================================
+// ===================================================================
+export const migrateAllProducts = () => {
+  // console.log("data", data);
+  return (dispatch) => {
+    dispatch(migrateAllProductsStart());
+    axios
+      .post(`/api/v1/products/migrateAll`)
+      .then((result) => {
+        console.log("actions MIGRATE stripe product ", result.data);
+        const data = result.data;
+        dispatch(migrateAllProductsSuccess(data));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(migrateAllProductsFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const migrateAllProductsSuccess = (data) => {
+  return { type: actionTypes.MIGRATE_ALL_PRODUCTS_SUCCESS, data };
+};
+
+export const migrateAllProductsFail = (error) => {
+  return { type: actionTypes.MIGRATE_ALL_PRODUCTS_FAIL, error };
+};
+
+export const migrateAllProductsStart = () => {
+  return { type: actionTypes.MIGRATE_ALL_PRODUCTS_START };
+};
+
 // ===================================================================
 // DELETE PRODUCT =======================================================
 // ===================================================================
 export const deleteInternalProduct = (id) => {
+  console.log("deleteInternalProduct id: ", id);
   return (dispatch) => {
     dispatch(deleteInternalProductStart());
     axios
@@ -159,6 +173,39 @@ export const deleteInternalProductFail = (error) => {
 
 export const deleteInternalProductStart = () => {
   return { type: actionTypes.DELETE_INTERNAL_PRODUCT_START };
+};
+// ===================================================================
+// DELETE PRODUCT =======================================================
+// ===================================================================
+export const archiveInternalProduct = (id) => {
+  console.log("deleteInternalProduct id: ", id);
+  return (dispatch) => {
+    dispatch(archiveInternalProductStart());
+    axios
+      .delete(`/api/v1/products/internal/${id}`)
+      .then((result) => {
+        console.log("actions delete product ", result.data);
+        const data = result.data;
+        dispatch(archiveInternalProductSuccess(data, id));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(archiveInternalProductFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const archiveInternalProductSuccess = (data, id) => {
+  return { type: actionTypes.ARCHIVE_INTERNAL_PRODUCT_SUCCESS, data, id };
+};
+
+export const archiveInternalProductFail = (error) => {
+  return { type: actionTypes.ARCHIVE_INTERNAL_PRODUCT_FAIL, error };
+};
+
+export const archiveInternalProductStart = () => {
+  return { type: actionTypes.ARCHIVE_INTERNAL_PRODUCT_START };
 };
 
 // /*******************************************

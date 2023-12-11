@@ -9,6 +9,8 @@ router.route("/webhook").post(stripeController.webhook);
 router.route("/orders").post(stripeController.getOrders);
 router.route("/checkout").post(stripeController.checkout);
 
+router.route("/migrateAll").post(stripeController.migrateAll);
+
 router
   .route("/products/")
   .get(stripeController.getProducts)

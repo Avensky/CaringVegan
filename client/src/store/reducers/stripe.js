@@ -89,6 +89,27 @@ const getShopSuccess = (state, action) => {
     shop_total_count: action.shop.total_count,
   });
 };
+
+// ============================================================================
+// MIGRATE ALL STRIPE PRODUCTS ================================================
+// ============================================================================
+
+const migrateAllStripeProductsStart = (state) =>
+  updateObject(state, { loading: true });
+
+const migrateAllStripeProductsSuccess = (state, action) => {
+  console.log("migrateStripeProductSuccess reducer", action.products);
+  return updateObject(state, {
+    products: action.products,
+    loading: false,
+    // total_count: state.total_count - 1,
+    // results: state.results - 1,
+  });
+};
+
+const migrateAllStripeProductsFail = (state) =>
+  updateObject(state, { loading: false });
+
 // ============================================================================
 // GET PRODUCTS ===============================================================
 // ============================================================================
@@ -417,6 +438,14 @@ const reducer = (state = initialState, action) => {
       return getShopStart(state, action);
     case actionTypes.GET_SHOP_FAIL:
       return getShopFail(state, action);
+
+    // migrate
+    case actionTypes.MIGRATE_ALL_STRIPE_PRODUCTS_SUCCESS:
+      return migrateAllStripeProductsSuccess(state, action);
+    case actionTypes.MIGRATE_ALL_STRIPE_PRODUCTS_FAIL:
+      return migrateAllStripeProductsFail(state, action);
+    case actionTypes.MIGRATE_ALL_STRIPE_PRODUCTS_START:
+      return migrateAllStripeProductsStart(state, action);
 
     // products
     case actionTypes.GET_PRODUCTS_SUCCESS:

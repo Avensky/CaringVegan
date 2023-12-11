@@ -7,20 +7,14 @@ import Pagination from "./Pagination/Pagination";
 import CatalogItems from "./CatalogItems/CatalogItems";
 import Filter from "./Filter/Filter";
 import Modal from "../../../components/UI/Modal/Modal";
+import Button from "../../../components/UI/Button/Button";
 
 const StripeCatalog = (props) => {
+  const [items, setItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const cancelHandler = () => {
-    setShowModal(false);
-  };
-
-  const continueHandler = () => {
-    console.log("continueHandler");
-    setShowModal(true);
-  };
-
-  const archive = () => {
+  const archive = (id) => {
+    props.archive(id);
     setShowModal(false);
   };
 
@@ -32,6 +26,12 @@ const StripeCatalog = (props) => {
     const getProducts = async () => await props.getProducts(params);
     getProducts();
   }, []);
+
+  useEffect(() => {
+    if (props.products) {
+      setItems(props.products);
+    }
+  }, [props.products]);
 
   // const addToCart = (id) => {
   //   props.addToCart(id);
@@ -73,27 +73,16 @@ const StripeCatalog = (props) => {
   return (
     <div className={[classes.Catalog, "page-wrapper"].join(" ")}>
       <div className={classes.Products}>
-        <Modal show={showModal} modalClosed={cancelHandler}>
-          <div className="modal-title">Archive product</div>
-          <div className="modal-message">
-            Archive will hide this product from purchases. Are you sure you want
-            to archive this product?
-          </div>
-          <div className="modal-selection">
-            <div
-              onClick={() => setShowModal(false)}
-              className={["modal-cancel", "modal-button"].join(" ")}
-            >
-              Cancel
-            </div>
-            <div
-              onClick={() => archive()}
-              className={["modal-continue", "modal-button"].join(" ")}
-            >
-              Archive product
-            </div>
-          </div>
-        </Modal>
+        <Modal
+          show={showModal}
+          modalClosed={() => setShowModal(false)}
+          title="Archive product"
+          message="Archive will hide this product from purchases. Are you sure you want
+        to archive this product?"
+          cancel="Cancel"
+          continue="Archive Product"
+          archive={(id) => archive(id)}
+        />
         <div className="page-title">Stripe Catalog</div>
         <Filter
           isActive={props.isActive}
@@ -102,9 +91,11 @@ const StripeCatalog = (props) => {
         />
         <CatalogItems
           loading={props.loading}
-          items={props.products}
+          items={items}
           product="/stripe-product/"
-          continue={() => continueHandler()}
+          archive={props.archive}
+          delete={() => {}}
+          type="stripe"
         />
       </div>
       <Pagination
@@ -116,6 +107,16 @@ const StripeCatalog = (props) => {
         has_more={props.has_more}
         results={props.results}
       />
+      <div className={classes.copy}>
+        <Button
+          onClick={() => {
+            props.migrateAll(items);
+          }}
+          type="rounded"
+        >
+          Copy all to MongoDB
+        </Button>
+      </div>
     </div>
   );
 };
@@ -144,6 +145,8 @@ const mapDispatchToProps = (dispatch) => {
     subQuantity: (id) => dispatch(actions.subQuantity(id)),
     setIsActive: (isActive) => dispatch(actions.setIsActive(isActive)),
     archive: (id) => dispatch(actions.archiveStripeProduct(id)),
+    migrateAll: (products) =>
+      dispatch(actions.migrateAllStripeProducts(products)),
   };
 };
 
@@ -162,6 +165,6 @@ StripeCatalog.propTypes = {
   setIsActive: PropTypes.func,
   isActive: PropTypes.bool,
   archive: PropTypes.func,
-  // params: PropTypes.obj,
+  migrateAll: PropTypes.func,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(StripeCatalog);

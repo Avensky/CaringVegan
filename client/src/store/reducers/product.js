@@ -4,6 +4,7 @@ import {
   // copyArray,
   // copyArray,
   updateObject,
+  // addItem,
   // findItem,
   // updateArray,
   // getTotalPrice,
@@ -34,11 +35,11 @@ const initialState = {
   shop: [],
   shop_loading: false,
   shop_total_count: 0,
-  isActive: undefined,
+  isActive: false,
 };
 
 // ============================================================================
-// GET PRODUCTS ===============================================================
+// GET ALL PRODUCTS ===========================================================
 // ============================================================================
 
 const getInternalProductsStart = (state) => {
@@ -73,14 +74,14 @@ const getInternalProductsFail = (state) => {
   });
 };
 // ============================================================================
-// GET PRODUCT ================================================================
+// GET A PRODUCT ==============================================================
 // ============================================================================
 
 const getInternalProductStart = (state) =>
   updateObject(state, { loading: true, has_more: false });
 
 const getInternalProductSuccess = (state, action) => {
-  // console.log("getProductSuccess reducer", action.product);
+  console.log("getProductSuccess reducer", action.product);
   // console.log("getProductsSuccess = " + JSON.stringify(action.products));
   return updateObject(state, {
     product: action.product,
@@ -92,7 +93,77 @@ const getInternalProductFail = (state) =>
   updateObject(state, { loading: false });
 
 // ============================================================================
-// GET PRODUCT ================================================================
+// MIGRATE STRIPE PRODUCT =====================================================
+// ============================================================================
+
+const migrateStripeProductStart = (state) =>
+  updateObject(state, { loading: true });
+
+const migrateStripeProductSuccess = (state, action) => {
+  const array = copyArray(state.products);
+  const products = array.splice(1, 0, action.data);
+  console.log("migrateStripeProductSuccess reducer", products);
+  console.log();
+  return updateObject(state, {
+    products: products,
+    loading: false,
+    // total_count: state.total_count - 1,
+    // results: state.results - 1,
+  });
+};
+
+const migrateStripeProductFail = (state) =>
+  updateObject(state, { loading: false });
+
+// ============================================================================
+// MIGRATE ALL STRIPE PRODUCTS ================================================
+// ============================================================================
+
+const migrateAllProductsStart = (state) =>
+  updateObject(state, { loading: true });
+
+const migrateAllProductsSuccess = (state, action) => {
+  console.log("migrateProductSuccess reducer", action.products);
+  console.log();
+  return updateObject(state, {
+    products: action.products,
+    loading: false,
+    // total_count: state.total_count - 1,
+    // results: state.results - 1,
+  });
+};
+
+const migrateAllProductsFail = (state) =>
+  updateObject(state, { loading: false });
+
+// ============================================================================
+// DELETE A PRODUCT ===========================================================
+// ============================================================================
+
+const archiveInternalProductStart = (state) =>
+  updateObject(state, { loading: true });
+
+const archiveInternalProductSuccess = (state, action) => {
+  // console.log("deleteInternalProductSuccess reducer", action.data);
+  console.log("archiveInternalProductSuccess reducer", action.id);
+  // console.log("deleteInternalProductSuccess reducer", action.id);
+  // console.log("getProductsSuccess = " + JSON.stringify(action.products));
+  // const array = copyArray(state.products);
+  // const products = removeItem(array, action.id);
+  // console.log("archiveInternalProductSuccess reducer", products);
+  // console.log();
+  return updateObject(state, {
+    // products: products,
+    loading: false,
+    // total_count: state.total_count - 1,
+    // results: state.results - 1,
+  });
+};
+
+const archiveInternalProductFail = (state) =>
+  updateObject(state, { loading: false });
+// ============================================================================
+// DELETE A PRODUCT ===========================================================
 // ============================================================================
 
 const deleteInternalProductStart = (state) =>
@@ -110,8 +181,8 @@ const deleteInternalProductSuccess = (state, action) => {
   return updateObject(state, {
     products: products,
     loading: false,
-    total_count: state.total_count - 1,
-    results: state.results - 1,
+    // total_count: state.total_count - 1,
+    // results: state.results - 1,
   });
 };
 
@@ -199,9 +270,10 @@ const deleteInternalProductFail = (state) =>
 const setIsActive = (state, action) => {
   return updateObject(state, { isActive: action.isActive });
 };
-// // =============================================================================
-// // CART ========================================================================
-// // =============================================================================
+// =============================================================================
+// CART ========================================================================
+// =============================================================================
+
 // const addToCart = (state, action) => {
 //   // check if item already exists in cart
 //   console.log("addToCart start ", action.product);
@@ -431,13 +503,37 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_INTERNAL_PRODUCT_START:
       return getInternalProductStart(state, action);
 
-    // product
+    // product archive
+    case actionTypes.ARCHIVE_INTERNAL_PRODUCT_SUCCESS:
+      return archiveInternalProductSuccess(state, action);
+    case actionTypes.ARCHIVE_INTERNAL_PRODUCT_FAIL:
+      return archiveInternalProductFail(state, action);
+    case actionTypes.ARCHIVE_INTERNAL_PRODUCT_START:
+      return archiveInternalProductStart(state, action);
+
+    // product delete
     case actionTypes.DELETE_INTERNAL_PRODUCT_SUCCESS:
       return deleteInternalProductSuccess(state, action);
     case actionTypes.DELETE_INTERNAL_PRODUCT_FAIL:
       return deleteInternalProductFail(state, action);
     case actionTypes.DELETE_INTERNAL_PRODUCT_START:
       return deleteInternalProductStart(state, action);
+
+    // migrate
+    case actionTypes.MIGRATE_STRIPE_PRODUCT_SUCCESS:
+      return migrateStripeProductSuccess(state, action);
+    case actionTypes.MIGRATE_STRIPE_PRODUCT_FAIL:
+      return migrateStripeProductFail(state, action);
+    case actionTypes.MIGRATE_STRIPE_PRODUCT_START:
+      return migrateStripeProductStart(state, action);
+
+    // migrate all
+    case actionTypes.MIGRATE_ALL_PRODUCTS_SUCCESS:
+      return migrateAllProductsSuccess(state, action);
+    case actionTypes.MIGRATE_ALL_PRODUCTS_FAIL:
+      return migrateAllProductsFail(state, action);
+    case actionTypes.MIGRATE_ALL_PRODUCTS_START:
+      return migrateAllProductsStart(state, action);
 
     // misc
     case actionTypes.SET_IS_ACTIVE:

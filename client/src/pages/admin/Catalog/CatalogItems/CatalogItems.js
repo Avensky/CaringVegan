@@ -21,19 +21,29 @@ const CatalogItems = (props) => {
         price = item.default_price.unit_amount;
       }
 
+      let id;
+      if (item.id) {
+        id = item.id;
+      }
+      if (item._id) {
+        id = item._id;
+      }
+
       return (
         <CatalogItem
-          key={item._id || item.id}
-          id={item._id || item.id}
-          editLink={`${props.product}${item.id}`}
+          key={id}
+          id={id}
+          editLink={`${props.product}${id}`}
           images={item.images}
           name={item.name}
           details={item.details}
           created={item.created}
           updated={item.updated}
           price={price}
-          // delete={() => props.delete(item._id)}
           continue={props.continue}
+          type={props.type}
+          archive={props.archive}
+          delete={props.delete}
         />
       );
     });
@@ -56,8 +66,11 @@ CatalogItems.propTypes = {
   items: PropTypes.array,
   loading: PropTypes.bool,
   delete: PropTypes.func,
+  deleteHandler: PropTypes.func,
   product: PropTypes.string,
   continue: PropTypes.func,
+  type: PropTypes.string,
+  archive: PropTypes.func,
 };
 
 export default CatalogItems;

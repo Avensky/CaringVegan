@@ -5,8 +5,8 @@ import classes from "./EditProduct.module.css";
 import * as actions from "../../../store/actions/index";
 import Modal from "../../../components/UI/Modal/Modal";
 import Spinner from "../../../components/UI/Spinner/Spinner";
-import Navigate from "./Navigate/Navigate";
 import PropTypes from "prop-types";
+import Navigate from "./Navigate/Navigate";
 import ImageRow from "./ImageRow/ImageRow";
 import Pricing from "./Pricing/Pricing";
 import Details from "./Details/Details";
@@ -15,15 +15,15 @@ import Metadata from "./Metadeta/Metadata";
 
 const StripeProduct = (props) => {
   const id = useParams().id;
-  console.log("id = ", id);
+  // console.log("id = ", id);
   // console.log("product price = ", props.price);
-  const [item, setItem] = useState(null);
+  const [item, setItem] = useState({});
   // console.log("item: ", item);
   // const [purchasing, setPurchasing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { product } = props;
 
-  const cancelHandler = () => setShowModal(false);
+  // const cancelHandler = () => setShowModal(false);
   const getProduct = async (id) => await props.getProduct(id);
 
   //const handleClick = (id) => {props.addToCart(id)};
@@ -69,39 +69,37 @@ const StripeProduct = (props) => {
     details = <Spinner />;
   }
 
-  if (item) {
-    summary = <ImageRow item={item} setShowModal={() => setShowModal} />;
-    dates = <Dates item={item} />;
-    details = <Details item={item} />;
-    pricing = <Pricing item={item} />;
+  if (item.id) {
+    summary = (
+      <ImageRow
+        item={item}
+        continue={() => setShowModal(true)}
+        migrate={() => props.migrate(item)}
+        id={id}
+        archive={archive}
+        delete={() => {}}
+      />
+    );
+    dates = <Dates item={item} type="stripe" />;
+    details = <Details item={item} type="stripe" />;
+    pricing = <Pricing item={item} type="stripe" />;
     metadata = <Metadata metadata={item.metadata} />;
   }
 
   return (
     <div className="page-wrapper">
       <div className={classes.Product}>
-        <Modal show={showModal} modalClosed={() => cancelHandler}>
-          <div className="modal-title">Archive product</div>
-          <div className="modal-message">
-            Archive will hide this product from purchases. Are you sure you want
-            to archive this product?
-          </div>
-          <div className="modal-selection">
-            <div
-              onClick={() => setShowModal(false)}
-              className={["modal-cancel", "modal-button"].join(" ")}
-            >
-              Cancel
-            </div>
-            <div
-              onClick={() => archive(id)}
-              className={["modal-continue", "modal-button"].join(" ")}
-            >
-              Archive product
-            </div>
-          </div>
-        </Modal>
-        <Navigate item={item} />
+        <Modal
+          show={showModal}
+          modalClosed={() => setShowModal(false)}
+          title="Archive product"
+          message="Archive will hide this product from purchases. Are you sure you want
+        to archive this product?"
+          cancel="Cancel"
+          continue="Archive Product"
+          archive={(id) => archive(id)}
+        />
+        <Navigate id={item.id} to="/stripe-catalog" />
         {summary}
         {dates}
         {details}
@@ -124,6 +122,9 @@ const mapDispatchToProps = (dispatch) => {
     getProduct: (id) => dispatch(actions.getProduct(id)),
     addToCart: (product) => dispatch(actions.addToCart(product)),
     archive: (id) => dispatch(actions.archiveStripeProduct(id)),
+    migrate: (product) => dispatch(actions.migrateStripeProduct(product)),
+    migrateAll: (products) =>
+      dispatch(actions.migrateAllStripeProducts(products)),
   };
 };
 
@@ -136,6 +137,7 @@ StripeProduct.propTypes = {
   totalItems: PropTypes.number,
   loading: PropTypes.bool,
   archive: PropTypes.func,
+  migrate: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StripeProduct);

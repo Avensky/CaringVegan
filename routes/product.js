@@ -39,12 +39,22 @@ const router = express.Router();
 //  req.files['avatar'][0] -> File
 //  req.files['gallery'] -> Array
 
-router.route("/").get(productController.getProducts);
-// .post(productController.createProduct);
-//   .get(productController.getProduct)
-//   .patch(productController.updateProduct)
-router.route("/:id").delete(productController.deleteProduct);
+router
+  .route("/")
+  .get(productController.getProducts)
+  .post(productController.createProduct);
+
+router
+  .route("/:id")
+  .get(productController.getProduct)
+  .patch(productController.updateProduct)
+  .delete(productController.deleteProduct);
 //     authController.protect,
 //     authController.restrictTo("user")
+
+router.route("/internal/:id").delete(productController.archiveProduct);
+
+router.route("/migrate").post(productController.migrateProduct);
+router.route("/migrateAll").post(productController.migrateAllProducts);
 
 module.exports = router;

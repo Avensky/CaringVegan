@@ -174,6 +174,43 @@ export const getProductsStart = () => {
 };
 
 // ===================================================================
+// MIGRATE ALL PRODUCTS ==============================================
+// ===================================================================
+export const migrateAllStripeProducts = (products) => {
+  // console.log("data", data);
+  return (dispatch) => {
+    dispatch(migrateAllStripeProductsStart());
+    axios
+      .post(`/api/v1/products/migrateAll`, products)
+      .then((result) => {
+        console.log(
+          "actions MIGRATEALL stripe products to mongodb ",
+          result.data
+        );
+        const data = result.data;
+        dispatch(migrateAllStripeProductsSuccess(data));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(migrateAllStripeProductsFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const migrateAllStripeProductsSuccess = (data) => {
+  return { type: actionTypes.MIGRATE_ALL_STRIPE_PRODUCTS_SUCCESS, data };
+};
+
+export const migrateAllStripeProductsFail = (error) => {
+  return { type: actionTypes.MIGRATE_ALL_STRIPE_PRODUCTS_FAIL, error };
+};
+
+export const migrateAllStripeProductsStart = () => {
+  return { type: actionTypes.MIGRATE_ALL_STRIPE_PRODUCTS_START };
+};
+
+// ===================================================================
 // GET PRODUCT =======================================================
 // ===================================================================
 export const getProduct = (id) => {
@@ -183,7 +220,7 @@ export const getProduct = (id) => {
       .get(`/api/v1/stripe/products/${id}`)
       .then((result) => {
         const product = result.data.product;
-        console.log("actions getProduct ", product);
+        // console.log("actions getProduct ", product);
         dispatch(getProductSuccess(product));
       })
       .catch((error) => {

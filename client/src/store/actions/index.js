@@ -5,6 +5,9 @@ export {
   getInternalProducts,
   deleteInternalProduct,
   setIsActive,
+  migrateStripeProduct,
+  migrateAllProducts,
+  archiveInternalProduct,
 } from "./product";
 
 export {
@@ -19,6 +22,7 @@ export {
   subQuantity,
   checkout,
   loadCart,
+  migrateAllStripeProducts,
 } from "./stripe";
 
 export { resize } from "./utility";

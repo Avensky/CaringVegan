@@ -6,24 +6,17 @@ import Button from "../../../../components/UI/Button/Button";
 const Metadata = (props) => {
   let metadata;
   if (props.metadata) {
-    // console.log("metadata: ", props.metadata);
-
     const entries = Object.entries(props.metadata);
     metadata = entries.map(([key, val]) => {
-      console.log(`${key}: ${val}`);
-      console.log("metadata:");
-      console.log("key:", key);
-      console.log("value:", val);
       return (
         <div className={classes.row} key={Math.random()}>
           <div className={classes.label}>{key}</div>
-          <div className={classes.input}>{val}</div>
+          <div className={classes.input}>{JSON.stringify(val)}</div>
         </div>
       );
     });
   }
 
-  // console.log("metadata: ", props.metadata);
   return (
     <div className={classes.Metadata}>
       <div className={classes.heading}>
@@ -40,7 +33,7 @@ const Metadata = (props) => {
 };
 
 Metadata.propTypes = {
-  metadata: PropTypes.array,
+  metadata: PropTypes.object,
 };
 
 export default Metadata;

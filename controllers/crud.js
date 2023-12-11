@@ -37,6 +37,8 @@ exports.updateOne = (Model) =>
 
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
+    console.log("body = ", req.body);
+
     const doc = await Model.create(req.body);
 
     res.status(201).json({
@@ -49,7 +51,13 @@ exports.createOne = (Model) =>
 
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
-    let query = Model.findById(req.params.id);
+    let id;
+    if (req.params.id) {
+      id = req.params.id;
+    } else if (req.body.id) {
+      id = req.body.id;
+    }
+    let query = Model.findById(id);
     if (popOptions) query = query.populate(popOptions);
     const doc = await query;
 
@@ -67,7 +75,7 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    console.log("getAll: ", Model);
+    // console.log("getAll: ", Model);
     // console.log("params: ", req.params);
     // To allow for nested GET reviews on product (hack)
     let filter = {};
@@ -81,13 +89,13 @@ exports.getAll = (Model) =>
     // const doc = await features.query.explain();
     let doc = await features.query;
 
-    console.log("data TYPE: ", typeof doc);
-    console.log("results: ", doc.length);
-    console.log("doc: ", doc);
+    // console.log("data TYPE: ", typeof doc);
+    // console.log("results: ", doc.length);
+    // console.log("doc: ", doc);
 
-    console.log("query: ", req.query);
+    // console.log("query: ", req.query);
     const limit = req.query.limit;
-    console.log("page: ", req.query.page);
+    // console.log("page: ", req.query.page);
     // const tot al_count = new QueryAPI(Model.count(filter));
     // doc = Object.entries(doc);
     // console.log("data TYPE: ", typeof doc);
@@ -95,16 +103,16 @@ exports.getAll = (Model) =>
 
     const count = new QueryAPI(Model.find(filter), req.query).countDocuments();
     const total_count = await count.query;
-    console.log("total_count", total_count);
+    // console.log("total_count", total_count);
     let page = 1;
     if (req.query.page) {
       page = req.query.page * 1;
     }
-    console.log("page ", page);
-    console.log("total_count ", total_count);
-    console.log("limit: ", limit);
+    // console.log("page ", page);
+    // console.log("total_count ", total_count);
+    // console.log("limit: ", limit);
     const total_pages = total_count / limit;
-    console.log("total pages", total_pages);
+    // console.log("total pages", total_pages);
 
     let has_more = false;
 
@@ -113,8 +121,8 @@ exports.getAll = (Model) =>
       next_page = page + 1;
       has_more = true;
     }
-    console.log("has_more, ", has_more);
-    console.log("next_page ", next_page);
+    // console.log("has_more, ", has_more);
+    // console.log("next_page ", next_page);
 
     // SEND RESPONSE
     res.status(200).json({

@@ -27,6 +27,11 @@ const Pricing = (props) => {
   //       </div>
   //     );
   //   }
+
+  let modifier = 1;
+  if (props.type === "stripe") {
+    modifier = 1000;
+  }
   return (
     <div className={classes.priceWrapper}>
       <div className={classes.detailsWrapper}>
@@ -40,21 +45,23 @@ const Pricing = (props) => {
       <div className={classes.row}>
         <div className={classes.label}>Price</div>
         <div className={classes.price}>
-          {props.item
+          {props.item.default_price
             ? formatPrice(props.item.default_price.unit_amount)
             : null}
         </div>
       </div>
       <div className={classes.row}>
         <div className={classes.label}>App Id</div>
-        {props.item ? (
+        {props.item.default_price ? (
           <div className={classes.priceId}>{props.item.default_price.id}</div>
         ) : null}
       </div>
       <div className={classes.row}>
         <div className={classes.label}>Created</div>
         <div className={classes.priceCreated}>
-          {props.item ? formatDate(props.item.default_price.created) : null}
+          {props.item.default_price
+            ? formatDate(props.item.default_price.created * modifier)
+            : null}
         </div>
       </div>
       <div className={classes.row}>
@@ -67,6 +74,7 @@ const Pricing = (props) => {
 
 Pricing.propTypes = {
   item: PropTypes.object,
+  type: PropTypes.string,
 };
 
 export default Pricing;

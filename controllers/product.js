@@ -1,12 +1,163 @@
 // const AppError = require("../utils/appError");
+const catchAsync = require("../utils/catchAsync");
 const Product = require("./../models/product");
-// const QueryAPI = require("./../utils/QueryAPI");
-// const catchAsync = require("./../utils/catchAsync");
-// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+// const stripeController = require("./../controllers/stripe");
 const crud = require("./crud");
 
 exports.getProducts = crud.getAll(Product);
+exports.getProduct = crud.getOne(Product);
+exports.createProduct = crud.createOne(Product);
+exports.updateProduct = crud.updateOne(Product);
 exports.deleteProduct = crud.deleteOne(Product);
+
+exports.archiveProduct = catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+  console.log("product id: ", id);
+  const item = await Product.findByIdAndUpdate(id, { active: false });
+  res.status(200).json({
+    status: "success",
+  });
+});
+
+exports.migrateAllProducts = catchAsync(async (req, res, next) => {
+  // console.log("migrate all products");
+  console.log("migrate all products", req.body);
+  const products = req.body;
+
+  for (let i = 0; products.length > i; i++) {
+    const product = await Product.find({ id: products[i].id });
+    console.log("product length: ", products.length);
+    console.log("productId: ", products[i].id);
+    const productObj = {
+      id: products[i].id,
+      object: products[i].object,
+      active: products[i].active,
+      attributes: products[i].attributes,
+      created: new Date(products[i].created * 1000),
+      default_price: {
+        id: products[i].default_price.id,
+        object: products[i].default_price.object,
+        active: products[i].default_price.active,
+        billing_scheme: products[i].default_price.billing_scheme,
+        created: new Date(products[i].default_price.created * 1000),
+        currency: products[i].default_price.currency,
+        // custom_unit_amount: products[i].default_price.custom_unit_amount,
+        livemode: products[i].default_price.livemode,
+        // lookup_key: products[i].default_price.lookup_key,
+        metadata: products[i].default_price.metadata,
+        // nickname: products[i].default_price.nickname,
+        product: products[i].default_price.product,
+        recurring: products[i].default_price.recurring,
+        tax_behavior: products[i].default_price.tax_behavior,
+        // tiers_mode: products[i].default_price.tiers_mode,
+        // transform_quantity: products[i].default_price.transform_quantity,
+        type: products[i].default_price.type,
+        unit_amount: products[i].default_price.unit_amount,
+        unit_amount_decimal: products[i].default_price.unit_amount_decimal,
+      },
+      description: products[i].description,
+      features: products[i].features,
+      images: products[i].images,
+      livemode: products[i].livemode,
+      metadata: products[i].metadata,
+      name: products[i].name,
+      //   package_dimensions: products[i].package_dimensions,
+      //   shippable: products[i].shippable,
+      //   statement_descriptor: statement_descriptor,
+      //   tax_code: products[i].tax_code,
+      type: products[i].type,
+      //   unit_label: products[i].unit_label,
+      updated: new Date(products[i].updated * 1000),
+      //   url: products[i].url,
+    };
+
+    if (product) {
+      const newProduct = await Product.findOneAndUpdate(
+        { id: products[i].id },
+        productObj
+      );
+      // product.save()
+    } else {
+      const newProduct = await Product.create(productObj);
+    }
+  }
+  res.status(200).json({
+    status: "success",
+  });
+});
+
+exports.migrateProduct = catchAsync(async (req, res, next) => {
+  //search id in database
+  console.log("body", req.body);
+  const existingProduct = await Product.find({ id: req.body.id });
+  console.log("existing Product", existingProduct);
+  const productObj = {
+    id: req.body.id,
+    object: req.body.object,
+    active: req.body.active,
+    attributes: req.body.attributes,
+    created: new Date(req.body.created * 1000),
+    default_price: {
+      id: req.body.default_price.id,
+      object: req.body.default_price.object,
+      active: req.body.default_price.active,
+      billing_scheme: req.body.default_price.billing_scheme,
+      created: new Date(req.body.default_price.created * 1000),
+      currency: req.body.default_price.currency,
+      // custom_unit_amount: req.body.default_price.custom_unit_amount,
+      livemode: req.body.default_price.livemode,
+      // lookup_key: req.body.default_price.lookup_key,
+      metadata: req.body.default_price.metadata,
+      // nickname: req.body.default_price.nickname,
+      product: req.body.default_price.product,
+      recurring: req.body.default_price.recurring,
+      tax_behavior: req.body.default_price.tax_behavior,
+      // tiers_mode: req.body.default_price.tiers_mode,
+      // transform_quantity: req.body.default_price.transform_quantity,
+      type: req.body.default_price.type,
+      unit_amount: req.body.default_price.unit_amount,
+      unit_amount_decimal: req.body.default_price.unit_amount_decimal,
+    },
+    description: req.body.description,
+    features: req.body.features,
+    images: req.body.images,
+    livemode: req.body.livemode,
+    metadata: req.body.metadata,
+    name: req.body.name,
+    //   package_dimensions: req.body.package_dimensions,
+    //   shippable: req.body.shippable,
+    //   statement_descriptor: statement_descriptor,
+    //   tax_code: req.body.tax_code,
+    type: req.body.type,
+    //   unit_label: req.body.unit_label,
+    updated: new Date(req.body.updated * 1000),
+    //   url: req.body.url,
+  };
+
+  if (existingProduct) {
+    console.log("update existing product");
+    const newProduct = await Product.findOneAndUpdate(
+      { id: req.body.id },
+      productObj
+    );
+    res.status(204).json({
+      status: "success",
+      data: {
+        data: newProduct,
+      },
+    });
+  } else {
+    console.log("new product create");
+    const newProduct = await Product.create(productObj);
+    res.status(201).json({
+      status: "success",
+      data: {
+        data: newProduct,
+      },
+    });
+  }
+});
+
 // exports.getProduct = catchAsync(async (req, res, next) => {
 //   // console.log("req.params", req.params);
 //   // changed to findById to return error on wrong id

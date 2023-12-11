@@ -10,11 +10,68 @@ export const ScrollToTop = () => {
   return null;
 };
 
+export const formatRoute = (params) => {
+  // console.log("params: ", params);
+  let string;
+  if (
+    params.active ||
+    params.page ||
+    params.limit ||
+    params.starting_after ||
+    params.ending_before
+  ) {
+    if (params.active !== undefined) {
+      string = `?active=${params.active}`;
+    }
+    if (params.limit !== undefined) {
+      if (string === undefined) {
+        string = `?limit=${params.limit}`;
+      } else {
+        const limit = `limit=${params.limit}`;
+        let join = [string, limit].join("&");
+        string = `${join}`;
+      }
+    }
+
+    if (params.page !== undefined) {
+      console.log("params.page ", params.page);
+      if (string === undefined) {
+        string = `?page=${params.page}`;
+      } else {
+        const page = `page=${params.page}`;
+        let join = [string, page].join("&");
+        string = `${join}`;
+      }
+    }
+
+    if (params.ending_before) {
+      if (string === undefined) {
+        string = `?ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`;
+      } else {
+        const ending_before = `ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`;
+        let join = [string, ending_before].join("");
+        string = `${join}`;
+      }
+    }
+
+    if (params.starting_after) {
+      if (string === undefined) {
+        string = `?starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`;
+      } else {
+        const starting_after = `${string}&starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`;
+        let join = [string, starting_after].join("");
+        string = `${join}`;
+      }
+    }
+  }
+  return string;
+};
+
 export const formatPrice = (unit_amount) => {
   return `$${(unit_amount / 100).toFixed(2)}`;
 };
 
-export const formatDate = (date) => {
+export const formatDate = (date, type) => {
   const months = [
     "jan",
     "feb",
@@ -29,7 +86,10 @@ export const formatDate = (date) => {
     "nov",
     "dec",
   ];
-  const formatDate = new Date(date);
+  let formatDate = new Date(date);
+  if (type === "stripe") {
+    formatDate = new Date(date * 1000);
+  }
 
   const day = formatDate.getDate();
   const month = months[formatDate.getMonth()];
@@ -77,6 +137,11 @@ export const copyArray = (array) => {
 // remove Item from array
 export const removeItem = (array, id) => {
   return array.filter((item) => item._id !== id);
+};
+
+// add Item to array
+export const addItem = (array, item) => {
+  return array.splice(1, 0, item);
 };
 
 // stringify and store cart session in browser

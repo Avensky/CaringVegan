@@ -6,11 +6,13 @@ import PropTypes from "prop-types";
 import CatalogItems from "./CatalogItems/CatalogItems";
 import Pagination from "./Pagination/Pagination";
 import Filter from "./Filter/Filter";
+// import Modal from "../../../components/UI/Modal/Modal";
+import Button from "../../../components/UI/Button/Button";
 
 const Catalog = (props) => {
+  const page = props.page;
   const [items, setItems] = useState([]);
   // console.log("isActive ", props.isActive);
-  const page = props.page;
   // console.log(props.page, "page");
 
   useEffect(() => {
@@ -93,7 +95,10 @@ const Catalog = (props) => {
         <CatalogItems
           loading={props.loading}
           items={items}
+          product="/internal-product/"
+          archive={props.archive}
           delete={props.delete}
+          type="internal"
         />
       </div>
       <Pagination
@@ -105,6 +110,11 @@ const Catalog = (props) => {
         has_more={props.has_more}
         results={props.results}
       />
+      <div className={classes.copy}>
+        <Button onClick={() => {}} type="rounded">
+          Copy all to Stripe
+        </Button>
+      </div>
     </div>
   );
 };
@@ -135,6 +145,7 @@ const mapDispatchToProps = (dispatch) => {
     subQuantity: (id) => dispatch(actions.subQuantity(id)),
     setIsActive: (isActive) => dispatch(actions.setIsActive(isActive)),
     delete: (id) => dispatch(actions.deleteInternalProduct(id)),
+    archive: (id) => dispatch(actions.archiveInternalProduct(id)),
   };
 };
 
@@ -154,6 +165,7 @@ Catalog.propTypes = {
   isActive: PropTypes.any,
   setIsActive: PropTypes.func,
   delete: PropTypes.func,
+  archive: PropTypes.func,
   // params: PropTypes.obj,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Catalog);
