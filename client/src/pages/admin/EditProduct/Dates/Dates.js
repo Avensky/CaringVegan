@@ -4,10 +4,6 @@ import classes from "./Dates.module.css";
 import { formatDate } from "../../../../utility/utility";
 
 const Dates = (props) => {
-  let modifier = 1;
-  if (props.type === "stripe") {
-    modifier = 1000;
-  }
   return (
     <div className={classes.Dates}>
       <div className={classes.datesHeader}>
@@ -16,10 +12,10 @@ const Dates = (props) => {
       </div>
       <div className={classes.dates}>
         <div className={classes.updated}>
-          {formatDate(props.item.updated * modifier)}
+          {formatDate(props.item.updated, props.type)}
         </div>
         <div className={classes.created}>
-          {formatDate(props.item.created * modifier)}
+          {formatDate(props.item.created, props.type)}
         </div>
       </div>
     </div>

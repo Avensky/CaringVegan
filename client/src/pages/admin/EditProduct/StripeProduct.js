@@ -77,6 +77,7 @@ const StripeProduct = (props) => {
         migrate={() => props.migrate(item)}
         id={id}
         archive={archive}
+        unarchive={() => props.unarchive(item.id)}
         delete={() => {}}
       />
     );
@@ -122,6 +123,7 @@ const mapDispatchToProps = (dispatch) => {
     getProduct: (id) => dispatch(actions.getProduct(id)),
     addToCart: (product) => dispatch(actions.addToCart(product)),
     archive: (id) => dispatch(actions.archiveStripeProduct(id)),
+    unarchive: (id) => dispatch(actions.unarchiveStripeProduct(id)),
     migrate: (product) => dispatch(actions.migrateStripeProduct(product)),
     migrateAll: (products) =>
       dispatch(actions.migrateAllStripeProducts(products)),
@@ -137,6 +139,7 @@ StripeProduct.propTypes = {
   totalItems: PropTypes.number,
   loading: PropTypes.bool,
   archive: PropTypes.func,
+  unarchive: PropTypes.func,
   migrate: PropTypes.func,
 };
 

@@ -22,13 +22,13 @@ const CatalogItems = (props) => {
       }
 
       let id;
-      if (item.id) {
+      if (props.type === "stripe") {
         id = item.id;
-      }
-      if (item._id) {
+      } else {
         id = item._id;
       }
 
+      // console.log("active", item.active);
       return (
         <CatalogItem
           key={id}
@@ -43,7 +43,9 @@ const CatalogItems = (props) => {
           continue={props.continue}
           type={props.type}
           archive={props.archive}
+          unarchive={() => props.unarchive(id)}
           delete={props.delete}
+          active={item.active}
         />
       );
     });
@@ -65,12 +67,14 @@ const CatalogItems = (props) => {
 CatalogItems.propTypes = {
   items: PropTypes.array,
   loading: PropTypes.bool,
+  active: PropTypes.bool,
   delete: PropTypes.func,
   deleteHandler: PropTypes.func,
   product: PropTypes.string,
   continue: PropTypes.func,
   type: PropTypes.string,
   archive: PropTypes.func,
+  unarchive: PropTypes.func,
 };
 
 export default CatalogItems;

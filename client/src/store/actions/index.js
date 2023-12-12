@@ -8,10 +8,12 @@ export {
   migrateStripeProduct,
   migrateAllProducts,
   archiveInternalProduct,
+  unarchiveInternalProduct,
 } from "./product";
 
 export {
   archiveStripeProduct,
+  unarchiveStripeProduct,
   getFeatured,
   getProducts,
   getProduct,

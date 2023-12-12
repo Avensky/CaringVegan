@@ -53,7 +53,7 @@ export const getShop = (params) => {
   return (dispatch) => {
     dispatch(getShopStart());
     axios
-      .get("/api/v1/stripe/products/shop" + string)
+      .get("/api/v1/stripe/shop" + string)
       .then((result) => {
         console.log("result", result.data);
         dispatch(getShopSuccess(result.data.shop));
@@ -147,7 +147,7 @@ export const getProducts = (params) => {
   return (dispatch) => {
     dispatch(getProductsStart());
     axios
-      .get("/api/v1/stripe/products" + string)
+      .get("/api/v1/stripe" + string)
       .then((result) => {
         // console.log("actions getProducts", result.data);
         const data = result.data;
@@ -217,7 +217,7 @@ export const getProduct = (id) => {
   return (dispatch) => {
     dispatch(getProductsStart());
     axios
-      .get(`/api/v1/stripe/products/${id}`)
+      .get(`/api/v1/stripe/${id}`)
       .then((result) => {
         const product = result.data.product;
         // console.log("actions getProduct ", product);
@@ -244,17 +244,49 @@ export const getProductStart = () => {
 };
 
 // ===================================================================
-// GET PRODUCT =======================================================
+// UNARCHIVE PRODUCT =================================================
+// ===================================================================
+export const unarchiveStripeProduct = (id) => {
+  return (dispatch) => {
+    dispatch(unarchiveStripeProductStart());
+    axios
+      .patch(`/api/v1/stripe/unarchive/${id}`)
+      .then((result) => {
+        const data = result.data;
+        console.log("unarchiveStripeProduct ", data);
+        dispatch(unarchiveStripeProductSuccess(data));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(unarchiveStripeProductFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const unarchiveStripeProductSuccess = (data) => {
+  return { type: actionTypes.UNARCHIVE_STRIPE_PRODUCT_SUCCESS, data };
+};
+
+export const unarchiveStripeProductFail = (error) => {
+  return { type: actionTypes.UNARCHIVE_STRIPE_PRODUCT_FAIL, error };
+};
+
+export const unarchiveStripeProductStart = () => {
+  return { type: actionTypes.UNARCHIVE_STRIPE_PRODUCT_START };
+};
+// ===================================================================
+// ARCHIVE PRODUCT =======================================================
 // ===================================================================
 export const archiveStripeProduct = (id) => {
   return (dispatch) => {
     dispatch(archiveStripeProductStart());
     axios
-      .delete(`/api/v1/stripe/products/${id}`)
+      .delete(`/api/v1/stripe/${id}`)
       .then((result) => {
-        const product = result.data.product;
-        console.log("actions getProduct ", product);
-        dispatch(archiveStripeProductSuccess(id));
+        const data = result.data;
+        console.log("actions archiveStripeProduct ", data);
+        dispatch(archiveStripeProductSuccess(data));
       })
       .catch((error) => {
         //console.log("getProducts error = " + error);
@@ -264,8 +296,8 @@ export const archiveStripeProduct = (id) => {
   };
 };
 
-export const archiveStripeProductSuccess = (product) => {
-  return { type: actionTypes.ARCHIVE_STRIPE_PRODUCT_SUCCESS, product };
+export const archiveStripeProductSuccess = (data) => {
+  return { type: actionTypes.ARCHIVE_STRIPE_PRODUCT_SUCCESS, data };
 };
 
 export const archiveStripeProductFail = (error) => {

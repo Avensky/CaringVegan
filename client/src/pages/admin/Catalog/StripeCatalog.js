@@ -94,6 +94,7 @@ const StripeCatalog = (props) => {
           items={items}
           product="/stripe-product/"
           archive={props.archive}
+          unarchive={props.unarchive}
           delete={() => {}}
           type="stripe"
         />
@@ -114,7 +115,7 @@ const StripeCatalog = (props) => {
           }}
           type="rounded"
         >
-          Copy all to MongoDB
+          Copy to MongoDB
         </Button>
       </div>
     </div>
@@ -145,6 +146,7 @@ const mapDispatchToProps = (dispatch) => {
     subQuantity: (id) => dispatch(actions.subQuantity(id)),
     setIsActive: (isActive) => dispatch(actions.setIsActive(isActive)),
     archive: (id) => dispatch(actions.archiveStripeProduct(id)),
+    unarchive: (id) => dispatch(actions.unarchiveStripeProduct(id)),
     migrateAll: (products) =>
       dispatch(actions.migrateAllStripeProducts(products)),
   };
@@ -165,6 +167,7 @@ StripeCatalog.propTypes = {
   setIsActive: PropTypes.func,
   isActive: PropTypes.bool,
   archive: PropTypes.func,
+  unarchive: PropTypes.func,
   migrateAll: PropTypes.func,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(StripeCatalog);

@@ -23,6 +23,35 @@ const CatalogItem = (props) => {
   const noImage =
     "https://caring-vegan.s3.us-west-2.amazonaws.com/assets/iStock-1416208685.jpg";
 
+  let edit = (
+    <div className={classes.editWrapper}>
+      <NavLink to={props.editLink} className={classes.edit}>
+        Edit
+      </NavLink>
+      <div onClick={() => setShowArchiveModal(true)}>Archive</div>
+      <div onClick={() => setShowDeleteModal(true)} className={classes.delete}>
+        Delete
+      </div>
+    </div>
+  );
+
+  if (!props.active) {
+    edit = (
+      <div className={classes.editWrapper}>
+        <NavLink
+          to={props.editLink}
+          className={[classes.edit, classes.disabled].join(" ")}
+        >
+          Edit
+        </NavLink>
+        <div onClick={props.unarchive}>Unarchive</div>
+        <div className={[classes.delete, classes.disabled].join(" ")}>
+          Delete
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div key={props.id} className={classes.itemWrapper}>
       <Modal
@@ -51,6 +80,9 @@ const CatalogItem = (props) => {
       <div className={classes.details}>
         <div className={classes.name}>{props.name}</div>
         <div className={classes.price}>{formatPrice(props.price)}</div>
+        {props.active === false ? (
+          <div className={classes.archived}>Archied</div>
+        ) : null}
       </div>
       <div className={classes.created}>
         {formatDate(props.created, props.type)}
@@ -58,20 +90,7 @@ const CatalogItem = (props) => {
       <div className={classes.updated}>
         {formatDate(props.updated, props.type)}
       </div>
-      <div className={classes.editWrapper}>
-        <NavLink to={props.editLink} className={classes.edit}>
-          Edit
-        </NavLink>
-        {/* <div>Archive</div> */}
-        <div onClick={() => setShowArchiveModal(true)}>Archive</div>
-
-        <div
-          onClick={() => setShowDeleteModal(true)}
-          className={classes.delete}
-        >
-          Delete
-        </div>
-      </div>
+      {edit}
     </div>
   );
 };
@@ -87,7 +106,9 @@ CatalogItem.propTypes = {
   delete: PropTypes.func,
   editLink: PropTypes.string,
   archive: PropTypes.func,
+  unarchive: PropTypes.func,
   type: PropTypes.string,
+  active: PropTypes.bool,
 };
 
 export default CatalogItem;

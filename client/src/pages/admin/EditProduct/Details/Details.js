@@ -5,10 +5,6 @@ import Button from "../../../../components/UI/Button/Button";
 import { formatDate, formatPrice } from "../../../../utility/utility";
 
 const Details = (props) => {
-  let modifier = 1;
-  if (props.type === "stripe") {
-    modifier = 1000;
-  }
   return (
     <div className={classes.details}>
       <div className={classes.detailsWrapper}>
@@ -46,7 +42,7 @@ const Details = (props) => {
           <div className={classes.row}>
             <div className={classes.label}>Created</div>
             <div className={classes.input}>
-              {formatDate(props.item.created * modifier)}
+              {formatDate(props.item.created, props.type)}
             </div>
           </div>
         ) : null}

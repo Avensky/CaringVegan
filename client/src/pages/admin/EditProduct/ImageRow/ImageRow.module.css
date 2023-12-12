@@ -51,10 +51,24 @@
 }
 
 .edit {
-  margin: 2px 0 8px;
+  /* margin: 2px 0 8px; */
 }
 
 .delete {
-  color: grey;
+  color: red;
   user-select: none;
+  margin: 0.5vh 0;
+}
+
+.unavailable {
+  color: grey;
+}
+
+.archived {
+  width: fit-content;
+  background-color: rgb(255, 255, 255);
+  border: 1px black solid;
+  border-radius: 10px;
+  text-align: center;
+  padding: 1px 6px;
 }

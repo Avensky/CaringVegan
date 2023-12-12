@@ -164,14 +164,47 @@ const archiveStripeProductStart = (state) =>
   updateObject(state, { loading: true });
 
 const archiveStripeProductSuccess = (state, action) => {
-  console.log("archiveStripeProductSuccess reducer", action.id);
+  console.log("archiveStripeProductSuccess reducer", action.data);
   // console.log("archiveStripeProductSuccess = " + JSON.stringify(action.products));
+  const array = copyArray(state.products);
+  const product = action.data.product;
+  const products = updateArray(array, product);
   return updateObject(state, {
+    products: products,
+    product: product,
     loading: false,
   });
 };
 
 const archiveStripeProductFail = (state) =>
+  updateObject(state, { loading: false });
+
+// ============================================================================
+// GET PRODUCT ================================================================
+// ============================================================================
+
+const unarchiveStripeProductStart = (state) =>
+  updateObject(state, { loading: true });
+
+const unarchiveStripeProductSuccess = (state, action) => {
+  console.log(
+    "unarchiveStripeProductSuccess reducer",
+    JSON.stringify(action.data)
+  );
+  // console.log("archiveStripeProductSuccess = " + (action.products));
+  const array = copyArray(state.products);
+  const product = action.data.product;
+  console.log("unarchiveStripeProductSuccess product", product);
+  // console.log("unarchiveStripeProductSuccess reducer", action.id);
+  const products = updateArray(array, product);
+  return updateObject(state, {
+    products: products,
+    product: product,
+    loading: false,
+  });
+};
+
+const unarchiveStripeProductFail = (state) =>
   updateObject(state, { loading: false });
 // ============================================================================
 // GET PRICE ==================================================================
@@ -470,6 +503,14 @@ const reducer = (state = initialState, action) => {
       return archiveStripeProductFail(state, action);
     case actionTypes.ARCHIVE_STRIPE_PRODUCT_START:
       return archiveStripeProductStart(state, action);
+
+    // archive
+    case actionTypes.UNARCHIVE_STRIPE_PRODUCT_SUCCESS:
+      return unarchiveStripeProductSuccess(state, action);
+    case actionTypes.UNARCHIVE_STRIPE_PRODUCT_FAIL:
+      return unarchiveStripeProductFail(state, action);
+    case actionTypes.UNARCHIVE_STRIPE_PRODUCT_START:
+      return unarchiveStripeProductStart(state, action);
 
     // price
     case actionTypes.GET_PRICE_SUCCESS:

@@ -20,6 +20,52 @@ const ImageRow = (props) => {
     props.delete(props.id);
     setShowDeleteModal(false);
   };
+
+  let edit = (
+    <div className={classes.editBar}>
+      <div onClick={() => {}} className={classes.edit}>
+        Edit
+      </div>
+      <div
+        className={classes.archive}
+        onClick={() => {
+          setShowArchiveModal(true);
+        }}
+      >
+        Archive
+      </div>
+      <div
+        className={classes.delete}
+        onClick={() => {
+          setShowDeleteModal(true);
+        }}
+      >
+        Delete
+      </div>
+    </div>
+  );
+
+  if (!props.item.active) {
+    edit = (
+      <div className={classes.editBar}>
+        <div
+          onClick={() => {}}
+          className={[classes.edit, classes.unavailable].join(" ")}
+        >
+          Edit
+        </div>
+        <div className={classes.archive} onClick={props.unarchive}>
+          Unarchive
+        </div>
+        <div
+          className={[classes.delete, classes.unavailable].join(" ")}
+          onClick={() => {}}
+        >
+          Delete
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={classes.HeaderWrapper}>
       <Modal
@@ -59,6 +105,9 @@ const ImageRow = (props) => {
               {formatPrice(props.item.default_price.unit_amount)}
             </div>
           ) : null}
+          {!props.item.active ? (
+            <div className={classes.archived}>Archied</div>
+          ) : null}
         </div>
         <div className={classes.copy}>
           {" "}
@@ -67,25 +116,7 @@ const ImageRow = (props) => {
           </Button>
         </div>
 
-        <div onClick={() => {}} className={classes.edit}>
-          Edit
-        </div>
-        <div
-          className={classes.archive}
-          onClick={() => {
-            setShowArchiveModal(true);
-          }}
-        >
-          Archive
-        </div>
-        <div
-          className={classes.delete}
-          onClick={() => {
-            setShowDeleteModal(true);
-          }}
-        >
-          Delete
-        </div>
+        {edit}
       </div>
     </div>
   );
@@ -97,6 +128,7 @@ ImageRow.propTypes = {
   continue: PropTypes.func,
   migrate: PropTypes.func,
   archive: PropTypes.func,
+  unarchive: PropTypes.func,
   delete: PropTypes.func,
 };
 

@@ -110,12 +110,12 @@ export const migrateStripeProductStart = () => {
 // ===================================================================
 // MIGRATE ALL PRODUCTS ==============================================
 // ===================================================================
-export const migrateAllProducts = () => {
+export const migrateAllProducts = (products) => {
   // console.log("data", data);
   return (dispatch) => {
     dispatch(migrateAllProductsStart());
     axios
-      .post(`/api/v1/products/migrateAll`)
+      .post(`/api/v1/stripe/migrateAll`, products)
       .then((result) => {
         console.log("actions MIGRATE stripe product ", result.data);
         const data = result.data;
@@ -175,16 +175,16 @@ export const deleteInternalProductStart = () => {
   return { type: actionTypes.DELETE_INTERNAL_PRODUCT_START };
 };
 // ===================================================================
-// DELETE PRODUCT =======================================================
+// ARCHIVE PRODUCT ===================================================
 // ===================================================================
 export const archiveInternalProduct = (id) => {
-  console.log("deleteInternalProduct id: ", id);
+  console.log("archiveInternalProduct id: ", id);
   return (dispatch) => {
     dispatch(archiveInternalProductStart());
     axios
       .delete(`/api/v1/products/internal/${id}`)
       .then((result) => {
-        console.log("actions delete product ", result.data);
+        console.log("actions archiveInternalProduct ", result.data);
         const data = result.data;
         dispatch(archiveInternalProductSuccess(data, id));
       })
@@ -206,6 +206,39 @@ export const archiveInternalProductFail = (error) => {
 
 export const archiveInternalProductStart = () => {
   return { type: actionTypes.ARCHIVE_INTERNAL_PRODUCT_START };
+};
+// ===================================================================
+// UNARCHIVE PRODUCT ===================================================
+// ===================================================================
+export const unarchiveInternalProduct = (id) => {
+  console.log("unarchiveInternalProduct id: ", id);
+  return (dispatch) => {
+    dispatch(unarchiveInternalProductStart());
+    axios
+      .patch(`/api/v1/products/internal/${id}`)
+      .then((result) => {
+        console.log("actions unarchiveInternalProduct ", result);
+        const data = result.data;
+        dispatch(unarchiveInternalProductSuccess(data));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(unarchiveInternalProductFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const unarchiveInternalProductSuccess = (data) => {
+  return { type: actionTypes.UNARCHIVE_INTERNAL_PRODUCT_SUCCESS, data };
+};
+
+export const unarchiveInternalProductFail = (error) => {
+  return { type: actionTypes.UNARCHIVE_INTERNAL_PRODUCT_FAIL, error };
+};
+
+export const unarchiveInternalProductStart = () => {
+  return { type: actionTypes.UNARCHIVE_INTERNAL_PRODUCT_START };
 };
 
 // /*******************************************

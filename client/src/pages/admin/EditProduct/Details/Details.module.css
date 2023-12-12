@@ -27,11 +27,20 @@
 .row {
   display: flex;
   margin: 1vh 0;
+  box-sizing: border-box;
 }
 
 .label {
-  width: 150px;
+  width: 120px;
   color: rgb(85, 85, 85);
+  /* box-sizing: border-box; */
+}
+
+.input {
+  overflow: hidden;
+  word-wrap: none;
+  overflow-wrap: normal;
+  box-sizing: border-box;
 }
 
 .Currency {
@@ -42,4 +51,5 @@
 
 .Content {
   padding: 0 2vw;
+  box-sizing: border-box;
 }

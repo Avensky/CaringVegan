@@ -13,6 +13,7 @@ import Pricing from "./Pricing/Pricing";
 import Details from "./Details/Details";
 import Dates from "./Dates/Dates";
 import Metadata from "./Metadeta/Metadata";
+import Message from "../../../components/Message/Message";
 
 const Product = (props) => {
   const id = useParams().id;
@@ -67,12 +68,13 @@ const Product = (props) => {
         id={id}
         // setShowModal={() => setShowModal}
         archive={props.archive}
+        unarchive={() => props.unarchive(id)}
         delete={props.delete}
       />
     );
-    dates = <Dates item={item} />;
-    details = <Details item={item} />;
-    pricing = <Pricing item={item} />;
+    dates = <Dates item={item} type="internal" />;
+    details = <Details item={item} type="internal" />;
+    pricing = <Pricing item={item} type="internal" />;
     metadata = <Metadata metadata={item.metadata} />;
   }
   // let width = window.innerWidth;
@@ -90,6 +92,7 @@ const Product = (props) => {
           {/* {orderSummary} */}
         </Modal>
         <Navigate id={item._id} to="/catalog" />
+        <Message message={props.message} />
         {summary}
         {dates}
         {details}
@@ -104,6 +107,7 @@ const mapStateToProps = (state) => {
   return {
     product: state.product.product,
     loading: state.product.loading,
+    message: state.product.message,
   };
 };
 
@@ -112,6 +116,7 @@ const mapDispatchToProps = (dispatch) => {
     getProduct: (id) => dispatch(actions.getInternalProduct(id)),
     addToCart: (product) => dispatch(actions.addToCart(product)),
     archive: (id) => dispatch(actions.archiveInternalProduct(id)),
+    unarchive: (id) => dispatch(actions.unarchiveInternalProduct(id)),
     delete: (id) => dispatch(actions.deleteInternalProduct(id)),
   };
 };
@@ -119,6 +124,7 @@ const mapDispatchToProps = (dispatch) => {
 Product.propTypes = {
   resize: PropTypes.func,
   archive: PropTypes.func,
+  unarchive: PropTypes.func,
   delete: PropTypes.func,
   product: PropTypes.object,
   getProduct: PropTypes.func,
@@ -126,6 +132,7 @@ Product.propTypes = {
   total: PropTypes.number,
   totalItems: PropTypes.number,
   loading: PropTypes.bool,
+  message: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

@@ -8,10 +8,11 @@ import Pagination from "./Pagination/Pagination";
 import Filter from "./Filter/Filter";
 // import Modal from "../../../components/UI/Modal/Modal";
 import Button from "../../../components/UI/Button/Button";
-
+import Message from "./../../../components/Message/Message";
 const Catalog = (props) => {
   const page = props.page;
   const [items, setItems] = useState([]);
+  const [message, setMessage] = useState("");
   // console.log("isActive ", props.isActive);
   // console.log(props.page, "page");
 
@@ -24,8 +25,15 @@ const Catalog = (props) => {
   useEffect(() => {
     if (props.products) {
       setItems(props.products);
+      console.log("setItems: ", props.products);
     }
   }, [props.products]);
+
+  useEffect(() => {
+    if (props.message) {
+      setMessage(props.message);
+    }
+  }, [props.message]);
 
   // const addToCart = (id) => {
   //   props.addToCart(id);
@@ -82,7 +90,10 @@ const Catalog = (props) => {
       await props.getProducts(params);
     }
   };
-
+  let messageBar;
+  if (message) {
+    messageBar = <Message message={message} />;
+  }
   return (
     <div className={[classes.Catalog, "page-wrapper"].join(" ")}>
       <div className={classes.Products}>
@@ -92,11 +103,13 @@ const Catalog = (props) => {
           setIsActive={props.setIsActive}
           getProducts={props.getProducts}
         />
+        {messageBar}
         <CatalogItems
           loading={props.loading}
           items={items}
           product="/internal-product/"
           archive={props.archive}
+          unarchive={props.unarchive}
           delete={props.delete}
           type="internal"
         />
@@ -111,8 +124,13 @@ const Catalog = (props) => {
         results={props.results}
       />
       <div className={classes.copy}>
-        <Button onClick={() => {}} type="rounded">
-          Copy all to Stripe
+        <Button
+          onClick={() => {
+            props.migrateAll(items);
+          }}
+          type="rounded"
+        >
+          Copy to Stripe
         </Button>
       </div>
     </div>
@@ -135,6 +153,7 @@ const mapStateToProps = (state) => {
     next_page: state.product.next_page,
     loading: state.product.loading,
     isActive: state.product.isActive,
+    message: state.product.message,
   };
 };
 
@@ -146,6 +165,8 @@ const mapDispatchToProps = (dispatch) => {
     setIsActive: (isActive) => dispatch(actions.setIsActive(isActive)),
     delete: (id) => dispatch(actions.deleteInternalProduct(id)),
     archive: (id) => dispatch(actions.archiveInternalProduct(id)),
+    unarchive: (id) => dispatch(actions.unarchiveInternalProduct(id)),
+    migrateAll: (products) => dispatch(actions.migrateAllProducts(products)),
   };
 };
 
@@ -153,6 +174,7 @@ Catalog.propTypes = {
   addToCart: PropTypes.func,
   subtractQuantity: PropTypes.func,
   ending_before: PropTypes.string,
+  message: PropTypes.string,
   starting_after: PropTypes.string,
   products: PropTypes.array,
   results: PropTypes.number,
@@ -166,6 +188,8 @@ Catalog.propTypes = {
   setIsActive: PropTypes.func,
   delete: PropTypes.func,
   archive: PropTypes.func,
+  unarchive: PropTypes.func,
+  migrateAll: PropTypes.func,
   // params: PropTypes.obj,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Catalog);

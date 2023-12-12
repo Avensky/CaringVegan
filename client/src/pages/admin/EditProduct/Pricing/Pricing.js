@@ -27,11 +27,6 @@ const Pricing = (props) => {
   //       </div>
   //     );
   //   }
-
-  let modifier = 1;
-  if (props.type === "stripe") {
-    modifier = 1000;
-  }
   return (
     <div className={classes.priceWrapper}>
       <div className={classes.detailsWrapper}>
@@ -60,7 +55,7 @@ const Pricing = (props) => {
         <div className={classes.label}>Created</div>
         <div className={classes.priceCreated}>
           {props.item.default_price
-            ? formatDate(props.item.default_price.created * modifier)
+            ? formatDate(props.item.default_price.created, props.type)
             : null}
         </div>
       </div>

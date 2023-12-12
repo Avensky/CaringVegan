@@ -248,22 +248,139 @@ exports.getFeatured = catchAsync(async (req, res, next) => {
 });
 
 exports.migrateAll = catchAsync(async (req, res, next) => {
-  const allProducts = await stripe.products.list({
-    expand: ["data.default_price"],
-  });
-  console.log("allProducts", allProducts.data);
-  const products = allProducts.data;
+  const products = req.body;
+  console.log("req.body: ", products);
 
   for (let i = 0; products.length > i; i++) {
+    const product = await await stripe.products.retrieve(products[i].id, {
+      expand: ["default_price"],
+    });
+
     console.log(`product ${i}: ${products[i].id}`);
+    if (product) {
+      //update
+      const productObj = {
+        // id: req.body.id,
+        active: req.body.active,
+        // default_price: req.body.default_price,
+        description: req.body.description,
+        features: req.body.features,
+        images: req.body.images,
+        metadata: req.body.metadata,
+        name: req.body.name,
+        //   package_dimensions: req.body.package_dimensions,
+        //   shippable: req.body.shippable,
+        //   statement_descriptor: statement_descriptor,
+        //   tax_code: req.body.tax_code,
+        //   unit_label: req.body.unit_label,
+        //   url: req.body.url,
+      };
+
+      const newProduct = await stripe.products.update(id, productObj);
+      if (!newProduct)
+        next(new AppError("PROBLEM UPDATING PRODUCT", 500, "Error"));
+      console.log("stripe product: ", stripeProduct);
+
+      res.status(200).json({
+        status: "success",
+        data: newProduct,
+      });
+    } else {
+      //create
+      console.log("stripe product: ", stripeProduct);
+      const productObj = {
+        // id: req.body.id,
+        active: req.body.active,
+        // default_price: req.body.default_price,
+        description: req.body.description,
+        features: req.body.features,
+        images: req.body.images,
+        metadata: req.body.metadata,
+        name: req.body.name,
+        //   package_dimensions: req.body.package_dimensions,
+        //   shippable: req.body.shippable,
+        //   statement_descriptor: statement_descriptor,
+        //   tax_code: req.body.tax_code,
+        //   unit_label: req.body.unit_label,
+        //   url: req.body.url,
+      };
+      const newProduct = await stripe.products.create(productObj);
+      if (!newProduct)
+        next(new AppError("PROBLEM CREATING PRODUCT", 500, "Error"));
+      console.log("stripe product: ", stripeProduct);
+
+      res.status(200).json({
+        status: "success",
+        data: newProduct,
+      });
+    }
   }
 
   res.status(200).json({
     status: "success",
     data: {
-      data: allProducts,
+      data: products,
     },
   });
+});
+
+exports.migrate = catchAsync(async (req, res, next) => {
+  const id = req.body.id;
+  const product = await stripe.products.retrieve(id);
+
+  if (product) {
+    //update
+    const productObj = {
+      // id: req.body.id,
+      active: req.body.active,
+      // default_price: req.body.default_price,
+      description: req.body.description,
+      features: req.body.features,
+      images: req.body.images,
+      metadata: req.body.metadata,
+      name: req.body.name,
+      //   package_dimensions: req.body.package_dimensions,
+      //   shippable: req.body.shippable,
+      //   statement_descriptor: statement_descriptor,
+      //   tax_code: req.body.tax_code,
+      //   unit_label: req.body.unit_label,
+      //   url: req.body.url,
+    };
+
+    const newProduct = await stripe.products.update(id, productObj);
+
+    res.status(200).json({
+      status: "success",
+      data: newProduct,
+    });
+  } else {
+    //create
+    const productObj = {
+      // id: req.body.id,
+      active: req.body.active,
+      // default_price: req.body.default_price,
+      description: req.body.description,
+      features: req.body.features,
+      images: req.body.images,
+      metadata: req.body.metadata,
+      name: req.body.name,
+      //   package_dimensions: req.body.package_dimensions,
+      //   shippable: req.body.shippable,
+      //   statement_descriptor: statement_descriptor,
+      //   tax_code: req.body.tax_code,
+      //   unit_label: req.body.unit_label,
+      //   url: req.body.url,
+    };
+    const newProduct = await stripe.products.create(productObj);
+    if (!newProduct)
+      next(new AppError("PROBLEM CREATING PRODUCT", 500, "Error"));
+    console.log("stripe product: ", stripeProduct);
+
+    res.status(200).json({
+      status: "success",
+      data: newProduct,
+    });
+  }
 });
 
 exports.getProducts = catchAsync(async (req, res, next) => {
@@ -417,17 +534,40 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 exports.deleteProduct = catchAsync(async (req, res, next) => {
   let id = req.params.id;
   console.log("id = ", id);
-  const product = await Product.findById(id, { active: false });
+  const product = await stripe.products.update(id, { active: false });
+  product.active = false;
   if (!product) {
     return next(new AppError("No product found with that ID", 404));
   }
 
-  stripeProduct = await stripe.products.update(product.id);
-  console.log("stripe delete");
+  stripeProduct = await stripe.products.retrieve(id, {
+    expand: ["default_price"],
+  });
+  console.log("stripe delete", stripeProduct);
 
-  res.status(204).json({
+  res.status(200).json({
     status: "success",
-    data: stripeProduct.id,
+    product: stripeProduct,
+  });
+});
+exports.unarchiveStripe = catchAsync(async (req, res, next) => {
+  let id = req.params.id;
+  console.log("id = ", id);
+  const product = await stripe.products.update(id, { active: true });
+  product.active = true;
+  if (!product) {
+    return next(new AppError("No product found with that ID", 404));
+  }
+
+  // stripeProduct = await stripe.products.update(product.id);
+  stripeProduct = await stripe.products.retrieve(id, {
+    expand: ["default_price"],
+  });
+  console.log("stripe delete", stripeProduct);
+
+  res.status(200).json({
+    status: "success",
+    product: stripeProduct,
   });
 });
 

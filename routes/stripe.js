@@ -9,23 +9,25 @@ router.route("/webhook").post(stripeController.webhook);
 router.route("/orders").post(stripeController.getOrders);
 router.route("/checkout").post(stripeController.checkout);
 
+router.route("/migrate").post(stripeController.migrateAll);
 router.route("/migrateAll").post(stripeController.migrateAll);
 
 router
-  .route("/products/")
+  .route("/")
   .get(stripeController.getProducts)
   .post(stripeController.createProduct);
 
 router
-  .route("/products/:id")
+  .route("/:id")
   .get(stripeController.getProduct)
   .patch(stripeController.updateProduct)
   .delete(
-    authController.protect,
-    authController.restrictTo("user"),
+    // authController.protect,
+    // authController.restrictTo("user"),
     stripeController.deleteProduct
   );
 
+router.route("/unarchive/:id").patch(stripeController.unarchiveStripe);
 router.route("/featured").get(stripeController.getFeatured);
 router.route("/shop").get(stripeController.getShop);
 router

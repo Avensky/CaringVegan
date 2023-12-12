@@ -59,7 +59,7 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, "Please include the product name"],
-      unique: true,
+      unique: false,
       trim: true,
       maxlength: [
         40,

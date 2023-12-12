@@ -10,6 +10,7 @@ import {
   // getTotalPrice,
   // getTotalItems,
   removeItem,
+  updateArray,
   // storeLocally,
   // getLocalStorage,
 } from "../../utility/utility";
@@ -36,6 +37,7 @@ const initialState = {
   shop_loading: false,
   shop_total_count: 0,
   isActive: false,
+  message: "",
 };
 
 // ============================================================================
@@ -137,7 +139,7 @@ const migrateAllProductsFail = (state) =>
   updateObject(state, { loading: false });
 
 // ============================================================================
-// DELETE A PRODUCT ===========================================================
+// ARCHIVE A PRODUCT ==========================================================
 // ============================================================================
 
 const archiveInternalProductStart = (state) =>
@@ -148,19 +150,52 @@ const archiveInternalProductSuccess = (state, action) => {
   console.log("archiveInternalProductSuccess reducer", action.id);
   // console.log("deleteInternalProductSuccess reducer", action.id);
   // console.log("getProductsSuccess = " + JSON.stringify(action.products));
-  // const array = copyArray(state.products);
-  // const products = removeItem(array, action.id);
+  const array = copyArray(state.products);
+  const product = action.data.product;
+  const products = updateArray(array, product);
   // console.log("archiveInternalProductSuccess reducer", products);
   // console.log();
   return updateObject(state, {
-    // products: products,
+    products: products,
+    product: product,
     loading: false,
+    message: action.data.message,
     // total_count: state.total_count - 1,
     // results: state.results - 1,
   });
 };
 
 const archiveInternalProductFail = (state) =>
+  updateObject(state, { loading: false });
+
+// ============================================================================
+// ARCHIVE A PRODUCT ==========================================================
+// ============================================================================
+
+const unarchiveInternalProductStart = (state) =>
+  updateObject(state, { loading: true });
+
+const unarchiveInternalProductSuccess = (state, action) => {
+  console.log("deleteInternalProductSuccess reducer", action.data.product);
+  console.log("unarchiveInternalProductSuccess reducer", action.id);
+  // console.log("deleteInternalProductSuccess reducer", action.id);
+  // console.log("getProductsSuccess = " + JSON.stringify(action.products));
+  const array = copyArray(state.products);
+  const product = action.data.product;
+  const products = updateArray(array, product);
+  console.log("unarchiveInternalProductSuccess reducer", products);
+  // console.log();
+  return updateObject(state, {
+    products: products,
+    product: product,
+    loading: false,
+    message: action.data.message,
+    // total_count: state.total_count - 1,
+    // results: state.results - 1,
+  });
+};
+
+const unarchiveInternalProductFail = (state) =>
   updateObject(state, { loading: false });
 // ============================================================================
 // DELETE A PRODUCT ===========================================================
@@ -510,6 +545,14 @@ const reducer = (state = initialState, action) => {
       return archiveInternalProductFail(state, action);
     case actionTypes.ARCHIVE_INTERNAL_PRODUCT_START:
       return archiveInternalProductStart(state, action);
+
+    // product unarchive
+    case actionTypes.UNARCHIVE_INTERNAL_PRODUCT_SUCCESS:
+      return unarchiveInternalProductSuccess(state, action);
+    case actionTypes.UNARCHIVE_INTERNAL_PRODUCT_FAIL:
+      return unarchiveInternalProductFail(state, action);
+    case actionTypes.UNARCHIVE_INTERNAL_PRODUCT_START:
+      return unarchiveInternalProductStart(state, action);
 
     // product delete
     case actionTypes.DELETE_INTERNAL_PRODUCT_SUCCESS:

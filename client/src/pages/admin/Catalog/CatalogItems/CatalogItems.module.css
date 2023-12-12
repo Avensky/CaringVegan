@@ -53,11 +53,23 @@
 }
 
 .delete {
-  color: gray;
+  color: red;
+  margin: 1vh 0;
 }
 
 .tooltip {
   display: "inline-block";
   margin: "60px";
   color: black;
+}
+
+.archived {
+  background-color: rgb(255, 255, 255);
+  border: 1px black solid;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.disabled {
+  color: grey;
 }

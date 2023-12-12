@@ -52,7 +52,10 @@ router
 //     authController.protect,
 //     authController.restrictTo("user")
 
-router.route("/internal/:id").delete(productController.archiveProduct);
+router
+  .route("/internal/:id")
+  .patch(productController.unarchiveProduct)
+  .delete(productController.archiveProduct);
 
 router.route("/migrate").post(productController.migrateProduct);
 router.route("/migrateAll").post(productController.migrateAllProducts);

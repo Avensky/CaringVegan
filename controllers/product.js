@@ -1,4 +1,5 @@
 // const AppError = require("../utils/appError");
+const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const Product = require("./../models/product");
 // const stripeController = require("./../controllers/stripe");
@@ -13,20 +14,51 @@ exports.deleteProduct = crud.deleteOne(Product);
 exports.archiveProduct = catchAsync(async (req, res, next) => {
   const id = req.params.id;
   console.log("product id: ", id);
-  const item = await Product.findByIdAndUpdate(id, { active: false });
-  res.status(200).json({
-    status: "success",
-  });
+
+  try {
+    const item = await Product.findByIdAndUpdate(id, { active: false });
+    item.active = false;
+    console.log("item: ", item);
+    res.status(200).json({
+      status: "success",
+      message: "Archive product success",
+      product: item,
+    });
+  } catch (err) {
+    new AppError("Unable to Archive product", 401);
+  }
+});
+
+exports.unarchiveProduct = catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+  console.log("product id: ", id);
+
+  try {
+    const item = await Product.findByIdAndUpdate(id, { active: true });
+    item.active = true;
+    console.log("item: ", item);
+
+    res.status(200).json({
+      status: "success",
+      message: "Unarchive product success",
+      product: item,
+    });
+  } catch (err) {
+    new AppError("Unable to Unarchive product", 401);
+  }
 });
 
 exports.migrateAllProducts = catchAsync(async (req, res, next) => {
   // console.log("migrate all products");
-  console.log("migrate all products", req.body);
+  console.log("migrate all products");
+  // console.log("migrate all products", req.body);
   const products = req.body;
 
   for (let i = 0; products.length > i; i++) {
     const product = await Product.find({ id: products[i].id });
-    console.log("product length: ", products.length);
+    console.log("products length: ", products.length);
+    console.log("existing product ", product);
+    console.log("existing product ", product.length);
     console.log("productId: ", products[i].id);
     const productObj = {
       id: products[i].id,
@@ -71,13 +103,15 @@ exports.migrateAllProducts = catchAsync(async (req, res, next) => {
       //   url: products[i].url,
     };
 
-    if (product) {
+    if (product.length === 1) {
+      console.log("update Product");
       const newProduct = await Product.findOneAndUpdate(
         { id: products[i].id },
         productObj
       );
       // product.save()
     } else {
+      console.log("create new product");
       const newProduct = await Product.create(productObj);
     }
   }
@@ -134,7 +168,7 @@ exports.migrateProduct = catchAsync(async (req, res, next) => {
     //   url: req.body.url,
   };
 
-  if (existingProduct) {
+  if (existingProduct.length === 1) {
     console.log("update existing product");
     const newProduct = await Product.findOneAndUpdate(
       { id: req.body.id },
