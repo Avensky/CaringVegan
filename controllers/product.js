@@ -117,6 +117,7 @@ exports.migrateAllProducts = catchAsync(async (req, res, next) => {
   }
   res.status(200).json({
     status: "success",
+    products: products,
   });
 });
 
@@ -174,20 +175,19 @@ exports.migrateProduct = catchAsync(async (req, res, next) => {
       { id: req.body.id },
       productObj
     );
-    res.status(204).json({
+    console.log("newProduct", newProduct);
+    const product = await Product.find({ id: req.body.id });
+    console.log("Product", product[0]);
+    res.status(201).json({
       status: "success",
-      data: {
-        data: newProduct,
-      },
+      product: product[0],
     });
   } else {
     console.log("new product create");
     const newProduct = await Product.create(productObj);
-    res.status(201).json({
+    res.status(200).json({
       status: "success",
-      data: {
-        data: newProduct,
-      },
+      product: newProduct,
     });
   }
 });

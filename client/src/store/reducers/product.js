@@ -28,7 +28,6 @@ const initialState = {
   total: 0.0,
   totalItems: 0,
   error: null,
-  index: 1,
   page: 1,
   featured: [],
   featured_loading: false,
@@ -36,7 +35,7 @@ const initialState = {
   shop: [],
   shop_loading: false,
   shop_total_count: 0,
-  isActive: false,
+  isActive: undefined,
   message: "",
 };
 
@@ -57,13 +56,12 @@ const getInternalProductsSuccess = (state, action) => {
   // const products = action.data.data.slice();
   // console.log("getInternalProductsSuccess", products);
   return updateObject(state, {
-    // starting_after: action.data.starting_after,
-    // ending_before: action.data.ending_before,
-    // has_more: action.data.products.has_more,
+    starting_after: action.data.starting_after,
+    ending_before: action.data.ending_before,
+    has_more: action.data.data.has_more,
     products,
     loading: false,
     total_count: action.data.total_count,
-    index: action.data.data.index,
     page: action.data.data.page,
     next_page: action.data.data.next_page,
     results: action.data.results,
@@ -98,24 +96,25 @@ const getInternalProductFail = (state) =>
 // MIGRATE STRIPE PRODUCT =====================================================
 // ============================================================================
 
-const migrateStripeProductStart = (state) =>
-  updateObject(state, { loading: true });
+const migrateProductStart = (state) => updateObject(state, { loading: true });
 
-const migrateStripeProductSuccess = (state, action) => {
+const migrateProductSuccess = (state, action) => {
   const array = copyArray(state.products);
-  const products = array.splice(1, 0, action.data);
-  console.log("migrateStripeProductSuccess reducer", products);
-  console.log();
+  console.log("migrateProductSuccess array", array);
+  const product = action.data.product;
+  console.log("migrateProductSuccess product", product);
+  const products = updateArray(array, product);
+  console.log("migrateProductSuccess reducer products", products);
   return updateObject(state, {
     products: products,
+    product: product,
     loading: false,
     // total_count: state.total_count - 1,
     // results: state.results - 1,
   });
 };
 
-const migrateStripeProductFail = (state) =>
-  updateObject(state, { loading: false });
+const migrateProductFail = (state) => updateObject(state, { loading: false });
 
 // ============================================================================
 // MIGRATE ALL STRIPE PRODUCTS ================================================
@@ -125,10 +124,10 @@ const migrateAllProductsStart = (state) =>
   updateObject(state, { loading: true });
 
 const migrateAllProductsSuccess = (state, action) => {
-  console.log("migrateProductSuccess reducer", action.products);
+  console.log("migrateAllProductsSuccess reducer", action.data);
   console.log();
   return updateObject(state, {
-    products: action.products,
+    products: action.data.products,
     loading: false,
     // total_count: state.total_count - 1,
     // results: state.results - 1,
@@ -169,7 +168,7 @@ const archiveInternalProductFail = (state) =>
   updateObject(state, { loading: false });
 
 // ============================================================================
-// ARCHIVE A PRODUCT ==========================================================
+// UNARCHIVE A PRODUCT ========================================================
 // ============================================================================
 
 const unarchiveInternalProductStart = (state) =>
@@ -563,12 +562,12 @@ const reducer = (state = initialState, action) => {
       return deleteInternalProductStart(state, action);
 
     // migrate
-    case actionTypes.MIGRATE_STRIPE_PRODUCT_SUCCESS:
-      return migrateStripeProductSuccess(state, action);
-    case actionTypes.MIGRATE_STRIPE_PRODUCT_FAIL:
-      return migrateStripeProductFail(state, action);
-    case actionTypes.MIGRATE_STRIPE_PRODUCT_START:
-      return migrateStripeProductStart(state, action);
+    case actionTypes.MIGRATE_PRODUCT_SUCCESS:
+      return migrateProductSuccess(state, action);
+    case actionTypes.MIGRATE_PRODUCT_FAIL:
+      return migrateProductFail(state, action);
+    case actionTypes.MIGRATE_PRODUCT_START:
+      return migrateProductStart(state, action);
 
     // migrate all
     case actionTypes.MIGRATE_ALL_PRODUCTS_SUCCESS:

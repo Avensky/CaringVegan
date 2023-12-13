@@ -29,9 +29,14 @@ const CatalogItem = (props) => {
         Edit
       </NavLink>
       <div onClick={() => setShowArchiveModal(true)}>Archive</div>
-      <div onClick={() => setShowDeleteModal(true)} className={classes.delete}>
-        Delete
-      </div>
+      {props.type === "internal" ? (
+        <div
+          onClick={() => setShowDeleteModal(true)}
+          className={classes.delete}
+        >
+          Delete
+        </div>
+      ) : null}
     </div>
   );
 
@@ -44,10 +49,16 @@ const CatalogItem = (props) => {
         >
           Edit
         </NavLink>
-        <div onClick={props.unarchive}>Unarchive</div>
-        <div className={[classes.delete, classes.disabled].join(" ")}>
-          Delete
-        </div>
+        {props.type === "internal" ? (
+          <>
+            <div onClick={props.unarchive}>Unarchive</div>
+            <div className={[classes.delete, classes.disabled].join(" ")}>
+              Delete
+            </div>
+          </>
+        ) : (
+          <div onClick={props.unarchive}>Unarchive</div>
+        )}
       </div>
     );
   }
@@ -75,7 +86,12 @@ const CatalogItem = (props) => {
         continueHandler={() => deleteHandler(props.id)}
       />
       <div className={classes.imageWrapper}>
-        <img className={classes.image} src={props.images[0] || noImage} />
+        <NavLink
+          to={props.editLink}
+          // className={[classes.edit, classes.disabled].join(" ")}
+        >
+          <img className={classes.image} src={props.images[0] || noImage} />
+        </NavLink>
       </div>
       <div className={classes.details}>
         <div className={classes.name}>{props.name}</div>

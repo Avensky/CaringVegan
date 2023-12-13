@@ -10,13 +10,13 @@ import Filter from "./Filter/Filter";
 import Button from "../../../components/UI/Button/Button";
 import Message from "./../../../components/Message/Message";
 const Catalog = (props) => {
-  const page = props.page;
   const [items, setItems] = useState([]);
   const [message, setMessage] = useState("");
   // console.log("isActive ", props.isActive);
   // console.log(props.page, "page");
 
   useEffect(() => {
+    props.setIsActive();
     const params = { limit: 5 };
     const getProducts = async () => await props.getProducts(params);
     getProducts();
@@ -57,39 +57,10 @@ const Catalog = (props) => {
   // console.log("total_count", props.total_count);
   // console.log("page: ", page);
 
-  let totalPages = props.total_count / 5;
   // const remainder = props.total_count % 5;
   // if (remainder) totalPages = totalPages + 1/;
   // console.log("remainder: ", remainer);
 
-  const next = async () => {
-    console.log("loading: ", props.loading);
-    if (page < totalPages && !props.loading) {
-      const params = {
-        active: props.isActive,
-        limit: 5,
-        // starting_after: props.starting_after,
-        results: props.results,
-        has_more: props.has_more,
-        page: props.next_page,
-      };
-      await props.getProducts(params);
-    }
-  };
-
-  const prev = async () => {
-    if (page > 1 && !props.loading) {
-      const params = {
-        active: props.isActive,
-        limit: 5,
-        // ending_before: props.ending_before,
-        results: props.results,
-        has_more: props.has_more,
-        page: props.page - 1,
-      };
-      await props.getProducts(params);
-    }
-  };
   let messageBar;
   if (message) {
     messageBar = <Message message={message} />;
@@ -115,13 +86,14 @@ const Catalog = (props) => {
         />
       </div>
       <Pagination
-        prev={() => prev()}
-        next={() => next()}
         page={props.page}
+        next_page={props.next_page}
         limit={5}
         total_count={props.total_count}
         has_more={props.has_more}
         results={props.results}
+        active={props.isActive}
+        getProducts={props.getProducts}
       />
       <div className={classes.copy}>
         <Button
@@ -166,7 +138,8 @@ const mapDispatchToProps = (dispatch) => {
     delete: (id) => dispatch(actions.deleteInternalProduct(id)),
     archive: (id) => dispatch(actions.archiveInternalProduct(id)),
     unarchive: (id) => dispatch(actions.unarchiveInternalProduct(id)),
-    migrateAll: (products) => dispatch(actions.migrateAllProducts(products)),
+    migrateAll: (products) =>
+      dispatch(actions.migrateAllStripeProducts(products)),
   };
 };
 

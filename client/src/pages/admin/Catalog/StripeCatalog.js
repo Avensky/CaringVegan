@@ -18,10 +18,8 @@ const StripeCatalog = (props) => {
     setShowModal(false);
   };
 
-  const index = props.index;
-  // console.log(props.index, "index");
-
   useEffect(() => {
+    props.setIsActive();
     const params = { limit: 5 };
     const getProducts = async () => await props.getProducts(params);
     getProducts();
@@ -40,35 +38,6 @@ const StripeCatalog = (props) => {
   //   props.subtractQuantity(id);
   // };
   // console.log("home ", props.products);
-
-  let totalPages = props.total_count / 5;
-  const next = async () => {
-    if (index < totalPages && !props.loading) {
-      const params = {
-        active: props.isActive,
-        limit: 5,
-        starting_after: props.starting_after,
-        results: props.results,
-        has_more: props.has_more,
-        index: props.index,
-      };
-      await props.getProducts(params);
-    }
-  };
-
-  const prev = async () => {
-    if (index > 1 && !props.loading) {
-      const params = {
-        active: props.isActive,
-        limit: 5,
-        ending_before: props.ending_before,
-        results: props.results,
-        has_more: props.has_more,
-        index: props.index,
-      };
-      await props.getProducts(params);
-    }
-  };
 
   return (
     <div className={[classes.Catalog, "page-wrapper"].join(" ")}>
@@ -100,13 +69,16 @@ const StripeCatalog = (props) => {
         />
       </div>
       <Pagination
-        prev={() => prev()}
-        next={() => next()}
         page={props.index}
+        index={props.index}
         limit={5}
         total_count={props.total_count}
         has_more={props.has_more}
         results={props.results}
+        starting_after={props.starting_after}
+        ending_before={props.ending_before}
+        active={props.isActive}
+        getProducts={props.getProducts}
       />
       <div className={classes.copy}>
         <Button
@@ -136,6 +108,7 @@ const mapStateToProps = (state) => {
     isAuth: state.auth.payload,
     index: state.stripe.index,
     loading: state.stripe.loading,
+    isActive: state.stripe.isActive,
   };
 };
 
@@ -144,11 +117,10 @@ const mapDispatchToProps = (dispatch) => {
     addToCart: (id) => dispatch(actions.addToCart(id)),
     getProducts: (params) => dispatch(actions.getProducts(params)),
     subQuantity: (id) => dispatch(actions.subQuantity(id)),
-    setIsActive: (isActive) => dispatch(actions.setIsActive(isActive)),
+    setIsActive: (isActive) => dispatch(actions.setStripeActive(isActive)),
     archive: (id) => dispatch(actions.archiveStripeProduct(id)),
     unarchive: (id) => dispatch(actions.unarchiveStripeProduct(id)),
-    migrateAll: (products) =>
-      dispatch(actions.migrateAllStripeProducts(products)),
+    migrateAll: (products) => dispatch(actions.migrateAllProducts(products)),
   };
 };
 

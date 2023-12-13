@@ -276,18 +276,15 @@ exports.migrateAll = catchAsync(async (req, res, next) => {
         //   url: req.body.url,
       };
 
-      const newProduct = await stripe.products.update(id, productObj);
+      const newProduct = await stripe.products.update(
+        products[i].id,
+        productObj
+      );
       if (!newProduct)
         next(new AppError("PROBLEM UPDATING PRODUCT", 500, "Error"));
-      console.log("stripe product: ", stripeProduct);
-
-      res.status(200).json({
-        status: "success",
-        data: newProduct,
-      });
+      console.log("stripe product: ", newProduct);
     } else {
       //create
-      console.log("stripe product: ", stripeProduct);
       const productObj = {
         // id: req.body.id,
         active: req.body.active,
@@ -307,25 +304,20 @@ exports.migrateAll = catchAsync(async (req, res, next) => {
       const newProduct = await stripe.products.create(productObj);
       if (!newProduct)
         next(new AppError("PROBLEM CREATING PRODUCT", 500, "Error"));
-      console.log("stripe product: ", stripeProduct);
-
-      res.status(200).json({
-        status: "success",
-        data: newProduct,
-      });
+      console.log("stripe product: ", newProduct);
     }
   }
 
   res.status(200).json({
     status: "success",
-    data: {
-      data: products,
-    },
+    products: products,
   });
 });
 
 exports.migrate = catchAsync(async (req, res, next) => {
   const id = req.body.id;
+  console.log("migrate ", id);
+  console.log("migrate ", req.body.active);
   const product = await stripe.products.retrieve(id);
 
   if (product) {
@@ -349,9 +341,13 @@ exports.migrate = catchAsync(async (req, res, next) => {
 
     const newProduct = await stripe.products.update(id, productObj);
 
+    const stripeProduct = await stripe.products.retrieve(id, {
+      expand: ["default_price"],
+    });
+
     res.status(200).json({
       status: "success",
-      data: newProduct,
+      product: stripeProduct,
     });
   } else {
     //create
@@ -372,13 +368,13 @@ exports.migrate = catchAsync(async (req, res, next) => {
       //   url: req.body.url,
     };
     const newProduct = await stripe.products.create(productObj);
-    if (!newProduct)
-      next(new AppError("PROBLEM CREATING PRODUCT", 500, "Error"));
-    console.log("stripe product: ", stripeProduct);
+    const stripeProduct = await stripe.products.retrieve(id, {
+      expand: ["default_price"],
+    });
 
     res.status(200).json({
       status: "success",
-      data: newProduct,
+      product: stripeProduct,
     });
   }
 });

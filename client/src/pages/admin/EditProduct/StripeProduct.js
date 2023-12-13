@@ -79,6 +79,7 @@ const StripeProduct = (props) => {
         archive={archive}
         unarchive={() => props.unarchive(item.id)}
         delete={() => {}}
+        type="stripe"
       />
     );
     dates = <Dates item={item} type="stripe" />;
@@ -100,7 +101,7 @@ const StripeProduct = (props) => {
           continue="Archive Product"
           archive={(id) => archive(id)}
         />
-        <Navigate id={item.id} to="/stripe-catalog" />
+        <Navigate id={item.id} to="/stripe-catalog" back="Stripe" />
         {summary}
         {dates}
         {details}
@@ -124,9 +125,7 @@ const mapDispatchToProps = (dispatch) => {
     addToCart: (product) => dispatch(actions.addToCart(product)),
     archive: (id) => dispatch(actions.archiveStripeProduct(id)),
     unarchive: (id) => dispatch(actions.unarchiveStripeProduct(id)),
-    migrate: (product) => dispatch(actions.migrateStripeProduct(product)),
-    migrateAll: (products) =>
-      dispatch(actions.migrateAllStripeProducts(products)),
+    migrate: (product) => dispatch(actions.migrateProduct(product)),
   };
 };
 

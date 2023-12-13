@@ -9,7 +9,7 @@ router.route("/webhook").post(stripeController.webhook);
 router.route("/orders").post(stripeController.getOrders);
 router.route("/checkout").post(stripeController.checkout);
 
-router.route("/migrate").post(stripeController.migrateAll);
+router.route("/migrate/").post(stripeController.migrate);
 router.route("/migrateAll").post(stripeController.migrateAll);
 
 router

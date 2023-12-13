@@ -11,22 +11,28 @@ export const ScrollToTop = () => {
 };
 
 export const formatRoute = (params) => {
-  // console.log("params: ", params);
+  console.log("params: ", params);
   let string;
   if (
     params.active ||
     params.page ||
     params.limit ||
+    params.index ||
     params.starting_after ||
     params.ending_before
   ) {
-    if (params.active !== undefined) {
+    if (params.active != undefined) {
+      console.log("params.active != undefined", params.active);
       string = `?active=${params.active}`;
     }
     if (params.limit !== undefined) {
       if (string === undefined) {
+        // console.log("string === undefined");
+        // console.log("params.limit: ", params.limit);
         string = `?limit=${params.limit}`;
+        // console.log("string: ", string);
       } else {
+        // console.log("else");
         const limit = `limit=${params.limit}`;
         let join = [string, limit].join("&");
         string = `${join}`;
@@ -48,17 +54,19 @@ export const formatRoute = (params) => {
       if (string === undefined) {
         string = `?ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`;
       } else {
-        const ending_before = `ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`;
+        const ending_before = `&ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`;
         let join = [string, ending_before].join("");
         string = `${join}`;
       }
     }
 
     if (params.starting_after) {
+      console.log("params.starting_after: ", string);
       if (string === undefined) {
         string = `?starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`;
       } else {
-        const starting_after = `${string}&starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`;
+        console.log("string final", string);
+        const starting_after = `&starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`;
         let join = [string, starting_after].join("");
         string = `${join}`;
       }

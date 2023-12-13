@@ -40,36 +40,38 @@ const Product = (props) => {
 
   useEffect(() => {
     if (!product._id) {
-      console.log("getProduct, no product detected");
+      // console.log("getProduct, no product detected");
       getProduct(id);
     } else if (product.id !== id) {
-      console.log("getProduct, route id does not match saved product");
+      // console.log("getProduct, route id does not match saved product");
       getProduct(id);
     }
   }, []);
 
   useEffect(() => {
     if (product) {
-      console.log("setItem product: ", product);
+      // console.log("setItem product: ", product);
 
       setItem(product);
     }
   }, [product]);
 
-  let summary, dates, details, pricing, metadata;
+  let imageRow, dates, details, pricing, metadata;
   // details = <p style={{ textAlign: "center" }}>Please select an item!</p>;
 
   if (props.loading) details = <Spinner />;
 
   if (item._id) {
-    summary = (
+    imageRow = (
       <ImageRow
         item={item}
         id={id}
         // setShowModal={() => setShowModal}
         archive={props.archive}
         unarchive={() => props.unarchive(id)}
+        migrate={() => props.migrate(item)}
         delete={props.delete}
+        type="internal"
       />
     );
     dates = <Dates item={item} type="internal" />;
@@ -91,9 +93,9 @@ const Product = (props) => {
         <Modal show={showModal} modalClosed={cancelHandler}>
           {/* {orderSummary} */}
         </Modal>
-        <Navigate id={item._id} to="/catalog" />
+        <Navigate id={item._id} to="/catalog" back="Products" />
         <Message message={props.message} />
-        {summary}
+        {imageRow}
         {dates}
         {details}
         {pricing}
@@ -118,6 +120,7 @@ const mapDispatchToProps = (dispatch) => {
     archive: (id) => dispatch(actions.archiveInternalProduct(id)),
     unarchive: (id) => dispatch(actions.unarchiveInternalProduct(id)),
     delete: (id) => dispatch(actions.deleteInternalProduct(id)),
+    migrate: (item) => dispatch(actions.migrateStripeProduct(item)),
   };
 };
 
@@ -133,6 +136,7 @@ Product.propTypes = {
   totalItems: PropTypes.number,
   loading: PropTypes.bool,
   message: PropTypes.string,
+  migrate: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

@@ -31,6 +31,7 @@ const initialState = {
   shop: [],
   shop_loading: false,
   shop_total_count: 0,
+  isActive: undefined,
 };
 
 // ============================================================================
@@ -41,6 +42,10 @@ const resize = (state, action) => {
   return updateObject(state, {
     width: action.width,
   });
+};
+
+const setStripeActive = (state, action) => {
+  return updateObject(state, { isActive: action.isActive });
 };
 
 // ============================================================================
@@ -98,7 +103,7 @@ const migrateAllStripeProductsStart = (state) =>
   updateObject(state, { loading: true });
 
 const migrateAllStripeProductsSuccess = (state, action) => {
-  console.log("migrateStripeProductSuccess reducer", action.products);
+  console.log("migrateStripeProductSuccess reducer", action.data.products);
   return updateObject(state, {
     products: action.products,
     loading: false,
@@ -108,6 +113,30 @@ const migrateAllStripeProductsSuccess = (state, action) => {
 };
 
 const migrateAllStripeProductsFail = (state) =>
+  updateObject(state, { loading: false });
+
+// ============================================================================
+// MIGRATE STRIPE PRODUCTS ====================================================
+// ============================================================================
+
+const migrateStripeProductStart = (state) =>
+  updateObject(state, { loading: true });
+
+const migrateStripeProductSuccess = (state, action) => {
+  const array = copyArray(state.products);
+  const product = action.data.product;
+  const products = updateArray(array, product);
+  console.log("migrateStripeProductSuccess reducer", product);
+  return updateObject(state, {
+    products: products,
+    product: product,
+    loading: false,
+    // total_count: state.total_count - 1,
+    // results: state.results - 1,
+  });
+};
+
+const migrateStripeProductFail = (state) =>
   updateObject(state, { loading: false });
 
 // ============================================================================
@@ -312,7 +341,7 @@ const subShipping = (state) => {
 const loadCart = (state) => {
   // console.log("loadCart action", action);
   let cart = localStorage.getItem("cart") || [];
-  console.log("localstorage cart", cart);
+  // console.log("localstorage cart", cart);
   let totalItems, total;
   if (cart.length > 0) {
     cart = JSON.parse(cart);
@@ -456,6 +485,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.RESIZE:
       return resize(state, action);
 
+    case actionTypes.SET_STRIPE_ACTIVE:
+      return setStripeActive(state, action);
+
     // Featured
     case actionTypes.GET_FEATURED_SUCCESS:
       return getFeaturedSuccess(state, action);
@@ -479,6 +511,14 @@ const reducer = (state = initialState, action) => {
       return migrateAllStripeProductsFail(state, action);
     case actionTypes.MIGRATE_ALL_STRIPE_PRODUCTS_START:
       return migrateAllStripeProductsStart(state, action);
+
+    // migrate
+    case actionTypes.MIGRATE_STRIPE_PRODUCT_SUCCESS:
+      return migrateStripeProductSuccess(state, action);
+    case actionTypes.MIGRATE_STRIPE_PRODUCT_FAIL:
+      return migrateStripeProductFail(state, action);
+    case actionTypes.MIGRATE_STRIPE_PRODUCT_START:
+      return migrateStripeProductStart(state, action);
 
     // products
     case actionTypes.GET_PRODUCTS_SUCCESS:

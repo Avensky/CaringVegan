@@ -34,14 +34,16 @@ const ImageRow = (props) => {
       >
         Archive
       </div>
-      <div
-        className={classes.delete}
-        onClick={() => {
-          setShowDeleteModal(true);
-        }}
-      >
-        Delete
-      </div>
+      {props.type === "internal" ? (
+        <div
+          className={classes.delete}
+          onClick={() => {
+            setShowDeleteModal(true);
+          }}
+        >
+          Delete
+        </div>
+      ) : null}
     </div>
   );
 
@@ -57,12 +59,14 @@ const ImageRow = (props) => {
         <div className={classes.archive} onClick={props.unarchive}>
           Unarchive
         </div>
-        <div
-          className={[classes.delete, classes.unavailable].join(" ")}
-          onClick={() => {}}
-        >
-          Delete
-        </div>
+        {props.type === "internal" ? (
+          <div
+            className={[classes.delete, classes.unavailable].join(" ")}
+            onClick={() => {}}
+          >
+            Delete
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -110,10 +114,15 @@ const ImageRow = (props) => {
           ) : null}
         </div>
         <div className={classes.copy}>
-          {" "}
-          <Button type="rounded" onClick={props.migrate}>
-            Copy to MongoDB
-          </Button>
+          {props.type === "internal" ? (
+            <Button type="rounded" onClick={props.migrate}>
+              Copy to Stripe
+            </Button>
+          ) : (
+            <Button type="rounded" onClick={props.migrate}>
+              Copy to MongoDB
+            </Button>
+          )}
         </div>
 
         {edit}
@@ -127,9 +136,11 @@ ImageRow.propTypes = {
   item: PropTypes.object,
   continue: PropTypes.func,
   migrate: PropTypes.func,
+  migrateStripe: PropTypes.func,
   archive: PropTypes.func,
   unarchive: PropTypes.func,
   delete: PropTypes.func,
+  type: PropTypes.string,
 };
 
 export default ImageRow;

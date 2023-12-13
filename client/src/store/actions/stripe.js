@@ -1,13 +1,16 @@
 import * as actionTypes from "./actionTypes";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { formatRoute } from "../../utility/utility";
 
 // eslint-disable-next-line no-undef
 let stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
-/*******************************************
- * Cart Stuffs
- *******************************************/
+export const setStripeActive = (isActive) => {
+  // console.log("add to cart");
+  return { type: actionTypes.SET_STRIPE_ACTIVE, isActive };
+};
+
 export const addToCart = (product) => {
   // console.log("add to cart");
   return { type: actionTypes.ADD_TO_CART, product };
@@ -97,53 +100,10 @@ export const getFeatured = () => {
 // GET PRODUCTS ======================================================
 // ===================================================================
 export const getProducts = (params) => {
-  // console.log("params", params);
-  let string = "";
-  if (
-    params.active ||
-    params.page ||
-    params.limit ||
-    params.starting_after ||
-    params.ending_before
-  ) {
-    string = "?";
-    if (params.active !== undefined) {
-      string = `${string}active=${params.active}`;
-      params.limit ? (string = `${string}&limit=${params.limit}`) : null;
-      params.ending_before
-        ? (string = `${string}&ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`)
-        : null;
-      console.log("Params.results ", params.results);
-      params.starting_after &&
-      params.has_more &&
-      params.results === params.limit
-        ? (string = `${string}&starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`)
-        : null;
-    } else if (params.limit) {
-      string = `${string}limit=${params.limit}`;
-      params.ending_before && params.index > 1
-        ? (string = `${string}&ending_before=${params.ending_before}&has_more=${params.has_more}&index=${params.index}`)
-        : null;
-      params.starting_after &&
-      params.has_more &&
-      params.results === params.limit
-        ? (string = `${string}&starting_after=${params.starting_after}&has_more=${params.has_more}&index=${params.index}`)
-        : null;
-    } else if (
-      params.starting_after &&
-      params.has_more &&
-      params.results === params.limit
-    ) {
-      string = `${string}&starting_after=${params.starting_after}&has_more=${params.has_more}`;
-    } else if (params.ending_before && params.index > 1) {
-      string = `${string}&ending_before=${params.ending_before}&has_more=${params.has_more}`;
-    }
-  }
-  // limit ? (string = `${string}&limit=${limit}`) : null;
-  // page ? (string = `${string}&page=${page}`) : null;
-
+  console.log("getInternalProducts params", params);
+  let string = formatRoute(params);
   console.log("string =", string);
-  // console.log("params: ", params);
+
   return (dispatch) => {
     dispatch(getProductsStart());
     axios
@@ -174,6 +134,36 @@ export const getProductsStart = () => {
 };
 
 // ===================================================================
+// MIGRATE PRODUCT ===================================================
+// ===================================================================
+export const migrateStripeProduct = (item) => {
+  // console.log("data", data);
+  return (dispatch) => {
+    dispatch(migrateStripeProductStart());
+    axios
+      .post(`/api/v1/stripe/migrate`, item)
+      .then((result) => {
+        dispatch(migrateStripeProductSuccess(result.data));
+      })
+      .catch((error) => {
+        dispatch(migrateStripeProductFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const migrateStripeProductSuccess = (data) => {
+  return { type: actionTypes.MIGRATE_STRIPE_PRODUCT_SUCCESS, data };
+};
+
+export const migrateStripeProductFail = (error) => {
+  return { type: actionTypes.MIGRATE_STRIPE_PRODUCT_FAIL, error };
+};
+
+export const migrateStripeProductStart = () => {
+  return { type: actionTypes.MIGRATE_STRIPE_PRODUCT_START };
+};
+
+// ===================================================================
 // MIGRATE ALL PRODUCTS ==============================================
 // ===================================================================
 export const migrateAllStripeProducts = (products) => {
@@ -181,7 +171,7 @@ export const migrateAllStripeProducts = (products) => {
   return (dispatch) => {
     dispatch(migrateAllStripeProductsStart());
     axios
-      .post(`/api/v1/products/migrateAll`, products)
+      .post(`/api/v1/stripe/migrateAll`, products)
       .then((result) => {
         console.log(
           "actions MIGRATEALL stripe products to mongodb ",

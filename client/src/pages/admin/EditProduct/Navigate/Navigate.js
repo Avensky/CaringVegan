@@ -11,7 +11,7 @@ const Navigate = (props) => {
         <span className={classes.back}>
           <FontAwesomeIcon icon="fa-solid fa-arrow-left" />
         </span>
-        <span className={classes.back}>{"Products"}</span>
+        <span className={classes.back}>{props.back}</span>
       </NavLink>
       <div className={classes.right}>
         {props.id ? <span className={classes.id}>{props.id}</span> : null}
@@ -23,6 +23,7 @@ const Navigate = (props) => {
 Navigate.propTypes = {
   id: PropTypes.string,
   to: PropTypes.string,
+  back: PropTypes.string,
 };
 
 export default Navigate;

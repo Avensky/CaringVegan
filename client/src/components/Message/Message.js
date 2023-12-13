@@ -10,7 +10,7 @@ const Message = (props) => {
   //   setAnimation(true);
   // }, [props.message]);
 
-  console.log("message", props.message);
+  // console.log("message", props.message);
   return (
     <div
       className={[classes.message, classes[props.type], classes.animation].join(

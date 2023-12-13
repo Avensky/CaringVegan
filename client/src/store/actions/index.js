@@ -5,7 +5,7 @@ export {
   getInternalProducts,
   deleteInternalProduct,
   setIsActive,
-  migrateStripeProduct,
+  migrateProduct,
   migrateAllProducts,
   archiveInternalProduct,
   unarchiveInternalProduct,
@@ -24,7 +24,9 @@ export {
   subQuantity,
   checkout,
   loadCart,
+  migrateStripeProduct,
   migrateAllStripeProducts,
+  setStripeActive,
 } from "./stripe";
 
 export { resize } from "./utility";

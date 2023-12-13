@@ -77,35 +77,31 @@ export const getInternalProductStart = () => {
 // ===================================================================
 // MIGRATE A PRODUCT =================================================
 // ===================================================================
-export const migrateStripeProduct = (data) => {
-  console.log("data", data);
+export const migrateProduct = (item) => {
   return (dispatch) => {
-    dispatch(migrateStripeProductStart());
+    dispatch(migrateProductStart());
     axios
-      .post(`/api/v1/products/migrate`, data)
+      .post(`/api/v1/products/migrate/`, item)
       .then((result) => {
-        console.log("actions MIGRATE stripe product ", result.data);
-        const data = result.data;
-        dispatch(migrateStripeProductSuccess(data));
+        console.log("migrate product data: ", result.data);
+        dispatch(migrateProductSuccess(result.data));
       })
       .catch((error) => {
-        //console.log("getProducts error = " + error);
-        // console.log("getProducts error = " + JSON.stringify(error));
-        dispatch(migrateStripeProductFail(JSON.stringify(error)));
+        dispatch(migrateProductFail(JSON.stringify(error)));
       });
   };
 };
 
-export const migrateStripeProductSuccess = (data) => {
-  return { type: actionTypes.MIGRATE_STRIPE_PRODUCT_SUCCESS, data };
+export const migrateProductSuccess = (data) => {
+  return { type: actionTypes.MIGRATE_PRODUCT_SUCCESS, data };
 };
 
-export const migrateStripeProductFail = (error) => {
-  return { type: actionTypes.MIGRATE_STRIPE_PRODUCT_FAIL, error };
+export const migrateProductFail = (error) => {
+  return { type: actionTypes.MIGRATE_PRODUCT_FAIL, error };
 };
 
-export const migrateStripeProductStart = () => {
-  return { type: actionTypes.MIGRATE_STRIPE_PRODUCT_START };
+export const migrateProductStart = () => {
+  return { type: actionTypes.MIGRATE_PRODUCT_START };
 };
 // ===================================================================
 // MIGRATE ALL PRODUCTS ==============================================
@@ -115,11 +111,9 @@ export const migrateAllProducts = (products) => {
   return (dispatch) => {
     dispatch(migrateAllProductsStart());
     axios
-      .post(`/api/v1/stripe/migrateAll`, products)
+      .post(`/api/v1/products/migrateAll`, products)
       .then((result) => {
-        console.log("actions MIGRATE stripe product ", result.data);
-        const data = result.data;
-        dispatch(migrateAllProductsSuccess(data));
+        dispatch(migrateAllProductsSuccess(result.data));
       })
       .catch((error) => {
         //console.log("getProducts error = " + error);
