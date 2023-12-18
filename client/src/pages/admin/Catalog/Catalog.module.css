@@ -10,6 +10,7 @@
 
 .copy {
   text-align: end;
+  padding: 1vh 0;
 }
 @media only screen and (min-width: 600px) {
   /* For tablets: */

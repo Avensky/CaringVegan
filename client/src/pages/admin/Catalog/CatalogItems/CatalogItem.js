@@ -40,7 +40,7 @@ const CatalogItem = (props) => {
     </div>
   );
 
-  if (!props.active) {
+  if (props.active === false) {
     edit = (
       <div className={classes.editWrapper}>
         <NavLink

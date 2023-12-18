@@ -6,6 +6,7 @@ import { updateObject } from "../../utility/utility";
 // =============================================================================
 const initialState = {
   width: null,
+  show: false,
 };
 
 // =============================================================================
@@ -16,12 +17,22 @@ const resize = (state, action) => {
 }; // track screen width
 
 // =============================================================================
+// showAddProduct ======================================================================
+// =============================================================================
+const showAddProduct = (state, action) => {
+  const show = action.show;
+  return updateObject(state, { show });
+}; // track screen width
+
+// =============================================================================
 // REDUCER =====================================================================
 // =============================================================================
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.RESIZE:
       return resize(state, action);
+    case actionTypes.SHOW_ADD_PRODUCT:
+      return showAddProduct(state, action);
     default:
       return state;
   }

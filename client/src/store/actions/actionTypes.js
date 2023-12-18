@@ -11,6 +11,10 @@ export const GET_INTERNAL_PRODUCT_START = "GET_INTERNAL_PRODUCT_START";
 export const GET_INTERNAL_PRODUCT_SUCCESS = "GET_INTERNAL_PRODUCT_SUCCESS";
 export const GET_INTERNAL_PRODUCT_FAIL = "GET_INTERNAL_PRODUCT_FAIL";
 
+export const ADD_INTERNAL_PRODUCT_START = "ADD_INTERNAL_PRODUCT_START";
+export const ADD_INTERNAL_PRODUCT_SUCCESS = "ADD_INTERNAL_PRODUCT_SUCCESS";
+export const ADD_INTERNAL_PRODUCT_FAIL = "ADD_INTERNAL_PRODUCT_FAIL";
+
 export const DELETE_INTERNAL_PRODUCT_START = "DELETE_INTERNAL_PRODUCT_START";
 export const DELETE_INTERNAL_PRODUCT_SUCCESS =
   "DELETE_INTERNAL_PRODUCT_SUCCESS";
@@ -79,6 +83,7 @@ export const GET_PRODUCT = "GET_PRODUCT";
 
 export const RESIZE = "RESIZE";
 
+export const SHOW_ADD_PRODUCT = "SHOW_ADD_PRODUCT";
 // ===================================================================
 // CART ==============================================================
 // ===================================================================

@@ -9,6 +9,7 @@ export {
   migrateAllProducts,
   archiveInternalProduct,
   unarchiveInternalProduct,
+  addInternalProduct,
 } from "./product";
 
 export {
@@ -29,6 +30,6 @@ export {
   setStripeActive,
 } from "./stripe";
 
-export { resize } from "./utility";
+export { resize, showAddProduct } from "./utility";
 
 export { fetchOrders, fetchOrdersStart } from "./orders";

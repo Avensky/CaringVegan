@@ -29,6 +29,7 @@ import {
   Catalog,
   StripeCatalog,
 } from "./pages";
+import AddProduct from "./components/AddProduct/AddProduct";
 
 const App = (props) => {
   // const getUser = async () => { await props.onFetchUser();}; // prettier-ignore
@@ -85,6 +86,13 @@ const App = (props) => {
   return (
     <div className="app">
       <BrowserRouter>
+        <AddProduct
+          show={props.show}
+          closed={() => props.setShow(false)}
+          clicked={() => {
+            props.setShow(!props.show);
+          }}
+        />
         <Navigation
           totalItems={props.totalItems}
           cart={props.cart}
@@ -113,6 +121,7 @@ const mapStateToProps = (state) => {
     cart: state.stripe.cart,
     totalItems: state.stripe.totalItems,
     total: state.stripe.total,
+    show: state.utility.show,
   };
 };
 
@@ -121,6 +130,7 @@ const mapDispatchToProps = (dispatch) => {
     onFetchUser: () => dispatch(actions.fetchUser()),
     checkout: (cart, user) => dispatch(actions.checkout(cart, user)),
     loadCart: () => dispatch(actions.loadCart()),
+    setShow: (bool) => dispatch(actions.showAddProduct(bool)),
   };
 };
 
@@ -132,6 +142,8 @@ App.propTypes = {
   total: PropTypes.number,
   checkout: PropTypes.func,
   loadCart: PropTypes.func,
+  show: PropTypes.bool,
+  setShow: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

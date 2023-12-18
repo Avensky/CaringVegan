@@ -1,38 +1,42 @@
 import React, { useState } from "react";
 import classes from "./Button.module.css";
 import PropTypes from "prop-types";
+// import { updateArray } from "../../../utility/utility";
 
 const Button = (props) => {
-  // const animation = false;
   const [animation, setAnimation] = useState(false);
-  // console.log("animation ", animation);
   const clicked = () => {
     setAnimation(true);
-    props.onClick();
+    props.onClick ? props.onClick() : null;
   };
 
-  const button = props.children;
-  // console.log("click ", click);
+  let style = [classes.Button, classes[props.style], classes[props.type]];
+
+  props.selected ? style.push(classes.Selected) : null;
+  animation ? style.push(classes.Animation) : null;
+  // props.disabled === false ? style.push(classes.Disabled) : null;
+  // console.log("disabled", props.disabled);
+
   return (
-    <button
-      disabled={props.disabled}
-      className={
-        animation
-          ? [classes.Button, classes[props.type], classes.Animation].join(" ")
-          : [classes.Button, classes[props.type]].join(" ")
-      }
+    <div
+      type={props.type}
+      disabled={props.submit}
+      className={style.join(" ")}
       onClick={clicked}
       onAnimationEnd={() => setAnimation(false)}
     >
-      {button}
-    </button>
+      {props.children}
+    </div>
   );
 };
 
 Button.propTypes = {
   children: PropTypes.any,
   disabled: PropTypes.bool,
+  submit: PropTypes.bool,
   type: PropTypes.string,
+  style: PropTypes.string,
+  selected: PropTypes.bool,
   onClick: PropTypes.func,
 };
 

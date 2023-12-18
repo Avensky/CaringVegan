@@ -9,6 +9,7 @@ import Filter from "./Filter/Filter";
 // import Modal from "../../../components/UI/Modal/Modal";
 import Button from "../../../components/UI/Button/Button";
 import Message from "./../../../components/Message/Message";
+
 const Catalog = (props) => {
   const [items, setItems] = useState([]);
   const [message, setMessage] = useState("");
@@ -25,7 +26,7 @@ const Catalog = (props) => {
   useEffect(() => {
     if (props.products) {
       setItems(props.products);
-      console.log("setItems: ", props.products);
+      // console.log("setItems: ", props.products);
     }
   }, [props.products]);
 
@@ -69,12 +70,40 @@ const Catalog = (props) => {
     <div className={[classes.Catalog, "page-wrapper"].join(" ")}>
       <div className={classes.Products}>
         <div className="page-title">Product Catalog</div>
+        <div className={classes.copy}>
+          <Button
+            onClick={() => {
+              // props.migrateAll(items);
+            }}
+            type="rounded"
+          >
+            Filter
+          </Button>
+          <Button
+            onClick={() => {
+              props.migrateAll(items);
+            }}
+            type="rounded"
+          >
+            Export to Stripe
+          </Button>
+          <Button
+            onClick={() => {
+              props.setShow(true);
+            }}
+            type="rounded"
+            style="Purple"
+          >
+            + Add Product
+          </Button>
+        </div>
         <Filter
           isActive={props.isActive}
           setIsActive={props.setIsActive}
           getProducts={props.getProducts}
         />
         {messageBar}
+
         <CatalogItems
           loading={props.loading}
           items={items}
@@ -95,16 +124,6 @@ const Catalog = (props) => {
         active={props.isActive}
         getProducts={props.getProducts}
       />
-      <div className={classes.copy}>
-        <Button
-          onClick={() => {
-            props.migrateAll(items);
-          }}
-          type="rounded"
-        >
-          Copy to Stripe
-        </Button>
-      </div>
     </div>
   );
 };
@@ -126,6 +145,7 @@ const mapStateToProps = (state) => {
     loading: state.product.loading,
     isActive: state.product.isActive,
     message: state.product.message,
+    show: state.product.show,
   };
 };
 
@@ -140,6 +160,7 @@ const mapDispatchToProps = (dispatch) => {
     unarchive: (id) => dispatch(actions.unarchiveInternalProduct(id)),
     migrateAll: (products) =>
       dispatch(actions.migrateAllStripeProducts(products)),
+    setShow: (bool) => dispatch(actions.showAddProduct(bool)),
   };
 };
 
@@ -163,6 +184,8 @@ Catalog.propTypes = {
   archive: PropTypes.func,
   unarchive: PropTypes.func,
   migrateAll: PropTypes.func,
+  setShow: PropTypes.func,
+  show: PropTypes.bool,
   // params: PropTypes.obj,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Catalog);

@@ -4,12 +4,13 @@ import classes from "./Pagination.module.css";
 
 const Pagination = (props) => {
   const page = props.page;
+  console.log("page", page);
 
   let totalPages = props.total_count / props.limit;
   let viewing = <div className={classes.left}>No results...</div>;
   let resultCount;
 
-  console.log("is Active: ", props.active);
+  // console.log("is Active: ", props.active);
   const next = async () => {
     if (page < totalPages && !props.loading) {
       const params = {
@@ -33,7 +34,7 @@ const Pagination = (props) => {
         ending_before: props.ending_before,
         results: props.results,
         has_more: props.has_more,
-        page: props.page,
+        page: props.page - 1,
         index: props.index,
       };
       await props.getProducts(params);

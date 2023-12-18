@@ -108,15 +108,11 @@ exports.getAll = (Model) =>
     if (req.query.page) {
       page = req.query.page * 1;
     }
-    // console.log("page ", page);
-    // console.log("total_count ", total_count);
-    // console.log("limit: ", limit);
+
     const total_pages = total_count / limit;
-    // console.log("total pages", total_pages);
-
     let has_more = false;
-
     let next_page = null;
+
     if (page < total_pages) {
       next_page = page + 1;
       has_more = true;

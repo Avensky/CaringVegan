@@ -11,7 +11,7 @@ import axios from "axios";
 // ===================================================================
 
 export const getInternalProducts = (params) => {
-  console.log("getInternalProducts params", params);
+  // console.log("getInternalProducts params", params);
   let string = formatRoute(params);
   console.log("string =", string);
   // console.log("params: ", params);
@@ -171,6 +171,40 @@ export const deleteInternalProductStart = () => {
 // ===================================================================
 // ARCHIVE PRODUCT ===================================================
 // ===================================================================
+export const addInternalProduct = (values) => {
+  console.log("addInternalProduct values: ", values);
+  return (dispatch) => {
+    dispatch(addInternalProductStart());
+    axios
+      .post(`/api/v1/products`, values)
+      .then((result) => {
+        console.log("actions addInternalProduct ", result.data);
+        const data = result.data.data;
+        dispatch(addInternalProductSuccess(data));
+      })
+      .catch((error) => {
+        //console.log("getProducts error = " + error);
+        // console.log("getProducts error = " + JSON.stringify(error));
+        dispatch(addInternalProductFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const addInternalProductSuccess = (data) => {
+  return { type: actionTypes.ADD_INTERNAL_PRODUCT_SUCCESS, data };
+};
+
+export const addInternalProductFail = (error) => {
+  return { type: actionTypes.ADD_INTERNAL_PRODUCT_FAIL, error };
+};
+
+export const addInternalProductStart = () => {
+  return { type: actionTypes.ADD_INTERNAL_PRODUCT_START };
+};
+
+// ===================================================================
+// ARCHIVE PRODUCT ===================================================
+// ===================================================================
 export const archiveInternalProduct = (id) => {
   console.log("archiveInternalProduct id: ", id);
   return (dispatch) => {
@@ -223,8 +257,8 @@ export const unarchiveInternalProduct = (id) => {
   };
 };
 
-export const unarchiveInternalProductSuccess = (data) => {
-  return { type: actionTypes.UNARCHIVE_INTERNAL_PRODUCT_SUCCESS, data };
+export const unarchiveInternalProductSuccess = (data, id) => {
+  return { type: actionTypes.UNARCHIVE_INTERNAL_PRODUCT_SUCCESS, data, id };
 };
 
 export const unarchiveInternalProductFail = (error) => {

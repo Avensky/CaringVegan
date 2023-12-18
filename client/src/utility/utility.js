@@ -118,6 +118,12 @@ export const findItem = (array, id) => {
   return array.find((item) => item.id === id);
 };
 
+// replace item in array of objects with matching _id
+export const updateInternalArray = (currentArray, updatedItem) => {
+  return currentArray.map(
+    (obj) => [updatedItem].find((item) => item._id === obj._id) || obj
+  );
+};
 // replace item in array of objects with matching id
 export const updateArray = (currentArray, updatedItem) => {
   return currentArray.map(
@@ -142,6 +148,10 @@ export const copyArray = (array) => {
   return JSON.parse(JSON.stringify(array));
 };
 
+// remove Item from array
+export const removeInternalItem = (array, id) => {
+  return array.filter((item) => item._id !== id);
+};
 // remove Item from array
 export const removeItem = (array, id) => {
   return array.filter((item) => item._id !== id);

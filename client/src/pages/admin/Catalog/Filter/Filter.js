@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import FilterItem from "./FilterItem/FilterItem";
 import classes from "./Filter.module.css";
+import PropTypes from "prop-types";
+import Button from "../../../../components/UI/Button/Button";
 
 const Filter = (props) => {
   const [all, setAll] = useState(false);
@@ -61,17 +61,15 @@ const Filter = (props) => {
 
   return (
     <div className={classes.filter}>
-      <FilterItem activate={() => getAll()} active={all} name="All" />
-      <FilterItem
-        activate={() => getAvailable()}
-        active={available}
-        name="Available"
-      />
-      <FilterItem
-        activate={() => getArchvied()}
-        active={archived}
-        name="Archived"
-      />
+      <Button type="select" onClick={() => getAll()} selected={all}>
+        All
+      </Button>
+      <Button type="select" onClick={() => getAvailable()} selected={available}>
+        Available
+      </Button>
+      <Button type="select" onClick={() => getArchvied()} selected={archived}>
+        Archive
+      </Button>
     </div>
   );
 };
@@ -84,6 +82,7 @@ Filter.propTypes = {
   setIsActive: PropTypes.func,
   searchAvailable: PropTypes.func,
   isActive: PropTypes.any,
+  page: PropTypes.any,
 };
 
 export default Filter;
