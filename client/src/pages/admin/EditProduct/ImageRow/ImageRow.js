@@ -23,7 +23,12 @@ const ImageRow = (props) => {
 
   let edit = (
     <div className={classes.editBar}>
-      <div onClick={() => {}} className={classes.edit}>
+      <div
+        onClick={() => {
+          props.showSidebar(true, "updateProduct");
+        }}
+        className={classes.edit}
+      >
         Edit
       </div>
       <div
@@ -47,7 +52,7 @@ const ImageRow = (props) => {
     </div>
   );
 
-  if (!props.item.active) {
+  if (props.item.active === false) {
     edit = (
       <div className={classes.editBar}>
         <div
@@ -109,7 +114,7 @@ const ImageRow = (props) => {
               {formatPrice(props.item.default_price.unit_amount)}
             </div>
           ) : null}
-          {!props.item.active ? (
+          {props.item.active === false ? (
             <div className={classes.archived}>Archied</div>
           ) : null}
         </div>
@@ -140,6 +145,7 @@ ImageRow.propTypes = {
   archive: PropTypes.func,
   unarchive: PropTypes.func,
   delete: PropTypes.func,
+  showSidebar: PropTypes.func,
   type: PropTypes.string,
 };
 

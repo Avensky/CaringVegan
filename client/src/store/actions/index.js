@@ -1,4 +1,5 @@
 export { fetchUser } from "./auth";
+export { addToCart, removeFromCart, subQuantity, loadCart } from "./cart";
 
 export {
   getInternalProduct,
@@ -10,26 +11,22 @@ export {
   archiveInternalProduct,
   unarchiveInternalProduct,
   addInternalProduct,
+  getFeatured,
 } from "./product";
 
 export {
   archiveStripeProduct,
   unarchiveStripeProduct,
-  getFeatured,
   getProducts,
   getProduct,
   getPrice,
   getShop,
-  addToCart,
-  removeFromCart,
-  subQuantity,
   checkout,
-  loadCart,
   migrateStripeProduct,
   migrateAllStripeProducts,
   setStripeActive,
 } from "./stripe";
 
-export { resize, showAddProduct } from "./utility";
+export { resize, showSidebar } from "./utility";
 
 export { fetchOrders, fetchOrdersStart } from "./orders";

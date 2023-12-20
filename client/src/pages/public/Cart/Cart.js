@@ -146,8 +146,8 @@ const Cart = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    cart: state.stripe.cart,
-    total: state.stripe.total,
+    cart: state.cart.cart,
+    total: state.cart.total,
   };
 };
 

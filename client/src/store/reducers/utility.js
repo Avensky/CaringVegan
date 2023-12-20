@@ -7,6 +7,7 @@ import { updateObject } from "../../utility/utility";
 const initialState = {
   width: null,
   show: false,
+  sidebar: "",
 };
 
 // =============================================================================
@@ -19,9 +20,12 @@ const resize = (state, action) => {
 // =============================================================================
 // showAddProduct ======================================================================
 // =============================================================================
-const showAddProduct = (state, action) => {
+const showSidebar = (state, action) => {
   const show = action.show;
-  return updateObject(state, { show });
+  const sidebar = action.sidebar;
+  console.log("show", show);
+  console.log("sidebar", sidebar);
+  return updateObject(state, { show: show, sidebar: sidebar });
 }; // track screen width
 
 // =============================================================================
@@ -31,8 +35,8 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.RESIZE:
       return resize(state, action);
-    case actionTypes.SHOW_ADD_PRODUCT:
-      return showAddProduct(state, action);
+    case actionTypes.SHOW_SIDEBAR:
+      return showSidebar(state, action);
     default:
       return state;
   }

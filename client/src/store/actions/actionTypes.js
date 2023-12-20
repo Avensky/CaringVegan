@@ -83,7 +83,7 @@ export const GET_PRODUCT = "GET_PRODUCT";
 
 export const RESIZE = "RESIZE";
 
-export const SHOW_ADD_PRODUCT = "SHOW_ADD_PRODUCT";
+export const SHOW_SIDEBAR = "SHOW_SIDEBAR";
 // ===================================================================
 // CART ==============================================================
 // ===================================================================

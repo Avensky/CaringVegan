@@ -11,23 +11,6 @@ export const setStripeActive = (isActive) => {
   return { type: actionTypes.SET_STRIPE_ACTIVE, isActive };
 };
 
-export const addToCart = (product) => {
-  // console.log("add to cart");
-  return { type: actionTypes.ADD_TO_CART, product };
-};
-
-export const removeFromCart = (id) => {
-  return { type: actionTypes.REMOVE_FROM_CART, id };
-};
-
-export const subQuantity = (id) => {
-  return { type: actionTypes.SUB_QUANTITY, id };
-};
-
-// local storage
-export const loadCart = () => {
-  return { type: actionTypes.LOAD_CART };
-};
 // ==========================================================================
 // STRIPE SEARCH ============================================================
 // ==========================================================================
@@ -67,35 +50,7 @@ export const getShop = (params) => {
       });
   };
 };
-// ==========================================================================
-// STRIPE SEARCH ============================================================
-// ==========================================================================
 
-export const getFeaturedStart = () => {
-  return { type: actionTypes.GET_FEATURED_START };
-};
-export const getFeaturedSuccess = (featured) => {
-  return { type: actionTypes.GET_FEATURED_SUCCESS, featured };
-};
-export const getFeaturedFail = (err) => {
-  return { type: actionTypes.GET_FEATURED_FAIL, err };
-};
-
-export const getFeatured = () => {
-  return (dispatch) => {
-    dispatch(getFeaturedStart());
-    axios
-      .get("/api/v1/stripe/featured")
-      .then((result) => {
-        console.log("result", result.data);
-        dispatch(getFeaturedSuccess(result.data.featured));
-      })
-      .catch((err) => {
-        console.log("err ", err);
-        dispatch(getFeaturedFail(JSON.stringify(err)));
-      });
-  };
-};
 // ===================================================================
 // GET PRODUCTS ======================================================
 // ===================================================================

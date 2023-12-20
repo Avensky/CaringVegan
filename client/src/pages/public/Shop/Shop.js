@@ -44,14 +44,14 @@ const Shop = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    shop: state.product.shop,
+    shop: state.product.products,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getShop: (params) => {
-      dispatch(actions.getShop(params));
+      dispatch(actions.getProducts(params));
     },
   };
 };

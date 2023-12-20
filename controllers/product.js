@@ -238,21 +238,20 @@ exports.migrateProduct = catchAsync(async (req, res, next) => {
 //   }
 // });
 
-// exports.getFeatured = catchAsync(async (req, res, next) => {
-//   try {
-//     const featured = await stripe.products.search({
-//       expand: ["data.default_price", "total_count"],
-//       query: "metadata['featured']:'true'",
-//     });
-//     console.log("featured: ", featured);
-//     res.status(200).json({
-//       status: "success",
-//       featured,
-//     });
-//   } catch (err) {
-//     next(new AppError(err.message, err.statusCode, err.type));
-//   }
-// });
+exports.getFeatured = catchAsync(async (req, res, next) => {
+  try {
+    const featured = await Product.find({
+      query: "metadata['featured']:'true'",
+    });
+    console.log("featured: ", featured);
+    res.status(200).json({
+      status: "success",
+      featured,
+    });
+  } catch (err) {
+    next(new AppError(err.message, err.statusCode, err.type));
+  }
+});
 
 // exports.createProduct = catchAsync(async (req, res, next) => {
 //   // 1 CREATE NEW PRODUCT OBJ

@@ -235,6 +235,7 @@ const deleteInternalProductSuccess = (state, action) => {
   console.log();
   return updateObject(state, {
     products: products,
+    product: {},
     loading: false,
     total_count: state.total_count - 1,
     // results: state.results - 1,
@@ -244,51 +245,6 @@ const deleteInternalProductSuccess = (state, action) => {
 const deleteInternalProductFail = (state) =>
   updateObject(state, { loading: false });
 
-// // ============================================================================
-// // GET FEATURED ===============================================================
-// // ============================================================================
-// const getFeaturedStart = (state) => {
-//   return updateObject(state, { loading: true });
-// };
-
-// const getFeaturedFail = (state) => {
-//   return updateObject(state, { featured_loading: false });
-// };
-
-// const getFeaturedSuccess = (state, action) => {
-//   const featured = action.featured;
-//   console.log("featuredsuccess: ", featured);
-//   console.log("featuredsuccess: ", featured.data);
-//   return updateObject(state, {
-//     featured: featured.data,
-//     featured_loading: false,
-//     featured_has_more: action.featured.has_more,
-//     featured_next_page: action.featured.next_page,
-//     featured_total_count: action.featured.total_count,
-//   });
-// };
-// // ============================================================================
-// // GET FEATURED ===============================================================
-// // ============================================================================
-// const getShopStart = (state) => {
-//   return updateObject(state, { loading: true });
-// };
-
-// const getShopFail = (state) => {
-//   return updateObject(state, { shop_loading: false });
-// };
-
-// const getShopSuccess = (state, action) => {
-//   const shop = action.shop;
-//   console.log("getShopSuccess: ", shop);
-//   // console.log("getShopSuccess: ", shop.data);
-//   return updateObject(state, {
-//     shop: shop.data,
-//     shop_loading: false,
-//     shop_has_more: action.shop.has_more,
-//     shop_next_page: action.shop.next_page,
-//     shop_total_count: action.shop.total_count,
-//   });}
 // ============================================================================
 // GET PRICE ==================================================================
 // ============================================================================
@@ -325,217 +281,30 @@ const deleteInternalProductFail = (state) =>
 const setIsActive = (state, action) => {
   return updateObject(state, { isActive: action.isActive });
 };
-// =============================================================================
-// CART ========================================================================
-// =============================================================================
 
-// const addToCart = (state, action) => {
-//   // check if item already exists in cart
-//   console.log("addToCart start ", action.product);
-//   let cart = copyArray(state.cart);
-//   let cartItem = findItem(cart, action.product.id);
+// ============================================================================
+// GET FEATURED ===============================================================
+// ============================================================================
+const getFeaturedStart = (state) => {
+  return updateObject(state, { loading: true });
+};
 
-//   if (cartItem) {
-//     cartItem.cartAmount += 1;
-//     cart = updateArray(cart, cartItem);
-//   }
+const getFeaturedFail = (state) => {
+  return updateObject(state, { featured_loading: false });
+};
 
-//   if (!cartItem) {
-//     cartItem = { ...action.product };
-//     cartItem.cartAmount = 1;
-//     cart.push(cartItem);
-//   }
-
-//   storeLocally("cart", cart);
-//   const totalItems = getTotalItems(cart);
-//   const total = getTotalPrice(cart);
-
-//   return updateObject(state, { cart, total, totalItems });
-// };
-
-// const subQuantity = (state, action) => {
-//   let cart = copyArray(state.cart);
-//   let cartItem = findItem(cart, action.id);
-
-//   //if the qt == 0 then it should be removed
-//   if (cartItem && cartItem.cartAmount > 1) {
-//     cartItem.cartAmount -= 1;
-//     cart = updateArray(cart, cartItem);
-//   } else {
-//     cart = removeItem(cart, action.id);
-//   }
-
-//   storeLocally("cart", cart);
-//   const total = getTotalPrice(cart);
-//   const totalItems = getTotalItems(cart);
-
-//   return updateObject(state, { cart, total, totalItems });
-// };
-
-// const removeFromCart = (state, action) => {
-//   let cart = copyArray(state.cart);
-//   cart = removeItem(cart, action.id);
-
-//   storeLocally("cart", cart);
-//   const total = getTotalPrice(cart);
-//   const totalItems = getTotalItems(cart);
-
-//   return updateObject(state, { cart, total, totalItems });
-// };
-
-// // =============================================================================
-// // OTHER =======================================================================
-// // =============================================================================
-
-// const addShipping = (state) => {
-//   return { state, total: state.total + 6 };
-// };
-
-// const subShipping = (state) => {
-//   return { state, total: state.total - 6 };
-// };
-
-// // =============================================================================
-// // OTHER =======================================================================
-// // =============================================================================
-
-// const loadCart = (state, action) => {
-//   console.log("loadCart action", action);
-//   let cart = localStorage.getItem("cart") || [];
-//   console.log("localstorage cart", cart);
-//   let totalItems, total;
-//   if (cart.length > 0) {
-//     cart = JSON.parse(cart);
-//     totalItems = getTotalItems(cart);
-//     total = getTotalPrice(cart);
-//   }
-
-//   return updateObject(state, { cart, totalItems, total });
-// };
-
-// const loadShop = (state, action) => {
-//   let items = state.items;
-//   let shop = state.shop;
-//   let addedItems = state.addedItems;
-//   let orderby = action.values;
-//   console.log("loadShop orderby= " + JSON.stringify(orderby));
-//   //let orderby = state.orderby
-//   console.log("loadShop state orderby= " + JSON.stringify(state.orderby));
-//   if (!orderby && state.orderby) {
-//     orderby = state.orderby;
-//   }
-//   if (orderby) {
-//     if (orderby.value === "Lowest price") {
-//       console.log("LoadShop lowest price");
-//       if (addedItems.length > 0) {
-//         console.log("addedItems.length>0" + JSON.stringify(items));
-//         shop = items
-//           .map((obj) => addedItems.find((item) => item._id === obj._id) || obj)
-//           .sort(function (a, b) {
-//             return a.price - b.price;
-//           });
-//       } else {
-//         console.log("else" + items);
-//         shop = items
-//           .map((item) => item)
-//           .sort(function (a, b) {
-//             return a.price - b.price;
-//           });
-//       }
-//     }
-//     if (orderby.value === "Highest price") {
-//       console.log("LoadShop Highest price");
-//       if (addedItems.length > 0) {
-//         console.log("addedItems.length>0" + items);
-//         shop = items
-//           .map((obj) => addedItems.find((item) => item._id === obj._id) || obj)
-//           .sort(function (a, b) {
-//             return b.price - a.price;
-//           });
-//       } else {
-//         console.log("else" + items);
-//         shop = items
-//           .map((item) => item)
-//           .sort(function (a, b) {
-//             return b.price - a.price;
-//           });
-//       }
-//     }
-//     if (orderby.value === "Most recent") {
-//       console.log("date loadShop");
-//       if (addedItems.length > 0) {
-//         shop = items
-//           .map((obj) => addedItems.find((item) => item._id === obj._id) || obj)
-//           .sort(function (a, b) {
-//             return b.date - a.date;
-//           });
-//       } else {
-//         shop = items.sort(function (a, b) {
-//           return b.date - a.date;
-//         });
-//       }
-//     }
-//     if (orderby.value === "Most Popular") {
-//       console.log("sold loadShop");
-//       if (addedItems.length > 0) {
-//         shop = items
-//           .map((obj) => addedItems.find((item) => item._id === obj._id) || obj)
-//           .sort(function (a, b) {
-//             return b.sold - a.sold;
-//           });
-//       } else {
-//         shop = items.sort(function (a, b) {
-//           return b.sold - a.sold;
-//         });
-//       }
-//     }
-//   } else {
-//     shop = items.map(
-//       (obj) => addedItems.find((item) => item._id === obj._id) || obj
-//     );
-//     console.log("loadShop = ", shop);
-//   }
-//   return updateObject(state, {
-//     orderby: orderby,
-//     shop: shop,
-//     shopLoaded: true,
-//   });
-// };
-
-// const orderBy = (state, action) => {
-//   //let shop=state.shop.sort( function ( a, b ) { return b.price - a.price; } );
-//   // console.log("orderby " + JSON.stringify(action.values.value));
-//   //console.log('orderby '+ action.values);
-
-//   //    console.log('orderBy')
-//   return updateObject(state, {
-//     orderby: action.values.value,
-//   });
-// };
-
-// // =============================================================================
-// // OTHER =======================================================================
-// // =============================================================================
-
-// const checkoutStart = (state) => {
-//   return updateObject(state, {
-//     error: null,
-//     loading: true,
-//   });
-// };
-// const checkoutFail = (state, action) => {
-//   return updateObject(state, {
-//     loading: false,
-//     error: action.error,
-//   });
-// };
-// const checkoutSuccess = (state, action) => {
-//   return updateObject(state, {
-//     loading: false,
-//     checkout: action.response,
-//   });
-// };
-
+const getFeaturedSuccess = (state, action) => {
+  const featured = action.featured;
+  console.log("featuredsuccess: ", featured);
+  console.log("featuredsuccess: ", featured.data);
+  return updateObject(state, {
+    featured: featured.data,
+    featured_loading: false,
+    featured_has_more: action.featured.has_more,
+    featured_next_page: action.featured.next_page,
+    featured_total_count: action.featured.total_count,
+  });
+};
 // =============================================================================
 // REDUCER =====================================================================
 // =============================================================================
@@ -610,6 +379,13 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_IS_ACTIVE:
       return setIsActive(state, action);
 
+    // Featured
+    case actionTypes.GET_FEATURED_SUCCESS:
+      return getFeaturedSuccess(state, action);
+    case actionTypes.GET_FEATURED_START:
+      return getFeaturedStart(state, action);
+    case actionTypes.GET_FEATURED_FAIL:
+      return getFeaturedFail(state, action);
     // // Featured
     // case actionTypes.GET_FEATURED_SUCCESS:
     //   return getFeaturedSuccess(state, action);

@@ -15,21 +15,11 @@ import {
   Shop,
   InternalProduct,
   StripeProduct,
-  // Checkout,
-  // Profile,
-  // Auth,
-  // Login,
-  // Register,
-  // ForgotPassword,
-  // ResetPassword,
-  // Connect,
-  // ItemFull,
   Cart,
-  // Orders,
   Catalog,
   StripeCatalog,
 } from "./pages";
-import AddProduct from "./components/AddProduct/AddProduct";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 const App = (props) => {
   // const getUser = async () => { await props.onFetchUser();}; // prettier-ignore
@@ -86,11 +76,12 @@ const App = (props) => {
   return (
     <div className="app">
       <BrowserRouter>
-        <AddProduct
+        <Sidebar
           show={props.show}
-          closed={() => props.setShow(false)}
+          sidebar={props.sidebar}
+          closed={() => props.setShow(false, props.sidebar)}
           clicked={() => {
-            props.setShow(!props.show);
+            props.setShow(!props.show, props.sidebar);
           }}
         />
         <Navigation
@@ -118,10 +109,11 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.payload,
-    cart: state.stripe.cart,
-    totalItems: state.stripe.totalItems,
-    total: state.stripe.total,
+    cart: state.cart.cart,
+    totalItems: state.cart.totalItems,
+    total: state.cart.total,
     show: state.utility.show,
+    sidebar: state.utility.sidebar,
   };
 };
 
@@ -130,7 +122,7 @@ const mapDispatchToProps = (dispatch) => {
     onFetchUser: () => dispatch(actions.fetchUser()),
     checkout: (cart, user) => dispatch(actions.checkout(cart, user)),
     loadCart: () => dispatch(actions.loadCart()),
-    setShow: (bool) => dispatch(actions.showAddProduct(bool)),
+    setShow: (bool, sidebar) => dispatch(actions.showSidebar(bool, sidebar)),
   };
 };
 
@@ -144,6 +136,7 @@ App.propTypes = {
   loadCart: PropTypes.func,
   show: PropTypes.bool,
   setShow: PropTypes.func,
+  sidebar: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

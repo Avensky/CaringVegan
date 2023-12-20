@@ -76,7 +76,7 @@ export const formatRoute = (params) => {
 };
 
 export const formatPrice = (unit_amount) => {
-  return `$${(unit_amount / 100).toFixed(2)}`;
+  return (unit_amount / 100).toFixed(2);
 };
 
 export const formatDate = (date, type) => {
@@ -154,7 +154,7 @@ export const removeInternalItem = (array, id) => {
 };
 // remove Item from array
 export const removeItem = (array, id) => {
-  return array.filter((item) => item._id !== id);
+  return array.filter((item) => item.id !== id);
 };
 
 // add Item to array

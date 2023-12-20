@@ -5,7 +5,7 @@ const productController = require("../controllers/product");
 const router = express.Router();
 
 // router.param("id", productController.checkID);
-// router.route("/featured").get(productController.getFeatured);
+router.route("/featured").get(productController.getFeatured);
 // router.route("/shop").get(productController.getShop);
 // router
 //   .route("/getTopProducts")

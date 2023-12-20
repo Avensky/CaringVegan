@@ -89,7 +89,7 @@ const Catalog = (props) => {
           </Button>
           <Button
             onClick={() => {
-              props.setShow(true);
+              props.setShow(true, "addProduct");
             }}
             type="rounded"
             style="Purple"
@@ -160,7 +160,7 @@ const mapDispatchToProps = (dispatch) => {
     unarchive: (id) => dispatch(actions.unarchiveInternalProduct(id)),
     migrateAll: (products) =>
       dispatch(actions.migrateAllStripeProducts(products)),
-    setShow: (bool) => dispatch(actions.showAddProduct(bool)),
+    setShow: (bool, sidebar) => dispatch(actions.showSidebar(bool, sidebar)),
   };
 };
 

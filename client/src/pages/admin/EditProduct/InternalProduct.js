@@ -66,7 +66,7 @@ const Product = (props) => {
       <ImageRow
         item={item}
         id={id}
-        // setShowModal={() => setShowModal}
+        showSidebar={props.showSidebar}
         archive={props.archive}
         unarchive={() => props.unarchive(id)}
         migrate={() => props.migrate(item)}
@@ -121,6 +121,8 @@ const mapDispatchToProps = (dispatch) => {
     unarchive: (id) => dispatch(actions.unarchiveInternalProduct(id)),
     delete: (id) => dispatch(actions.deleteInternalProduct(id)),
     migrate: (item) => dispatch(actions.migrateStripeProduct(item)),
+    showSidebar: (bool, sidebar) =>
+      dispatch(actions.showSidebar(bool, sidebar)),
   };
 };
 
@@ -137,6 +139,7 @@ Product.propTypes = {
   loading: PropTypes.bool,
   message: PropTypes.string,
   migrate: PropTypes.func,
+  showSidebar: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

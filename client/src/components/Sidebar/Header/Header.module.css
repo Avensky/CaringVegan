@@ -1,0 +1,15 @@
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3vh 2vw;
+  /* border-bottom: 1px solid grey; */
+}
+.title {
+  font-size: 1.4em;
+  font-weight: 700;
+}
+.close {
+  font-size: 1.2em;
+  /* display: none; */
+}

@@ -12,6 +12,6 @@ export const resize = () => {
 // ===================================================================
 // Show Add Product ==================================================
 // ===================================================================
-export const showAddProduct = (show) => {
-  return { type: actionTypes.SHOW_ADD_PRODUCT, show };
+export const showSidebar = (show, sidebar) => {
+  return { type: actionTypes.SHOW_SIDEBAR, show, sidebar };
 };

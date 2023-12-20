@@ -20,9 +20,9 @@ const Button = (props) => {
   return (
     <div
       type={props.type}
-      disabled={props.submit}
+      // disabled={props.submit}
       className={style.join(" ")}
-      onClick={clicked}
+      onClick={props.disabled ? () => {} : clicked}
       onAnimationEnd={() => setAnimation(false)}
     >
       {props.children}
