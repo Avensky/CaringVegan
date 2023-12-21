@@ -81,10 +81,6 @@
 .dollar {
   padding-right: 1vw;
 }
-.paymentWrapper {
-  display: flex;
-  margin: 1vh 0;
-}
 
 .pricingContent {
   display: flex;

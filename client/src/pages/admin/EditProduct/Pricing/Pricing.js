@@ -32,7 +32,12 @@ const Pricing = (props) => {
       <div className={classes.detailsWrapper}>
         <div className={classes.detailsLeft}>Pricing</div>
         <div className={classes.detailsRight}>
-          <Button type="rounded" onClick={() => {}}>
+          <Button
+            type="rounded"
+            onClick={() => {}}
+            disabled={true}
+            style="Disabled"
+          >
             + Add another price
           </Button>
         </div>
@@ -40,6 +45,7 @@ const Pricing = (props) => {
       <div className={classes.row}>
         <div className={classes.label}>Price</div>
         <div className={classes.price}>
+          $
           {props.item.default_price
             ? formatPrice(props.item.default_price.unit_amount)
             : null}

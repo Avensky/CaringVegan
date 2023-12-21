@@ -169,24 +169,62 @@ export const deleteInternalProductStart = () => {
   return { type: actionTypes.DELETE_INTERNAL_PRODUCT_START };
 };
 // ===================================================================
-// ARCHIVE PRODUCT ===================================================
+// ADD A PRODUCT =====================================================
+// ===================================================================
+export const updateInternalProduct = (values, id) => {
+  console.log("updateInternalProduct values: ", values);
+  console.log("updateInternalProduct id: ", id);
+  // console.log(values);
+
+  const formData = new FormData();
+  for (let value in values) {
+    formData.append(value, values[value]);
+  }
+  return (dispatch) => {
+    dispatch(updateInternalProductStart());
+    axios
+      .patch(`/api/v1/products/${id}`, formData)
+      .then((result) => {
+        console.log("actions updateInternalProduct ", result.data);
+        const data = result.data.data;
+        dispatch(updateInternalProductSuccess(data));
+      })
+      .catch((err) => dispatch(updateInternalProductFail(JSON.stringify(err))));
+  };
+};
+
+export const updateInternalProductSuccess = (data) => {
+  return { type: actionTypes.UPDATE_INTERNAL_PRODUCT_SUCCESS, data };
+};
+
+export const updateInternalProductFail = (error) => {
+  return { type: actionTypes.UPDATE_INTERNAL_PRODUCT_FAIL, error };
+};
+
+export const updateInternalProductStart = () => {
+  return { type: actionTypes.UPDATE_INTERNAL_PRODUCT_START };
+};
+// ===================================================================
+// ADD A PRODUCT =====================================================
 // ===================================================================
 export const addInternalProduct = (values) => {
   console.log("addInternalProduct values: ", values);
+  // console.log(values);
+
+  const formData = new FormData();
+  for (let value in values) {
+    formData.append(value, values[value]);
+  }
   return (dispatch) => {
     dispatch(addInternalProductStart());
     axios
-      .post(`/api/v1/products`, values)
+      .post(`/api/v1/products`, formData)
       .then((result) => {
         console.log("actions addInternalProduct ", result.data);
         const data = result.data.data;
         dispatch(addInternalProductSuccess(data));
       })
-      .catch((error) => {
-        //console.log("getProducts error = " + error);
-        // console.log("getProducts error = " + JSON.stringify(error));
-        dispatch(addInternalProductFail(JSON.stringify(error)));
-      });
+      .catch((err) => dispatch(addInternalProductFail(JSON.stringify(err))));
   };
 };
 

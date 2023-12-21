@@ -22,7 +22,7 @@ const Sidebar = (props) => {
       />
     );
   }
-  if (props.sidebar == "updateProduct") {
+  if (props.sidebar == "updateProduct" && props.product.name) {
     sidebar = (
       <UpdateProduct
         product={props.product}

@@ -11,13 +11,13 @@ import ImageRow from "./ImageRow/ImageRow";
 import Pricing from "./Pricing/Pricing";
 import Details from "./Details/Details";
 import Dates from "./Dates/Dates";
-import Metadata from "./Metadeta/Metadata";
+import Metadata from "./Metadata/Metadata";
 
 const StripeProduct = (props) => {
   const id = useParams().id;
   // console.log("id = ", id);
   // console.log("product price = ", props.price);
-  const [item, setItem] = useState({});
+  const [item, setItem] = useState(props.product);
   // console.log("item: ", item);
   // const [purchasing, setPurchasing] = useState(false);
   const [showModal, setShowModal] = useState(false);

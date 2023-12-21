@@ -83,7 +83,7 @@ const getInternalProductFail = (state) =>
 // ============================================================================
 
 const addInternalProductStart = (state) =>
-  updateObject(state, { loading: true, has_more: false });
+  updateObject(state, { loading: true });
 
 const addInternalProductSuccess = (state, action) => {
   const newProduct = action.data.data;
@@ -112,6 +112,33 @@ const addInternalProductSuccess = (state, action) => {
 };
 
 const addInternalProductFail = (state) =>
+  updateObject(state, { loading: false });
+// ============================================================================
+// UPDATE PRODUCT =============================================================
+// ============================================================================
+
+const updateInternalProductStart = (state) =>
+  updateObject(state, { loading: true });
+
+const updateInternalProductSuccess = (state, action) => {
+  const product = action.data.data;
+  console.log("updateProductSuccess reducer", product);
+  // console.log("getProductsSuccess = " + JSON.stringify(action.products));
+  const products = copyArray(state.products);
+  updateInternalArray(products, product);
+
+  // let page = action.data.data.page;
+  // console.log("page", page);
+
+  console.log("products", products);
+  return updateObject(state, {
+    products: products,
+    product: product,
+    loading: false,
+  });
+};
+
+const updateInternalProductFail = (state) =>
   updateObject(state, { loading: false });
 
 // ============================================================================
@@ -334,6 +361,13 @@ const reducer = (state = initialState, action) => {
       return addInternalProductFail(state, action);
     case actionTypes.ADD_INTERNAL_PRODUCT_START:
       return addInternalProductStart(state, action);
+    // product update
+    case actionTypes.UPDATE_INTERNAL_PRODUCT_SUCCESS:
+      return updateInternalProductSuccess(state, action);
+    case actionTypes.UPDATE_INTERNAL_PRODUCT_FAIL:
+      return updateInternalProductFail(state, action);
+    case actionTypes.UPDATE_INTERNAL_PRODUCT_START:
+      return updateInternalProductStart(state, action);
 
     // product archive
     case actionTypes.ARCHIVE_INTERNAL_PRODUCT_SUCCESS:

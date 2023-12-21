@@ -45,6 +45,15 @@
   font-size: 16px;
   margin: 0 0.5vw;
 }
+.compact {
+  /* border: 1px solid black; */
+  /* width: fit-content; */
+  border-radius: 5px;
+  padding: 1px 3px;
+  /* font-weight: 600; */
+  /* font-size: 16px; */
+  margin: 2px 2px;
+}
 
 .select {
   width: 100%;
@@ -78,6 +87,12 @@
   color: white;
 }
 
+.delete {
+  border-color: #8a0c0c;
+  color: #8a0c0c;
+  margin: 6px 0;
+  display: block;
+}
 .Danger {
   color: #944317;
 }

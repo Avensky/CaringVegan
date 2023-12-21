@@ -5,12 +5,13 @@ export {
   getInternalProduct,
   getInternalProducts,
   deleteInternalProduct,
+  updateInternalProduct,
+  addInternalProduct,
   setIsActive,
   migrateProduct,
   migrateAllProducts,
   archiveInternalProduct,
   unarchiveInternalProduct,
-  addInternalProduct,
   getFeatured,
 } from "./product";
 

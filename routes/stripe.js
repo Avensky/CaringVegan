@@ -32,6 +32,6 @@ router.route("/featured").get(stripeController.getFeatured);
 router.route("/shop").get(stripeController.getShop);
 router
   .route("/addImage")
-  .post(imageController.upload.single("photo"), stripeController.createProduct);
+  .post(imageController.uploadPhoto, stripeController.createProduct);
 
 module.exports = router;

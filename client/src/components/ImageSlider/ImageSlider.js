@@ -79,41 +79,45 @@ const ImageSlider = (props) => {
 
   return (
     <div className={classes.ImageSlider}>
-      <div className={classes.Arrows}>
-        <div
-          // className={[classes.ArrowWrapperLeft].join(" ")}
-          onClick={previous}
-          onAnimationEnd={() => setAnimated(false)}
-          className={classes.ArrowWrapperLeft}
-        >
-          <span className={animated ? classes.Animated : null}>❰</span>
-          <span className={animated ? classes.Animated : null}>❰</span>
-          <span className={animated ? classes.Animated : null}>❰</span>
-        </div>
-        <div
-          onAnimationEnd={() => setAnimatedRight(false)}
-          className={
-            animatedRight
-              ? [classes.ArrowWrapperRight, classes.AnimatedRight].join(" ")
-              : classes.ArrowWrapperRight
-          }
-          onClick={next}
-        >
-          <span className={animatedRight ? classes.AnimatedRight : null}>
-            ❱
-          </span>
-          <span className={animatedRight ? classes.AnimatedRight : null}>
-            ❱
-          </span>
-          <span className={animatedRight ? classes.AnimatedRight : null}>
-            ❱
-          </span>
-        </div>
-      </div>
+      {props.images.length > 1 ? (
+        <>
+          <div className={classes.Arrows}>
+            <div
+              // className={[classes.ArrowWrapperLeft].join(" ")}
+              onClick={previous}
+              onAnimationEnd={() => setAnimated(false)}
+              className={classes.ArrowWrapperLeft}
+            >
+              <span className={animated ? classes.Animated : null}>❰</span>
+              <span className={animated ? classes.Animated : null}>❰</span>
+              <span className={animated ? classes.Animated : null}>❰</span>
+            </div>
+            <div
+              onAnimationEnd={() => setAnimatedRight(false)}
+              className={
+                animatedRight
+                  ? [classes.ArrowWrapperRight, classes.AnimatedRight].join(" ")
+                  : classes.ArrowWrapperRight
+              }
+              onClick={next}
+            >
+              <span className={animatedRight ? classes.AnimatedRight : null}>
+                ❱
+              </span>
+              <span className={animatedRight ? classes.AnimatedRight : null}>
+                ❱
+              </span>
+              <span className={animatedRight ? classes.AnimatedRight : null}>
+                ❱
+              </span>
+            </div>
+          </div>
+          <div className={classes.Dots}>{dots}</div>
+        </>
+      ) : null}
       <div className={classes.SlideWrapper}>
         <img className={classes.Slide} src={slide} alt="product image" />
       </div>
-      <div className={classes.Dots}>{dots}</div>
     </div>
   );
 };

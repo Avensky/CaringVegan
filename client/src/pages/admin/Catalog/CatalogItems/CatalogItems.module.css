@@ -9,13 +9,18 @@
   width: 100%;
   min-height: 5vh;
   border-bottom: 1px solid grey;
-  padding: 1vh 0;
+  /* padding: 1vh 0; */
   box-sizing: border-box;
 }
 
 .imageWrapper {
   width: 15vw;
-  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  text-transform: capitalize;
 }
 
 .image {
@@ -24,37 +29,43 @@
 
 .details {
   width: 25vw;
-  padding: 0 2vw;
+  padding: 1vh 2vw;
   box-sizing: border-box;
 }
 
+.Created {
+  width: 20vw;
+  padding: 1vh 1vw;
+  box-sizing: border-box;
+  /* text-transform: uppercase; */
+}
+
+.Updated {
+  width: 20vw;
+  padding: 1vh 1vw;
+  box-sizing: border-box;
+  /* text-transform: uppercase; */
+}
 .created {
   width: 20vw;
-  padding: 0 1vw;
+  padding: 1vh 1vw;
   box-sizing: border-box;
+  text-transform: capitalize;
 }
 
 .updated {
   width: 20vw;
-  padding: 0 1vw;
+  padding: 1vh 1vw;
   box-sizing: border-box;
+  text-transform: capitalize;
 }
 
 .editWrapper {
   width: 20vw;
   /* margin: auto 0; */
-  padding: 0 2vw;
+  padding: 2px 2vw;
   /* font-weight: 600; */
   box-sizing: border-box;
-}
-
-.edit {
-  /* border-bottom: 1px solid grey; */
-}
-
-.delete {
-  color: red;
-  margin: 1vh 0;
 }
 
 .tooltip {

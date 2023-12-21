@@ -4,6 +4,7 @@ import classes from "./CatalogItems.module.css";
 import { formatPrice, formatDate } from "../../../../utility/utility";
 import { NavLink } from "react-router-dom";
 import Modal from "../../../../components/UI/Modal/Modal";
+import Button from "./../../../../components/UI/Button/Button";
 
 const CatalogItem = (props) => {
   const [showArchiveModal, setShowArchiveModal] = useState(false);
@@ -26,16 +27,19 @@ const CatalogItem = (props) => {
   let edit = (
     <div className={classes.editWrapper}>
       <NavLink to={props.editLink} className={classes.edit}>
-        Edit
+        <Button type="compact">Edit</Button>
       </NavLink>
-      <div onClick={() => setShowArchiveModal(true)}>Archive</div>
+      <Button type="compact" onClick={() => setShowArchiveModal(true)}>
+        Archive
+      </Button>
       {props.type === "internal" ? (
-        <div
+        <Button
+          type="compact"
           onClick={() => setShowDeleteModal(true)}
-          className={classes.delete}
+          style="delete"
         >
           Delete
-        </div>
+        </Button>
       ) : null}
     </div>
   );
@@ -90,12 +94,15 @@ const CatalogItem = (props) => {
           to={props.editLink}
           // className={[classes.edit, classes.disabled].join(" ")}
         >
-          <img className={classes.image} src={props.images[0] || noImage} />
+          <img
+            className={classes.image}
+            src={props.images ? props.images[0] : noImage}
+          />
         </NavLink>
       </div>
       <div className={classes.details}>
         <div className={classes.name}>{props.name}</div>
-        <div className={classes.price}>{formatPrice(props.price)}</div>
+        <div className={classes.price}>${formatPrice(props.price)}</div>
         {props.active === false ? (
           <div className={classes.archived}>Archied</div>
         ) : null}

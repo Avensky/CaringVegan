@@ -8,6 +8,7 @@ const initialState = {
   width: null,
   show: false,
   sidebar: "",
+  disableScroll: false,
 };
 
 // =============================================================================
@@ -25,7 +26,11 @@ const showSidebar = (state, action) => {
   const sidebar = action.sidebar;
   console.log("show", show);
   console.log("sidebar", sidebar);
-  return updateObject(state, { show: show, sidebar: sidebar });
+  return updateObject(state, {
+    show: show,
+    sidebar: sidebar,
+    disableScroll: show,
+  });
 }; // track screen width
 
 // =============================================================================

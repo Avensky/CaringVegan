@@ -315,40 +315,44 @@ exports.migrateAll = catchAsync(async (req, res, next) => {
 });
 
 exports.migrate = catchAsync(async (req, res, next) => {
-  const id = req.body.id;
-  console.log("migrate ", id);
+  const id = req.body._id;
+  const stripeId = req.body.id;
+
+  console.log("id ", id);
+  console.log("stripeId ", stripeId);
   console.log("migrate ", req.body.active);
-  const product = await stripe.products.retrieve(id);
+  if (stripeId) {
+    const product = await stripe.products.retrieve(stripeId);
+    if (product) {
+      //update
+      const productObj = {
+        // id: req.body.id,
+        active: req.body.active,
+        // default_price: req.body.default_price,
+        description: req.body.description,
+        features: req.body.features,
+        images: req.body.images,
+        metadata: req.body.metadata,
+        name: req.body.name,
+        //   package_dimensions: req.body.package_dimensions,
+        //   shippable: req.body.shippable,
+        //   statement_descriptor: statement_descriptor,
+        //   tax_code: req.body.tax_code,
+        //   unit_label: req.body.unit_label,
+        //   url: req.body.url,
+      };
 
-  if (product) {
-    //update
-    const productObj = {
-      // id: req.body.id,
-      active: req.body.active,
-      // default_price: req.body.default_price,
-      description: req.body.description,
-      features: req.body.features,
-      images: req.body.images,
-      metadata: req.body.metadata,
-      name: req.body.name,
-      //   package_dimensions: req.body.package_dimensions,
-      //   shippable: req.body.shippable,
-      //   statement_descriptor: statement_descriptor,
-      //   tax_code: req.body.tax_code,
-      //   unit_label: req.body.unit_label,
-      //   url: req.body.url,
-    };
+      const newProduct = await stripe.products.update(stripeId, productObj);
 
-    const newProduct = await stripe.products.update(id, productObj);
+      const stripeProduct = await stripe.products.retrieve(stripeId, {
+        expand: ["default_price"],
+      });
 
-    const stripeProduct = await stripe.products.retrieve(id, {
-      expand: ["default_price"],
-    });
-
-    res.status(200).json({
-      status: "success",
-      product: stripeProduct,
-    });
+      res.status(200).json({
+        status: "success",
+        product: stripeProduct,
+      });
+    }
   } else {
     //create
     const productObj = {
@@ -358,7 +362,9 @@ exports.migrate = catchAsync(async (req, res, next) => {
       description: req.body.description,
       features: req.body.features,
       images: req.body.images,
-      metadata: req.body.metadata,
+      metadata: {
+        id: req.body._id,
+      },
       name: req.body.name,
       //   package_dimensions: req.body.package_dimensions,
       //   shippable: req.body.shippable,
@@ -368,8 +374,9 @@ exports.migrate = catchAsync(async (req, res, next) => {
       //   url: req.body.url,
     };
     const newProduct = await stripe.products.create(productObj);
-    const stripeProduct = await stripe.products.retrieve(id, {
-      expand: ["default_price"],
+    const stripeProduct = await stripe.products.search({
+      expand: ["data.default_price"],
+      query: `metadata['id']:${id}`,
     });
 
     res.status(200).json({

@@ -12,14 +12,14 @@ import ImageRow from "./ImageRow/ImageRow";
 import Pricing from "./Pricing/Pricing";
 import Details from "./Details/Details";
 import Dates from "./Dates/Dates";
-import Metadata from "./Metadeta/Metadata";
-import Message from "../../../components/Message/Message";
+import Metadata from "./Metadata/Metadata";
+// import Message from "../../../components/Message/Message";
 
 const Product = (props) => {
   const id = useParams().id;
   // console.log("id = ", id);
   // console.log("product price = ", props.price);
-  const [item, setItem] = useState({});
+  const [item, setItem] = useState(props.product);
   // console.log("item: ", item);
   const [showModal, setShowModal] = useState(false);
   const { product } = props;
@@ -54,6 +54,7 @@ const Product = (props) => {
 
       setItem(product);
     }
+    // setItem(product);
   }, [product]);
 
   let imageRow, dates, details, pricing, metadata;
@@ -94,7 +95,7 @@ const Product = (props) => {
           {/* {orderSummary} */}
         </Modal>
         <Navigate id={item._id} to="/catalog" back="Products" />
-        <Message message={props.message} />
+        {/* <Message message={props.message} /> */}
         {imageRow}
         {dates}
         {details}

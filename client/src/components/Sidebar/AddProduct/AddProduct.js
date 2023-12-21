@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import classes from "./AddProduct.module.css";
 import Button from "../../UI/Button/Button";
@@ -6,11 +6,10 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions/index";
+import Header from "../Header/Header";
+import Frequency from "../Frequency/Frequency";
 
 const AddProduct = (props) => {
-  const [recurring, setRecurring] = useState(false);
-  const [oneOff, setOneOff] = useState(true);
-
   let validationSchema = Yup.object({
     name: Yup.string()
       .required("Name is required!")
@@ -51,13 +50,7 @@ const AddProduct = (props) => {
       }) => (
         <>
           <div className={classes.contentWrapper}>
-            <div className={classes.heading}>
-              <div className={classes.title}>Add a Product</div>
-              <div onClick={props.clicked} className={classes.close}>
-                Close X
-              </div>
-            </div>
-
+            <Header clicked={props.clicked} title="Create Product" />
             <form onSubmit={handleSubmit}>
               <div className={classes.content}>
                 <div className={classes.inputWrapper}>
@@ -116,28 +109,7 @@ const AddProduct = (props) => {
                       <div className={classes.label}>More Options</div>
                     </div> */}
                 <div className={classes.inputWrapper}>
-                  <div className={classes.paymentWrapper}>
-                    <Button
-                      onClick={() => {
-                        setOneOff(true);
-                        setRecurring(false);
-                      }}
-                      type="select"
-                      selected={oneOff}
-                    >
-                      One-off
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setRecurring(true);
-                        setOneOff(false);
-                      }}
-                      type="select"
-                      selected={recurring}
-                    >
-                      Recurring
-                    </Button>
-                  </div>
+                  <Frequency />
                   <div className={classes.contentWrapper}>
                     <div className={classes.label}>{`Amount (required)`}</div>
                     <div className={classes.pricingContent}>

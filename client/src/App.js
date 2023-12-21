@@ -73,6 +73,10 @@ const App = (props) => {
     );
   }
 
+  let style;
+  if (props.disableScroll) {
+    style = "disableScroll";
+  }
   return (
     <div className="app">
       <BrowserRouter>
@@ -92,7 +96,7 @@ const App = (props) => {
           // user={props.user} logout={logout}
         />
         <ScrollToTop />
-        <div className="container">
+        <div className={["container", style].join(" ")}>
           <Suspense fallback={<p>Loading...</p>}>
             <Routes>
               {routes}
@@ -114,6 +118,7 @@ const mapStateToProps = (state) => {
     total: state.cart.total,
     show: state.utility.show,
     sidebar: state.utility.sidebar,
+    disableScroll: state.utility.disableScroll,
   };
 };
 
@@ -135,6 +140,7 @@ App.propTypes = {
   checkout: PropTypes.func,
   loadCart: PropTypes.func,
   show: PropTypes.bool,
+  disableScroll: PropTypes.bool,
   setShow: PropTypes.func,
   sidebar: PropTypes.string,
 };

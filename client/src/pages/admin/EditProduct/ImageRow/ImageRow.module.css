@@ -30,6 +30,8 @@
 
 .thumbnail {
   /* width: 50%; */
+  display: flex;
+  align-items: center;
 }
 
 .details {
@@ -47,7 +49,7 @@
 }
 
 .copy {
-  margin: 2vh 0;
+  margin: 0.5vh 0;
 }
 
 .edit {
@@ -56,8 +58,8 @@
 
 .delete {
   color: red;
-  user-select: none;
-  margin: 0.5vh 0;
+  /* user-select: none; */
+  /* margin: 0.5vh 0; */
 }
 
 .unavailable {

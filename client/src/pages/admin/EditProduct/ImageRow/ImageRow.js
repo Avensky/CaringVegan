@@ -9,6 +9,8 @@ import Modal from "../../../../components/UI/Modal/Modal";
 const ImageRow = (props) => {
   const [showArchiveModal, setShowArchiveModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const noImage =
+    "https://caring-vegan.s3.us-west-2.amazonaws.com/assets/iStock-1416208685.jpg";
 
   const archiveHandler = () => {
     console.log("archiveHandler id: ", props.id);
@@ -23,31 +25,34 @@ const ImageRow = (props) => {
 
   let edit = (
     <div className={classes.editBar}>
-      <div
+      <Button
+        type="rounded"
         onClick={() => {
           props.showSidebar(true, "updateProduct");
         }}
         className={classes.edit}
       >
         Edit
-      </div>
-      <div
+      </Button>
+      <Button
+        type="rounded"
         className={classes.archive}
         onClick={() => {
           setShowArchiveModal(true);
         }}
       >
         Archive
-      </div>
+      </Button>
       {props.type === "internal" ? (
-        <div
-          className={classes.delete}
+        <Button
+          type="rounded"
+          style="delete"
           onClick={() => {
             setShowDeleteModal(true);
           }}
         >
           Delete
-        </div>
+        </Button>
       ) : null}
     </div>
   );
@@ -99,9 +104,7 @@ const ImageRow = (props) => {
       />
       <div className={classes.left}>
         <div className={classes.thumbnail}>
-          {props.item.images.length > 0 ? (
-            <ImageSlider images={props.item.images} />
-          ) : null}
+          <ImageSlider images={props.item.images || [noImage]} />
         </div>
       </div>
       <div className={classes.right}>
@@ -111,7 +114,7 @@ const ImageRow = (props) => {
           ) : null}
           {props.item.default_price ? (
             <div className={classes.price}>
-              {formatPrice(props.item.default_price.unit_amount)}
+              ${formatPrice(props.item.default_price.unit_amount)}
             </div>
           ) : null}
           {props.item.active === false ? (

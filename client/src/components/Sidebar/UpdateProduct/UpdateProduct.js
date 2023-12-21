@@ -15,24 +15,29 @@ const UpdateProduct = (props) => {
     name: Yup.string()
       .required("Name is required!")
       .max(45, "Maximum 45 characters"),
-    unit_amount: Yup.number().required("Unit amount is required!"),
+    unit_amount: Yup.number()
+      .required("Unit amount is required!")
+      .test("is-decimal", "invalid decimal", (value) =>
+        (value + "").match(/^\d*(\.\d{0,2})?$/)
+      ),
   });
 
   const params = { page: props.page, limit: 5 };
   console.log("ADD PRODUCT PARAMS", params);
+  let initialValues = {
+    name: props.product.name,
+    description: props.product.description,
+    unit_amount: formatPrice(props.product.default_price.unit_amount),
+  };
 
   return (
     <Formik
-      initialValues={{
-        name: props.product.name,
-        description: props.product.description,
-        unit_amount: formatPrice(props.product.default_price.unit_amount),
-      }}
+      initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values, submitProps) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
-          props.addProduct(values);
+          props.updateProduct(values, props.product._id);
           submitProps.setSubmitting(false);
           submitProps.resetForm();
           props.closed();
@@ -44,6 +49,7 @@ const UpdateProduct = (props) => {
         handleSubmit,
         handleChange,
         handleBlur,
+        setFieldValue,
         values,
         errors,
         isSubmitting,
@@ -53,7 +59,11 @@ const UpdateProduct = (props) => {
           <div className={classes.contentWrapper}>
             <Header clicked={props.clicked} title="Update Product" />
 
-            <form onSubmit={handleSubmit}>
+            <form
+              onSubmit={handleSubmit}
+              method="post"
+              encType="multipart/form-data"
+            >
               <div className={classes.content}>
                 <div className={classes.inputWrapper}>
                   <div className={classes.label}>{`Name (required)`}</div>
@@ -102,8 +112,14 @@ const UpdateProduct = (props) => {
                   <div className={classes.desc}>{`JPEG or PNG under 2MB.`}</div>
                   <input
                     className={classes.input}
+                    name="photo"
                     type="file"
-                    accept=".jpg, .jpeg, .png"
+                    // accept=".jpg, .jpeg, .png"
+                    accept="/image*"
+                    onChange={(event) => {
+                      setFieldValue("photo", event.target.files[0]);
+                    }}
+                    // onChange={handleChange}
                   />
                 </div>
                 <div className={classes.inputWrapper}>
@@ -120,6 +136,7 @@ const UpdateProduct = (props) => {
                           name="unit_amount"
                           type="number"
                           placeholder="0"
+                          min="0"
                           step="0.01"
                           pattern="^\d*(\.\d{0,2})?$"
                           onChange={handleChange}
@@ -173,6 +190,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addProduct: (values) => dispatch(actions.addInternalProduct(values)),
+    updateProduct: (values, id) =>
+      dispatch(actions.updateInternalProduct(values, id)),
     getProducts: () => dispatch(actions.getInternalProducts()),
   };
 };
@@ -182,7 +201,7 @@ UpdateProduct.propTypes = {
   handleBlur: PropTypes.func,
   handleChange: PropTypes.func,
   values: PropTypes.any,
-  addProduct: PropTypes.func,
+  updateProduct: PropTypes.func,
   getProducts: PropTypes.func,
   page: PropTypes.number,
   limit: PropTypes.number,

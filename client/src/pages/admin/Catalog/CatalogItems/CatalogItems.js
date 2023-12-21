@@ -55,8 +55,8 @@ const CatalogItems = (props) => {
       <div className={[classes.itemWrapper, classes.table].join(" ")}>
         <div className={classes.imageWrapper} />
         <div className={classes.details}>Details</div>
-        <div className={classes.created}>Created</div>
-        <div className={classes.updated}>Updated</div>
+        <div className={classes.Created}>Created</div>
+        <div className={classes.Updated}>Updated</div>
         <div className={classes.edit}></div>
       </div>
       {items}

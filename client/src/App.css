@@ -9,6 +9,11 @@
   justify-content: space-between;
 }
 
+.disableScroll {
+  position: fixed;
+  overflow-y: hidden;
+}
+
 .page-wrapper {
   min-height: 100%;
   padding: 51px 0 0;

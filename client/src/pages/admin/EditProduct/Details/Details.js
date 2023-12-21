@@ -10,7 +10,12 @@ const Details = (props) => {
       <div className={classes.detailsWrapper}>
         <div className={classes.detailsLeft}>Details</div>
         <div className={classes.detailsRight}>
-          <Button type="rounded" onClick={() => {}}>
+          <Button
+            type="rounded"
+            onClick={() => {}}
+            disabled={true}
+            style="Disabled"
+          >
             Edit
           </Button>
         </div>
@@ -20,6 +25,12 @@ const Details = (props) => {
           <div className={classes.label}>Name</div>
           <div className={classes.input}>{props.item.name}</div>
         </div>
+        {props.item.id ? (
+          <div className={classes.row}>
+            <div className={classes.label}>StripeID</div>
+            <div className={classes.input}>{props.item.id}</div>
+          </div>
+        ) : null}
 
         {props.item.description ? (
           <div className={classes.row}>
@@ -31,9 +42,9 @@ const Details = (props) => {
           <div className={classes.row}>
             <div className={classes.label}>Default Price</div>
             <div className={classes.input}>
-              {formatPrice(props.item.default_price.unit_amount)}
+              ${formatPrice(props.item.default_price.unit_amount)}
               <span className={classes.Currency}>
-                {props.item.default_price.currency}
+                {` ${props.item.default_price.currency}`}
               </span>
             </div>
           </div>
@@ -55,18 +66,20 @@ const Details = (props) => {
           </div>
         ) : null}
 
-        <div className={classes.row}>
-          <div className={classes.label}>Features List</div>
-          {props.item.features.map((feature) => {
-            // console.log("feature: ", feature);
-            const feat = (
-              <div key={Math.random()} className={classes.input}>
-                {feature.name}
-              </div>
-            );
-            return feat;
-          })}
-        </div>
+        {props.item.features.length > 0 ? (
+          <div className={classes.row}>
+            <div className={classes.label}>Features List</div>
+            {props.item.features.map((feature) => {
+              // console.log("feature: ", feature);
+              const feat = (
+                <div key={Math.random()} className={classes.input}>
+                  {feature.name}
+                </div>
+              );
+              return feat;
+            })}
+          </div>
+        ) : null}
       </div>
     </div>
   );

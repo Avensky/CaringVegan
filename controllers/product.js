@@ -7,7 +7,7 @@ const crud = require("./crud");
 
 exports.getProducts = crud.getAll(Product);
 exports.getProduct = crud.getOne(Product);
-exports.createProduct = crud.createOne(Product);
+// exports.createProduct = crud.createOne(Product);
 exports.updateProduct = crud.updateOne(Product);
 exports.deleteProduct = crud.deleteOne(Product);
 
@@ -192,26 +192,6 @@ exports.migrateProduct = catchAsync(async (req, res, next) => {
   }
 });
 
-// exports.getProduct = catchAsync(async (req, res, next) => {
-//   // console.log("req.params", req.params);
-//   // changed to findById to return error on wrong id
-//   // const product = await Product.findById(req.params.id);
-//   // console.log("product = ", product);
-
-//   try {
-//     const product = await stripe.products.retrieve(req.params.id, {
-//       expand: ["default_price"],
-//     });
-//     res.status(200).json({
-//       status: "success",
-//       product,
-//     });
-//   } catch (err) {
-//     console.log("err: ", err);
-//     return next(new AppError(err.message, err.statusCode, err.type));
-//   }
-// });
-
 // exports.getTopProducts = (req, res, next) => {
 //   req.query.limit = "6";
 //   req.query.sort = "price, rating";
@@ -253,76 +233,101 @@ exports.getFeatured = catchAsync(async (req, res, next) => {
   }
 });
 
-// exports.createProduct = catchAsync(async (req, res, next) => {
-//   // 1 CREATE NEW PRODUCT OBJ
-//   console.log("body ", req.body);
-//   console.log("req.file: ", req.file);
+exports.createProduct = catchAsync(async (req, res, next) => {
+  // 1 CREATE NEW PRODUCT OBJ
+  console.log("body ", req.body);
+  console.log("req.file: ", req.file);
 
-//   const productObj = {
-//     name: req.body.name,
-//     description: req.body.description,
-//     default_price_data: {
-//       currency: req.body.currency,
-//       unit_amount_decimal: req.body.unit_amount_decimal,
-//     },
-//     statement_descriptor: req.body.statement_descriptor,
-//     metadata: {
-//       stock: req.body.stock,
-//       featured: req.body.featured,
-//       type: req.body.type,
-//       ratings_quantity: req.body.ratings_quantity,
-//       ratings_average: req.body.ratings_average,
-//     },
-//   };
-//   req.file ? (productObj.images = req.file.location) : null; // Add image url to Obj
+  let livemode = false;
+  if (process.env.NODE_ENV === "production") {
+    livemode = true;
+  }
 
-//   // 2) CREATE PRODUCT IN STRIPE
-//   try {
-//     const product = await stripe.products.create(productObj);
-//     if (!product) next(new AppError("PROBLEM CREATING PRODUCT", 500, "Error"));
-//     console.log("stripe product: ", stripeProduct);
+  const productObj = {
+    active: true,
+    // attributes:
+    created: Date.now(),
+    updated: Date.now(),
+    default_price: {
+      currency: "usd",
+      unit_amount: req.body.unit_amount * 100,
+      created: Date.now(),
+    },
+    description: req.body.description,
+    livemode: livemode,
+    metadata: {
+      featured: req.body.featured,
+      stock: req.body.stock,
+      type: req.body.type,
+      ratings_quantity: req.body.ratings_quantity,
+      ratings_average: req.body.ratings_average,
+    },
+    name: req.body.name,
+    // statement_descriptor: req.body.statement_descriptor,
+    object: "Product",
+  };
+  req.file ? (productObj.images = req.file.location) : null; // Add image url to Obj
 
-//     res.status(201).json({
-//       status: "success",
-//       product,
-//     });
-//   } catch (err) {
-//     return next(new AppError(err.message, err.statusCode, err.type));
-//   }
-// });
+  // 2) CREATE PRODUCT
+  try {
+    const product = await Product.create(productObj);
+    res.status(201).json({
+      status: "success",
+      data: { data: product },
+    });
+  } catch (err) {
+    return next(new AppError(err.message, err.statusCode, err.type));
+  }
+});
 
-// exports.updateProduct = catchAsync(async (req, res, next) => {
-//   console.log("body: ", req.body);
-//   // CREATE A PRODUCT OBJECT
-//   const productObj = {
-//     name: req.body.name,
-//     description: req.body.description,
-//     default_price_data: {
-//       currency: req.body.currency,
-//       unit_amount_decimal: req.body.unit_amount_decimal,
-//     },
-//     statement_descriptor: req.body.statement_descriptor,
-//     images: req.body.images,
-//     metadata: {
-//       stock: req.body.stock,
-//       featured: req.body.featured,
-//       type: req.body.type,
-//       ratings_quantity: req.body.ratings_quantity,
-//       ratings_average: req.body.ratings_average,
-//     },
-//   };
-//   req.file ? (productObj.images = req.file.location) : null; // Add image url to Obj
-//   try {
-//     const product = await stripe.products.update(req.params.id, productObj);
-//     // console.log("stripeProduct ", product);
-//     res.status(200).json({
-//       status: "success",
-//       product,
-//     });
-//   } catch (err) {
-//     return next(new AppError(err.message, err.statusCode, err.type));
-//   }
-// });
+exports.updateProduct = catchAsync(async (req, res, next) => {
+  console.log("body: ", req.body);
+  // CREATE A PRODUCT OBJECT
+  const productObj = {
+    name: req.body.name,
+    description: req.body.description,
+    default_price: {
+      currency: "usd",
+      unit_amount: req.body.unit_amount * 100,
+    },
+    statement_descriptor: req.body.statement_descriptor,
+    images: req.body.images,
+    metadata: {
+      stock: req.body.stock,
+      featured: req.body.featured,
+      type: req.body.type,
+      ratings_quantity: req.body.ratings_quantity,
+      ratings_average: req.body.ratings_average,
+    },
+  };
+
+  req.file ? (productObj.images = req.file.location) : null; // Add image url to Obj
+
+  const removeEmpty = (obj) => {
+    let newObj = {};
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] === Object(obj[key])) newObj[key] = removeEmpty(obj[key]);
+      else if (obj[key] !== undefined) newObj[key] = obj[key];
+    });
+    return newObj;
+  };
+
+  let o = removeEmpty(productObj);
+
+  console.log("0", o);
+  try {
+    const product = await Product.findOneAndUpdate(req.params.id, o);
+    // console.log("stripeProduct ", product);
+    res.status(200).json({
+      status: "success",
+      data: {
+        data: product,
+      },
+    });
+  } catch (err) {
+    return next(new AppError(err.message, err.statusCode, err.type));
+  }
+});
 
 // exports.deleteProduct = catchAsync(async (req, res, next) => {
 //   let id = req.params.id;

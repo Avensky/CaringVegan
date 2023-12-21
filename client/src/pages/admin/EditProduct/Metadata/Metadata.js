@@ -22,7 +22,12 @@ const Metadata = (props) => {
       <div className={classes.heading}>
         <div className={classes.left}>Metadata</div>
         <div className={classes.right}>
-          <Button type="rounded" onClick={() => {}}>
+          <Button
+            type="rounded"
+            onClick={() => {}}
+            disabled={true}
+            style="Disabled"
+          >
             Edit Metadata
           </Button>
         </div>

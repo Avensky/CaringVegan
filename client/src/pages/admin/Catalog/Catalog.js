@@ -8,11 +8,11 @@ import Pagination from "./Pagination/Pagination";
 import Filter from "./Filter/Filter";
 // import Modal from "../../../components/UI/Modal/Modal";
 import Button from "../../../components/UI/Button/Button";
-import Message from "./../../../components/Message/Message";
+// import Message from "./../../../components/Message/Message";
 
 const Catalog = (props) => {
-  const [items, setItems] = useState([]);
-  const [message, setMessage] = useState("");
+  const [items, setItems] = useState(props.products);
+  // const [message, setMessage] = useState("");
   // console.log("isActive ", props.isActive);
   // console.log(props.page, "page");
 
@@ -30,11 +30,11 @@ const Catalog = (props) => {
     }
   }, [props.products]);
 
-  useEffect(() => {
-    if (props.message) {
-      setMessage(props.message);
-    }
-  }, [props.message]);
+  // useEffect(() => {
+  //   if (props.message) {
+  //     setMessage(props.message);
+  //   }
+  // }, [props.message]);
 
   // const addToCart = (id) => {
   //   props.addToCart(id);
@@ -62,10 +62,10 @@ const Catalog = (props) => {
   // if (remainder) totalPages = totalPages + 1/;
   // console.log("remainder: ", remainer);
 
-  let messageBar;
-  if (message) {
-    messageBar = <Message message={message} />;
-  }
+  // let messageBar;
+  // if (message) {
+  //   messageBar = <Message message={message} />;
+  // }
   return (
     <div className={[classes.Catalog, "page-wrapper"].join(" ")}>
       <div className={classes.Products}>
@@ -102,7 +102,7 @@ const Catalog = (props) => {
           setIsActive={props.setIsActive}
           getProducts={props.getProducts}
         />
-        {messageBar}
+        {/* {messageBar} */}
 
         <CatalogItems
           loading={props.loading}

@@ -1,6 +1,6 @@
 const express = require("express");
 const productController = require("../controllers/product");
-// const imageController = require("./../controllers/image");
+const imageController = require("./../controllers/image");
 // const authController = require("./../controllers/auth");
 const router = express.Router();
 
@@ -42,12 +42,13 @@ router.route("/featured").get(productController.getFeatured);
 router
   .route("/")
   .get(productController.getProducts)
-  .post(productController.createProduct);
+  .post(imageController.uploadPhoto, productController.createProduct);
+// .post(imageController.uploadProductImage, productController.createProduct);
 
 router
   .route("/:id")
   .get(productController.getProduct)
-  .patch(productController.updateProduct)
+  .patch(imageController.uploadPhoto, productController.updateProduct)
   .delete(productController.deleteProduct);
 //     authController.protect,
 //     authController.restrictTo("user")

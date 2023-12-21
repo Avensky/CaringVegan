@@ -14,6 +14,7 @@
   padding: 1vh 2vw;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .detailsLeft {
@@ -31,20 +32,19 @@
 }
 
 .label {
-  width: 120px;
+  width: 35%;
   color: rgb(85, 85, 85);
-  /* box-sizing: border-box; */
+  box-sizing: border-box;
 }
 
 .input {
-  overflow: hidden;
-  word-wrap: none;
-  overflow-wrap: normal;
+  width: 65%;
   box-sizing: border-box;
 }
 
 .Currency {
   color: rgb(36, 36, 36);
+  /* font-size: 0.9em; */
   text-transform: uppercase;
   font-weight: 600;
 }
