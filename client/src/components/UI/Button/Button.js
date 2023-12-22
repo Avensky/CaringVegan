@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import classes from "./Button.module.css";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 // import { updateArray } from "../../../utility/utility";
 
 const Button = (props) => {
@@ -25,7 +26,7 @@ const Button = (props) => {
       onClick={props.disabled ? () => {} : clicked}
       onAnimationEnd={() => setAnimation(false)}
     >
-      {props.children}
+      <Link to={props.editLink}>{props.children}</Link>
     </div>
   );
 };
@@ -38,6 +39,7 @@ Button.propTypes = {
   style: PropTypes.string,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
+  editLink: PropTypes.string,
 };
 
 export default Button;

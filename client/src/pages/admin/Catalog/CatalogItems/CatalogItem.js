@@ -26,9 +26,9 @@ const CatalogItem = (props) => {
 
   let edit = (
     <div className={classes.editWrapper}>
-      <NavLink to={props.editLink} className={classes.edit}>
-        <Button type="compact">Edit</Button>
-      </NavLink>
+      <Button editLink={props.editLink} type="compact" style="edit">
+        Edit
+      </Button>
       <Button type="compact" onClick={() => setShowArchiveModal(true)}>
         Archive
       </Button>
@@ -47,21 +47,27 @@ const CatalogItem = (props) => {
   if (props.active === false) {
     edit = (
       <div className={classes.editWrapper}>
-        <NavLink
-          to={props.editLink}
-          className={[classes.edit, classes.disabled].join(" ")}
+        <Button
+          onClick={() => {}}
+          type="compact"
+          style="Disabled"
+          disabled={true}
         >
           Edit
-        </NavLink>
+        </Button>
         {props.type === "internal" ? (
           <>
-            <div onClick={props.unarchive}>Unarchive</div>
-            <div className={[classes.delete, classes.disabled].join(" ")}>
+            <Button onClick={props.unarchive} type="compact">
+              Unarchive
+            </Button>
+            <Button type="compact" style="Disabled" disabled={true}>
               Delete
-            </div>
+            </Button>
           </>
         ) : (
-          <div onClick={props.unarchive}>Unarchive</div>
+          <Button onClick={props.unarchive} type="compact">
+            Unarchive
+          </Button>
         )}
       </div>
     );

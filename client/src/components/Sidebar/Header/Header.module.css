@@ -11,5 +11,6 @@
 }
 .close {
   font-size: 1.2em;
+  cursor: pointer;
   /* display: none; */
 }

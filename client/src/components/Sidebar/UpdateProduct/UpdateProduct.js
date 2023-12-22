@@ -1,16 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+// import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import classes from "./UpdateProduct.module.css";
 import Button from "../../UI/Button/Button";
-import { Formik } from "formik";
+import { Formik, useFormikContext, Form } from "formik";
 import * as Yup from "yup";
-import { connect } from "react-redux";
-import * as actions from "../../../store/actions/index";
 import Header from "../Header/Header";
 import Frequency from "../Frequency/Frequency";
 import { formatPrice } from "../../../utility/utility";
+import Modal from "../../UI/Modal/Modal";
 
 const UpdateProduct = (props) => {
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  let resetPresForm = {}; // You will have to define this before useEffect
+  const ResettingForm = () => {
+    const { resetForm } = useFormikContext();
+    resetPresForm = resetForm; // Store the value of resetForm in this variable
+    return null;
+  };
+
+  // console.log(showCancelModal);
+
+  const continueHandler = () => {
+    setShowCancelModal(false);
+    resetPresForm();
+    props.closed(true);
+  };
+
+  const product = props.product;
+  console.log("product ", product.name);
+
   let validationSchema = Yup.object({
     name: Yup.string()
       .required("Name is required!")
@@ -22,179 +41,191 @@ const UpdateProduct = (props) => {
       ),
   });
 
-  const params = { page: props.page, limit: 5 };
-  console.log("ADD PRODUCT PARAMS", params);
   let initialValues = {
-    name: props.product.name,
-    description: props.product.description,
-    unit_amount: formatPrice(props.product.default_price.unit_amount),
+    // _id: product._id,
+    name: product.name,
+    description: product.description,
+    unit_amount: formatPrice(product.default_price.unit_amount),
   };
 
+  // useEffect(() => {
+  //   console.log("initialValues", initialValues.name);
+  //   if (product._id !== initialValues._id) {
+  //     initialValues.name = product.name;
+  //     initialValues.description = product.description;
+  //     initialValues.unit_amount = formatPrice(
+  //       product.default_price.unit_amount
+  //     );
+  //   }
+  // }, [props.show]);
+
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={(values, submitProps) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          props.updateProduct(values, props.product._id);
-          submitProps.setSubmitting(false);
-          submitProps.resetForm();
-          props.closed();
-        }, 1000);
-      }}
-      // enableReinitialize
-    >
-      {({
-        handleSubmit,
-        handleChange,
-        handleBlur,
-        setFieldValue,
-        values,
-        errors,
-        isSubmitting,
-        isValid,
-      }) => (
-        <>
-          <div className={classes.contentWrapper}>
-            <Header clicked={props.clicked} title="Update Product" />
+    <>
+      <Modal
+        show={showCancelModal}
+        modalClosed={() => setShowCancelModal(false)}
+        title="Close Sidebar"
+        message="All progress will be lost, do you wish to continue?"
+        cancel="Cancel"
+        continue="Okay"
+        continueHandler={() => continueHandler()}
+      />
 
-            <form
-              onSubmit={handleSubmit}
-              method="post"
-              encType="multipart/form-data"
-            >
-              <div className={classes.content}>
-                <div className={classes.inputWrapper}>
-                  <div className={classes.label}>{`Name (required)`}</div>
-                  <div
-                    className={classes.desc}
-                  >{`Name of the product or service, visible to all customers`}</div>
-                  <input
-                    className={classes.input}
-                    name="name"
-                    type="text"
-                    // component="textarea"
-                    // rows="1"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.name}
-                  />
-                  <div className={classes.ErrorMessage}>
-                    {errors.name ? <div>{errors.name}</div> : null}
-
-                    {/* <ErrorMessage name="name" component="div" /> */}
-                  </div>
-                </div>
-                <div className={classes.inputWrapper}>
-                  <div className={classes.label}>{`Description`}</div>
-                  <div
-                    className={classes.desc}
-                  >{`Description of the product or service, visible to all customers`}</div>
-                  <textarea
-                    className={classes.input}
-                    type="text"
-                    rows="5"
-                    name="description"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.description}
-                  />
-                  <div className={classes.ErrorMessage}>
-                    {errors.description ? (
-                      <div>{errors.description}</div>
-                    ) : null}
-                    {/* <ErrorMessage name="description" component="div" /> */}
-                  </div>
-                </div>
-                <div className={classes.inputWrapper}>
-                  <div className={classes.label}>{`Image `}</div>
-                  <div className={classes.desc}>{`JPEG or PNG under 2MB.`}</div>
-                  <input
-                    className={classes.input}
-                    name="photo"
-                    type="file"
-                    // accept=".jpg, .jpeg, .png"
-                    accept="/image*"
-                    onChange={(event) => {
-                      setFieldValue("photo", event.target.files[0]);
-                    }}
-                    // onChange={handleChange}
-                  />
-                </div>
-                <div className={classes.inputWrapper}>
-                  <Frequency />
-                </div>
-                <div className={classes.inputWrapper}>
-                  <div className={classes.contentWrapper}>
-                    <div className={classes.label}>{`Amount (required)`}</div>
-                    <div className={classes.pricingContent}>
-                      <div className={classes.pricing}>
-                        <span className={classes.dollar}>$</span>
-                        <input
-                          className={classes.input}
-                          name="unit_amount"
-                          type="number"
-                          placeholder="0"
-                          min="0"
-                          step="0.01"
-                          pattern="^\d*(\.\d{0,2})?$"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.unit_amount}
-                        />
-                      </div>
-                      <div className={classes.currency}>USD</div>
-                    </div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values, submitProps) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            props.updateProduct(values, props.product._id);
+            submitProps.setSubmitting(false);
+            submitProps.resetForm();
+            props.closed();
+          }, 1000);
+        }}
+        // enableReinitialize
+      >
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          setFieldValue,
+          values,
+          errors,
+          isSubmitting,
+          isValid,
+        }) => (
+          <>
+            <div className={classes.contentWrapper}>
+              <Header clicked={props.clicked} title="Update Product" />
+              <Form
+                onSubmit={handleSubmit}
+                id="update-internal-product-form"
+                encType="multipart/form-data"
+              >
+                <div className={classes.content}>
+                  <div className={classes.inputWrapper}>
+                    <div className={classes.label}>{`Name (required)`}</div>
+                    <div
+                      className={classes.desc}
+                    >{`Name of the product or service, visible to all customers`}</div>
+                    <input
+                      className={classes.input}
+                      name="name"
+                      type="text"
+                      // component="textarea"
+                      // rows="1"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.name}
+                    />
                     <div className={classes.ErrorMessage}>
-                      {errors.unit_amount ? (
-                        <div>{errors.unit_amount}</div>
-                      ) : null}
+                      {errors.name ? <div>{errors.name}</div> : null}
+
+                      {/* <ErrorMessage name="name" component="div" /> */}
                     </div>
                   </div>
-                  {/* <div className={classes.more}>More pricing options</div> */}
-                </div>
-                {/* <div className={classes.inputWrapper}>
+                  <div className={classes.inputWrapper}>
+                    <div className={classes.label}>{`Description`}</div>
+                    <div
+                      className={classes.desc}
+                    >{`Description of the product or service, visible to all customers`}</div>
+                    <textarea
+                      className={classes.input}
+                      type="text"
+                      rows="5"
+                      name="description"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.description}
+                    />
+                    <div className={classes.ErrorMessage}>
+                      {errors.description ? (
+                        <div>{errors.description}</div>
+                      ) : null}
+                      {/* <ErrorMessage name="description" component="div" /> */}
+                    </div>
+                  </div>
+                  <div className={classes.inputWrapper}>
+                    <div className={classes.label}>{`Image `}</div>
+                    <div
+                      className={classes.desc}
+                    >{`JPEG or PNG under 2MB.`}</div>
+                    <input
+                      className={classes.input}
+                      name="photo"
+                      type="file"
+                      // accept=".jpg, .jpeg, .png"
+                      accept="/image*"
+                      onChange={(event) => {
+                        setFieldValue("photo", event.target.files[0]);
+                      }}
+                      // onChange={handleChange}
+                    />
+                  </div>
+                  <div className={classes.inputWrapper}>
+                    <Frequency />
+                  </div>
+                  <div className={classes.inputWrapper}>
+                    <div className={classes.contentWrapper}>
+                      <div className={classes.label}>{`Amount (required)`}</div>
+                      <div className={classes.pricingContent}>
+                        <div className={classes.pricing}>
+                          <span className={classes.dollar}>$</span>
+                          <input
+                            className={classes.input}
+                            name="unit_amount"
+                            type="number"
+                            placeholder="0"
+                            min="0"
+                            step="0.01"
+                            pattern="^\d*(\.\d{0,2})?$"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.unit_amount}
+                          />
+                        </div>
+                        <div className={classes.currency}>USD</div>
+                      </div>
+                      <div className={classes.ErrorMessage}>
+                        {errors.unit_amount ? (
+                          <div>{errors.unit_amount}</div>
+                        ) : null}
+                      </div>
+                    </div>
+                    {/* <div className={classes.more}>More pricing options</div> */}
+                  </div>
+                  {/* <div className={classes.inputWrapper}>
                         <div className={classes.label}>{`Metadata`}</div>
                       </div> */}
-              </div>
-            </form>
-          </div>
-          <div className={classes.submit}>
-            <Button onClick={props.clicked} type="rounded" style="">
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              type="submit"
-              style="Purple"
-              disabled={!isValid || isSubmitting}
-            >
-              Submit
-            </Button>
-          </div>
-        </>
-      )}
-    </Formik>
+                </div>
+              </Form>
+            </div>
+            <div className={classes.submit}>
+              <Button
+                onClick={() => setShowCancelModal(true)}
+                type="rounded"
+                style=""
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={props.clicked}
+                type="submit"
+                style="Purple"
+                disabled={!isValid || isSubmitting}
+              >
+                Submit
+              </Button>
+            </div>
+            <ResettingForm />
+          </>
+        )}
+      </Formik>
+    </>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    page: state.product.page,
-    limit: state.product.limit,
-    product: state.product.product,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addProduct: (values) => dispatch(actions.addInternalProduct(values)),
-    updateProduct: (values, id) =>
-      dispatch(actions.updateInternalProduct(values, id)),
-    getProducts: () => dispatch(actions.getInternalProducts()),
-  };
-};
 UpdateProduct.propTypes = {
   closed: PropTypes.func,
   clicked: PropTypes.func,
@@ -206,5 +237,6 @@ UpdateProduct.propTypes = {
   page: PropTypes.number,
   limit: PropTypes.number,
   product: PropTypes.object,
+  show: PropTypes.bool,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateProduct);
+export default UpdateProduct;

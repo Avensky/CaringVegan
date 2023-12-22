@@ -50,7 +50,7 @@ export const getInternalProduct = (id) => {
       .get(`/api/v1/products/${id}`)
       .then((result) => {
         const product = result.data.data.data;
-        console.log("actions getProduct ", product);
+        // console.log("actions getProduct ", product);
         // const product = result.data;
         dispatch(getInternalProductSuccess(product));
       })
@@ -185,7 +185,7 @@ export const updateInternalProduct = (values, id) => {
     axios
       .patch(`/api/v1/products/${id}`, formData)
       .then((result) => {
-        console.log("actions updateInternalProduct ", result.data);
+        // console.log("actions updateInternalProduct ", result.data);
         const data = result.data.data;
         dispatch(updateInternalProductSuccess(data));
       })

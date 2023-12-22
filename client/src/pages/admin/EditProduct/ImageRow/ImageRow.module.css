@@ -49,11 +49,12 @@
 }
 
 .copy {
-  margin: 0.5vh 0;
+  /* margin: 0.5vh 0; */
 }
 
-.edit {
-  /* margin: 2px 0 8px; */
+.editBar {
+  display: flex;
+  flex-direction: column;
 }
 
 .delete {
@@ -68,9 +69,10 @@
 
 .archived {
   width: fit-content;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(215, 215, 215);
   border: 1px black solid;
   border-radius: 10px;
   text-align: center;
   padding: 1px 6px;
+  margin: 2px;
 }

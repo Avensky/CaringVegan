@@ -83,10 +83,15 @@ const App = (props) => {
         <Sidebar
           show={props.show}
           sidebar={props.sidebar}
-          closed={() => props.setShow(false, props.sidebar)}
-          clicked={() => {
-            props.setShow(!props.show, props.sidebar);
-          }}
+          closed={() => props.setShow(false)}
+          clicked={() => props.setShow(!props.show, props.sidebar)}
+          addProduct={props.addProduct}
+          updateProduct={props.updateProduct}
+          getProducts={props.getProducts}
+          product={props.product}
+          // products={props.products}
+          page={props.page}
+          limit={props.limit}
         />
         <Navigation
           totalItems={props.totalItems}
@@ -119,6 +124,9 @@ const mapStateToProps = (state) => {
     show: state.utility.show,
     sidebar: state.utility.sidebar,
     disableScroll: state.utility.disableScroll,
+    page: state.product.page,
+    limit: state.product.limit,
+    product: state.product.product,
   };
 };
 
@@ -128,6 +136,10 @@ const mapDispatchToProps = (dispatch) => {
     checkout: (cart, user) => dispatch(actions.checkout(cart, user)),
     loadCart: () => dispatch(actions.loadCart()),
     setShow: (bool, sidebar) => dispatch(actions.showSidebar(bool, sidebar)),
+    addProduct: (values) => dispatch(actions.addInternalProduct(values)),
+    updateProduct: (values, id) =>
+      dispatch(actions.updateInternalProduct(values, id)),
+    getProducts: () => dispatch(actions.getInternalProducts()),
   };
 };
 
@@ -143,6 +155,13 @@ App.propTypes = {
   disableScroll: PropTypes.bool,
   setShow: PropTypes.func,
   sidebar: PropTypes.string,
+  product: PropTypes.object,
+  products: PropTypes.array,
+  addProduct: PropTypes.func,
+  updateProduct: PropTypes.func,
+  getProducts: PropTypes.func,
+  page: PropTypes.number,
+  limit: PropTypes.number,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

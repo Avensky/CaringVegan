@@ -9,6 +9,7 @@ import Modal from "../../../../components/UI/Modal/Modal";
 const ImageRow = (props) => {
   const [showArchiveModal, setShowArchiveModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
   const noImage =
     "https://caring-vegan.s3.us-west-2.amazonaws.com/assets/iStock-1416208685.jpg";
 
@@ -22,6 +23,11 @@ const ImageRow = (props) => {
     props.delete(props.id);
     setShowDeleteModal(false);
   };
+  const exportHandler = () => {
+    console.log("exportHandler id: ", props.item);
+    props.migrate(props.item);
+    setShowExportModal(false);
+  };
 
   let edit = (
     <div className={classes.editBar}>
@@ -30,7 +36,7 @@ const ImageRow = (props) => {
         onClick={() => {
           props.showSidebar(true, "updateProduct");
         }}
-        className={classes.edit}
+        style="edit"
       >
         Edit
       </Button>
@@ -60,22 +66,26 @@ const ImageRow = (props) => {
   if (props.item.active === false) {
     edit = (
       <div className={classes.editBar}>
-        <div
+        <Button
           onClick={() => {}}
-          className={[classes.edit, classes.unavailable].join(" ")}
+          type="rounded"
+          style="Disabled"
+          disabled={true}
         >
           Edit
-        </div>
-        <div className={classes.archive} onClick={props.unarchive}>
+        </Button>
+        <Button type="rounded" onClick={props.unarchive}>
           Unarchive
-        </div>
+        </Button>
         {props.type === "internal" ? (
-          <div
-            className={[classes.delete, classes.unavailable].join(" ")}
+          <Button
+            type="rounded"
+            style="Disabled"
+            disabled={true}
             onClick={() => {}}
           >
             Delete
-          </div>
+          </Button>
         ) : null}
       </div>
     );
@@ -102,6 +112,15 @@ const ImageRow = (props) => {
         continue="Delete Product"
         continueHandler={() => deleteHandler(props.id)}
       />
+      <Modal
+        show={showExportModal}
+        modalClosed={() => setShowExportModal(false)}
+        title="Export product"
+        message="Does everything look okay? If so just click Export!"
+        cancel="Cancel"
+        continue="Export Product"
+        continueHandler={() => exportHandler(props.id)}
+      />
       <div className={classes.left}>
         <div className={classes.thumbnail}>
           <ImageSlider images={props.item.images || [noImage]} />
@@ -123,7 +142,12 @@ const ImageRow = (props) => {
         </div>
         <div className={classes.copy}>
           {props.type === "internal" ? (
-            <Button type="rounded" onClick={props.migrate}>
+            <Button
+              type="rounded"
+              onClick={() => {
+                setShowExportModal(true);
+              }}
+            >
               Copy to Stripe
             </Button>
           ) : (

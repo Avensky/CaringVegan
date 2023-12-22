@@ -317,6 +317,11 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   console.log("0", o);
   try {
     const product = await Product.findOneAndUpdate(req.params.id, o);
+  } catch (err) {
+    return next(new AppError(err.message, err.statusCode, err.type));
+  }
+  try {
+    const product = await Product.findById(req.params.id);
     // console.log("stripeProduct ", product);
     res.status(200).json({
       status: "success",

@@ -63,7 +63,7 @@
 .editWrapper {
   width: 20vw;
   /* margin: auto 0; */
-  padding: 2px 2vw;
+  padding: 2px 0;
   /* font-weight: 600; */
   box-sizing: border-box;
 }
@@ -75,10 +75,13 @@
 }
 
 .archived {
-  background-color: rgb(255, 255, 255);
+  width: fit-content;
+  background-color: rgb(215, 215, 215);
   border: 1px black solid;
   border-radius: 10px;
   text-align: center;
+  padding: 1px 6px;
+  margin: 2px;
 }
 
 .disabled {

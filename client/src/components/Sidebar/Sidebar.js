@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import * as actions from "../../store/actions/index";
 import classes from "./Sidebar.module.css";
 import Backdrop from "../UI/Backdrop/Backdrop";
 import AddProduct from "./AddProduct/AddProduct";
 import UpdateProduct from "./UpdateProduct/UpdateProduct";
+import Modal from "../UI/Modal/Modal";
 
 const Sidebar = (props) => {
   let styles = [classes.AddProduct, classes.Close].join(" ");
@@ -29,33 +28,22 @@ const Sidebar = (props) => {
         show={props.show}
         closed={props.closed}
         clicked={props.clicked}
+        addProduct={props.addProduct}
+        updateProduct={props.updateProduct}
       />
     );
   }
 
-  console.log("props.show", props.show);
-  console.log("props.sidebar", props.sidebar);
+  // console.log("props.show", props.show);
+  // console.log("props.sidebar", props.sidebar);
   return (
     <>
       <Backdrop show={props.show} clicked={props.clicked} zIndex="200" />
+
+      <Modal />
       <div className={styles}>{sidebar}</div>
     </>
   );
-};
-
-const mapStateToProps = (state) => {
-  return {
-    page: state.product.page,
-    limit: state.product.limit,
-    product: state.product.product,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addProduct: (values) => dispatch(actions.addInternalProduct(values)),
-    getProducts: () => dispatch(actions.getInternalProducts()),
-  };
 };
 
 Sidebar.propTypes = {
@@ -67,10 +55,11 @@ Sidebar.propTypes = {
   values: PropTypes.any,
   addProduct: PropTypes.func,
   getProducts: PropTypes.func,
+  updateProduct: PropTypes.func,
   page: PropTypes.number,
   limit: PropTypes.number,
   sidebar: PropTypes.string,
   product: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default Sidebar;

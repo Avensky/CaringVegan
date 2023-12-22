@@ -51,24 +51,29 @@ const Pricing = (props) => {
             : null}
         </div>
       </div>
-      <div className={classes.row}>
-        <div className={classes.label}>App Id</div>
-        {props.item.default_price ? (
+
+      {props.item.default_price.id ? (
+        <div className={classes.row}>
+          <div className={classes.label}>App Id</div>
+
           <div className={classes.priceId}>{props.item.default_price.id}</div>
-        ) : null}
-      </div>
-      <div className={classes.row}>
-        <div className={classes.label}>Created</div>
-        <div className={classes.priceCreated}>
-          {props.item.default_price
-            ? formatDate(props.item.default_price.created, props.type)
-            : null}
         </div>
-      </div>
-      <div className={classes.row}>
-        <div className={classes.label}>Admin</div>
-        <div className={classes.priceAdmin}>Admin</div>
-      </div>
+      ) : null}
+      {props.item.default_price.created ? (
+        <div className={classes.row}>
+          <div className={classes.label}>Created</div>
+          <div className={classes.priceCreated}>
+            {formatDate(props.item.default_price.created, props.type)}
+          </div>
+        </div>
+      ) : null}
+
+      {props.item.admin ? (
+        <div className={classes.row}>
+          <div className={classes.label}>Admin</div>
+          <div className={classes.priceAdmin}>Admin</div>
+        </div>
+      ) : null}
     </div>
   );
 };

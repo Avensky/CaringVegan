@@ -34,10 +34,10 @@ const getInternalProductsStart = (state) => {
 };
 
 const getInternalProductsSuccess = (state, action) => {
-  const data = action.data.data;
-  console.log("getInternalProductsSuccess", data);
+  // const data = action.data.data;
+  // console.log("getInternalProductsSuccess", data);
   const products = action.data.data.data;
-  console.log("getInternalProductsSuccess", products);
+  // console.log("getInternalProductsSuccess", products);
   // products.slice();
   // const products = action.data.data.slice();
   // console.log("getInternalProductsSuccess", products);
@@ -67,7 +67,7 @@ const getInternalProductStart = (state) =>
   updateObject(state, { loading: true, has_more: false });
 
 const getInternalProductSuccess = (state, action) => {
-  console.log("getProductSuccess reducer", action.product);
+  // console.log("getProductSuccess reducer", action.product);
   // console.log("getProductsSuccess = " + JSON.stringify(action.products));
   return updateObject(state, {
     product: action.product,
