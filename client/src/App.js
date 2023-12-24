@@ -19,7 +19,8 @@ import {
   Catalog,
   StripeCatalog,
 } from "./pages";
-import Sidebar from "./components/Sidebar/Sidebar";
+import UpdateProductSidebar from "./components/Sidebar/UpdateProduct";
+import AddProductSidebar from "./components/Sidebar/AddProduct";
 
 const App = (props) => {
   // const getUser = async () => { await props.onFetchUser();}; // prettier-ignore
@@ -74,25 +75,48 @@ const App = (props) => {
   }
 
   let style;
-  if (props.disableScroll) {
-    style = "disableScroll";
+  props.disableScroll ? (style = "disableScroll") : null;
+
+  let sidebar;
+  if (props.sidebar == "addProduct") {
+    sidebar = (
+      <AddProductSidebar
+        show={props.show}
+        sidebar={props.sidebar}
+        closed={() => props.setShow(false)}
+        clicked={() => props.setShow(!props.show, props.sidebar)}
+        addProduct={props.addProduct}
+        updateProduct={props.updateProduct}
+        getProducts={props.getProducts}
+        product={props.product}
+        // products={props.products}
+        page={props.page}
+        limit={props.limit}
+      />
+    );
   }
+  if (props.sidebar == "updateProduct" && props.product.name) {
+    sidebar = (
+      <UpdateProductSidebar
+        show={props.show}
+        sidebar={props.sidebar}
+        closed={() => props.setShow(false)}
+        clicked={() => props.setShow(!props.show, props.sidebar)}
+        addProduct={props.addProduct}
+        updateProduct={props.updateProduct}
+        getProducts={props.getProducts}
+        product={props.product}
+        // products={props.products}
+        page={props.page}
+        limit={props.limit}
+      />
+    );
+  }
+
   return (
     <div className="app">
       <BrowserRouter>
-        <Sidebar
-          show={props.show}
-          sidebar={props.sidebar}
-          closed={() => props.setShow(false)}
-          clicked={() => props.setShow(!props.show, props.sidebar)}
-          addProduct={props.addProduct}
-          updateProduct={props.updateProduct}
-          getProducts={props.getProducts}
-          product={props.product}
-          // products={props.products}
-          page={props.page}
-          limit={props.limit}
-        />
+        {sidebar}
         <Navigation
           totalItems={props.totalItems}
           cart={props.cart}

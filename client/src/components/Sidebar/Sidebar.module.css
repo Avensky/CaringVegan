@@ -1,4 +1,4 @@
-.AddProduct {
+.Wrapper {
   position: fixed;
   top: 0;
   right: 0;
@@ -14,16 +14,28 @@
   box-sizing: border-box;
 }
 
-.sidebar {
-  /* height: 100vh; */
-  overflow: hidden;
-}
 .Open {
   transform: translateX(0);
 }
 
 .Close {
   transform: translateX(100%);
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3vh 2vw;
+  /* border-bottom: 1px solid grey; */
+}
+.title {
+  font-size: 1.4em;
+  font-weight: 700;
+}
+.close {
+  font-size: 1.2em;
+  /* display: none; */
 }
 
 .content {
@@ -36,6 +48,15 @@
 
 .desc {
   color: grey;
+}
+
+.input {
+  width: 100%;
+  margin: 0.5vh 0;
+  resize: none;
+  border: 1px solid black;
+  padding: 4px;
+  box-sizing: border-box;
 }
 
 .inputWrapper {
@@ -59,20 +80,20 @@
 .dollar {
   padding-right: 1vw;
 }
-.paymentWrapper {
-  display: flex;
-  margin: 1vh 0;
-}
 
 .pricingContent {
   display: flex;
 }
 .pricing {
   width: 70%;
+  display: flex;
+  align-items: center;
 }
 .currency {
   width: 30%;
   padding: 0 2vw;
+  display: flex;
+  align-items: center;
 }
 
 .copy {
