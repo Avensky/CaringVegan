@@ -101,7 +101,7 @@ const Sidebar = (props) => {
           }) => (
             <>
               <div className={classes.contentWrapper}>
-                <Header clicked={() => closeHandler} title="Update Product" />
+                <Header clicked={closeHandler} title="Update Product" />
                 <form
                   onSubmit={handleSubmit}
                   method="post"
@@ -208,7 +208,7 @@ const Sidebar = (props) => {
                 </form>
               </div>
               <div className={classes.submit}>
-                <Button onClick={() => closeHandler} type="rounded" style="">
+                <Button onClick={closeHandler} type="rounded" style="">
                   Cancel
                 </Button>
                 <Button
