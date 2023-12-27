@@ -6,15 +6,14 @@ import PropTypes from "prop-types";
 import CatalogItems from "./CatalogItems/CatalogItems";
 import Pagination from "./Pagination/Pagination";
 import Filter from "./Filter/Filter";
-// import Modal from "../../../components/UI/Modal/Modal";
+import Modal from "../../../components/UI/Modal/Modal";
 import Button from "../../../components/UI/Button/Button";
+// import Dropdown from "./Dropdown/Dropdown";
 // import Message from "./../../../components/Message/Message";
 
 const Catalog = (props) => {
   const [items, setItems] = useState(props.products);
-  // const [message, setMessage] = useState("");
-  // console.log("isActive ", props.isActive);
-  // console.log(props.page, "page");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     props.setIsActive();
@@ -30,58 +29,31 @@ const Catalog = (props) => {
     }
   }, [props.products]);
 
-  // useEffect(() => {
-  //   if (props.message) {
-  //     setMessage(props.message);
-  //   }
-  // }, [props.message]);
-
-  // const addToCart = (id) => {
-  //   props.addToCart(id);
-  // };
-  // const subtractQuantity = (id) => {
-  //   props.subtractQuantity(id);
-  // };
-  // console.log("home ", props.products);
-
-  // const [executing, setExecuting] = useState(false);
-  // const onRealClick = async (event) => {
-  //   setExecuting(true);
-  //   try {
-  //     await onClick();
-  //   } finally {
-  //     setExecuting(false);
-  //   }
-  // };
-  // console.log("has_more", props.has_more);
-  // console.log("results", props.results);
-  // console.log("total_count", props.total_count);
-  // console.log("page: ", page);
-
-  // const remainder = props.total_count % 5;
-  // if (remainder) totalPages = totalPages + 1/;
-  // console.log("remainder: ", remainer);
-
-  // let messageBar;
-  // if (message) {
-  //   messageBar = <Message message={message} />;
-  // }
   return (
     <div className={[classes.Catalog, "page-wrapper"].join(" ")}>
+      <Modal
+        show={showModal}
+        modalClosed={() => setShowModal(false)}
+        title="Export to Stripe"
+        message="Exporting these products will update the Stripe Database, do you wish to Continue?"
+        cancel="Cancel"
+        continue="Export Products"
+        continueHandler={() => props.migrateAll(items)}
+      />
       <div className={classes.Products}>
         <div className="page-title">Product Catalog</div>
         <div className={classes.copy}>
           <Button
-            onClick={() => {
-              // props.migrateAll(items);
-            }}
+            onClick={() => {}}
             type="rounded"
+            style="Disabled"
+            disabled={true}
           >
             Filter
           </Button>
           <Button
             onClick={() => {
-              props.migrateAll(items);
+              setShowModal(true);
             }}
             type="rounded"
           >

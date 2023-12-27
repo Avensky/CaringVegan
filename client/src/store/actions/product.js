@@ -176,14 +176,14 @@ export const updateInternalProduct = (values, id) => {
   console.log("updateInternalProduct id: ", id);
   // console.log(values);
 
-  const formData = new FormData();
-  for (let value in values) {
-    formData.append(value, values[value]);
-  }
+  // const formData = new FormData();
+  // for (let value in values) {
+  //   formData.append(value, values[value]);
+  // }
   return (dispatch) => {
     dispatch(updateInternalProductStart());
     axios
-      .patch(`/api/v1/products/${id}`, formData)
+      .patch(`/api/v1/products/${id}`, values)
       .then((result) => {
         // console.log("actions updateInternalProduct ", result.data);
         const data = result.data.data;

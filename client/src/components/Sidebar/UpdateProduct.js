@@ -57,7 +57,9 @@ const Sidebar = (props) => {
     // _id: product._id,
     name: product.name,
     description: product.description,
-    unit_amount: formatPrice(product.default_price.unit_amount),
+    unit_amount: product.default_price
+      ? formatPrice(product.default_price.unit_amount)
+      : 0,
   };
 
   return (

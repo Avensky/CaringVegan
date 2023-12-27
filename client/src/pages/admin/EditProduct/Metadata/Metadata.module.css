@@ -22,4 +22,40 @@
 .row {
   display: flex;
   flex-direction: row;
+  width: 100%;
+}
+
+.SubmitBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Form form {
+  border-bottom: 1px black solid;
+  /* margin: 2vh 0; */
+}
+
+input {
+  margin: 0.5vh 0;
+  resize: none;
+  border: 1px solid black;
+  padding: 4px;
+  box-sizing: border-box;
+  font-size: inherit;
+}
+
+.inputFake {
+  margin: 0.5vh 0;
+  resize: none;
+  border: 1px solid transparent;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.key {
+  width: 40%;
+}
+
+.value {
+  width: 70%;
 }

@@ -282,23 +282,14 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
   console.log("body: ", req.body);
+  console.log("metadata: ", req.body.metadata);
   // CREATE A PRODUCT OBJECT
   const productObj = {
     name: req.body.name,
     description: req.body.description,
-    default_price: {
-      currency: "usd",
-      unit_amount: req.body.unit_amount * 100,
-    },
     statement_descriptor: req.body.statement_descriptor,
     images: req.body.images,
-    metadata: {
-      stock: req.body.stock,
-      featured: req.body.featured,
-      type: req.body.type,
-      ratings_quantity: req.body.ratings_quantity,
-      ratings_average: req.body.ratings_average,
-    },
+    metadata: req.body.metadata,
   };
 
   req.file ? (productObj.images = req.file.location) : null; // Add image url to Obj
@@ -306,20 +297,24 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   const removeEmpty = (obj) => {
     let newObj = {};
     Object.keys(obj).forEach((key) => {
-      if (obj[key] === Object(obj[key])) newObj[key] = removeEmpty(obj[key]);
-      else if (obj[key] !== undefined) newObj[key] = obj[key];
+      if (obj[key] !== undefined) newObj[key] = obj[key];
+      // else if (obj[key] !== undefined) newObj[key] = obj[key];
+      // if (obj[key] === Object(obj[key])) newObj[key] = removeEmpty(obj[key]);
+      // else if (obj[key] !== undefined) newObj[key] = obj[key];
     });
     return newObj;
   };
 
   let o = removeEmpty(productObj);
 
-  console.log("0", o);
+  console.log("update object", productObj);
+  console.log("update o", o);
   try {
     const product = await Product.findOneAndUpdate(req.params.id, o);
   } catch (err) {
     return next(new AppError(err.message, err.statusCode, err.type));
   }
+
   try {
     const product = await Product.findById(req.params.id);
     // console.log("stripeProduct ", product);

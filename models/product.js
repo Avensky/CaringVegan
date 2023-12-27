@@ -41,21 +41,7 @@ const productSchema = new mongoose.Schema(
     features: { type: Array },
     images: { type: Array },
     livemode: { type: Boolean },
-    metadata: {
-      type: { type: String, required: false },
-      stock: { type: Number, required: false },
-      ratings_average: { type: Number },
-      ratings_quantity: { type: Number, default: 0 },
-      slug: { type: String },
-      sold: { type: Number, required: false },
-      featured: { type: Boolean, required: false, default: false },
-      //   createdBy: [
-      //     {
-      //       type: mongoose.Schema.,
-      //       ref: "User",
-      //     },
-      //   ],
-    },
+    metadata: { type: Array },
     name: {
       type: String,
       required: [true, "Please include the product name"],

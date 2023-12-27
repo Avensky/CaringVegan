@@ -78,7 +78,13 @@ const Product = (props) => {
     dates = <Dates item={item} type="internal" />;
     details = <Details item={item} type="internal" />;
     pricing = <Pricing item={item} type="internal" />;
-    metadata = <Metadata metadata={item.metadata} />;
+    metadata = (
+      <Metadata
+        metadata={item.metadata}
+        product={item}
+        updateProduct={props.updateProduct}
+      />
+    );
   }
   // let width = window.innerWidth;
   // console.log('width = ',width);
@@ -116,6 +122,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    updateProduct: (values, id) =>
+      dispatch(actions.updateInternalProduct(values, id)),
     getProduct: (id) => dispatch(actions.getInternalProduct(id)),
     addToCart: (product) => dispatch(actions.addToCart(product)),
     archive: (id) => dispatch(actions.archiveInternalProduct(id)),
@@ -141,6 +149,7 @@ Product.propTypes = {
   message: PropTypes.string,
   migrate: PropTypes.func,
   showSidebar: PropTypes.func,
+  updateProduct: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
