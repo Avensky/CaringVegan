@@ -5,25 +5,29 @@ import Button from "../../../../components/UI/Button/Button";
 import { Formik } from "formik";
 
 const Metadata = (props) => {
-  const [show, setShow] = useState(false);
   let initialValues = {};
   // const validationSchema = {};
-
   let metadata = props.product.metadata;
-  let content;
-  if (metadata && show) {
-    metadata.map((obj) => {
-      const entries = Object.entries(obj);
-      entries.map(([key, val]) => {
-        // const keyString = JSON.stringify(key);
-        console.log(`${key}:${val}`);
+  const dataObj = Object.entries(metadata);
 
-        initialValues[`${key}`] = key;
-        initialValues[`${key}_val`] = val;
-      });
+  const [show, setShow] = useState(false);
+  // const [addObj, setAddObj] = useState();
+  const [rows, setRows] = useState([]);
+  const [dataLength, setDataLength] = useState(dataObj.length * 2);
+  let dataLengthStr = JSON.stringify(dataLength);
+  dataLengthStr = `new${dataLength}`;
+  let dataLengthVal = `new${dataLengthStr}_val`;
+  // console.log("datalength", dataLength);
+
+  let content;
+
+  if (metadata && show) {
+    dataObj.map(([key, val]) => {
+      // console.log(`${key}:${val}`);
+      initialValues[`cur${key}`] = key;
+      initialValues[`cur${key}` + "_val"] = val;
     });
     console.log("initialValues: ", initialValues);
-
     content = (
       <>
         <Formik
@@ -31,25 +35,26 @@ const Metadata = (props) => {
           // validationSchema={validationSchema}
           onSubmit={(values, submitProps) => {
             setTimeout(() => {
-              let submit = [];
+              let submit = {};
+              console.log("values: ", values);
+              const valuesObj = Object.entries(values);
+              console.log("valuesObj", valuesObj);
+              const valuesLength = valuesObj.length;
+              console.log("valuesObj", valuesLength);
 
-              metadata.map((obj) => {
-                console.log("obj: ", obj);
-                const entries = Object.entries(obj);
-
-                entries.map(([key]) => {
-                  console.log("key");
-                  const entry = {};
-                  entry[`${key}`] = values[`${key}_val`];
-                  console.log("ENTRY", entry);
-                  submit.push(entry);
-                });
-              });
-
+              for (let i = 0; i < valuesLength; i += 2) {
+                const key = valuesObj[i][1];
+                const val = valuesObj[i + 1][1];
+                console.log("key", key);
+                console.log("val", val);
+                submit[key] = val;
+              }
               console.log("submit", submit);
+
               const final = { metadata: submit };
               alert(JSON.stringify(final, null, 2));
               props.updateProduct(final, props.product._id);
+              // props.updateProduct(final, props.product._id);
               submitProps.setSubmitting(false);
               submitProps.resetForm();
               setShow(false);
@@ -60,6 +65,7 @@ const Metadata = (props) => {
             handleSubmit,
             handleChange,
             handleBlur,
+            // setValues,
             values,
             isSubmitting,
             isValid,
@@ -70,35 +76,90 @@ const Metadata = (props) => {
                 method="post"
                 encType="multipart/form-data"
               >
-                {metadata.map((obj) => {
-                  let data = Object.entries(obj).map(([key]) => {
-                    return (
-                      <div className={classes.row} key={key}>
-                        <input
-                          className={[classes.key, classes.input].join(" ")}
-                          name={key}
-                          type="string"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values[key]}
-                        />
-                        <input
-                          className={[classes.value, classes.input].join(" ")}
-                          name={`${key}_val`}
-                          type="string"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values[`${key}_val`]}
-                        />
-                      </div>
-                    );
-                  });
-                  return data;
+                {dataObj.map(([key, i]) => {
+                  console.log("index = ", i);
+                  return (
+                    <div className={classes.row} key={`cur${key}`}>
+                      <input
+                        className={[classes.key, classes.input].join(" ")}
+                        name={`cur${key}`}
+                        placeholder="key"
+                        type="string"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values[`cur${key}`]}
+                      />
+                      <input
+                        className={[classes.value, classes.input].join(" ")}
+                        name={`cur${key}_val`}
+                        placeholder="value"
+                        type="string"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values[`cur${key}_val`]}
+                      />
+                      <span
+                        onClick={() => {
+                          console.log(i);
+                          const index = rows.indexOf(i);
+                          if (index > -1) {
+                            // only splice array when item is found
+                            rows.splice(index, 1); // 2nd parameter means remove one item only
+                          }
+                        }}
+                        className={[classes.delete, classes.input].join(" ")}
+                      >
+                        X
+                      </span>
+                    </div>
+                  );
+                })}
+
+                {rows.map((el) => {
+                  return el;
                 })}
               </form>
               <div className={classes.SubmitBar}>
                 <div>
-                  <Button onClick={() => {}} type="rounded">
+                  <Button
+                    onClick={() => {
+                      rows.push(
+                        <div className={classes.row}>
+                          <input
+                            className={[classes.key, classes.input].join(" ")}
+                            name={dataLengthStr}
+                            placeholder="key"
+                            type="string"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values[dataLengthStr]}
+                          />
+                          <input
+                            className={[classes.value, classes.input].join(" ")}
+                            name={dataLengthVal}
+                            placeholder="value"
+                            type="string"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values[dataLengthVal]}
+                          />
+                          <span
+                            onClick={() => {}}
+                            className={[classes.delete, classes.input].join(
+                              " "
+                            )}
+                          >
+                            X
+                          </span>
+                        </div>
+                      );
+
+                      // setValues({ ...values });
+                      // setRows(rows);
+                      setDataLength(dataLength + 2);
+                    }}
+                    type="rounded"
+                  >
                     + Add another item
                   </Button>
                 </div>
@@ -124,30 +185,30 @@ const Metadata = (props) => {
             </div>
           )}
         </Formik>
-
-        <div className={classes.add}></div>
       </>
     );
   } else if (metadata) {
     // console.log("metadata", metadata);
-    // console.log("entries", metadata);
-    content = metadata.map((obj) => {
-      // console.log("obj", obj);
-      let data;
-      data = Object.entries(obj).map(([key, val]) => {
-        // console.log(`${key}:${val}`);
-        return (
-          <div className={classes.row} key={key}>
-            <div className={[classes.key, classes.inputFake].join(" ")}>
-              {key}
-            </div>
-            <div className={[classes.value, classes.inputFake].join(" ")}>
-              {val}
-            </div>
+    // const length = Object.keys(metadata).length;
+    // console.log("metadata length", length);
+
+    content = dataObj.map(([key, value]) => {
+      console.log(dataObj);
+      console.log("key", key);
+      console.log("val", value);
+      return (
+        <div className={classes.row} key={key}>
+          <div className={[classes.key, classes.inputFake].join(" ")}>
+            {key}
           </div>
-        );
-      });
-      return data;
+          <div className={[classes.value, classes.inputFake].join(" ")}>
+            {value}
+          </div>
+          <span
+            className={[classes.delete, classes.inputFake].join(" ")}
+          ></span>
+        </div>
+      );
     });
   }
 
@@ -159,6 +220,7 @@ const Metadata = (props) => {
           <Button
             type="rounded"
             onClick={() => {
+              setRows([]);
               setShow(!show);
             }}
           >

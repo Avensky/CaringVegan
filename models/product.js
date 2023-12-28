@@ -41,7 +41,7 @@ const productSchema = new mongoose.Schema(
     features: { type: Array },
     images: { type: Array },
     livemode: { type: Boolean },
-    metadata: { type: Array },
+    metadata: { type: Object },
     name: {
       type: String,
       required: [true, "Please include the product name"],

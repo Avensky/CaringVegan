@@ -33,7 +33,7 @@ const CatalogItems = (props) => {
         <CatalogItem
           key={id}
           id={id}
-          editLink={`/internal-product/${id}`}
+          editLink={`${props.product}${id}`}
           images={item.images}
           name={item.name}
           details={item.details}

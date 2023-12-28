@@ -89,6 +89,35 @@ export const getProductsStart = () => {
 };
 
 // ===================================================================
+// UPDATE PRODUCT ====================================================
+// ===================================================================
+export const updateStripeProduct = (values, id) => {
+  // console.log("data", data);
+  return (dispatch) => {
+    dispatch(updateStripeProductStart());
+    axios
+      .patch(`/api/v1/stripe/${id}`, values)
+      .then((result) => {
+        dispatch(updateStripeProductSuccess(result.data));
+      })
+      .catch((error) => {
+        dispatch(updateStripeProductFail(JSON.stringify(error)));
+      });
+  };
+};
+
+export const updateStripeProductSuccess = (data) => {
+  return { type: actionTypes.UPDATE_STRIPE_PRODUCT_SUCCESS, data };
+};
+
+export const updateStripeProductFail = (error) => {
+  return { type: actionTypes.UPDATE_STRIPE_PRODUCT_FAIL, error };
+};
+
+export const updateStripeProductStart = () => {
+  return { type: actionTypes.UPDATE_STRIPE_PRODUCT_START };
+};
+// ===================================================================
 // MIGRATE PRODUCT ===================================================
 // ===================================================================
 export const migrateStripeProduct = (item) => {

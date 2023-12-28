@@ -25,6 +25,7 @@ export {
   checkout,
   migrateStripeProduct,
   migrateAllStripeProducts,
+  updateStripeProduct,
   setStripeActive,
 } from "./stripe";
 

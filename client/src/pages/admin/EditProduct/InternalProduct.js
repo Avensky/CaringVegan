@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-// import { useParams, NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import classes from "./EditProduct.module.css";
 import * as actions from "../../../store/actions/index";
@@ -13,48 +12,22 @@ import Pricing from "./Pricing/Pricing";
 import Details from "./Details/Details";
 import Dates from "./Dates/Dates";
 import Metadata from "./Metadata/Metadata";
-// import Message from "../../../components/Message/Message";
 
 const Product = (props) => {
-  const id = useParams().id;
-  // console.log("id = ", id);
-  // console.log("product price = ", props.price);
   const [item, setItem] = useState(props.product);
-  // console.log("item: ", item);
+  // console.log("item", item);
   const [showModal, setShowModal] = useState(false);
+  const id = useParams().id;
   const { product } = props;
-
-  const cancelHandler = () => setShowModal(false);
   const getProduct = async (id) => await props.getProduct(id);
-  //   const [index, setActiveStep] = useState(0);
-  //   const goToNextPicture = () => {
-  //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  //   };
-  // const history = useHistory();
-  //const handleClick = (id) => {props.addToCart(id)};
-  // const addToCart = (price) => {props.addToCart(price)};
-  // const subtractQuantity = (id) => {props.subtractQuantity(id)};
-  // const purchaseHandler = () => {setPurchasing(true)};
-  // const viewCartHandler = () => {history.push('/cart');};
-  // console.log("product = ", props.price);
 
   useEffect(() => {
-    if (!product._id) {
-      // console.log("getProduct, no product detected");
-      getProduct(id);
-    } else if (product.id !== id) {
-      // console.log("getProduct, route id does not match saved product");
-      getProduct(id);
-    }
+    if (!product._id) getProduct(id);
+    else if (product.id !== id) getProduct(id);
   }, []);
 
   useEffect(() => {
-    if (product) {
-      // console.log("setItem product: ", product);
-
-      setItem(product);
-    }
-    // setItem(product);
+    if (product) setItem(product);
   }, [product]);
 
   let imageRow, dates, details, pricing, metadata;
@@ -78,30 +51,23 @@ const Product = (props) => {
     dates = <Dates item={item} type="internal" />;
     details = <Details item={item} type="internal" />;
     pricing = <Pricing item={item} type="internal" />;
-    metadata = (
-      <Metadata
-        metadata={item.metadata}
-        product={item}
-        updateProduct={props.updateProduct}
-      />
-    );
+    metadata = <Metadata product={item} updateProduct={props.updateProduct} />;
   }
   // let width = window.innerWidth;
   // console.log('width = ',width);
   // console.log('size = ',props.width);
 
-  useLayoutEffect(() => {
-    window.addEventListener("resize", props.resize);
-  }, []);
+  // useLayoutEffect(() => {
+  //   window.addEventListener("resize", props.resize);
+  // }, []);
 
   return (
     <div className="page-wrapper">
       <div className={classes.Product}>
-        <Modal show={showModal} modalClosed={cancelHandler}>
+        <Modal show={showModal} modalClosed={() => setShowModal(false)}>
           {/* {orderSummary} */}
         </Modal>
         <Navigate id={item._id} to="/catalog" back="Products" />
-        {/* <Message message={props.message} /> */}
         {imageRow}
         {dates}
         {details}
@@ -116,7 +82,6 @@ const mapStateToProps = (state) => {
   return {
     product: state.product.product,
     loading: state.product.loading,
-    message: state.product.message,
   };
 };
 
@@ -125,7 +90,6 @@ const mapDispatchToProps = (dispatch) => {
     updateProduct: (values, id) =>
       dispatch(actions.updateInternalProduct(values, id)),
     getProduct: (id) => dispatch(actions.getInternalProduct(id)),
-    addToCart: (product) => dispatch(actions.addToCart(product)),
     archive: (id) => dispatch(actions.archiveInternalProduct(id)),
     unarchive: (id) => dispatch(actions.unarchiveInternalProduct(id)),
     delete: (id) => dispatch(actions.deleteInternalProduct(id)),

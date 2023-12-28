@@ -14,24 +14,11 @@ import Dates from "./Dates/Dates";
 import Metadata from "./Metadata/Metadata";
 
 const StripeProduct = (props) => {
-  const id = useParams().id;
-  // console.log("id = ", id);
-  // console.log("product price = ", props.price);
   const [item, setItem] = useState(props.product);
-  // console.log("item: ", item);
-  // const [purchasing, setPurchasing] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const id = useParams().id;
   const { product } = props;
-
-  // const cancelHandler = () => setShowModal(false);
   const getProduct = async (id) => await props.getProduct(id);
-
-  //const handleClick = (id) => {props.addToCart(id)};
-  // const addToCart = (price) => {props.addToCart(price)};
-  // const subtractQuantity = (id) => {props.subtractQuantity(id)};
-  // const purchaseHandler = () => {setPurchasing(true)};
-  // const viewCartHandler = () => {history.push('/cart');};
-  // console.log("product = ", props.price);
 
   useEffect(() => {
     if (!product.id) {
@@ -63,21 +50,22 @@ const StripeProduct = (props) => {
     await props.archive(id);
   };
 
-  let summary, dates, details, pricing, metadata;
+  let imageRow, dates, details, pricing, metadata;
 
   if (props.loading) {
     details = <Spinner />;
   }
 
   if (item.id) {
-    summary = (
+    imageRow = (
       <ImageRow
         item={item}
-        continue={() => setShowModal(true)}
-        migrate={() => props.migrate(item)}
         id={id}
-        archive={archive}
+        showSidebar={props.showSidebar}
+        archive={props.archive}
         unarchive={() => props.unarchive(item.id)}
+        migrate={() => props.migrate(item)}
+        continue={() => setShowModal(true)}
         delete={() => {}}
         type="stripe"
       />
@@ -85,7 +73,13 @@ const StripeProduct = (props) => {
     dates = <Dates item={item} type="stripe" />;
     details = <Details item={item} type="stripe" />;
     pricing = <Pricing item={item} type="stripe" />;
-    metadata = <Metadata metadata={item.metadata} />;
+    metadata = (
+      <Metadata
+        metadata={item.metadata}
+        product={item}
+        updateProduct={props.updateProduct}
+      />
+    );
   }
 
   return (
@@ -102,7 +96,7 @@ const StripeProduct = (props) => {
           archive={(id) => archive(id)}
         />
         <Navigate id={item.id} to="/stripe-catalog" back="Stripe" />
-        {summary}
+        {imageRow}
         {dates}
         {details}
         {pricing}
@@ -121,11 +115,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    updateProduct: (values, id) =>
+      dispatch(actions.updateStripeProduct(values, id)),
     getProduct: (id) => dispatch(actions.getProduct(id)),
-    addToCart: (product) => dispatch(actions.addToCart(product)),
     archive: (id) => dispatch(actions.archiveStripeProduct(id)),
     unarchive: (id) => dispatch(actions.unarchiveStripeProduct(id)),
     migrate: (product) => dispatch(actions.migrateProduct(product)),
+    showSidebar: (bool, sidebar) =>
+      dispatch(actions.showSidebar(bool, sidebar)),
   };
 };
 
@@ -140,6 +137,8 @@ StripeProduct.propTypes = {
   archive: PropTypes.func,
   unarchive: PropTypes.func,
   migrate: PropTypes.func,
+  updateProduct: PropTypes.func,
+  showSidebar: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StripeProduct);

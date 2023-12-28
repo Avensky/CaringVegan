@@ -69,6 +69,30 @@ const migrateAllStripeProductsFail = (state) =>
   updateObject(state, { loading: false });
 
 // ============================================================================
+// UPDATE STRIPE PRODUCT ======================================================
+// ============================================================================
+
+const updateStripeProductStart = (state) =>
+  updateObject(state, { loading: true });
+
+const updateStripeProductSuccess = (state, action) => {
+  const array = copyArray(state.products);
+  const product = action.data.product;
+  const products = updateArray(array, product);
+  console.log("updateStripeProductSuccess reducer", product);
+  return updateObject(state, {
+    products: products,
+    product: product,
+    loading: false,
+    // total_count: state.total_count - 1,
+    // results: state.results - 1,
+  });
+};
+
+const updateStripeProductFail = (state) =>
+  updateObject(state, { loading: false });
+
+// ============================================================================
 // MIGRATE STRIPE PRODUCTS ====================================================
 // ============================================================================
 
@@ -257,6 +281,14 @@ const reducer = (state = initialState, action) => {
       return getShopStart(state, action);
     case actionTypes.GET_SHOP_FAIL:
       return getShopFail(state, action);
+
+    // update
+    case actionTypes.UPDATE_STRIPE_PRODUCT_SUCCESS:
+      return updateStripeProductSuccess(state, action);
+    case actionTypes.UPDATE_STRIPE_PRODUCT_FAIL:
+      return updateStripeProductFail(state, action);
+    case actionTypes.UPDATE_STRIPE_PRODUCT_START:
+      return updateStripeProductStart(state, action);
 
     // migrate
     case actionTypes.MIGRATE_ALL_STRIPE_PRODUCTS_SUCCESS:
