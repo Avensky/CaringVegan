@@ -1,50 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classes from "./Metadata.module.css";
 import Button from "../../../../components/UI/Button/Button";
-import { Formik } from "formik";
+import { FieldArray, Formik, Field, Form } from "formik";
 
 const Metadata = (props) => {
   let initialValues = {};
   // const validationSchema = {};
-  let metadata = props.product.metadata;
-  const dataObj = Object.entries(metadata);
+  let metadata = props.product.metadata || {};
+  const dataObj = Object.entries(metadata) || [];
+  // console.log("dataObj = ", dataObj);
 
   const [show, setShow] = useState(false);
   // const [addObj, setAddObj] = useState();
-  const [rows, setRows] = useState([]);
+  // const rows = [];
+
+  const [rows, setRows] = useState(dataObj);
+  console.log("Rows = ", rows);
+
+  useEffect(() => {
+    if (rows.length === 0) {
+      setRows(dataObj);
+    }
+  }, []);
+
   const [dataLength, setDataLength] = useState(dataObj.length * 2);
   let dataLengthStr = JSON.stringify(dataLength);
-  dataLengthStr = `new${dataLength}`;
-  let dataLengthVal = `new${dataLengthStr}_val`;
+  dataLengthStr = `new_${dataLength}`;
+  let dataLengthVal = `${dataLengthStr}_val`;
   // console.log("datalength", dataLength);
 
   let content;
 
   if (metadata && show) {
-    dataObj.map(([key, val]) => {
+    dataObj.map(([key, val], index) => {
       // console.log(`${key}:${val}`);
-      initialValues[`cur${key}`] = key;
-      initialValues[`cur${key}` + "_val"] = val;
+
+      initialValues[`${index}`] = {
+        key: key,
+        val: val,
+      };
+      // initialValues[`${index}`][`${val}`] = val;
     });
+    // console.log("initialValues: ", initialValues);
+    // initialValues = Object.entries(initialValues);
+    // console.log("initialValues: ", initialValues);
+    initialValues = { metadata: initialValues };
     console.log("initialValues: ", initialValues);
+
     content = (
       <>
         <Formik
           initialValues={initialValues}
           // validationSchema={validationSchema}
+          enableReinitialize={true}
           onSubmit={(values, submitProps) => {
             setTimeout(() => {
               let submit = {};
               console.log("values: ", values);
-              const valuesObj = Object.entries(values);
+              const valuesObj = values.metadata;
+              // const valuesObj = Object.entries(values.metadata);
               console.log("valuesObj", valuesObj);
               const valuesLength = valuesObj.length;
-              console.log("valuesObj", valuesLength);
+              console.log("valuesObj length", valuesLength);
 
-              for (let i = 0; i < valuesLength; i += 2) {
-                const key = valuesObj[i][1];
-                const val = valuesObj[i + 1][1];
+              for (let i = 0; i < valuesLength; i++) {
+                const key = valuesObj[i]["key"];
+                const val = valuesObj[i]["val"];
                 console.log("key", key);
                 console.log("val", val);
                 submit[key] = val;
@@ -61,101 +83,64 @@ const Metadata = (props) => {
             }, 1000);
           }}
         >
-          {({
-            handleSubmit,
-            handleChange,
-            handleBlur,
-            // setValues,
-            values,
-            isSubmitting,
-            isValid,
-          }) => (
+          {({ handleSubmit, isSubmitting, isValid, values }) => (
             <div className={classes.Form}>
-              <form
-                onSubmit={handleSubmit}
-                method="post"
-                encType="multipart/form-data"
-              >
-                {dataObj.map(([key, i]) => {
-                  console.log("index = ", i);
+              <FieldArray
+                name="metadata"
+                render={({ remove }) => {
+                  console.log("values = ", values);
                   return (
-                    <div className={classes.row} key={`cur${key}`}>
-                      <input
-                        className={[classes.key, classes.input].join(" ")}
-                        name={`cur${key}`}
-                        placeholder="key"
-                        type="string"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values[`cur${key}`]}
-                      />
-                      <input
-                        className={[classes.value, classes.input].join(" ")}
-                        name={`cur${key}_val`}
-                        placeholder="value"
-                        type="string"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values[`cur${key}_val`]}
-                      />
-                      <span
-                        onClick={() => {
-                          console.log(i);
-                          const index = rows.indexOf(i);
-                          if (index > -1) {
-                            // only splice array when item is found
-                            rows.splice(index, 1); // 2nd parameter means remove one item only
-                          }
-                        }}
-                        className={[classes.delete, classes.input].join(" ")}
-                      >
-                        X
-                      </span>
-                    </div>
-                  );
-                })}
+                    <Form>
+                      {rows.map((item, index) => {
+                        // console.log("dataObj = ", dataObj);
+                        // console.log("index = ", index);
 
-                {rows.map((el) => {
-                  return el;
-                })}
-              </form>
+                        return (
+                          <div className={classes.row} key={index}>
+                            <Field
+                              className={[classes.key, classes.input].join(" ")}
+                              name={`metadata.${index}.key`}
+                              placeholder="key"
+                            />
+                            <Field
+                              className={[classes.value, classes.input].join(
+                                " "
+                              )}
+                              name={`metadata.${index}.val`}
+                              placeholder="value"
+                            />
+                            <div
+                              onClick={() => {
+                                console.log("delete", index);
+                                remove(index);
+                                if (index > -1) {
+                                  // only splice array when item is found
+                                  console.log("delete row", rows);
+                                  const newRows = [...rows];
+                                  const update = newRows.filter(
+                                    (items, i) => i != index
+                                  );
+                                  setRows(update); // 2nd parameter means remove one item only
+                                }
+                              }}
+                              className={[classes.delete, classes.input].join(
+                                " "
+                              )}
+                            >
+                              X
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </Form>
+                  );
+                }}
+              />
               <div className={classes.SubmitBar}>
                 <div>
                   <Button
                     onClick={() => {
-                      rows.push(
-                        <div className={classes.row}>
-                          <input
-                            className={[classes.key, classes.input].join(" ")}
-                            name={dataLengthStr}
-                            placeholder="key"
-                            type="string"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values[dataLengthStr]}
-                          />
-                          <input
-                            className={[classes.value, classes.input].join(" ")}
-                            name={dataLengthVal}
-                            placeholder="value"
-                            type="string"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values[dataLengthVal]}
-                          />
-                          <span
-                            onClick={() => {}}
-                            className={[classes.delete, classes.input].join(
-                              " "
-                            )}
-                          >
-                            X
-                          </span>
-                        </div>
-                      );
-
-                      // setValues({ ...values });
-                      // setRows(rows);
+                      rows.push([dataLengthStr, dataLengthVal]);
                       setDataLength(dataLength + 2);
                     }}
                     type="rounded"
@@ -193,9 +178,9 @@ const Metadata = (props) => {
     // console.log("metadata length", length);
 
     content = dataObj.map(([key, value]) => {
-      console.log(dataObj);
-      console.log("key", key);
-      console.log("val", value);
+      // console.log(dataObj);
+      // console.log("key", key);
+      // console.log("val", value);
       return (
         <div className={classes.row} key={key}>
           <div className={[classes.key, classes.inputFake].join(" ")}>
@@ -220,7 +205,7 @@ const Metadata = (props) => {
           <Button
             type="rounded"
             onClick={() => {
-              setRows([]);
+              setRows(dataObj);
               setShow(!show);
             }}
           >

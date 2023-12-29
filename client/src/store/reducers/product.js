@@ -361,6 +361,7 @@ const reducer = (state = initialState, action) => {
       return addInternalProductFail(state, action);
     case actionTypes.ADD_INTERNAL_PRODUCT_START:
       return addInternalProductStart(state, action);
+
     // product update
     case actionTypes.UPDATE_INTERNAL_PRODUCT_SUCCESS:
       return updateInternalProductSuccess(state, action);

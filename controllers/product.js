@@ -8,7 +8,7 @@ const crud = require("./crud");
 exports.getProducts = crud.getAll(Product);
 exports.getProduct = crud.getOne(Product);
 // exports.createProduct = crud.createOne(Product);
-exports.updateProduct = crud.updateOne(Product);
+// exports.updateProduct = crud.updateOne(Product);
 exports.deleteProduct = crud.deleteOne(Product);
 
 exports.archiveProduct = catchAsync(async (req, res, next) => {
@@ -281,8 +281,8 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
-  console.log("body: ", req.body);
-  console.log("metadata: ", req.body.metadata);
+  // console.log("body: ", req.body);
+  // console.log("metadata: ", req.body.metadata);
   // CREATE A PRODUCT OBJECT
   const productObj = {
     name: req.body.name,
@@ -307,26 +307,34 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 
   let o = removeEmpty(productObj);
 
-  console.log("update object", productObj);
-  console.log("update o", o);
+  // console.log("update object", productObj);
+  console.log("updateProduct values", o);
   try {
-    const product = await Product.findOneAndUpdate(req.params.id, o);
+    const product = await Product.updateOne({ _id: req.params.id }, o);
+    // res.status(204).json({
+    //   status: "success",
+    //   data: {
+    //     data: product,
+    //   },
+    // });
   } catch (err) {
     return next(new AppError(err.message, err.statusCode, err.type));
   }
 
+  let findProduct;
   try {
-    const product = await Product.findById(req.params.id);
-    // console.log("stripeProduct ", product);
-    res.status(200).json({
-      status: "success",
-      data: {
-        data: product,
-      },
-    });
+    findProduct = await Product.findById({ _id: req.params.id });
+    console.log("product ", findProduct.metadata);
   } catch (err) {
     return next(new AppError(err.message, err.statusCode, err.type));
   }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: findProduct,
+    },
+  });
 });
 
 // exports.deleteProduct = catchAsync(async (req, res, next) => {

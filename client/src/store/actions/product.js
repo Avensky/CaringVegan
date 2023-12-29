@@ -185,7 +185,7 @@ export const updateInternalProduct = (values, id) => {
     axios
       .patch(`/api/v1/products/${id}`, values)
       .then((result) => {
-        // console.log("actions updateInternalProduct ", result.data);
+        console.log("actions updateInternalProduct ", result.data.data);
         const data = result.data.data;
         dispatch(updateInternalProductSuccess(data));
       })
