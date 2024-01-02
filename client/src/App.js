@@ -20,6 +20,8 @@ import {
   StripeCatalog,
 } from "./pages";
 import UpdateProductSidebar from "./components/Sidebar/UpdateProduct";
+// import UpdatePriceSidebar from "./components/Sidebar/UpdatePrice";
+import AddPriceSidebar from "./components/Sidebar/AddPrice";
 import AddProductSidebar from "./components/Sidebar/AddProduct";
 
 const App = (props) => {
@@ -77,7 +79,7 @@ const App = (props) => {
   let style;
   props.disableScroll ? (style = "disableScroll") : null;
 
-  let sidebar;
+  let sidebar, showAddPriceSidebar, showUpdateProductSidebar;
   if (props.sidebar == "addProduct") {
     sidebar = (
       <AddProductSidebar
@@ -95,13 +97,51 @@ const App = (props) => {
       />
     );
   }
-  if (props.sidebar == "updateProduct" && props.product.name) {
-    sidebar = (
+
+  if (props.showUpdateProductSidebar && props.product.name) {
+    showUpdateProductSidebar = (
       <UpdateProductSidebar
-        show={props.show}
-        sidebar={props.sidebar}
-        closed={() => props.setShow(false)}
-        clicked={() => props.setShow(!props.show, props.sidebar)}
+        show={props.showUpdateProductSidebar}
+        closed={() => props.setShowUpdateProductSidebar(false)}
+        clicked={() =>
+          props.setShowUpdateProductSidebar(!props.showUpdateProductSidebar)
+        }
+        setShowAddPriceSidebar={props.setShowAddPriceSidebar}
+        addProduct={props.addProduct}
+        updateProduct={props.updateProduct}
+        getProducts={props.getProducts}
+        product={props.product}
+        // products={props.products}
+        page={props.page}
+        limit={props.limit}
+      />
+    );
+  }
+  // if (props.sidebar == "updatePrice" && props.product.name) {
+  //   sidebar = (
+  //     <UpdatePriceSidebar
+  //       show={props.show}
+  //       sidebar={props.sidebar}
+  //       closed={() => props.setShow(false)}
+  //       clicked={() => props.setShow(!props.show, props.sidebar)}
+  //       setSidebar={props.setShow}
+  //       addProduct={props.addProduct}
+  //       updateProduct={props.updateProduct}
+  //       getProducts={props.getProducts}
+  //       product={props.product}
+  //       // products={props.products}
+  //       page={props.page}
+  //       limit={props.limit}
+  //     />
+  //   );
+  // }
+  if (props.showAddPriceSidebar && props.product.name) {
+    showAddPriceSidebar = (
+      <AddPriceSidebar
+        show={props.showAddPriceSidebar}
+        closed={() => props.setShowAddPriceSidebar(false)}
+        clicked={() => props.setShowAddPriceSidebar(!props.showAddPriceSidebar)}
+        // setSidebar={props.setShow}
         addProduct={props.addProduct}
         updateProduct={props.updateProduct}
         getProducts={props.getProducts}
@@ -117,6 +157,8 @@ const App = (props) => {
     <div className="app">
       <BrowserRouter>
         {sidebar}
+        {showAddPriceSidebar}
+        {showUpdateProductSidebar}
         <Navigation
           totalItems={props.totalItems}
           cart={props.cart}
@@ -146,6 +188,8 @@ const mapStateToProps = (state) => {
     totalItems: state.cart.totalItems,
     total: state.cart.total,
     show: state.utility.show,
+    showUpdateProductSidebar: state.utility.showUpdateProductSidebar,
+    showAddPriceSidebar: state.utility.showAddPriceSidebar,
     sidebar: state.utility.sidebar,
     disableScroll: state.utility.disableScroll,
     page: state.product.page,
@@ -160,6 +204,10 @@ const mapDispatchToProps = (dispatch) => {
     checkout: (cart, user) => dispatch(actions.checkout(cart, user)),
     loadCart: () => dispatch(actions.loadCart()),
     setShow: (bool, sidebar) => dispatch(actions.showSidebar(bool, sidebar)),
+    setShowAddPriceSidebar: (bool) =>
+      dispatch(actions.showAddPriceSidebar(bool)),
+    setShowUpdateProductSidebar: (bool) =>
+      dispatch(actions.showUpdateProductSidebar(bool)),
     addProduct: (values) => dispatch(actions.addInternalProduct(values)),
     updateProduct: (values, id) =>
       dispatch(actions.updateInternalProduct(values, id)),
@@ -176,8 +224,12 @@ App.propTypes = {
   checkout: PropTypes.func,
   loadCart: PropTypes.func,
   show: PropTypes.bool,
-  disableScroll: PropTypes.bool,
   setShow: PropTypes.func,
+  showUpdateProductSidebar: PropTypes.bool,
+  setShowUpdateProductSidebar: PropTypes.func,
+  showAddPriceSidebar: PropTypes.bool,
+  setShowAddPriceSidebar: PropTypes.func,
+  disableScroll: PropTypes.bool,
   sidebar: PropTypes.string,
   product: PropTypes.object,
   products: PropTypes.array,

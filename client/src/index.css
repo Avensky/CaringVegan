@@ -1,11 +1,54 @@
-body {
+* {
   margin: 0;
   font-family: Lato, Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 #root {
   min-height: 100vh;
+}
+
+/* Text */
+.title {
+  text-transform: uppercase;
+}
+.subTitle {
+  text-transform: uppercase;
+}
+.heading {
+  font-size: 1.4em;
+  font-weight: 700;
+}
+.subHeading {
+  font-size: 1.2em;
+}
+.body {
+  font-size: 1em;
+}
+.bold {
+  font-weight: 600;
+}
+
+/* Colors */
+.primaryColor {
+  color: black;
+}
+.primaryColor200 {
+  color: grey;
+}
+.secondaryColor {
+  color: rgb(64, 0, 128);
+}
+.terciaryColor {
+}
+
+/* Input */
+.input {
+  width: 100%;
+  padding: 4px 6px;
+  margin: 0.5vh 0;
+  border-radius: 4px;
+  /* border-color: grey; */
 }

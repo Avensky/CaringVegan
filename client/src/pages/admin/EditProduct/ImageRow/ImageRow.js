@@ -34,7 +34,7 @@ const ImageRow = (props) => {
       <Button
         type="rounded"
         onClick={() => {
-          props.showSidebar(true, "updateProduct");
+          props.showSidebar(true);
         }}
         style="edit"
       >

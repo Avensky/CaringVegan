@@ -9,6 +9,9 @@ const initialState = {
   show: false,
   sidebar: "",
   disableScroll: false,
+  disableScrollUpdateProduct: false,
+  showAddPriceSidebar: false,
+  showUpdateProductSidebar: false,
 };
 
 // =============================================================================
@@ -24,14 +27,35 @@ const resize = (state, action) => {
 const showSidebar = (state, action) => {
   const show = action.show;
   const sidebar = action.sidebar;
-  console.log("show", show);
-  console.log("sidebar", sidebar);
   return updateObject(state, {
     show: show,
     sidebar: sidebar,
     disableScroll: show,
   });
-}; // track screen width
+};
+
+// =============================================================================
+// showUpdateProduct ======================================================================
+// =============================================================================
+const showUpdateProductSidebar = (state, action) => {
+  const show = action.show;
+  return updateObject(state, {
+    showUpdateProductSidebar: show,
+    disableScroll: show,
+  });
+};
+
+// =============================================================================
+// showUpdateProduct ======================================================================
+// =============================================================================
+const showAddPriceSidebar = (state, action) => {
+  const show = action.show;
+  return updateObject(state, {
+    showAddPriceSidebar: show,
+    // disableScroll: show,
+    disableScrollUpdateProduct: show,
+  });
+};
 
 // =============================================================================
 // REDUCER =====================================================================
@@ -42,6 +66,10 @@ const reducer = (state = initialState, action) => {
       return resize(state, action);
     case actionTypes.SHOW_SIDEBAR:
       return showSidebar(state, action);
+    case actionTypes.SHOW_UPDATE_PRODUCT_SIDEBAR:
+      return showUpdateProductSidebar(state, action);
+    case actionTypes.SHOW_ADD_PRICE_SIDEBAR:
+      return showAddPriceSidebar(state, action);
     default:
       return state;
   }

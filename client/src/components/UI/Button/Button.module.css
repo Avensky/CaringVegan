@@ -49,12 +49,9 @@
   margin: 2px 0.5vw;
 }
 .compact {
-  /* border: 1px solid black; */
-  /* width: fit-content; */
+  height: fit-content;
   border-radius: 5px;
   padding: 1px 3px;
-  /* font-weight: 600; */
-  /* font-size: 16px; */
   margin: 2px 2px;
 }
 
@@ -109,6 +106,25 @@
   border-color: #335306;
   color: #335306;
   background-color: white;
+}
+
+.wide {
+  width: 100%;
+}
+
+.default {
+  width: fit-content;
+  font-weight: 600;
+  background-color: rgb(199, 245, 245);
+  border-color: rgb(102, 241, 241);
+  color: rgb(26, 62, 62);
+}
+.grey {
+  width: fit-content;
+  font-weight: 600;
+  background-color: rgb(235, 235, 235);
+  border-color: rgb(171, 170, 170);
+  color: rgb(55, 61, 61);
 }
 
 @keyframes button {

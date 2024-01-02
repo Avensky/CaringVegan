@@ -94,8 +94,7 @@ const mapDispatchToProps = (dispatch) => {
     unarchive: (id) => dispatch(actions.unarchiveInternalProduct(id)),
     delete: (id) => dispatch(actions.deleteInternalProduct(id)),
     migrate: (item) => dispatch(actions.migrateStripeProduct(item)),
-    showSidebar: (bool, sidebar) =>
-      dispatch(actions.showSidebar(bool, sidebar)),
+    showSidebar: (bool) => dispatch(actions.showUpdateProductSidebar(bool)),
   };
 };
 

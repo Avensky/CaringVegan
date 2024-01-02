@@ -69,15 +69,17 @@ const Details = (props) => {
         {props.item.features.length > 0 ? (
           <div className={classes.row}>
             <div className={classes.label}>Features List</div>
-            {props.item.features.map((feature) => {
-              // console.log("feature: ", feature);
-              const feat = (
-                <div key={Math.random()} className={classes.input}>
-                  {feature.name}
-                </div>
-              );
-              return feat;
-            })}
+            <div className={classes.input}>
+              {props.item.features.map((feature) => {
+                // console.log("feature: ", feature);
+                const feat = (
+                  <div key={Math.random()} className={classes.features}>
+                    {feature.name}
+                  </div>
+                );
+                return feat;
+              })}
+            </div>
           </div>
         ) : null}
       </div>

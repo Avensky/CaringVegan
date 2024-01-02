@@ -52,7 +52,7 @@ const UpdateProduct = (props) => {
   console.log("ADD PRODUCT PARAMS", params);
   return (
     <>
-      <Backdrop show={props.show} clicked={closeHandler} zInded="200" />
+      <Backdrop show={props.show} clicked={closeHandler} zIndex="200" />
       <div className={styles}>
         <Modal
           show={showCancelModal}

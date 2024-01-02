@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 .Wrapper {
   position: fixed;
   top: 0;
@@ -11,7 +13,7 @@
   z-index: 400;
   opacity: 1;
   transition: transform 0.3s ease-out;
-  box-sizing: border-box;
+  overflow-y: scroll;
 }
 
 .Open {
@@ -27,7 +29,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 3vh 2vw;
-  /* border-bottom: 1px solid grey; */
 }
 .title {
   font-size: 1.4em;
@@ -35,7 +36,6 @@
 }
 .close {
   font-size: 1.2em;
-  /* display: none; */
 }
 
 .content {
@@ -56,7 +56,6 @@
   resize: none;
   border: 1px solid black;
   padding: 4px;
-  box-sizing: border-box;
 }
 
 .inputWrapper {
@@ -72,10 +71,6 @@
   height: 16px;
   color: rgb(155, 2, 2);
 }
-
-/***************************
-   *
-   ***************************/
 
 .dollar {
   padding-right: 1vw;
@@ -98,4 +93,143 @@
 
 .copy {
   /* display: flex; */
+}
+
+.pricingContent {
+  display: flex;
+  justify-content: space-between;
+  margin: 1vh 0;
+}
+
+.price {
+  min-width: 100px;
+}
+.propertiesWrapper {
+  display: flex;
+  width: fit-content;
+}
+
+.properties {
+  display: flex;
+  /* flex-direction: column */
+}
+
+.edit {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageWrapper {
+  background-color: rgb(227, 227, 227);
+  margin: 1vh 0;
+}
+.image {
+  width: 40%;
+  margin: 0 auto;
+}
+
+.split {
+  display: flex;
+  justify-content: space-between;
+}
+
+.paymentWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .paymentWrapper label, */
+.paymentWrapper input[type="radio"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.text {
+  color: gray;
+}
+
+.paymentWrapper input[type="radio"] + label {
+  cursor: pointer;
+  border: 2px solid grey;
+  width: 100%;
+  border-radius: 7px;
+  margin: 2px;
+  padding: 10px;
+  -webkit-user-select: none;
+  user-select: none;
+  text-align: center;
+}
+
+.paymentWrapper input[type="radio"]:hover + label {
+  background-color: rgba(230, 230, 230, 0.2);
+}
+
+.paymentWrapper input[type="radio"]:hover + label,
+.paymentWrapper input[type="radio"]:focus + label,
+.paymentWrapper input[type="radio"]:checked + label {
+  border-color: rgb(64, 0, 128);
+  color: rgb(64, 0, 128);
+  transform: scale(1);
+  box-shadow: 0px 0px 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.box {
+  background-color: rgb(234, 244, 248);
+  padding: 25px;
+  border-radius: 14px;
+}
+
+.select {
+  width: 100%;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.option {
+  display: block;
+}
+
+.zIndex300 {
+  z-index: 300;
+  width: 90%;
+}
+.zIndex400 {
+  z-index: 400;
+  width: 85%;
+}
+.zIndex500 {
+  z-index: 500;
+  width: 80%;
+}
+
+.metadataRow {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.key {
+  width: 40%;
+}
+
+.value {
+  width: 65%;
+}
+
+.delete {
+  width: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }

@@ -1,6 +1,7 @@
 .app {
   min-height: 100vh;
 }
+
 .container {
   /* padding-top: 51px; */
   display: flex;
@@ -11,7 +12,7 @@
 
 .disableScroll {
   position: fixed;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 }
 
 .page-wrapper {

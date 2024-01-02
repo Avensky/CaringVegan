@@ -16,7 +16,7 @@ const Metadata = (props) => {
   // const rows = [];
 
   const [rows, setRows] = useState(dataObj);
-  console.log("Rows = ", rows);
+  // console.log("Rows = ", rows);
 
   useEffect(() => {
     if (rows.length === 0) {
@@ -47,7 +47,6 @@ const Metadata = (props) => {
     // console.log("initialValues: ", initialValues);
     initialValues = { metadata: initialValues };
     console.log("initialValues: ", initialValues);
-
     content = (
       <>
         <Formik
@@ -203,6 +202,8 @@ const Metadata = (props) => {
         <div className={classes.left}>Metadata</div>
         <div className={classes.right}>
           <Button
+            disabled={props.product.active ? null : true}
+            style={props.product.active ? null : "Disabled"}
             type="rounded"
             onClick={() => {
               setRows(dataObj);

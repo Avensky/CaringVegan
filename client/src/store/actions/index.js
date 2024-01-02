@@ -29,6 +29,11 @@ export {
   setStripeActive,
 } from "./stripe";
 
-export { resize, showSidebar } from "./utility";
+export {
+  resize,
+  showSidebar,
+  showAddPriceSidebar,
+  showUpdateProductSidebar,
+} from "./utility";
 
 export { fetchOrders, fetchOrdersStart } from "./orders";

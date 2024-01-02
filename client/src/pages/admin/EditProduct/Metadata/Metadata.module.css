@@ -37,7 +37,7 @@
   margin: 0 0 2vh 0;
 }
 
-input {
+.Metadata input {
   margin: 0.5vh 0;
   resize: none;
   border: 1px solid black;
