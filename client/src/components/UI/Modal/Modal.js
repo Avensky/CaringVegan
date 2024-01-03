@@ -1,14 +1,16 @@
 import React from "react";
-
 import classes from "./Modal.module.css";
-import Auxiliary from "../../../hoc/Auxiliary";
 import Backdrop from "../Backdrop/Backdrop";
 import PropTypes from "prop-types";
 
 const Modal = (props) => {
   return (
-    <Auxiliary>
-      <Backdrop show={props.show} clicked={props.modalClosed} />
+    <div className={classes.modalWrapper}>
+      <Backdrop
+        show={props.show}
+        clicked={props.modalClosed}
+        zIndex={props.zIndex}
+      />
       <div
         className={classes.Modal}
         style={{
@@ -33,7 +35,7 @@ const Modal = (props) => {
           </div>
         </div>
       </div>
-    </Auxiliary>
+    </div>
   );
 };
 
@@ -48,4 +50,5 @@ Modal.propTypes = {
   setShowModal: PropTypes.func,
   show: PropTypes.bool,
   modalClosed: PropTypes.func,
+  zIndex: PropTypes.string,
 };

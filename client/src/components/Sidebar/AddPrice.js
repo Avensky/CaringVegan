@@ -55,18 +55,18 @@ const Sidebar = (props) => {
 
   return (
     <>
-      <Backdrop show={props.show} clicked={closeHandler} zIndex="350" />
+      <Backdrop show={props.show} clicked={closeHandler} zIndex="400" />
+      <Modal
+        show={showCancelModal}
+        modalClosed={() => setShowCancelModal()}
+        title="Close Sidebar"
+        message="All progress will be lost, do you wish to continue?"
+        cancel="Cancel"
+        continue="Okay"
+        continueHandler={() => continueHandler()}
+        zIndex="450"
+      />
       <div className={styles}>
-        <Modal
-          show={showCancelModal}
-          modalClosed={() => setShowCancelModal()}
-          title="Close Sidebar"
-          message="All progress will be lost, do you wish to continue?"
-          cancel="Cancel"
-          continue="Okay"
-          continueHandler={() => continueHandler()}
-        />
-
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -317,7 +317,7 @@ const Sidebar = (props) => {
               </div>
               <div className={classes.submit}>
                 <Button onClick={closeHandler} type="rounded">
-                  Close
+                  Back
                 </Button>
                 <Button
                   onClick={handleSubmit}

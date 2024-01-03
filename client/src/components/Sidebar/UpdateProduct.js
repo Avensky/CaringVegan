@@ -126,17 +126,17 @@ const Sidebar = (props) => {
   return (
     <>
       <Backdrop show={props.show} clicked={closeHandler} zIndex="200" />
+      <Modal
+        show={showCancelModal}
+        modalClosed={() => setShowCancelModal()}
+        title="Close Sidebar"
+        message="All progress will be lost, do you wish to continue?"
+        cancel="Cancel"
+        continue="Okay"
+        continueHandler={() => continueHandler()}
+        zIndex="350"
+      />
       <div className={styles}>
-        <Modal
-          show={showCancelModal}
-          modalClosed={() => setShowCancelModal()}
-          title="Close Sidebar"
-          message="All progress will be lost, do you wish to continue?"
-          cancel="Cancel"
-          continue="Okay"
-          continueHandler={() => continueHandler()}
-        />
-
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
