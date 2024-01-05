@@ -323,9 +323,9 @@ const getFeaturedFail = (state) => {
 const getFeaturedSuccess = (state, action) => {
   const featured = action.featured;
   console.log("featuredsuccess: ", featured);
-  console.log("featuredsuccess: ", featured.data);
+  // console.log("featuredsuccess: ", featured.data);
   return updateObject(state, {
-    featured: featured.data,
+    featured: featured,
     featured_loading: false,
     featured_has_more: action.featured.has_more,
     featured_next_page: action.featured.next_page,

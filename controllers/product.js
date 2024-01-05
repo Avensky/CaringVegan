@@ -221,7 +221,7 @@ exports.migrateProduct = catchAsync(async (req, res, next) => {
 exports.getFeatured = catchAsync(async (req, res, next) => {
   try {
     const featured = await Product.find({
-      query: "metadata['featured']:'true'",
+      "metadata.featured": { $eq: "true" },
     });
     console.log("featured: ", featured);
     res.status(200).json({

@@ -38,7 +38,10 @@ const Catalog = (props) => {
         message="Exporting these products will update the Stripe Database, do you wish to Continue?"
         cancel="Cancel"
         continue="Export Products"
-        continueHandler={() => props.migrateAll(items)}
+        continueHandler={() => {
+          setShowModal(false);
+          props.migrateAll(items);
+        }}
       />
       <div className={classes.Products}>
         <div className="page-title">Product Catalog</div>

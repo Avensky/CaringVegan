@@ -1,14 +1,9 @@
 .Item {
-  width: 100%;
-  margin: 4vh 0;
-  padding: 8vh 8vw;
-  /* display: flex;     */
-  /* flex-direction: column; */
-  /* text-align: center; */
-  /* justify-content: center; */
+  width: 49%;
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
   text-decoration: none;
-  height: fit-content;
   color: black;
 }
 
@@ -31,12 +26,14 @@
 }
 
 .Thumbnail {
-  height: 40vh;
+  /* height: 40vh; */
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
   /* padding: 1vh 1vw; */
+  height: 150px;
 }
 .Thumbnail a {
   display: flex;
@@ -45,9 +42,8 @@
 }
 
 .Thumbnail img {
-  max-width: 100%;
-  width: max-content;
-  background-size: contain;
+  width: 100%;
+  background-size: cover;
   transition: transform 0.2s;
 }
 .Thumbnail img:hover {

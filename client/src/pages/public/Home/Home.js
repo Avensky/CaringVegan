@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import classes from "./Home.module.css";
 import * as actions from "../../../store/actions/index";
-import myImg from "../../../assets/images/home.jpg";
 import Item from "../../../components/Item/Item";
 // import { NavLink } from "react-router-dom";
 import Spinner from "../../../components/UI/Spinner/Spinner";
@@ -10,6 +9,17 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 
 const Home = (props) => {
+  const myImg =
+    "https://caring-vegan.s3.us-west-2.amazonaws.com/assets/StockSnap_YWHUFD7JNJ.jpg";
+  const forPets =
+    "https://caring-vegan.s3.us-west-2.amazonaws.com/assets/20240104_093118000_iOS.jpg";
+  const forHim =
+    "https://caring-vegan.s3.us-west-2.amazonaws.com/assets/20240104_092704000_iOS.jpg";
+  const forHer =
+    "https://caring-vegan.s3.us-west-2.amazonaws.com/assets/20240104_093723195_iOS.jpg";
+  const stickers =
+    "https://caring-vegan.s3.us-west-2.amazonaws.com/assets/StockSnap_YWHUFD7JNJ.jpg";
+
   const [items, setItems] = useState(null);
   // console.log("Items : ", items);
   // console.log("APP props.featured : ", props.featured);
@@ -65,11 +75,51 @@ const Home = (props) => {
 
   return (
     <div className={[classes.Home, "page-wrapper"].join(" ")}>
-      <NavLink to="/shop" className={classes.headerWrapper}>
-        <img src={myImg} />
+      <NavLink to="" className={classes.headerWrapper}>
+        <div className="inputWrapper">
+          <input className="inputSearch" placeholder="Search CaringVegan" />
+        </div>
+        <div className={classes.imageBackgroundWrapper}>
+          <img src={myImg} />
+        </div>
         <div className={classes.header}>
           <div className={classes.title}>
-            I <span className="fa fa-heart" /> MY PUG
+            <span className="fa fa-heart" />
+            CaringVegan
+          </div>
+        </div>
+        <div className={classes.categories}>
+          <div className={classes.category}>
+            <div className={[classes.categoryTitle, "terciaryColor"].join(" ")}>
+              For Him
+            </div>
+            <div className={classes.imageWrapper}>
+              <img src={forHim} />
+            </div>
+          </div>
+          <div className={classes.category}>
+            <div className={[classes.categoryTitle, "terciaryColor"].join(" ")}>
+              For Her
+            </div>
+            <div className={classes.imageWrapper}>
+              <img src={forHer} />
+            </div>
+          </div>
+          <div className={classes.category}>
+            <div className={[classes.categoryTitle, "terciaryColor"].join(" ")}>
+              Stickers
+            </div>
+            <div className={classes.imageWrapper}>
+              <img src={stickers} />
+            </div>
+          </div>
+          <div className={classes.category}>
+            <div className={[classes.categoryTitle, "terciaryColor"].join(" ")}>
+              For Pets
+            </div>
+            <div className={classes.imageWrapper}>
+              <img src={forPets} />
+            </div>
           </div>
         </div>
       </NavLink>
@@ -77,18 +127,17 @@ const Home = (props) => {
       <div className={classes.statement}>
         Together, we make a better world. <span className="fa fa-heart" />
       </div>
-      <div className={classes.Products}>
-        <div className="page-title">Featured</div>
-        {shop}
-      </div>
+
+      <div className="page-title">Featured</div>
+      <div className={classes.products}>{shop}</div>
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    total: state.stripe.total,
-    featured: state.stripe.featured,
+    total: state.product.total,
+    featured: state.product.featured,
     isAuth: state.auth.payload,
   };
 };

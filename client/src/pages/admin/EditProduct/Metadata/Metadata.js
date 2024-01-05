@@ -60,7 +60,7 @@ const Metadata = (props) => {
               const valuesObj = values.metadata;
               // const valuesObj = Object.entries(values.metadata);
               console.log("valuesObj", valuesObj);
-              const valuesLength = valuesObj.length;
+              const valuesLength = Object.keys(valuesObj).length;
               console.log("valuesObj length", valuesLength);
 
               for (let i = 0; i < valuesLength; i++) {

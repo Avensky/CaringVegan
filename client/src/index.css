@@ -30,6 +30,31 @@
 .bold {
   font-weight: 600;
 }
+/* Inputs */
+
+.inputWrapper {
+  padding: 0;
+}
+
+.input {
+  width: 100%;
+  padding: 4px 6px;
+  margin: 0.5vh 0;
+  border-radius: 4px;
+  /* border-color: grey; */
+}
+
+.inputSearch {
+  margin: 1vh 2%;
+  display: inline-block;
+  position: absolute;
+  width: 96%;
+  padding: 8px;
+  /* top: 51px; */
+  top: 0;
+  z-index: 50;
+  box-sizing: border-box;
+}
 
 /* Colors */
 .primaryColor {
@@ -42,13 +67,5 @@
   color: rgb(64, 0, 128);
 }
 .terciaryColor {
-}
-
-/* Input */
-.input {
-  width: 100%;
-  padding: 4px 6px;
-  margin: 0.5vh 0;
-  border-radius: 4px;
-  /* border-color: grey; */
+  color: white;
 }

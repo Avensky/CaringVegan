@@ -1,83 +1,90 @@
 .Home {
+  overflow: hidden;
 }
 
 .headerWrapper {
   overflow: hidden;
-  position: relative;
-  top: 0;
   width: 100%;
-  /* z-index: -1; */
-  display: flex;
+  height: 25vh;
+  position: relative;
 }
 
 .headerTitle {
-  display: flex;
-  align-items: center;
-  position: relative;
 }
 
-.headerWrapper img {
+.imageBackgroundWrapper {
+}
+.imageBackgroundWrapper img {
   width: 100%;
+  object-fit: cover;
+}
+
+.categories {
+  width: 96%;
+  margin: 0 2% 2%;
+  height: 100px;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  gap: 2%;
+}
+
+.category {
+  background-color: black;
+  height: 100%;
+  width: 25%;
+  border: 1vw solid black;
+  overflow: hidden;
+}
+
+.imageWrapper {
+  display: flex;
+  align-items: center;
+  height: 80%;
+  overflow: hidden;
+}
+.category img {
+  width: 100%;
+}
+
+.categoryTitle {
+  height: 20%;
+  font-size: 1rem;
+  background-color: rgb(33, 17, 17);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  z-index: 50;
 }
 
 /* Centered text */
 .header {
   color: rgb(255, 255, 255);
-  font-size: 3.5rem;
+  font-size: 1.5rem;
   font-weight: 900;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 30%;
+  right: 2%;
 }
 
 .title {
-  /* text-align: center;
-  font-size: 18px; */
   text-shadow: -3px 3px 1px rgba(0, 0, 0, 1), -10px 2px 12px rgba(68, 0, 0, 1);
 }
 
-.shop a b:hover {
-  /* border: 2px solid grey; */
-}
-
-.centered a {
-  /* text-align: center; */
-}
-.shop a b {
-  /* background-color: rgb(255, 255, 255);
-  font-size: 16px;
-  color: rgb(4, 0, 10);
-  padding: 1vh 1vw;
-  margin: 0vh 0vw;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 2px solid white; */
-}
-
-.shop {
-  /* text-align: center;
-  margin: 0vh 0vw 0; */
-}
-
-.PageWrapper {
-  /* min-height: auto; */
-}
-.description {
-  /* margin: 1vh 0;
-  font-size: 12px; */
-}
-
-.Products {
-  /* padding: 0vh 0vw; */
+.products {
+  /* margin: 0vh 2vw; */
   background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
 }
 
 .statement {
   text-align: center;
   background-color: aquamarine;
   /* margin: 0 0 3vh; */
-  padding: 3vh 0;
+  padding: 2vh 0;
   font-size: 16px;
 }
 
