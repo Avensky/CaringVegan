@@ -76,9 +76,9 @@ const Home = (props) => {
   return (
     <div className={[classes.Home, "page-wrapper"].join(" ")}>
       <NavLink to="" className={classes.headerWrapper}>
-        <div className="inputWrapper">
-          <input className="inputSearch" placeholder="Search CaringVegan" />
-        </div>
+        {/* <div className="inputWrapper"> */}
+        <input className="inputSearch" placeholder="Search CaringVegan" />
+        {/* </div> */}
         <div className={classes.imageBackgroundWrapper}>
           <img src={myImg} />
         </div>
