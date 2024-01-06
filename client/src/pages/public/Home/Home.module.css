@@ -54,21 +54,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 900;
-  z-index: 50;
+  font-weight: 600;
 }
 
-/* Centered text */
 .header {
+}
+
+.title {
   color: rgb(255, 255, 255);
   font-size: 1.5rem;
   font-weight: 900;
   position: absolute;
   top: 30%;
   right: 2%;
-}
-
-.title {
   text-shadow: -3px 3px 1px rgba(0, 0, 0, 1), -10px 2px 12px rgba(68, 0, 0, 1);
 }
 

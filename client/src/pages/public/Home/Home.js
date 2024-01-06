@@ -76,9 +76,9 @@ const Home = (props) => {
   return (
     <div className={[classes.Home, "page-wrapper"].join(" ")}>
       <NavLink to="" className={classes.headerWrapper}>
-        {/* <div className="inputWrapper"> */}
-        <input className="inputSearch" placeholder="Search CaringVegan" />
-        {/* </div> */}
+        <div className="inputWrapper">
+          <input className="inputSearch" placeholder="Search CaringVegan" />
+        </div>
         <div className={classes.imageBackgroundWrapper}>
           <img src={myImg} />
         </div>
@@ -88,37 +88,47 @@ const Home = (props) => {
             CaringVegan
           </div>
         </div>
-        <div className={classes.categories}>
-          <div className={classes.category}>
-            <div className={[classes.categoryTitle, "terciaryColor"].join(" ")}>
-              For Him
+        <div className={classes.categoryWrapper}>
+          <div className={classes.categories}>
+            <div className={classes.category}>
+              <div
+                className={[classes.categoryTitle, "terciaryColor"].join(" ")}
+              >
+                For Him
+              </div>
+              <div className={classes.imageWrapper}>
+                <img src={forHim} />
+              </div>
             </div>
-            <div className={classes.imageWrapper}>
-              <img src={forHim} />
+            <div className={classes.category}>
+              <div
+                className={[classes.categoryTitle, "terciaryColor"].join(" ")}
+              >
+                For Her
+              </div>
+              <div className={classes.imageWrapper}>
+                <img src={forHer} />
+              </div>
             </div>
-          </div>
-          <div className={classes.category}>
-            <div className={[classes.categoryTitle, "terciaryColor"].join(" ")}>
-              For Her
+            <div className={classes.category}>
+              <div
+                className={[classes.categoryTitle, "terciaryColor"].join(" ")}
+              >
+                Stickers
+              </div>
+              <div className={classes.imageWrapper}>
+                <img src={stickers} />
+              </div>
             </div>
-            <div className={classes.imageWrapper}>
-              <img src={forHer} />
-            </div>
-          </div>
-          <div className={classes.category}>
-            <div className={[classes.categoryTitle, "terciaryColor"].join(" ")}>
-              Stickers
-            </div>
-            <div className={classes.imageWrapper}>
-              <img src={stickers} />
-            </div>
-          </div>
-          <div className={classes.category}>
-            <div className={[classes.categoryTitle, "terciaryColor"].join(" ")}>
-              For Pets
-            </div>
-            <div className={classes.imageWrapper}>
-              <img src={forPets} />
+            <div className={classes.category}>
+              <div
+                className={[classes.categoryTitle, "terciaryColor"].join(" ")}
+              >
+                For Pets
+              </div>
+              <div className={classes.imageWrapper}>
+                <img src={forPets} />
+              </div>
             </div>
           </div>
         </div>
