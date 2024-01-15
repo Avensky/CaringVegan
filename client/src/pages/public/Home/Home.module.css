@@ -22,7 +22,7 @@
 .categories {
   width: 96%;
   margin: 0 2% 2%;
-  height: 100px;
+  height: 40%;
   position: absolute;
   bottom: 0;
   display: flex;
@@ -30,7 +30,7 @@
 }
 
 .category {
-  background-color: black;
+  background-color: rgb(33, 17, 17);
   height: 100%;
   width: 25%;
   border: 1vw solid black;
@@ -48,9 +48,11 @@
 }
 
 .categoryTitle {
+  padding: 0.5vh 0;
+  border-bottom: 1vw solid black;
   height: 20%;
   font-size: 1rem;
-  background-color: rgb(33, 17, 17);
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,6 +78,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2%;
+  padding: 0 2%;
 }
 
 .statement {

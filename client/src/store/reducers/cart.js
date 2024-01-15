@@ -8,7 +8,7 @@ import {
   getTotalPrice,
   getTotalItems,
   removeItem,
-  removeInternalItem,
+  // removeInternalItem,
   storeLocally,
   // getLocalStorage,
 } from "../../utility/utility";
@@ -57,7 +57,8 @@ const subQuantity = (state, action) => {
     cartItem.cartAmount -= 1;
     cart = updateArray(cart, cartItem);
   } else {
-    cart = removeInternalItem(cart, action.id);
+    cartItem.cartAmount = 0;
+    cart = removeItem(cart, action.id);
   }
 
   storeLocally("cart", cart);

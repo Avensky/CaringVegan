@@ -57,6 +57,7 @@ const App = (props) => {
       <Route path="/home" element={<Home />} />
       <Route path="/product/:id" element={<Product />} />
       <Route path="/shop" element={<Shop />} />
+      <Route path="/shop/:slug" element={<Shop />} />
       {/* <Route path="/connect" element={<Connect />} />
       <Route path="/shop/itemfull/:itemId" element={<ItemFull />} />*/}
       <Route path="/cart" element={<Cart />} />

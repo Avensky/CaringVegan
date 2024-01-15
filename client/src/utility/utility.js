@@ -19,10 +19,11 @@ export const formatRoute = (params) => {
     params.limit ||
     params.index ||
     params.starting_after ||
-    params.ending_before
+    params.ending_before ||
+    params.category
   ) {
     if (params.active != undefined) {
-      console.log("params.active != undefined", params.active);
+      // console.log("params.active != undefined", params.active);
       string = `?active=${params.active}`;
     }
     if (params.limit !== undefined) {

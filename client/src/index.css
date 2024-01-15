@@ -33,7 +33,9 @@
 /* Inputs */
 
 .inputWrapper {
+  position: relative;
   padding: 0;
+  /* top: 51px; */
 }
 
 .input {
@@ -46,11 +48,10 @@
 
 .inputSearch {
   margin: 1vh 2%;
-  display: inline-block;
+  /* display: inline-block; */
   position: absolute;
   width: 96%;
   padding: 8px;
-  /* top: 51px; */
   top: 0;
   z-index: 50;
   box-sizing: border-box;

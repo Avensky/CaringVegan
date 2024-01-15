@@ -26,7 +26,7 @@ const CatalogItem = (props) => {
 
   let edit = (
     <div className={classes.editWrapper}>
-      <Button editLink={props.editLink} type="compact" style="edit">
+      <Button to={props.to} type="compact" style="edit">
         Edit
       </Button>
       <Button type="compact" onClick={() => setShowArchiveModal(true)}>
@@ -97,7 +97,7 @@ const CatalogItem = (props) => {
       />
       <div className={classes.imageWrapper}>
         <NavLink
-          to={props.editLink}
+          to={props.to}
           // className={[classes.edit, classes.disabled].join(" ")}
         >
           <img
@@ -133,7 +133,7 @@ CatalogItem.propTypes = {
   created: PropTypes.any,
   updated: PropTypes.any,
   delete: PropTypes.func,
-  editLink: PropTypes.string,
+  to: PropTypes.string,
   archive: PropTypes.func,
   unarchive: PropTypes.func,
   type: PropTypes.string,

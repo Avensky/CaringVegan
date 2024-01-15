@@ -55,6 +55,15 @@
   margin: 2px 2px;
 }
 
+.category {
+  width: 150px;
+  border: 2px solid gray;
+  border-radius: 7px;
+  margin: 2px;
+  padding: 10px;
+  font-weight: 600;
+  /* user-select: none; */
+}
 .select {
   width: 100%;
   border: 2px solid gray;

@@ -23,8 +23,10 @@ const Navbar = (props) => {
         </FontAwesomeIcon>
       </div>
       <div className={classes.NavItems} onClick={props.closeCartbar}>
-        <NavLink to="/" exact="true" className={classes.LogoWrapper}>
+        <NavLink to="/" exact="true" className={classes.Logo}>
           <Logo height="60%" />
+        </NavLink>
+        <NavLink to="/shop" exact="true" className={classes.Shop}>
           <div className={classes.LogoText}>CaringVegan</div>
         </NavLink>
       </div>

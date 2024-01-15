@@ -26,7 +26,7 @@ const Button = (props) => {
       onClick={props.disabled ? () => {} : clicked}
       onAnimationEnd={() => setAnimation(false)}
     >
-      <Link to={props.editLink}>{props.children}</Link>
+      <Link to={props.to}>{props.children}</Link>
     </div>
   );
 };
@@ -39,7 +39,7 @@ Button.propTypes = {
   style: PropTypes.string,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
-  editLink: PropTypes.string,
+  to: PropTypes.string,
 };
 
 export default Button;

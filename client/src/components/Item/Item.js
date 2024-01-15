@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import classes from "./Item.module.css";
+import Button from "../UI/Button/Button";
 
 //{classes.Thumbnail}
 
@@ -58,21 +59,21 @@ const item = (props) => {
   //    </div>
 
   return (
-    <NavLink
-      to={props.link + "/" + props.id}
-      className={[classes.Item, props.class].join(" ")}
-    >
+    <div className={[classes.Item, props.class].join(" ")}>
       {/* Image */}
       {props.url ? (
-        <div className={classes.Thumbnail}>
+        <NavLink to={props.link + "/" + props.id} className={classes.Thumbnail}>
           <img className={props.imgClass} src={props.url} alt={props.alt} />
-        </div>
+        </NavLink>
       ) : null}
 
       {/* Name */}
-      <div className={[classes.Name, props.class, "Name"].join(" ")}>
+      <NavLink
+        to={props.link + "/" + props.id}
+        className={[classes.Name, props.class, "Name"].join(" ")}
+      >
         {props.name}
-      </div>
+      </NavLink>
 
       <div className={props.myClass}>
         {/* Description */}
@@ -114,8 +115,14 @@ const item = (props) => {
             </Link>
           </div>
         ) : null}
+
+        {props.addToCart ? (
+          <Button type="select" onClick={props.addToCart}>
+            Add to Cart
+          </Button>
+        ) : null}
       </div>
-    </NavLink>
+    </div>
   );
 };
 export default item;
