@@ -3,10 +3,15 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { formatRoute } from "../../utility/utility";
 
+let stripePublishableKey =
+  "pk_test_51J8eeGGhmYf08967atQfhNcWSsJpgUNfFCbL49tWBsPRhe30UedjKbYJDGkv1RI2tlRFmL1UbHxzSkOxDYQb0ufO00UU3w8gGA";
+
 /* eslint-disable */
-let stripePromise = loadStripe(
-  "pk_test_51J8eeGGhmYf08967atQfhNcWSsJpgUNfFCbL49tWBsPRhe30UedjKbYJDGkv1RI2tlRFmL1UbHxzSkOxDYQb0ufO00UU3w8gGA"
-);
+if (process.env.NODE_ENV === "production")
+  stripePublishableKey =
+    "pk_live_51J8eeGGhmYf089672u6NJwvMPcEER5uaLCQ3eejbU8FNjl6MCe4JKK5DPp5AJF7OpAHFhgK2uhit046XhSnZUqMG00MQjPQoKZ";
+
+let stripePromise = loadStripe(stripePublishableKey);
 /* eslint-enable */
 
 export const setStripeActive = (isActive) => {
