@@ -91,23 +91,6 @@
 
 @media only screen and (min-width: 600px) {
   /* For tablets: */
-  /* .Home {
-  }
-  .centered {
-    padding: 2vh 1vw;
-    width: 370px;
-    top: 25%;
-    left: 35%;
-  }
-  .shop a b {
-    font-size: 24px;
-  }
-  .description {
-    font-size: 24px;
-  }
-  .title {
-    font-size: 32px;
-  } */
 }
 
 @media only screen and (min-width: 1025px) {

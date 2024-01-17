@@ -92,9 +92,9 @@ const Product = (props) => {
           </div>
         </div>
         <Button
-          click={() => props.addToCart(item)}
-          disabled={false}
-          type="success"
+          type="select"
+          onClick={() => props.addToCart(item)}
+          // disabled={false}
         >
           ADD TO CART
         </Button>

@@ -122,17 +122,12 @@ const Navbar = (props) => {
                         <NavItem to="/search" exact='true' onClick={props.closeCartbar}>
                             <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
                         </NavItem> */}
-
-            <NavItem
-              exact="true"
-              onClick={props.cartbarToggleClicked}
-              className={["none cart"].join(" ")}
-            >
+            <div className={classes.Cart} onClick={props.cartbarToggleClicked}>
               <div className={classes.TotalItems}>
                 {props.totalItems > 0 ? props.totalItems : null}
               </div>
               <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
-            </NavItem>
+            </div>
           </div>
         </div>
       </div>

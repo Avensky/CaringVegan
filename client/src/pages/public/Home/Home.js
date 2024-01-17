@@ -65,7 +65,7 @@ const Home = (props) => {
           price={item.default_price}
           link={"/product"}
           // to="/"
-          // clicked={() => addToCart(item._id)}
+          addToCart={() => props.addToCart(item)}
           // addToCart={() => addToCart(item._id)}
           // subtractQuantity={() => subtractQuantity(item._id)}
         />
@@ -156,11 +156,15 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getFeatured: () => dispatch(actions.getFeatured()),
     loadCart: (cart) => dispatch(actions.loadCart(cart)),
+    addToCart: (id) => {
+      dispatch(actions.addToCart(id));
+    },
   };
 };
 
 Home.propTypes = {
   featured: PropTypes.array,
   getFeatured: PropTypes.func,
+  addToCart: PropTypes.func,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

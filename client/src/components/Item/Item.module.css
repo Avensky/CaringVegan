@@ -33,6 +33,7 @@
   align-items: center;
   overflow: hidden;
   height: 130px;
+  background-color: rgb(240, 240, 240);
 }
 .Thumbnail a {
   display: flex;
@@ -138,10 +139,11 @@
     width: 50%;
     padding: 4vh 4vw;
   } */
-  /* 
+
   .Thumbnail {
-    padding: 2vh 2vw;
-  } */
+    /* padding: 2vh 2vw; */
+    height: 250px;
+  }
 
   /*
     .Name {
@@ -174,10 +176,9 @@
 
 @media only screen and (min-width: 1025px) {
   /* For desktop: */
-  /* .Thumbnail img {
-
-    }
-    */
+  .Thumbnail {
+    height: 400px;
+  }
 
   /* .Item {
     width: 33%;
