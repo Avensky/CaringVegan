@@ -3,8 +3,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { formatRoute } from "../../utility/utility";
 
-// eslint-disable-next-line no-undef
-let stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+let stripePromise = loadStripe(
+  `${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}` // eslint-disable-line no-undef
+);
 
 export const setStripeActive = (isActive) => {
   // console.log("add to cart");
