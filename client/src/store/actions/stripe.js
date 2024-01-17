@@ -4,9 +4,8 @@ import axios from "axios";
 import { formatRoute } from "../../utility/utility";
 
 /* eslint-disable */
-console.log("stripe", process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 let stripePromise = loadStripe(
-  `${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`
+  "pk_test_51J8eeGGhmYf08967atQfhNcWSsJpgUNfFCbL49tWBsPRhe30UedjKbYJDGkv1RI2tlRFmL1UbHxzSkOxDYQb0ufO00UU3w8gGA"
 );
 /* eslint-enable */
 
