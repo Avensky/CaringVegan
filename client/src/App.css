@@ -3,22 +3,19 @@
 }
 
 .container {
-  /* padding-top: 51px; */
   display: flex;
-  min-height: 100vh;
+  min-height: 100%;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .disableScroll {
   position: fixed;
-  /* overflow-y: hidden; */
 }
 
 .page-wrapper {
-  min-height: 100%;
   padding: 51px 0 0;
-  box-sizing: border-box;
+  min-height: 100vh;
 }
 
 .page-title {
@@ -26,9 +23,9 @@
   font-size: 48px;
   font-size: 2rem;
   text-transform: uppercase;
-  /* margin: 0.5vh 0; */
   font-weight: 900;
-  box-sizing: border-box;
+  user-select: none;
+  padding: 1vh 0;
 }
 
 /**********************************************************************
@@ -111,16 +108,8 @@ a {
 
 @media only screen and (min-width: 600px) {
   /* For tablets: */
-  .page-wrapper {
-    /* margin: 6vh 5vw 0; */
-    /* padding: 1vh 5vw 2vh; */
-  }
 }
 
 @media only screen and (min-width: 1025px) {
   /* For Desktop: */
-  .page-wrapper {
-    /* margin: 6vh 10vw 0;
-    padding: 1vh 5vw 2vh; */
-  }
 }

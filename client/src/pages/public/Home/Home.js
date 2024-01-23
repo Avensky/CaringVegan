@@ -90,7 +90,7 @@ const Home = (props) => {
         </div>
         <div className={classes.categoryWrapper}>
           <div className={classes.categories}>
-            <div className={classes.category}>
+            <NavLink to="/shop/for him" className={classes.category}>
               <div
                 className={[classes.categoryTitle, "terciaryColor"].join(" ")}
               >
@@ -99,8 +99,8 @@ const Home = (props) => {
               <div className={classes.imageWrapper}>
                 <img src={forHim} />
               </div>
-            </div>
-            <div className={classes.category}>
+            </NavLink>
+            <NavLink to="/shop/for her" className={classes.category}>
               <div
                 className={[classes.categoryTitle, "terciaryColor"].join(" ")}
               >
@@ -109,8 +109,8 @@ const Home = (props) => {
               <div className={classes.imageWrapper}>
                 <img src={forHer} />
               </div>
-            </div>
-            <div className={classes.category}>
+            </NavLink>
+            <NavLink to="/shop/stickers" className={classes.category}>
               <div
                 className={[classes.categoryTitle, "terciaryColor"].join(" ")}
               >
@@ -119,8 +119,8 @@ const Home = (props) => {
               <div className={classes.imageWrapper}>
                 <img src={stickers} />
               </div>
-            </div>
-            <div className={classes.category}>
+            </NavLink>
+            <NavLink to="/shop/pets" className={classes.category}>
               <div
                 className={[classes.categoryTitle, "terciaryColor"].join(" ")}
               >
@@ -129,7 +129,7 @@ const Home = (props) => {
               <div className={classes.imageWrapper}>
                 <img src={forPets} />
               </div>
-            </div>
+            </NavLink>
           </div>
         </div>
       </NavLink>

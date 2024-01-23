@@ -12,8 +12,6 @@ const initialState = {
   results: 0,
   total_count: 0,
   loading: false,
-  total: 0.0,
-  totalItems: 0,
   error: null,
   page: 1,
   featured: [],
@@ -113,6 +111,7 @@ const addInternalProductSuccess = (state, action) => {
 
 const addInternalProductFail = (state) =>
   updateObject(state, { loading: false });
+
 // ============================================================================
 // UPDATE PRODUCT =============================================================
 // ============================================================================

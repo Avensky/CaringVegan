@@ -59,11 +59,13 @@ const Shop = (props) => {
           placeholder="Search CaringVegan"
         />
       </div>
+      <div className={classes.banner}>
+        <div className={[classes.bannerText, "heading"].join(" ")}>
+          {slug ? slug : "Shop"}
+        </div>
+      </div>
       <div className={classes.categoryNavWrapper}>
         <div className={classes.categoryNav}>
-          {/* <div className={classes.category}>For Her</div> */}
-          {/* <div className={classes.category}>For Him</div> */}
-
           <Button to="/shop/pets" type="category">
             Pets
           </Button>
@@ -83,11 +85,6 @@ const Shop = (props) => {
           <Button to="/shop/books" type="category">
             Books
           </Button>
-        </div>
-      </div>
-      <div className={classes.banner}>
-        <div className={[classes.bannerText, "heading"].join(" ")}>
-          {slug ? slug : "Shop"}
         </div>
       </div>
       <div className={classes.storeWrapper}>{store}</div>

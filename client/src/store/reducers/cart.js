@@ -24,6 +24,7 @@ const initialState = {
 // =============================================================================
 // CART ========================================================================
 // =============================================================================
+
 const addToCart = (state, action) => {
   // check if item already exists in cart
   console.log("addToCart start ", action.product);
@@ -91,9 +92,10 @@ const loadCart = (state) => {
   if (cart.length > 0) {
     cart = JSON.parse(cart);
     totalItems = getTotalItems(cart);
-    total = getTotalPrice(cart);
+    total = cart.length > 0 ? getTotalPrice(cart) : 0;
   }
 
+  console.log("load cart total: ", total);
   return updateObject(state, { cart, totalItems, total });
 };
 

@@ -61,13 +61,17 @@ const Filter = (props) => {
 
   return (
     <div className={classes.filter}>
-      <Button type="select" onClick={() => getAll()} selected={all}>
+      <Button type="category" onClick={() => getAll()} selected={all}>
         All
       </Button>
-      <Button type="select" onClick={() => getAvailable()} selected={available}>
+      <Button
+        type="category"
+        onClick={() => getAvailable()}
+        selected={available}
+      >
         Available
       </Button>
-      <Button type="select" onClick={() => getArchvied()} selected={archived}>
+      <Button type="category" onClick={() => getArchvied()} selected={archived}>
         Archive
       </Button>
     </div>

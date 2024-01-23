@@ -19,15 +19,17 @@ const Button = (props) => {
   // console.log("disabled", props.disabled);
 
   return (
-    <div
-      type={props.type}
-      // disabled={props.submit}
-      className={style.join(" ")}
-      onClick={props.disabled ? () => {} : clicked}
-      onAnimationEnd={() => setAnimation(false)}
-    >
-      <Link to={props.to}>{props.children}</Link>
-    </div>
+    <Link to={props.to}>
+      <div
+        type={props.type}
+        // disabled={props.submit}
+        className={style.join(" ")}
+        onClick={props.disabled ? () => {} : clicked}
+        onAnimationEnd={() => setAnimation(false)}
+      >
+        {props.children}
+      </div>
+    </Link>
   );
 };
 

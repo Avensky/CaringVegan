@@ -1,16 +1,11 @@
 .Catalog {
-  /* position: relative;
-  top: 0; */
-  min-height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-bottom: 5vh;
 }
 
 .copy {
-  text-align: end;
-  padding: 1vh 0;
+  text-align: start;
 }
 @media only screen and (min-width: 600px) {
   /* For tablets: */

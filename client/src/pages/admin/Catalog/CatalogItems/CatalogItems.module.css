@@ -1,15 +1,12 @@
 .table {
   font-weight: 900;
-  /* text-transform: uppercase; */
   align-items: end;
 }
 .itemWrapper {
   display: flex;
   flex-direction: row;
   width: 100%;
-  min-height: 5vh;
   border-bottom: 1px solid grey;
-  /* padding: 1vh 0; */
   box-sizing: border-box;
 }
 
@@ -17,6 +14,7 @@
   width: 15vw;
   display: flex;
   align-items: center;
+  padding: 0.5vh 0.5vw;
 }
 
 .name {
@@ -29,42 +27,40 @@
 
 .details {
   width: 25vw;
-  padding: 1vh 2vw;
+  padding: 0.5vh 2vw;
   box-sizing: border-box;
 }
 
 .Created {
   width: 20vw;
-  padding: 1vh 1vw;
+  padding: 0.5vh 1vw;
   box-sizing: border-box;
   /* text-transform: uppercase; */
 }
 
 .Updated {
   width: 20vw;
-  padding: 1vh 1vw;
+  padding: 0.5vh 1vw;
   box-sizing: border-box;
   /* text-transform: uppercase; */
 }
 .created {
   width: 20vw;
-  padding: 1vh 1vw;
+  padding: 0.5vh 1vw;
   box-sizing: border-box;
   text-transform: capitalize;
 }
 
 .updated {
   width: 20vw;
-  padding: 1vh 1vw;
+  padding: 0.5vh 1vw;
   box-sizing: border-box;
   text-transform: capitalize;
 }
 
 .editWrapper {
   width: 20vw;
-  /* margin: auto 0; */
-  padding: 2px 0;
-  /* font-weight: 600; */
+  padding: 0.5vh 0.5vw;
   box-sizing: border-box;
 }
 

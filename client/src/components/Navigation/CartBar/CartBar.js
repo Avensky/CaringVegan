@@ -46,6 +46,7 @@ const CartBar = (props) => {
           </div>
           <div className={classes.cartWrapper}>{cart}</div>
           <div className={classes.total}>
+            {console.log("total ", props.total)}
             SUBTOTAL ${(props.total / 100).toFixed(2)} USD
           </div>
           <div className={classes.buttons}>

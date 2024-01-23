@@ -95,17 +95,14 @@ const CatalogItem = (props) => {
         continue="Delete Product"
         continueHandler={() => deleteHandler(props.id)}
       />
-      <div className={classes.imageWrapper}>
-        <NavLink
-          to={props.to}
-          // className={[classes.edit, classes.disabled].join(" ")}
-        >
-          <img
-            className={classes.image}
-            src={props.images ? props.images[0] : noImage}
-          />
-        </NavLink>
-      </div>
+
+      <NavLink to={props.to} className={classes.imageWrapper}>
+        <img
+          className={classes.image}
+          src={props.images ? props.images[0] : noImage}
+        />
+      </NavLink>
+
       <div className={classes.details}>
         <div className={classes.name}>{props.name}</div>
         <div className={classes.price}>${formatPrice(props.price)}</div>

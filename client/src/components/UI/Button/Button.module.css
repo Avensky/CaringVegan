@@ -41,7 +41,7 @@
 }
 .rounded {
   /* border: 1px solid black; */
-  width: fit-content;
+  min-width: fit-content;
   border-radius: 8px;
   padding: 6px 6px;
   font-weight: 600;
@@ -56,11 +56,11 @@
 }
 
 .category {
-  width: 150px;
+  min-width: 130px;
   border: 2px solid gray;
   border-radius: 7px;
-  margin: 2px;
-  padding: 10px;
+  margin: 2px 0.5vw;
+  padding: 1vh 1vw;
   font-weight: 600;
   /* user-select: none; */
 }
@@ -68,7 +68,6 @@
   width: 100%;
   border: 2px solid gray;
   border-radius: 7px;
-  margin: 2px;
   padding: 10px;
   font-weight: 600;
   user-select: none;
@@ -101,7 +100,7 @@
   border-color: #8a0c0c;
   color: #8a0c0c;
   /* margin: 6px 0; */
-  display: block;
+  /* display: block; */
 }
 .Danger {
   color: #944317;

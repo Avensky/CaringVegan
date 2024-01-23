@@ -185,12 +185,12 @@
   align-items: center;
   border: 1px solid black;
   border-radius: 15px;
-  /* font-weight: 600; */
   padding: 1vh 2vw;
   cursor: pointer;
   margin-left: 2vw;
-  background-color: rgb(241, 241, 241);
-  /* font-size: 1.1em; */
+  /* background-color: rgb(241, 241, 241); */
+  background-color: #3d3c3c;
+  color: white;
 }
 .delete {
   padding-left: 2vw;

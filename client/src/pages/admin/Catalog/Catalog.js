@@ -5,9 +5,8 @@ import * as actions from "../../../store/actions/index";
 import PropTypes from "prop-types";
 import CatalogItems from "./CatalogItems/CatalogItems";
 import Pagination from "./Pagination/Pagination";
-import Filter from "./Filter/Filter";
 import Modal from "../../../components/UI/Modal/Modal";
-import Button from "../../../components/UI/Button/Button";
+import Header from "./Header/Header";
 // import Dropdown from "./Dropdown/Dropdown";
 // import Message from "./../../../components/Message/Message";
 
@@ -45,40 +44,15 @@ const Catalog = (props) => {
       />
       <div className={classes.Products}>
         <div className="page-title">Product Catalog</div>
-        <div className={classes.copy}>
-          <Button
-            onClick={() => {}}
-            type="rounded"
-            style="Disabled"
-            disabled={true}
-          >
-            Filter
-          </Button>
-          <Button
-            onClick={() => {
-              setShowModal(true);
-            }}
-            type="rounded"
-          >
-            Export to Stripe
-          </Button>
-          <Button
-            onClick={() => {
-              props.setShow(true, "addProduct");
-            }}
-            type="rounded"
-            style="Purple"
-          >
-            + Add Product
-          </Button>
+        <div className={classes.pageHeader}>
+          <Header
+            isActive={props.isActive}
+            setIsActive={props.setIsActive}
+            getProducts={props.getProducts}
+            setShowModal={setShowModal}
+            setShow={props.setShow}
+          />
         </div>
-        <Filter
-          isActive={props.isActive}
-          setIsActive={props.setIsActive}
-          getProducts={props.getProducts}
-        />
-        {/* {messageBar} */}
-
         <CatalogItems
           loading={props.loading}
           items={items}

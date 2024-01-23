@@ -68,27 +68,29 @@ const StripeCatalog = (props) => {
           type="stripe"
         />
       </div>
-      <Pagination
-        page={props.index}
-        index={props.index}
-        limit={5}
-        total_count={props.total_count}
-        has_more={props.has_more}
-        results={props.results}
-        starting_after={props.starting_after}
-        ending_before={props.ending_before}
-        active={props.isActive}
-        getProducts={props.getProducts}
-      />
-      <div className={classes.copy}>
-        <Button
-          onClick={() => {
-            props.migrateAll(items);
-          }}
-          type="rounded"
-        >
-          Copy to MongoDB
-        </Button>
+      <div>
+        <div className={classes.copy}>
+          <Button
+            onClick={() => {
+              props.migrateAll(items);
+            }}
+            type="rounded"
+          >
+            Copy to MongoDB
+          </Button>
+        </div>
+        <Pagination
+          page={props.index}
+          index={props.index}
+          limit={5}
+          total_count={props.total_count}
+          has_more={props.has_more}
+          results={props.results}
+          starting_after={props.starting_after}
+          ending_before={props.ending_before}
+          active={props.isActive}
+          getProducts={props.getProducts}
+        />
       </div>
     </div>
   );

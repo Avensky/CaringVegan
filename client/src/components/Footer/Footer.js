@@ -12,8 +12,8 @@ const Footer = () => {
           <h3>About Us</h3>
           <p className="grey-text text-lighten-4">
             Welcome to project Caring Vegan. Our mission is to spread awereness
-            about living cruelty free and reducing the impact on our planet and
-            animal friends.
+            about cruelty free products and reducing the human impact on our
+            planet.
           </p>
         </div>
         <div className={classes.connect}>
@@ -43,34 +43,22 @@ const Footer = () => {
           <h3 className="white-text">FOLLOW US</h3>
           <div className={classes.Social}>
             <li>
-              <a
-                className="white-text"
-                href="https://www.youtube.com/channel/UCyyo9pq7jcUaXzF7FngMqkg"
-              >
+              <a className="white-text">
                 <FontAwesomeIcon icon="fa-brands fa-facebook" />
               </a>
             </li>
             <li>
-              <a
-                className="white-text"
-                href="https://www.youtube.com/channel/UCyyo9pq7jcUaXzF7FngMqkg"
-              >
+              <a className="white-text">
                 <FontAwesomeIcon icon="fa-brands fa-instagram" />
               </a>
             </li>
             <li>
-              <a
-                className="white-text"
-                href="https://www.youtube.com/channel/UCyyo9pq7jcUaXzF7FngMqkg"
-              >
+              <a className="white-text">
                 <FontAwesomeIcon icon="fa-brands fa-tiktok" />
               </a>
             </li>
             <li>
-              <a
-                className="white-text"
-                href="https://www.youtube.com/channel/UCyyo9pq7jcUaXzF7FngMqkg"
-              >
+              <a className="white-text">
                 <FontAwesomeIcon icon="fa-brands fa-youtube" />
               </a>
             </li>
@@ -87,13 +75,13 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <div className={classes.Legal}>
-        <p>
+      <div className={classes.legalWrapper}>
+        <div className={classes.legal}>
           {"©2023 caringvegan.com | "}
-          <a href="/privacy">Privacy Policy</a>
+          <a>Privacy Policy</a>
           {" | "}
-          <a href="/terms">Terms of Service</a>
-        </p>
+          <a>Terms of Service</a>
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  /* For desktop: */
+}

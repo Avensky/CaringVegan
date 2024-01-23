@@ -5,7 +5,7 @@
   box-sizing: border-box;
   text-decoration: none;
   color: black;
-  padding: 1vh 0;
+  padding: 2% 0;
 }
 
 .Item a {
@@ -32,7 +32,6 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  height: 130px;
   background-color: rgb(240, 240, 240);
 }
 .Thumbnail a {
@@ -56,6 +55,7 @@
   font-size: 1.2rem;
   font-weight: 800;
   text-transform: uppercase;
+  word-wrap: break-word;
 }
 
 .Description {
@@ -81,8 +81,6 @@
 }
 
 .SelectWrapper {
-  /* margin: auto; */
-  /* padding: 1vh 2vw; */
   border: rgb(0, 0, 0) solid 1px;
   background-color: rgb(238, 238, 238);
   cursor: pointer;
@@ -96,91 +94,16 @@
   padding: 1vh 0;
 }
 
-/* 
-.MaterialIcons {
-    font-size: 13px !important;
-}
-
-.Reviews {
-    padding: 0 0 1vh;
-    font-size: 13px !important;
-}
-
-.QuantityWrapper{
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    padding: 1vh 0vw;
-}
-
-.Quantity {
-    display: inline-flex;
-    align-items: center;
-    border: black solid 1px;    
-} */
-
-/* .Title {
-    display: flex;
-    align-items:center;
-    margin: auto 0;
-}
-
-.Sold {
-    font-size: 13px;
-}
-.Arrow {
-    font-size: 18px !important;
-} */
-
 @media only screen and (min-width: 600px) {
   /* For tablets: */
-  /* .Item {
-    width: 50%;
-    padding: 4vh 4vw;
-  } */
-
-  .Thumbnail {
-    /* padding: 2vh 2vw; */
-    height: 250px;
+  .Item {
+    width: 32%;
   }
-
-  /*
-    .Name {
-        font-size: 18px;
-    }
-    .Description {
-        font-size: 14px;
-    }
-    .price {
-        font-size: 14px;
-    }
-    
-    .Reviews {
-        font-size: 14px;
-    }
-
-    .QuantityWrapper {
-        font-size: 16px;
-    }
-    .Arrow {
-        font-size: 20px !important;
-    }
-    .Stock {
-        font-size: 14px;
-    }
-    .Sold {
-        font-size: 14px;
-    } */
 }
 
 @media only screen and (min-width: 1025px) {
   /* For desktop: */
-  .Thumbnail {
-    height: 400px;
+  .Item {
+    width: 23%;
   }
-
-  /* .Item {
-    width: 33%;
-  } */
 }
