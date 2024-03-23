@@ -31,7 +31,7 @@ const CatalogItems = (props) => {
       // console.log("active", item.active);
       return (
         <CatalogItem
-          key={id}
+          key={id + Math.random()}
           id={id}
           to={`${props.product}${id}`}
           images={item.images}

@@ -6,13 +6,14 @@ const xss = require("xss-clean");
 const hpp = require("hpp");
 const bodyParser = require("body-parser");
 const compression = require("compression");
-//const cookieParser        = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const session = require("cookie-session");
 const passport = require("passport");
 const productRouter = require("./routes/product");
 const priceRouter = require("./routes/price");
 const userRouter = require("./routes/user");
+const passportRouter = require("./routes/passportRouter.js");
 const stripeRouter = require("./routes/stripe");
 const morgan = require("morgan");
 const AppError = require("./utils/appError");
@@ -70,13 +71,12 @@ app.use((req, res, next) => {
 require("./models/user");
 require("./models/order.js");
 require("./models/product");
-require("./config/passport"); // pass passport for configuration
+require("./utils/passport")(passport);
 
 // read cookies (needed for auth)
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // required for passport
-
 app.use(
   session({
     secret: "ilovescotchscotchyscotchscotch", // session secret
@@ -87,6 +87,7 @@ app.use(
     },
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
@@ -111,10 +112,10 @@ app.use(compression());
 //==============================================================================
 
 require("./routes/routes.js")(app, passport); // load our routes and pass in our app and fully configured passport
-// require('./routes/shop.js')(app);
 app.use("/api/v1/stripe", stripeRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v2/users", passportRouter);
 app.use("/api/v1/prices", priceRouter);
 
 // catches all non existing routes

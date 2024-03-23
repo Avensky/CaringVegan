@@ -7,54 +7,54 @@ import * as actionTypes from "./actionTypes";
   ************************************/
 }
 
-export const fetchUserStart = () => {
+export const getUserStart = () => {
   return {
-    type: actionTypes.FETCH_USER_START,
+    type: actionTypes.GET_USER_START,
   };
 };
 
-export const fetchUserSuccess = (payload) => {
+export const getUserSuccess = (user) => {
   return {
-    type: actionTypes.FETCH_USER_SUCCESS,
-    payload: payload,
+    type: actionTypes.GET_USER_SUCCESS,
+    user,
   };
 };
 
-export const fetchUserFail = (error) => {
+export const getUserFail = (error) => {
   return {
-    type: actionTypes.FETCH_USER_FAIL,
+    type: actionTypes.GET_USER_FAIL,
     error: error,
   };
 };
 
-//export const fetchUser = () => {
+//export const getUser = () => {
 //    return dispatch => {
-//        dispatch(fetchUserStart());
-//        axios.get('/api/fetchUser')
+//        dispatch(getUserStart());
+//        axios.get('/api/getUser')
 //        .then( result => {
 //            console.log(result)
 //            const payload = result.data
-//            dispatch(fetchUserSuccess(payload));
+//            dispatch(getUserSuccess(payload));
 //        })
 //        .catch( error => {
-//                dispatch(fetchUserFail(error));
+//                dispatch(getUserFail(error));
 //        });
 //    }
 //}
 
-export const fetchUser = () => {
+export const getUser = () => {
   return (dispatch) => {
-    dispatch(fetchUserStart());
+    dispatch(getUserStart());
     axios
-      .get("/api/fetchUser")
+      .get("/api/v2/users/getUser")
       .then((result) => {
-        console.log("fetchUser : ", result);
-        const payload = result.data;
-        dispatch(fetchUserSuccess(payload));
+        console.log("getUser : ", result);
+        const user = result.data;
+        dispatch(getUserSuccess(user));
       })
       .catch((error) => {
-        console.log("fetchUser : ", error);
-        dispatch(fetchUserFail(error));
+        console.log("getUser : ", error);
+        dispatch(getUserFail(JSON.stringify(error)));
       });
   };
 };
@@ -65,65 +65,88 @@ export const fetchUser = () => {
 **********************/
 }
 
-export const fetchUsersStart = () => {
+// export const fetchUsersStart = () => {
+//   return {
+//     type: actionTypes.GET_USERS_START,
+//   };
+// };
+
+// export const fetchUsersSuccess = (payload) => {
+//   return {
+//     type: actionTypes.GET_USERS_SUCCESS,
+//     payload: payload,
+//   };
+// };
+
+// export const fetchUsersFail = (error) => {
+//   return {
+//     type: actionTypes.GET_USERS_FAIL,
+//     error: error,
+//   };
+// };
+
+// export const getUsers = () => {
+//   return (dispatch) => {
+//     dispatch(fetchUsersStart());
+//     axios
+//       .get("/api/v1/fetchUsers")
+//       .then((result) => {
+//         console.log(result);
+//         const payload = result.data;
+//         dispatch(fetchUsersSuccess(payload));
+//       })
+//       .catch((error) => {
+//         dispatch(fetchUsersFail(error));
+//       });
+//   };
+// };
+
+// {
+//   /*********************
+
+// **********************/
+// }
+export const logoutStart = () => {
   return {
-    type: actionTypes.FETCH_USERS_START,
+    type: actionTypes.LOGOUT_START,
   };
 };
 
-export const fetchUsersSuccess = (payload) => {
+export const logoutSuccess = (data) => {
   return {
-    type: actionTypes.FETCH_USERS_SUCCESS,
-    payload: payload,
+    type: actionTypes.LOGOUT_SUCCESS,
+    data,
   };
 };
 
-export const fetchUsersFail = (error) => {
+export const logoutFail = (error) => {
   return {
-    type: actionTypes.FETCH_USERS_FAIL,
+    type: actionTypes.LOGOUT_FAIL,
     error: error,
   };
 };
-
-export const fetchUsers = () => {
+export const logout = () => {
+  // console.log("logout");
   return (dispatch) => {
-    dispatch(fetchUsersStart());
+    dispatch(logoutStart());
     axios
-      .get("/api/v1/fetchUsers")
-      .then((result) => {
-        console.log(result);
-        const payload = result.data;
-        dispatch(fetchUsersSuccess(payload));
+      .post("/api/v2/users/logout")
+      .then((response) => {
+        dispatch(logoutSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(fetchUsersFail(error));
+        dispatch(logoutFail(JSON.stringify(error)));
       });
   };
 };
 
-{
-  /*********************
-
-**********************/
-}
-
-export const logout = () => {
-  axios.get("/api/logout");
-  localStorage.removeItem("token");
-  localStorage.removeItem("expirationDate");
-  localStorage.removeItem("userId");
-  return {
-    type: actionTypes.LOGOUT,
-  };
-};
-
-export const checkLoginTimeout = (expirationTime) => {
-  return (dispatch) => {
-    setTimeout(() => {
-      dispatch(logout());
-    }, expirationTime * 1000);
-  };
-};
+// export const checkLoginTimeout = (expirationTime) => {
+//   return (dispatch) => {
+//     setTimeout(() => {
+//       dispatch(logout());
+//     }, expirationTime * 1000);
+//   };
+// };
 
 export const auth = (values, auth, token) => {
   console.log("values = " + JSON.stringify(values));
@@ -133,20 +156,20 @@ export const auth = (values, auth, token) => {
     let url;
     switch (auth) {
       case (auth = "login"):
-        url = "/api/login";
+        url = "/api/v2/users/login";
         break;
       case (auth = "register"):
-        url = "/api/signup";
+        url = "/api/v2/users/signup";
         break;
       case (auth = "forgot-password"):
-        url = "/api/forgotPassword";
+        url = "/api/v2/users/forgotPassword";
         break;
       case (auth = "reset-password"):
-        url = "/api/resetPassword/" + token;
+        url = "/api/v2/users/resetPassword/" + token;
         console.log("url", url);
         break;
       default:
-        url = "/api/login";
+        url = "/api/v2/users/login";
     }
     let method;
     auth === "reset-password" ? (method = axios.patch) : (method = axios.post);
@@ -154,8 +177,8 @@ export const auth = (values, auth, token) => {
       .then((response) => {
         dispatch(authSuccess(response.data));
       })
-      .catch((err) => {
-        dispatch(authFail(err));
+      .catch((error) => {
+        dispatch(authFail(JSON.stringify(error)));
       });
   };
 };
@@ -166,11 +189,10 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (data) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    idToken: token,
-    userId: userId,
+    data,
   };
 };
 
@@ -181,117 +203,117 @@ export const authFail = (error) => {
   };
 };
 
-export const connect = (values) => {
-  //console.log('values = '+values);
-  //console.log('connect = '+connect);
-  return (dispatch) => {
-    dispatch(connectStart());
-    let url = "/api/connect/local";
-    axios
-      .post(url, values)
-      .then((response) => {
-        //console.log('response = '+JSON.stringify(response));
-        //console.log('response = '+response);
-        dispatch(connectSuccess(response.data));
-      })
-      .catch((err) => {
-        //console.log('err = '+err);
-        dispatch(connectFail(err));
-      });
-  };
-};
+// export const connect = (values) => {
+//   //console.log('values = '+values);
+//   //console.log('connect = '+connect);
+//   return (dispatch) => {
+//     dispatch(connectStart());
+//     let url = "/api/connect/local";
+//     axios
+//       .post(url, values)
+//       .then((response) => {
+//         //console.log('response = '+JSON.stringify(response));
+//         //console.log('response = '+response);
+//         dispatch(connectSuccess(response.data));
+//       })
+//       .catch((err) => {
+//         //console.log('err = '+err);
+//         dispatch(connectFail(err));
+//       });
+//   };
+// };
 
-export const connectStart = () => {
-  return {
-    type: actionTypes.CONNECT_START,
-  };
-};
+// export const connectStart = () => {
+//   return {
+//     type: actionTypes.CONNECT_START,
+//   };
+// };
 
-export const connectSuccess = (token, userId) => {
-  return {
-    type: actionTypes.CONNECT_SUCCESS,
-    idToken: token,
-    userId: userId,
-  };
-};
+// export const connectSuccess = (token, userId) => {
+//   return {
+//     type: actionTypes.CONNECT_SUCCESS,
+//     idToken: token,
+//     userId: userId,
+//   };
+// };
 
-export const connectFail = (error) => {
-  return {
-    type: actionTypes.CONNECT_FAIL,
-    error: error,
-  };
-};
+// export const connectFail = (error) => {
+//   return {
+//     type: actionTypes.CONNECT_FAIL,
+//     error: error,
+//   };
+// };
 
-export const fbAuth = () => {
-  return (dispatch) => {
-    dispatch(fbAuthStart());
-    dispatch(fbAuthSuccess());
-    //dispatch(fbAuthFail(err));
-  };
-};
+// export const fbAuth = () => {
+//   return (dispatch) => {
+//     dispatch(fbAuthStart());
+//     dispatch(fbAuthSuccess());
+//     //dispatch(fbAuthFail(err));
+//   };
+// };
 
-export const fbAuthStart = () => {
-  return {
-    type: actionTypes.FB_AUTH_START,
-  };
-};
+// export const fbAuthStart = () => {
+//   return {
+//     type: actionTypes.FB_AUTH_START,
+//   };
+// };
 
-export const fbAuthSuccess = () => {
-  return {
-    type: actionTypes.FB_AUTH_SUCCESS,
-  };
-};
+// export const fbAuthSuccess = () => {
+//   return {
+//     type: actionTypes.FB_AUTH_SUCCESS,
+//   };
+// };
 
-export const fbAuthFail = (error) => {
-  return {
-    type: actionTypes.FB_AUTH_FAIL,
-    error: error,
-  };
-};
+// export const fbAuthFail = (error) => {
+//   return {
+//     type: actionTypes.FB_AUTH_FAIL,
+//     error: error,
+//   };
+// };
 
-export const newAddressStart = () => {
-  return {
-    type: actionTypes.NEW_ADDRESS_START,
-  };
-};
+// export const newAddressStart = () => {
+//   return {
+//     type: actionTypes.NEW_ADDRESS_START,
+//   };
+// };
 
-export const newAddressFail = (error) => {
-  return {
-    type: actionTypes.NEW_ADDRESS_FAIL,
-    error: error,
-  };
-};
+// export const newAddressFail = (error) => {
+//   return {
+//     type: actionTypes.NEW_ADDRESS_FAIL,
+//     error: error,
+//   };
+// };
 
-export const newAddressSuccess = (addressData) => {
-  return {
-    type: actionTypes.NEW_ADDRESS_SUCCESS,
-    addressData: addressData,
-  };
-};
+// export const newAddressSuccess = (addressData) => {
+//   return {
+//     type: actionTypes.NEW_ADDRESS_SUCCESS,
+//     addressData: addressData,
+//   };
+// };
 
-export const newAddress = (values) => {
-  return (dispatch) => {
-    dispatch(newAddressStart());
-    console.log("New Address Start");
-    axios
-      .post("/api/addAddress", values)
-      .then((response) => {
-        console.log("Axios Start");
-        console.log(response);
-        const data = response.data;
-        console.log(data);
-        dispatch(newAddressSuccess(data));
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(newAddressFail(error));
-      });
-  };
-};
+// export const newAddress = (values) => {
+//   return (dispatch) => {
+//     dispatch(newAddressStart());
+//     console.log("New Address Start");
+//     axios
+//       .post("/api/addAddress", values)
+//       .then((response) => {
+//         console.log("Axios Start");
+//         console.log(response);
+//         const data = response.data;
+//         console.log(data);
+//         dispatch(newAddressSuccess(data));
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//         dispatch(newAddressFail(error));
+//       });
+//   };
+// };
 
-export const setAuthRedirectPath = (path) => {
-  return {
-    type: actionTypes.SET_AUTH_REDIRECT_PATH,
-    path: path,
-  };
-};
+// export const setAuthRedirectPath = (path) => {
+//   return {
+//     type: actionTypes.SET_AUTH_REDIRECT_PATH,
+//     path: path,
+//   };
+// };

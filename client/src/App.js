@@ -18,6 +18,11 @@ import {
   Cart,
   Catalog,
   StripeCatalog,
+  NotFound,
+  Login,
+  Signup,
+  ForgotPassword,
+  ResetPassword,
 } from "./pages";
 import UpdateProductSidebar from "./components/Sidebar/UpdateProduct";
 // import UpdatePriceSidebar from "./components/Sidebar/UpdatePrice";
@@ -35,25 +40,25 @@ const App = (props) => {
       loadCart();
     }
   }, []);
-  // useEffect(() => {
-  //   if (!fetchedUser) {
-  //     getUser();
-  //   }
-  // }, [fetchedUser]);
+
+  useEffect(() => {
+    if (!props.user) props.getUser();
+  }, [props.user]);
 
   let routes = (
     <>
       {/* <Route path="/checkout" element={<Checkout />} />
       <Route path="/authentication" element={<Auth />} />
+      */}
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/signup" element={<Signup />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
       <Route
         exact
         path="/resetPassword/:token"
         render={(props) => <ResetPassword {...props} />}
-      /> */}
+      />
       <Route path="/home" element={<Home />} />
       <Route path="/product/:id" element={<Product />} />
       <Route path="/shop" element={<Shop />} />
@@ -62,11 +67,12 @@ const App = (props) => {
       <Route path="/shop/itemfull/:itemId" element={<ItemFull />} />*/}
       <Route path="/cart" element={<Cart />} />
       <Route path="/" element={<Home />} />
+      <Route path="*" element={<NotFound />} />
     </>
   );
 
   let admin;
-  if (!props.user) {
+  if (props.user) {
     admin = (
       <>
         <Route path="/catalog" element={<Catalog />} />
@@ -165,11 +171,12 @@ const App = (props) => {
           cart={props.cart}
           total={props.total}
           checkout={() => checkout(props.cart, props.user)}
-          // user={props.user} logout={logout}
+          user={props.user}
+          logout={props.logout}
         />
         <ScrollToTop />
         <div className={["container", style].join(" ")}>
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<div></div>}>
             <Routes>
               {routes}
               {admin}
@@ -184,7 +191,7 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.payload,
+    user: state.auth.user,
     cart: state.cart.cart,
     totalItems: state.cart.totalItems,
     total: state.cart.total,
@@ -201,7 +208,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchUser: () => dispatch(actions.fetchUser()),
+    getUser: () => dispatch(actions.getUser()),
+    logout: () => dispatch(actions.logout()),
     checkout: (cart, user) => dispatch(actions.checkout(cart, user)),
     loadCart: () => dispatch(actions.loadCart()),
     setShow: (bool, sidebar) => dispatch(actions.showSidebar(bool, sidebar)),
@@ -219,7 +227,8 @@ const mapDispatchToProps = (dispatch) => {
 App.propTypes = {
   cart: PropTypes.array,
   user: PropTypes.object,
-  onFetchUser: PropTypes.func,
+  logout: PropTypes.func,
+  getUser: PropTypes.func,
   totalItems: PropTypes.number,
   total: PropTypes.number,
   checkout: PropTypes.func,

@@ -4,7 +4,7 @@ const User = require("../models/user");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const QueryAPI = require("./../utils/QueryAPI");
-const crud = require("./crud");
+// const crud = require("./crud");
 
 // =================================================================
 // UPLOAD FOTO HELPERS =============================================
@@ -139,6 +139,22 @@ exports.getUser = catchAsync(async (req, res, next) => {
     data: user,
   });
 });
+
+// exports.getUser = async (req, res) => {
+//   //console.log('req.user = ', req.user)
+//   if (req.user) {
+//     //console.log('req.user = ', req.user.user)
+//     res.status(200).json({
+//       user: req.user.user,
+//       message: "User found",
+//     });
+//   } else {
+//     res.status(200).json({
+//       user: null,
+//       message: "Not authorized",
+//     });
+//   }
+// };
 
 exports.getUsers = catchAsync(async (req, res, next) => {
   const queryAPI = new QueryAPI(User.find(req.params.id), req.query)

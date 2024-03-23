@@ -4,13 +4,13 @@
   border-radius: 50%;
 }
 .Loader {
-  color: #ffffff;
+  color: #29057b;
   font-size: 11px;
   text-indent: -99999em;
-  margin: 55px auto;
+  margin: auto;
   position: relative;
-  width: 10em;
-  height: 10em;
+  width: 10.2em;
+  height: 10.2em;
   box-shadow: inset 0 0 0 1em;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
@@ -24,7 +24,7 @@
 .Loader:before {
   width: 5.2em;
   height: 10.2em;
-  background: #fff;
+  background: #29057b;
   border-radius: 10.2em 0 0 10.2em;
   top: -0.1em;
   left: -0.1em;
@@ -36,7 +36,7 @@
 .Loader:after {
   width: 5.2em;
   height: 10.2em;
-  background: #fff;
+  background: #29057b;
   border-radius: 0 10.2em 10.2em 0;
   top: -0.1em;
   left: 5.1em;

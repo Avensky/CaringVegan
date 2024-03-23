@@ -75,7 +75,7 @@ const Home = (props) => {
 
   return (
     <div className={[classes.Home, "page-wrapper"].join(" ")}>
-      <NavLink to="" className={classes.headerWrapper}>
+      <div className={classes.headerWrapper}>
         <div className="inputWrapper">
           <input className="inputSearch" placeholder="Search CaringVegan" />
         </div>
@@ -132,7 +132,7 @@ const Home = (props) => {
             </NavLink>
           </div>
         </div>
-      </NavLink>
+      </div>
 
       <div className={classes.statement}>
         Together, we make a better world. <span className="fa fa-heart" />

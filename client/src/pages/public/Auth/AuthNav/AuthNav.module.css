@@ -1,0 +1,23 @@
+.AuthNav {
+    width: 100%;
+    display: flex;
+}
+
+.AuthToggle {
+    border: none;
+    width: 50%;
+    background-color: transparent;
+    color: rgb(23, 4, 53);
+    color: rgb(255, 255, 255);   
+    font-weight: bold;
+    white-space: nowrap;
+    border-bottom-color: transparent;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+}
+
+.AuthSelected {
+    border-bottom-color: rgb(255, 255, 255);
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+}

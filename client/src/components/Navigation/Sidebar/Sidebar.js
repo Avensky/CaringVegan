@@ -17,14 +17,22 @@ const sidebar = (props) => {
         <div className={classes.LogoWrapper}>
           <Logo />
         </div>
-        <div className={classes.SidebarItem}>Admin</div>
-        <SidebarItem exact="true" to="/catalog" clicked={props.closed}>
-          Internal Catalog
-        </SidebarItem>
-        <SidebarItem exact="true" to="/stripe-catalog" clicked={props.closed}>
-          Stripe Catalog
-        </SidebarItem>
-        <div className={classes.SidebarItem}>Pages</div>
+        {props.user ? (
+          <>
+            <div className={classes.SidebarItemLabel}>Admin</div>
+            <SidebarItem exact="true" to="/catalog" clicked={props.closed}>
+              Internal Catalog
+            </SidebarItem>
+            <SidebarItem
+              exact="true"
+              to="/stripe-catalog"
+              clicked={props.closed}
+            >
+              Stripe Catalog
+            </SidebarItem>
+          </>
+        ) : null}
+        <div className={classes.SidebarItemLabel}>Pages</div>
         <SidebarItem exact="true" to="/home" clicked={props.closed}>
           Home
         </SidebarItem>
@@ -39,8 +47,11 @@ const sidebar = (props) => {
             Login
           </SidebarItem>
         ) : (
-          <div className={classes.SidebarItemWrapper} onClick={props.logout}>
-            <div className={classes.SidebarItem}>Logout</div>
+          <div className={classes.SidebarItemWrapper}>
+            <div className={classes.SidebarItemLabel}>Profile</div>
+            <div className={classes.SidebarItem} onClick={props.logout}>
+              Logout
+            </div>
           </div>
         )}
 

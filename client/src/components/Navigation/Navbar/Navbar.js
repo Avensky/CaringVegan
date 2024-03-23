@@ -112,9 +112,12 @@ const Navbar = (props) => {
                 <FontAwesomeIcon icon="fa-solid fa-user" />
               </NavItem>
             ) : (
-              <div className={classes.NavItemWrapper} onClick={props.logout}>
-                <div className={[classes.NavItem, "desktop-logout"].join(" ")}>
-                  LOGOUT
+              <div className={classes.NavItemWrapper}>
+                <div
+                  onClick={props.logout}
+                  className={[classes.NavItem, "desktop-logout"].join(" ")}
+                >
+                  Logout
                 </div>
               </div>
             )}

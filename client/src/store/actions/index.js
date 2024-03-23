@@ -1,4 +1,4 @@
-export { fetchUser } from "./auth";
+export { auth, getUser, logout } from "./auth";
 export { addToCart, removeFromCart, subQuantity, loadCart } from "./cart";
 
 export {

@@ -1,0 +1,17 @@
+
+.Btn {
+    color: rgb(255, 255, 255);   
+    width: 100%;
+    margin: .5vh 0;
+    cursor: pointer;
+}
+
+.BtnDiv {
+    padding: .5em 0;
+}
+
+.AuthNav {
+    width: 100%;
+   
+   display: flex;
+}

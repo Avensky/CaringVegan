@@ -51,11 +51,12 @@ module.exports = function (passport) {
             if (!user)
               return done(null, false, { message: "Oops! Email not found." });
 
-            if (!user.validPassword(password))
+            console.log("user found: ", user);
+            if (!user.verifyPassword(password, user.local.password))
               return done(null, false, { message: "Oops! Wrong password." });
             // all is well, return user
             else return done(null, user);
-          });
+          }).select("+local.password");
         });
       }
     )
@@ -105,15 +106,14 @@ module.exports = function (passport) {
             else {
               // create the user
               var newUser = new User();
-
               newUser.local.email = email;
-              newUser.local.password = newUser.generateHash(password);
+              newUser.local.password = password;
+              newUser.local.passwordConfirm = req.body.passwordConfirm;
+
               // save the user
-              console.log(newUser);
               newUser.save(function (err) {
                 if (err) throw err;
-
-                return done(null, newUser);
+                return done(null, newUser); // return the user
               });
             }
           });
@@ -121,6 +121,7 @@ module.exports = function (passport) {
       }
     )
   );
+
   // =========================================================================
   // RESET PASSWORD ==========================================================
   // =========================================================================

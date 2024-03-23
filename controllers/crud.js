@@ -83,7 +83,7 @@ exports.getAll = (Model) =>
 
     const features = new QueryAPI(Model.find(filter), req.query)
       .filter()
-      // .sort()
+      .sort()
       // .limitFields()
       .paginate();
     // const doc = await features.query.explain();

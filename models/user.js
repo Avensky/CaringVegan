@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   },
   firstName: {
     type: String,
-    required: [true, "Please tell us your first name!"],
+    required: [false, "Please tell us your first name!"],
   },
   middleName: {
     type: String,
@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   lastName: {
     type: String,
-    required: [true, "Please tell us your last name!"],
+    required: [false, "Please tell us your last name!"],
   },
   photo: String,
   role: {
@@ -132,7 +132,6 @@ userSchema.methods.generateHash = function (password) {
 
 // Checking if password is valid
 userSchema.methods.verifyPassword = async function (tryPassword, userPassword) {
-  console.log("veryfy pass ", tryPassword, userPassword);
   return await bcrypt.compare(tryPassword, userPassword);
 };
 

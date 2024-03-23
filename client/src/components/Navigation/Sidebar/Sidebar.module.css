@@ -28,7 +28,7 @@
   box-sizing: border-box;
 }
 
-.SidebarItem {
+.SidebarItemLabel {
   display: flex;
   flex-direction: column;
   /* align-items: center; */
@@ -42,10 +42,29 @@
   font-weight: 600;
   color: dimgray;
 }
+.SidebarItem {
+  font-weight: 600;
+  padding: 1.5vh 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: black;
+  border-bottom: 1px solid black;
+  font-size: 0.95rem;
+}
 
-.SidebarItemWrapper:hover,
+.SidebarItem:hover,
 .active {
   background-color: lightgray;
+}
+
+.SidebarItem:hover,
+.active {
+  background-color: buttonface;
 }
 
 .LogoWrapper {
