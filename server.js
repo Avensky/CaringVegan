@@ -1,7 +1,7 @@
 //  define constants
 const express = require("express");
 const mongoose = require("mongoose");
-console.log("No value for PORT2 yet:", process.env.PORT2);
+// console.log("No value for PORT2 yet:", process.env.PORT2);
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }

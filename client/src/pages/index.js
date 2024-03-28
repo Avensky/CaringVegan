@@ -7,7 +7,7 @@ export { default as Shop } from "./public/Shop/Shop";
 export { default as InternalProduct } from "./admin/EditProduct/InternalProduct";
 export { default as StripeProduct } from "./admin/EditProduct/StripeProduct";
 export { default as NotFound } from "./public/NotFound/NotFound";
-// export { default as Profile } from "./public/Profile/Profile";
+export { default as Profile } from "./public/Profile/Profile";
 // export { default as Auth } from "./public/Auth/Auth";
 export { default as Login } from "./public/Auth/Login/Login";
 export { default as Signup } from "./public/Auth/Signup/Signup";

@@ -51,6 +51,7 @@ const userSchema = new mongoose.Schema({
         message: "Passwords are not the same!",
       },
     },
+    verifyToken: String,
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
@@ -135,6 +136,19 @@ userSchema.methods.verifyPassword = async function (tryPassword, userPassword) {
   return await bcrypt.compare(tryPassword, userPassword);
 };
 
+// Create verify token
+userSchema.methods.createVerifyToken = function () {
+  const verifyToken = crypto.randomBytes(32).toString("hex"); // Generate random string
+
+  // Hash the token
+  this.local.verifyToken = crypto
+    .createHash("sha256")
+    .update(verifyToken)
+    .digest("hex");
+
+  console.log({ verifyToken }, this.local.verifyToken);
+  return verifyToken;
+};
 // Create a password reset token
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex"); // Generate random string

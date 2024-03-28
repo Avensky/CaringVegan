@@ -46,8 +46,6 @@ const createSendToken = (user, statusCode, req, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   // console.log(req.body.name)
   console.log("req.body.email", req.body.email);
-  console.log("req.body.password", req.body.password);
-  console.log("req.body.passwordConfirm", req.body.passwordConfirm);
 
   // Build object
   const userObject = {
@@ -237,18 +235,21 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   // 3) Send it to user's email
   try {
-    //const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
-    const resetURL = `${req.protocol}://${req.get(
-      "host"
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    let host;
+    console.log("resetURL");
+    process.env.NODE_ENV === "production"
+      ? (host = req.get("host")) // prod
+      : (host = "localhost:3000"); // dev
+    const resetURL = `${req.protocol}://${host}/resetPassword/${resetToken}`;
     console.log("resetURL", resetURL);
 
-    await new Email(user, resetURL).sendPasswordReset();
+    await new Email(req.body.email, resetURL).sendPasswordReset();
 
     res.status(200).json({
       status: "success",
+      user: null,
       message:
-        "Password reset token sent to email! Link is valid for 10 minutes!",
+        "Reset link sent to email! Link will remain active for 10 minutes!",
     });
   } catch (err) {
     user.local.passwordResetToken = undefined;

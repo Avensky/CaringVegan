@@ -9,14 +9,14 @@ const SocialAuth = () => {
       <div className="text-left">Or continue with:</div>
       <br />
       <button type="submit" className={[classes.Btn, "btn-primary"].join(" ")}>
-        <a href="/api/facebook">
+        <a href="#">
           <div className={classes.BtnDiv}>
             <FontAwesomeIcon icon="fa-brands fa-facebook" /> Facebook
           </div>
         </a>
       </button>
       <button className={[classes.Btn, "btn-danger"].join(" ")}>
-        <a href="/api/google">
+        <a href="#">
           <div className={classes.BtnDiv}>
             <FontAwesomeIcon icon="fa-brands fa-google-plus" /> Google+
           </div>

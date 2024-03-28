@@ -23,6 +23,7 @@ import {
   Signup,
   ForgotPassword,
   ResetPassword,
+  Profile,
 } from "./pages";
 import UpdateProductSidebar from "./components/Sidebar/UpdateProduct";
 // import UpdatePriceSidebar from "./components/Sidebar/UpdatePrice";
@@ -54,11 +55,7 @@ const App = (props) => {
       <Route path="/signup" element={<Signup />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
-      <Route
-        exact
-        path="/resetPassword/:token"
-        render={(props) => <ResetPassword {...props} />}
-      />
+      <Route path="/resetPassword/:token" element={<ResetPassword />} />
       <Route path="/home" element={<Home />} />
       <Route path="/product/:id" element={<Product />} />
       <Route path="/shop" element={<Shop />} />
@@ -66,13 +63,14 @@ const App = (props) => {
       {/* <Route path="/connect" element={<Connect />} />
       <Route path="/shop/itemfull/:itemId" element={<ItemFull />} />*/}
       <Route path="/cart" element={<Cart />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/" element={<Home />} />
       <Route path="*" element={<NotFound />} />
     </>
   );
 
   let admin;
-  if (props.user) {
+  if (props.user != null) {
     admin = (
       <>
         <Route path="/catalog" element={<Catalog />} />

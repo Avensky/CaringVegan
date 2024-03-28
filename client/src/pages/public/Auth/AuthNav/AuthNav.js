@@ -43,7 +43,7 @@ const AuthNav = (props) => {
       </NavLink>
       <NavLink to="/signup" className={register}>
         <h1 className="pointer">
-          <span className="fa fa-user" /> REGISTER
+          <span className="fa fa-user-plus" /> REGISTER
         </h1>
       </NavLink>
     </div>

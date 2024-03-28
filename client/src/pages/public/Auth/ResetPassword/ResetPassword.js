@@ -58,11 +58,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchUser: () => dispatch(),
     onAuth: (values, auth, token) =>
       dispatch(actions.auth(values, auth, token)),
-    onFbAuth: () => dispatch(),
-    onSetAuthRedirectPath: () => dispatch(),
   };
 };
 

@@ -13,10 +13,10 @@ export const getUserStart = () => {
   };
 };
 
-export const getUserSuccess = (user) => {
+export const getUserSuccess = (data) => {
   return {
     type: actionTypes.GET_USER_SUCCESS,
-    user,
+    data,
   };
 };
 
@@ -49,8 +49,8 @@ export const getUser = () => {
       .get("/api/v2/users/getUser")
       .then((result) => {
         console.log("getUser : ", result);
-        const user = result.data;
-        dispatch(getUserSuccess(user));
+        const data = result.data;
+        dispatch(getUserSuccess(data));
       })
       .catch((error) => {
         console.log("getUser : ", error);
@@ -158,23 +158,24 @@ export const auth = (values, auth, token) => {
       case (auth = "login"):
         url = "/api/v2/users/login";
         break;
-      case (auth = "register"):
+      case (auth = "signup"):
         url = "/api/v2/users/signup";
         break;
       case (auth = "forgot-password"):
-        url = "/api/v2/users/forgotPassword";
+        url = "/api/v1/users/forgotPassword";
         break;
       case (auth = "reset-password"):
         url = "/api/v2/users/resetPassword/" + token;
-        console.log("url", url);
+        // console.log("url", url);
         break;
       default:
         url = "/api/v2/users/login";
     }
-    let method;
-    auth === "reset-password" ? (method = axios.patch) : (method = axios.post);
+    let method = axios.post;
+    // auth === "reset-password" ? (method = axios.patch) : (method = axios.post);
     method(url, values)
       .then((response) => {
+        console.log(response.data);
         dispatch(authSuccess(response.data));
       })
       .catch((error) => {

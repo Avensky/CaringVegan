@@ -7,6 +7,8 @@ const TwitterStrategy = require("passport-twitter").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
+const Email = require("../utils/email");
+const crypto = require("crypto");
 
 module.exports = function (passport) {
   // =========================================================================
@@ -42,6 +44,7 @@ module.exports = function (passport) {
       },
       function (req, email, password, done) {
         // asynchronous
+        console.log("req ", req.body);
         process.nextTick(function () {
           User.findOne({ "local.email": email }, function (err, user) {
             // if there are any errors, return the error
@@ -76,7 +79,7 @@ module.exports = function (passport) {
         //        proxy               : true
       },
       function (req, email, password, done) {
-        console.log("user signup");
+        console.log("user signup", req.body);
 
         // asynchronous
         process.nextTick(function () {
@@ -94,11 +97,26 @@ module.exports = function (passport) {
 
             //  If we're logged in, we're connecting a new local account.
             if (req.user) {
+              // Create verify user token
+
               var user = req.user;
+              const verifyToken = user.createVerifyToken();
               user.local.email = email;
-              user.local.password = user.generateHash(password);
+              user.local.password = password;
+              user.local.passwordConfirm = req.body.passwordConfirm;
+              user.local.verifyToken = verifyToken;
+
               user.save(function (err) {
                 if (err) throw err;
+                console.log("save successful, sending verify email");
+                let host;
+                process.env.NODE_ENV
+                  ? (host = req.get("host"))
+                  : (host = "localhost:3000");
+                const url = `${req.protocol}://${host}/profile/${verifyToken}`;
+                console.log("email confirmation", url);
+
+                new Email(email, url).sendWelcome();
                 return done(null, user);
               });
             }
@@ -106,13 +124,26 @@ module.exports = function (passport) {
             else {
               // create the user
               var newUser = new User();
+
+              const verifyToken = newUser.createVerifyToken();
               newUser.local.email = email;
               newUser.local.password = password;
               newUser.local.passwordConfirm = req.body.passwordConfirm;
-
+              newUser.local.verifyToken;
               // save the user
               newUser.save(function (err) {
                 if (err) throw err;
+                // send welcome email / verify user
+
+                console.log("sending email");
+                let host;
+                process.env.NODE_ENV
+                  ? (host = req.get("host"))
+                  : (host = "localhost:3000");
+                const url = `${req.protocol}://${host}/profile/${verifyToken}`;
+                console.log("email confirmation", url);
+
+                new Email(email, url).sendWelcome();
                 return done(null, newUser); // return the user
               });
             }
@@ -123,74 +154,69 @@ module.exports = function (passport) {
   );
 
   // =========================================================================
-  // RESET PASSWORD ==========================================================
+  // resetPassword ============================================================
   // =========================================================================
   passport.use(
-    "reset-password",
+    "local-reset",
     new LocalStrategy(
       {
-        // by default, local strategy uses username and password, we will override with email
-        // define the parameter in req.body that passport can use as username and password
-        usernameField: "confirm_password",
+        usernameField: "passwordConfirm",
         passwordField: "password",
         passReqToCallback: true, // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+        // proxy: true,
       },
-      function (req, email, password, done) {
-        console.log("req" + req.body);
-        // console.log('email = ' + req.body.email)
-        // console.log('password = ' + req.body.password)
+      async function (req, passwordConfirm, password, done) {
+        console.log("password = ", password);
+        console.log("passwordConfirm", passwordConfirm);
+        console.log("req.body", req.body);
+        const hashedToken = crypto
+          .createHash("sha256")
+          .update(req.params.token)
+          .digest("hex");
+        console.log("hashedToken", hashedToken);
+
         // asynchronous
         process.nextTick(function () {
-          // 1) Get user based on the token
-          //console.log('resetPassword start')
-          //console.log('req.params.token',req.params.token)
-
-          const hashedToken = crypto
-            .createHash("sha256")
-            .update(req.params.token)
-            .digest("hex");
-
-          //console.log('hashedToken',hashedToken)
-
-          //User.findOne({ 'local.email' :  email }, function(err, user) {
+          //  Whether we're signing up or connecting an account, we'll need
+          //  to know if the email address is in use.
+          //  Get user based on the token
           User.findOne(
             {
               "local.passwordResetToken": hashedToken,
               "local.passwordResetExpires": { $gt: Date.now() },
             },
-            function (err, user) {
-              //console.log('local email = ' + user.local.email)
-              //console.log('local password = ' + user.local.password)
+            (err, user) => {
+              console.log("USER:", user);
+
               // if there are any errors, return the error
               if (err) return done(err);
 
-              // if no user is found, return the message
-              if (!user)
+              //  If no user then token was invalid
+              if (!user) {
+                console.log("no user");
                 return done(null, false, {
                   message: "Oops! Token is invalid or has expired",
                 });
-              else {
-                //console.log('user',user)
-                user.local.password = user.generateHash(req.body.password);
-                //user.local.passwordConfirm = req.body.confirm_password;
-                //console.log('req.body.password',req.body.password)
-                //console.log('req.body.confirm_password',req.body.confirm_password)
+              } else {
+                // update password
+                user.local.password = req.body.password;
+                user.local.passwordConfirm = req.body.passwordConfirm;
                 user.local.passwordResetToken = undefined;
                 user.local.passwordResetExpires = undefined;
+                // save the user
                 user.save(function (err) {
-                  if (err) {
-                    //throw err;
-                    //console.log('user.save err',err)
-                    return done(null, false, { message: err.message });
-                  }
-                  return done(null, user);
+                  if (err) throw err;
+                  // send email
+                  let host;
+                  process.env.NODE_ENV
+                    ? (host = req.get("host"))
+                    : (host = "localhost:3000");
+                  const url = `${req.protocol}://${host}/forgotPassword`;
+                  console.log(url);
+                  const email = user.local.email;
+                  new Email(email, url).sendResetComfirmation();
+                  return done(null, user); // return the user
                 });
-                const url = `${req.protocol}://${req.get(
-                  "host"
-                )}/authentication`;
-                //console.log(url);
-                const email = user.local.email;
-                new Email(newUser, email, url).sendWelcome();
               }
             }
           );
@@ -222,6 +248,7 @@ module.exports = function (passport) {
       },
       function (req, token, refreshToken, profile, done) {
         // asynchronous
+        console.log("req", req);
         process.nextTick(function () {
           // check if the user is already logged in
           if (!req.user) {
@@ -363,6 +390,7 @@ module.exports = function (passport) {
       },
       function (req, token, refreshToken, profile, done) {
         // asynchronous
+        console.log("profile", profile);
         process.nextTick(function () {
           // check if the user is already logged in
           if (!req.user) {

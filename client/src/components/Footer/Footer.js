@@ -65,8 +65,7 @@ const Footer = () => {
           </div>
           <ul className={classes.Contact}>
             <li>
-              <span className="fa fa-envelope" />
-              support@avensky.com
+              <span className="fa fa-envelope" /> support@avensky.com
             </li>
             <li>
               <span className="fa fa-map-pin" />

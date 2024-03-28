@@ -2,9 +2,8 @@ const nodemailer = require("nodemailer");
 const pug = require("pug");
 const htmlToText = require("html-to-text");
 module.exports = class Email {
-  constructor(name, email, url) {
+  constructor(email, url) {
     this.to = email;
-    this.firstName = name.split(" ")[0];
     this.url = url;
     this.from = `Team CaringVegan <${process.env.EMAIL_FROM}>`;
   }
@@ -21,10 +20,6 @@ module.exports = class Email {
       });
     }
     console.log("newTransport");
-    console.log("EMAIL_HOST", process.env.EMAIL_HOST);
-    console.log("EMAIL_PORT", process.env.EMAIL_PORT);
-    console.log("EMAIL_USERNAME", process.env.EMAIL_USERNAME);
-    console.log("EMAIL_PASSWORD", process.env.EMAIL_PASSWORD);
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
@@ -35,17 +30,11 @@ module.exports = class Email {
     });
   }
 
-  // Send the actual email
+  // Send the email
   async send(template, subject) {
-    console.log("dirname", __dirname);
-    console.log("template", template);
-    console.log("subject", subject);
-    console.log("render", `${__dirname}/../views/email/${template}.pug`);
-    console.log("url", this.url);
-
     // 1) Render HTML based on a pug template
     const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
-      name: this.name,
+      // name: this.name,
       url: this.url,
       subject,
     });
@@ -66,7 +55,10 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send("welcome", "Welcome to the Family!");
+    await this.send(
+      "Welcome",
+      "  Thank you for joining! Clink link to verify account."
+    );
   }
 
   async sendReceipt() {
@@ -74,14 +66,14 @@ module.exports = class Email {
   }
 
   async sendResetComfirmation() {
-    await this.send("resetComfirmation", "Password was changed!");
+    await this.send("passwordUpdate", "Password update sucessful!");
   }
 
   async sendPasswordReset() {
     console.log("sendPasswordReset");
     await this.send(
       "passwordReset",
-      "Your password reset token is only valid for 10 minutes"
+      "Password reset link will remain active for 10 minutes"
     );
   }
 };

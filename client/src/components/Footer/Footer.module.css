@@ -1,5 +1,6 @@
 .FooterWrapper {
-  min-height: 250px;
+  /* min-height: 250px; */
+  padding: 3vh 0 1vh;
   background-color: black;
   color: white;
 }

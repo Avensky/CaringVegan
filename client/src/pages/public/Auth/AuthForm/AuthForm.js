@@ -114,7 +114,7 @@ const AuthForm = (props) => {
     initialValues = {
       email: "",
       password: "",
-      confirm_password: "",
+      passwordConfirm: "",
     };
     validationSchema = Yup.object({
       email: Yup.string().email("Invalid email format").required("Required!"),
@@ -126,7 +126,7 @@ const AuthForm = (props) => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
           "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
         ),
-      confirm_password: Yup.string()
+      passwordConfirm: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords  must match")
         .required("Password confirm is required!"),
     });
@@ -168,7 +168,7 @@ const AuthForm = (props) => {
         <div className="flex">
           <Field
             type={passwordShown ? "text" : "password"}
-            name="confirm_password"
+            name="passwordConfirm"
             placeholder="Confirm Password"
             className={classes.AuthInput}
           />
@@ -180,7 +180,7 @@ const AuthForm = (props) => {
         </div>
         <ErrorMessage
           className="color-orange"
-          name="confirm_password"
+          name="passwordConfirm"
           component="div"
         />
       </>
@@ -191,7 +191,7 @@ const AuthForm = (props) => {
   if (props.auth === "reset-password") {
     initialValues = {
       password: "",
-      confirm_password: "",
+      passwordConfirm: "",
     };
     validationSchema = Yup.object({
       password: Yup.string()
@@ -202,7 +202,7 @@ const AuthForm = (props) => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
           "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
         ),
-      confirm_password: Yup.string()
+      passwordConfirm: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords  must match")
         .required("Password confirm is required!"),
     });
@@ -233,7 +233,7 @@ const AuthForm = (props) => {
         <div className="flex">
           <Field
             type={passwordShown ? "text" : "password"}
-            name="confirm_password"
+            name="passwordConfirm"
             placeholder="Confirm Password"
             className={classes.AuthInput}
           />
@@ -245,7 +245,7 @@ const AuthForm = (props) => {
         </div>
         <ErrorMessage
           className="color-orange"
-          name="confirm_password"
+          name="passwordConfirm"
           component="div"
         />
       </>

@@ -36,6 +36,8 @@ import {
   faEye,
   faEyeSlash,
   faArrowLeft,
+  faSignIn,
+  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -62,7 +64,9 @@ library.add(
   faTiktok,
   faArrowLeft,
   faYoutube,
-  faSquareYoutube
+  faSquareYoutube,
+  faSignIn,
+  faUserPlus
 );
 
 const app = (

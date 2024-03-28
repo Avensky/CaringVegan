@@ -5,6 +5,7 @@ const initialState = {
   error: null,
   loading: false,
   user: null,
+  message: null,
   redirectPath: "/",
 };
 
@@ -17,8 +18,11 @@ const authStart = (state, action) => {
 };
 
 const authSuccess = (state, action) => {
+  console.log("data: ", action.data);
+
   return updateObject(state, {
-    user: action.data,
+    user: action.data.user,
+    message: action.data.message,
     error: null,
     loading: false,
   });
@@ -93,9 +97,10 @@ const getUserStart = (state) => {
 };
 
 const getUserSuccess = (state, action) => {
-  console.log(action);
+  console.log("getUserSuccess reducer", action.data);
   return updateObject(state, {
-    user: action.user,
+    user: action.data.user,
+    message: action.data.message,
     error: null,
     loading: false,
   });

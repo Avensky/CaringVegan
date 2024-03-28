@@ -31,29 +31,46 @@ const Navbar = (props) => {
         </NavLink>
       </div>
       <div className={classes.NavItems}>
-        {/* {!props.user ? (
-          <NavItem
-            to="/login"
-            exact="true"
-            className="mobile-login"
-            onClick={props.closeCartbar}
-          >
-            <FontAwesomeIcon icon="fa-solid fa-user" />
-          </NavItem>
+        {props.user == null ? (
+          <>
+            <NavItem
+              to="/login"
+              exact="true"
+              className="mobile-login"
+              onClick={props.closeCartbar}
+            >
+              <FontAwesomeIcon icon="fa-solid fa-sign-in" />
+            </NavItem>
+            <NavItem
+              to="/signup"
+              exact="true"
+              className="mobile-login"
+              onClick={props.closeCartbar}
+            >
+              <FontAwesomeIcon icon="fa-solid fa-user-plus" />
+            </NavItem>
+          </>
         ) : (
-          <div className={classes.NavItemWrapper} onClick={props.logout}>
-            <div className={[classes.NavItem, "mobile-logout"].join(" ")}>
-              LOGOUT
+          <div className={classes.NavItemWrapper}>
+            <div
+              onClick={props.logout}
+              className={[classes.NavItem, "mobile-logout"].join(" ")}
+            >
+              Logout
             </div>
           </div>
-        )} */}
-
+        )}
         <div className={classes.Cart} onClick={props.cartbarToggleClicked}>
           <div className={classes.TotalItems}>
             {props.totalItems > 0 ? props.totalItems : null}
           </div>
           <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
         </div>
+        {props.user != null ? (
+          <NavItem to="/profile">
+            <FontAwesomeIcon icon="fa-solid fa-user" />
+          </NavItem>
+        ) : null}
       </div>
     </div>
   );
@@ -98,19 +115,28 @@ const Navbar = (props) => {
                         */}
           </div>
           <div className={classes.NavItems}>
-            {/* <NavItem to="/support" exact='true' onClick={props.closeCartbar}>Support</NavItem>
-                        {props.user != null 
-                            ? <NavItem to="/profile">Profile</NavItem> 
-                            : null} */}
-            {!props.user ? (
-              <NavItem
-                to="/login"
-                exact="true"
-                className="desktop-login"
-                onClick={props.closeCartbar}
-              >
-                <FontAwesomeIcon icon="fa-solid fa-user" />
-              </NavItem>
+            {/* <NavItem to="/support" exact="true" onClick={props.closeCartbar}>
+              Support
+            </NavItem> */}
+            {props.user == null ? (
+              <>
+                <NavItem
+                  to="/login"
+                  exact="true"
+                  className="desktop-login"
+                  onClick={props.closeCartbar}
+                >
+                  <FontAwesomeIcon icon="fa-solid fa-sign-in" />
+                </NavItem>
+                <NavItem
+                  to="/signup"
+                  exact="true"
+                  className="desktop-login"
+                  onClick={props.closeCartbar}
+                >
+                  <FontAwesomeIcon icon="fa-solid fa-user-plus" />
+                </NavItem>
+              </>
             ) : (
               <div className={classes.NavItemWrapper}>
                 <div
@@ -123,14 +149,19 @@ const Navbar = (props) => {
             )}
             {/*                 
                         <NavItem to="/search" exact='true' onClick={props.closeCartbar}>
-                            <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
-                        </NavItem> */}
+                        <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
+                      </NavItem> */}
             <div className={classes.Cart} onClick={props.cartbarToggleClicked}>
               <div className={classes.TotalItems}>
                 {props.totalItems > 0 ? props.totalItems : null}
               </div>
               <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
             </div>
+            {props.user != null ? (
+              <NavItem to="/profile">
+                <FontAwesomeIcon icon="fa-solid fa-user" />
+              </NavItem>
+            ) : null}
           </div>
         </div>
       </div>

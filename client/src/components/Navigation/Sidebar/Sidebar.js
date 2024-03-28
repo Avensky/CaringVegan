@@ -42,13 +42,16 @@ const sidebar = (props) => {
         <SidebarItem exact="true" to="/cart" clicked={props.closed}>
           Cart
         </SidebarItem>
-        {!props.user ? (
+        {props.user == null ? (
           <SidebarItem exact="true" to="/login" clicked={props.closed}>
             Login
           </SidebarItem>
         ) : (
           <div className={classes.SidebarItemWrapper}>
-            <div className={classes.SidebarItemLabel}>Profile</div>
+            <div className={classes.SidebarItemLabel}>User</div>
+            <SidebarItem exact="true" to="/profile" clicked={props.closed}>
+              Profile
+            </SidebarItem>
             <div className={classes.SidebarItem} onClick={props.logout}>
               Logout
             </div>
